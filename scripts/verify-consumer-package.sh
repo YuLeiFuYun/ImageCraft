@@ -18,10 +18,13 @@ fi
 export DEVELOPER_DIR
 
 FIXTURE="$ROOT/Fixtures/ConsumerSmoke"
-DERIVED_DATA=${IMAGECRAFT_CONSUMER_DERIVED_DATA:-"$ROOT/.build/consumer-smoke"}
-rm -rf "$FIXTURE/.build" "$DERIVED_DATA"
+WORK=$(mktemp -d)
+trap 'rm -rf "$WORK"' EXIT HUP INT TERM
+SWIFTPM_SCRATCH="$WORK/swiftpm"
+DERIVED_ROOT=${IMAGECRAFT_CONSUMER_DERIVED_DATA:-"$WORK/derived-data"}
+DERIVED_DATA="$DERIVED_ROOT/run-$$"
 
-swift build --package-path "$FIXTURE" -c release
+swift build --package-path "$FIXTURE" --scratch-path "$SWIFTPM_SCRATCH" -c release
 
 run_xcode_build() {
     label=$1
