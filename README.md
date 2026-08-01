@@ -91,3 +91,7 @@ ImageCraft 已作为独立 SwiftPM 仓库维护。`main` 是 pre-1.0 开发分�
 ## 平台边界
 
 包当前面向 iOS 15+ 与 macOS 12+。`ImageCraftCore` 的公开值类型仍包含 `CGImage`，因此当前不是 Linux/Windows 可构建包；跨平台核心需要另行拆出不含 Core Graphics 的纯语义层，不能仅靠条件编译伪装完成。
+
+## 许可
+
+本项目采用 MIT License。详见 `LICENSE`。
