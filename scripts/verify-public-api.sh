@@ -20,7 +20,7 @@ export DEVELOPER_DIR
 TMPDIR_ROOT=$(mktemp -d)
 trap 'rm -rf "$TMPDIR_ROOT"' EXIT HUP INT TERM
 rm -rf .build/out/symbolgraph
-swift package dump-symbol-graph --skip-synthesized-members >/dev/null
+scripts/dump-public-api-symbols.sh .build/out/symbolgraph
 Tools/API/normalize_public_api.py \
     --symbol-graph-directory .build/out/symbolgraph \
     --output "$TMPDIR_ROOT/PublicAPI.json"

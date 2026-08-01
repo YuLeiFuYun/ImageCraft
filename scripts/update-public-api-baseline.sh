@@ -18,7 +18,7 @@ fi
 export DEVELOPER_DIR
 
 rm -rf .build/out/symbolgraph
-swift package dump-symbol-graph --skip-synthesized-members >/dev/null
+scripts/dump-public-api-symbols.sh .build/out/symbolgraph
 Tools/API/normalize_public_api.py \
     --symbol-graph-directory .build/out/symbolgraph \
     --output API/PublicAPI.json

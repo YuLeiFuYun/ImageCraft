@@ -2089,7 +2089,7 @@
           "preciseIdentifier": "s:14ImageCraftCore0A22DecodeCancellationModeO"
         },
         {
-          "declaration": "static func < (lhs: `Self`, rhs: `Self`) -> Bool",
+          "declaration": "static func < (lhs: ImageDecodeCancellationMode, rhs: ImageDecodeCancellationMode) -> Bool",
           "kind": "swift.func.op",
           "path": "ImageDecodeCancellationMode.<(_:_:)",
           "preciseIdentifier": "s:14ImageCraftCore0A22DecodeCancellationModeO1loiySbAC_ACtFZ"
