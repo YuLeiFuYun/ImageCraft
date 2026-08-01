@@ -3,19 +3,9 @@ set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$ROOT"
 
-if [ -z "${DEVELOPER_DIR:-}" ] || [ ! -x "$DEVELOPER_DIR/usr/bin/xcodebuild" ]; then
-    for candidate in \
-        /Applications/Xcode.app/Contents/Developer \
-        /Applications/Xcode-beta.app/Contents/Developer
-    do
-        if [ -x "$candidate/usr/bin/xcodebuild" ]; then
-            DEVELOPER_DIR=$candidate
-            break
-        fi
-    done
-fi
-: "${DEVELOPER_DIR:?A full Xcode installation is required}"
+DEVELOPER_DIR=$($ROOT/scripts/select-xcode.sh)
 export DEVELOPER_DIR
+python3 scripts/check-swift-toolchain.py
 
 OUTPUT=${1:-}
 ITERATIONS=${2:-7}
@@ -26,8 +16,10 @@ CASE_DIRECTORY="$TMPDIR_ROOT/cases"
 REPORT="$TMPDIR_ROOT/report.json"
 mkdir -p "$CASE_DIRECTORY"
 
-swift build -c release >/dev/null
-EXECUTABLE=.build/release/ImageCraftEvidence
+xcrun swift build -c release --product ImageCraftEvidence >/dev/null
+BIN_PATH=$(xcrun swift build -c release --show-bin-path)
+EXECUTABLE="$BIN_PATH/ImageCraftEvidence"
+test -x "$EXECUTABLE"
 for case_id in \
     decode-jpeg-full \
     decode-jpeg-fit-512 \
@@ -48,7 +40,7 @@ do
     done
 done
 
-SWIFT_VERSION=$(swift --version | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+SWIFT_VERSION=$(xcrun swift --version | tr '\n' ' ' | sed 's/[[:space:]]*$//')
 Tools/Performance/aggregate_performance.py \
     --case-directory "$CASE_DIRECTORY" \
     --swift-version "$SWIFT_VERSION" \

@@ -2,6 +2,15 @@
 
 ImageCraft 是独立于网络加载、缓存、UI 与持久化系统的 Apple 平台图像编解码工程。
 
+## 开发工具链
+
+- Xcode 27.0 或更新版本；
+- Apple Swift 6.4，SwiftPM tools 6.4；
+- 运行基线仍为 iOS 15 / macOS 12，不因编译器迁移而提高；
+- `scripts/select-xcode.sh` 与 `scripts/check-swift-toolchain.py` 会拒绝旧工具链。
+- GitHub CI 显式使用 `xcode-27` preview runner，不依赖会漂移的 `macos-latest`。
+
+
 当前仓库提供两个 SwiftPM 库产品，并附带一个证据工具：
 
 - `ImageCraftCore`：版本化 codec 能力、资源、prepared-state、颜色、像素与 fit/fill 解码契约；

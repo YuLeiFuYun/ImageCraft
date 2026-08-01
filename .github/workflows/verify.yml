@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   core:
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -22,8 +22,12 @@ jobs:
           persist-credentials: false
       - name: Environment
         run: |
+          set -eu
+          test "$(uname -m)" = "arm64"
           xcodebuild -version
           swift --version
+          scripts/select-xcode.sh
+          python3 scripts/check-swift-toolchain.py
       - name: Core verification
         run: scripts/verify.sh
       - name: Public API and consumer
