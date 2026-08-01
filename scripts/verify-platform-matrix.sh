@@ -3,19 +3,9 @@ set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$ROOT"
 
-if [ -z "${DEVELOPER_DIR:-}" ] || [ ! -x "$DEVELOPER_DIR/usr/bin/xcodebuild" ]; then
-    for candidate in \
-        /Applications/Xcode.app/Contents/Developer \
-        /Applications/Xcode-beta.app/Contents/Developer
-    do
-        if [ -x "$candidate/usr/bin/xcodebuild" ]; then
-            DEVELOPER_DIR=$candidate
-            break
-        fi
-    done
-fi
-: "${DEVELOPER_DIR:?A full Xcode installation is required}"
+DEVELOPER_DIR=$($ROOT/scripts/select-xcode.sh)
 export DEVELOPER_DIR
+python3 scripts/check-swift-toolchain.py
 
 DERIVED_DATA=${IMAGECRAFT_PLATFORM_DERIVED_DATA:-"$ROOT/.build/platform-matrix"}
 rm -rf "$DERIVED_DATA"
@@ -65,6 +55,7 @@ run_build() {
                 ;;
         esac
     done
+    printf 'ImageCraft platform build passed: %s [%s]\n' "$label" "$architectures"
 }
 
 run_build \
@@ -91,3 +82,5 @@ run_build \
     '-apple-ios15.0' \
     Release-iphoneos \
     arm64
+
+printf 'ImageCraft platform matrix: cases=3 errors=0\n'

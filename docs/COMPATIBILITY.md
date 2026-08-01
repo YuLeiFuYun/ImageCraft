@@ -4,7 +4,7 @@
 
 机器可读契约位于 `Compatibility/PlatformSupport.json`。当前声明：
 
-- Swift tools 6.2；
+- Swift tools 6.4；
 - macOS 12.0 及以上；
 - iOS 15.0 及以上；
 - 两个公开库产品：`ImageCraftCore`、`ImageCraftImageIO`；
@@ -57,4 +57,4 @@ scripts/verify-consumer-package.sh
 
 ## 尚未配置的分发设施
 
-公开 Git remote 与 macOS 26 核心 CI workflow 已配置。项目仍未发布稳定版本 tag；真机、能耗和正式 required-check 治理必须与普通构建通过分开报告。
+公开 Git remote 与 GitHub Hosted `xcode-27` preview 核心 CI workflow 已配置，并由仓库内工具链门验证 Xcode 27 / Swift 6.4 身份。项目仍未发布稳定版本 tag；preview runner 容量、真机、能耗和正式 required-check 治理必须与普通构建通过分开报告。
