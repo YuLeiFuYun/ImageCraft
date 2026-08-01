@@ -1,0 +1,170 @@
+{
+  "encoderFingerprint" : "dev.imagecraft.imageio.encoder#impl=2#contract=1",
+  "outputs" : [
+    {
+      "byteCount" : 2045,
+      "compression" : "lossless",
+      "format" : "png",
+      "name" : "png-lossless",
+      "sha256" : "db4c721301d42505b1b428b96fbce69531b9c9fb36b479a2135172b4bcfc005a"
+    },
+    {
+      "byteCount" : 2217,
+      "compression" : "lossy:0.25",
+      "format" : "jpeg",
+      "jpegStructure" : {
+        "components" : [
+          {
+            "horizontalSampling" : 2,
+            "identifier" : 1,
+            "quantizationTable" : 0,
+            "verticalSampling" : 2
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 2,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 3,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          }
+        ],
+        "frameMarker" : "SOF0-baseline",
+        "height" : 64,
+        "quantizationPayloadSHA256" : "35debc564899c65b438a4d6dd536958956918cebb8a0a47eb6ad451ec2d54254",
+        "samplePrecision" : 8,
+        "width" : 96
+      },
+      "name" : "jpeg-q0.25",
+      "sha256" : "9a381e3864e8ed7b2fb6168379bb6c81c8ad49955d1746c51cd21b770b5ee82c"
+    },
+    {
+      "byteCount" : 3966,
+      "compression" : "lossy:0.50",
+      "format" : "jpeg",
+      "jpegStructure" : {
+        "components" : [
+          {
+            "horizontalSampling" : 2,
+            "identifier" : 1,
+            "quantizationTable" : 0,
+            "verticalSampling" : 2
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 2,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 3,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          }
+        ],
+        "frameMarker" : "SOF0-baseline",
+        "height" : 64,
+        "quantizationPayloadSHA256" : "a62a6ea5138595399f7c2966ddb2c0a347b165ad727d8511063a0958a1407e69",
+        "samplePrecision" : 8,
+        "width" : 96
+      },
+      "name" : "jpeg-q0.50",
+      "sha256" : "dcbd192ca63ba476258c1aa49f548e625382e8dd8e8b7d417703ae9106500df5"
+    },
+    {
+      "byteCount" : 6025,
+      "compression" : "lossy:0.75",
+      "format" : "jpeg",
+      "jpegStructure" : {
+        "components" : [
+          {
+            "horizontalSampling" : 2,
+            "identifier" : 1,
+            "quantizationTable" : 0,
+            "verticalSampling" : 2
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 2,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 3,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          }
+        ],
+        "frameMarker" : "SOF0-baseline",
+        "height" : 64,
+        "quantizationPayloadSHA256" : "724a86bca742c5a67cc6fab98589615c227b4af3bc29644c91c49aa65850d2ac",
+        "samplePrecision" : 8,
+        "width" : 96
+      },
+      "name" : "jpeg-q0.75",
+      "sha256" : "267ea791ee9d7b7c26fb936178e57e486f76a569ce0cdd6d9291a954a3118d48"
+    },
+    {
+      "byteCount" : 7229,
+      "compression" : "lossy:0.90",
+      "format" : "jpeg",
+      "jpegStructure" : {
+        "components" : [
+          {
+            "horizontalSampling" : 2,
+            "identifier" : 1,
+            "quantizationTable" : 0,
+            "verticalSampling" : 2
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 2,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          },
+          {
+            "horizontalSampling" : 1,
+            "identifier" : 3,
+            "quantizationTable" : 1,
+            "verticalSampling" : 1
+          }
+        ],
+        "frameMarker" : "SOF0-baseline",
+        "height" : 64,
+        "quantizationPayloadSHA256" : "6e11b6f9e6b388a5dcaacf3c23b89c62db7786c87ac0c2e1dd89c6407f482e38",
+        "samplePrecision" : 8,
+        "width" : 96
+      },
+      "name" : "jpeg-q0.90",
+      "sha256" : "a948a4aa3acdcd1e5347c4654d3a4f98de4492715521836302c7b7b47acd2096"
+    }
+  ],
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "schemaVersion" : 1,
+  "source" : {
+    "alphaMode" : "noneSkipLast",
+    "colorSpace" : "kCGColorSpaceSRGB",
+    "generator" : "imagecraft-pattern-v1",
+    "height" : 64,
+    "width" : 96
+  }
+}

@@ -1,0 +1,34 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: imagecraft-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Environment
+        run: |
+          xcodebuild -version
+          swift --version
+      - name: Core verification
+        run: scripts/verify.sh
+      - name: Public API and consumer
+        run: |
+          scripts/verify-public-api.sh
+          scripts/verify-consumer-package.sh
+      - name: Compatibility contract
+        run: scripts/verify-compatibility-contract.sh

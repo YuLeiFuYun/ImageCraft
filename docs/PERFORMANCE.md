@@ -1,0 +1,135 @@
+# 性能与峰值内存证据
+
+## 目标
+
+性能证据用于回答固定 ImageIO 路径在特定硬件、OS build、系统框架和 Swift 工具链上的实际成本。它不是跨设备性能承诺，也不把一次测量误当作算法复杂度证明。
+
+首份基线位于：
+
+```text
+Evidence/Performance/macos-27.0-26A5388g-arm64-macbookpro18,3.json
+```
+
+该文件绑定：
+
+- MacBookPro18,3，8 个活动处理器，16 GiB 物理内存；
+- macOS 27.0 build 26A5388g，arm64；
+- ImageIO 2847 / 3.3.0，Core Graphics 2047；
+- Swift 6.4；
+- decoder fingerprint `dev.fovea.imageio#impl=1#contract=1`；
+- encoder fingerprint `dev.imagecraft.imageio.encoder#impl=2#contract=1`；
+- Release 构建和 `imagecraft-performance-v1` 场景定义。
+
+## 场景
+
+固定输入由 `imagecraft-pattern-v1` 生成。JPEG 解码输入为 3072×2048、quality 0.82 的确定性 JPEG；编码输入为确定性 sRGB RGB8 `CGImage`。
+
+| 场景 | 语义 |
+|---|---|
+| `decode-jpeg-full` | JPEG 解码到 3072×2048 |
+| `decode-jpeg-fit-512` | fit 到 512×512，输出 512×341 |
+| `decode-jpeg-fit-1024` | fit 到 1024×1024，输出 1024×683 |
+| `decode-jpeg-fill-1024` | fill 到 1024×1024并居中裁切 |
+| `probe-then-decode-jpeg-fit-512` | 先独立 probe，再通过 supplied-probe 路径解码；当前实现会重新 inspection |
+| `prepare-then-decode-jpeg-fit-512` | prepare 后复用同一个 `CGImageSource` 解码 |
+| `encode-png` | 1600×1200 无损 PNG 编码 |
+| `encode-jpeg-q75` | 3072×2048 JPEG quality 0.75 编码 |
+
+## 测量边界
+
+每个场景在独立进程中执行，避免其他场景的 ImageIO 缓存、allocator 高水位和 resident peak 污染。默认进行 3 次进程重复。每个进程先执行独立的单操作内存阶段；随后执行 2 次 warmup，再在关闭 RSS sampler 的情况下记录 7 次 Release 操作。因此每个场景的耗时统计包含 21 个样本，内存统计包含 3 个独立进程峰值。
+
+计时区间包含：
+
+- ImageCraft admission、container inspection 和 ImageIO 调用；
+- 颜色解释、fit/fill 后处理和编码输出 container 自检；
+- 对输出尺寸或字节数的轻量一致性检查。
+
+计时区间不包含：
+
+- 确定性 fixture 构造；
+- 解码输入 JPEG 的准备编码；
+- reference 输出的 SHA-256；
+- JSON 序列化和文件写入；
+- Release 构建时间。
+
+耗时报告 minimum、median、p90、maximum 和 mean。预算使用 median 与 p90，不使用单次最小值。
+
+## RSS 采样
+
+每个进程在 fixture 构造和 reference 操作完成后调用 `malloc_zone_pressure_relief` 释放可回收 malloc 页，再记录 resident baseline。独立内存阶段由采样线程每 500 微秒读取一次 `mach_task_basic_info.resident_size`，同时只执行一次被测操作。采样结束后才进入 warmup 与计时阶段，避免 sampler 和 allocator 高水位污染耗时或 RSS 结果。报告：
+
+- 每个进程的 baseline resident bytes；
+- 每个进程的 sampled peak resident bytes；
+- peak 相对 baseline 的增量；
+- 三个进程 peak 增量的中位数和最大值。
+
+这是采样峰值，不是内核提供的精确逐分配峰值；持续时间短于采样间隔的瞬时分配可能遗漏。resident bytes 也包含 ImageIO/Core Graphics、allocator page、系统框架缓存和其他进程内常驻页，因此不能与 `ImageDecodeResourceEstimate` 直接视为同一量。
+
+`ImageDecodeResourceEstimate` 只描述当前模型中的像素表面保守估计；它明确不覆盖系统框架内部固定开销、编码数据和 allocator 行为。性能报告同时记录两者，用于发现数量级偏差，但不会要求逐字节相等。
+
+## 首份观测
+
+首份 3×7 基线的核心观测约为：
+
+| 场景 | median | p90 | RSS 增量中位数 | RSS 增量最大值 | decode estimate |
+|---|---:|---:|---:|---:|---:|
+| decode fill 1024 | 23.2 ms | 24.4 ms | 16.3 MiB | 17.4 MiB | 16.0 MiB |
+| decode fit 1024 | 30.3 ms | 38.6 ms | 12.9 MiB | 14.9 MiB | 8.0 MiB |
+| decode fit 512 | 38.3 ms | 39.7 ms | 2.8 MiB | 2.9 MiB | 2.0 MiB |
+| decode full | 38.7 ms | 42.8 ms | 66.6 MiB | 69.8 MiB | 72.0 MiB |
+| encode JPEG q75 | 75.9 ms | 83.7 ms | 53.4 MiB | 58.6 MiB | — |
+| encode PNG | 64.4 ms | 89.9 ms | 12.6 MiB | 14.8 MiB | — |
+| prepare + decode fit 512 | 38.4 ms | 39.8 ms | 2.8 MiB | 3.0 MiB | 2.0 MiB |
+| probe + decode fit 512 | 41.8 ms | 43.2 ms | 2.9 MiB | 3.1 MiB | 2.0 MiB |
+
+目标尺寸与耗时不是单调关系。该环境中 fit-1024 比 fit-512 更快，fill-1024 又更快；这可能来自 JPEG 原生 IDCT 缩放档位、ImageIO 重采样策略和裁切路径组合。该现象只能作为固定输入和固定系统框架上的观测，不能推广为一般规律。
+
+prepare 路径的主要意义是避免宿主已经需要 probe 时再做一次完整 inspection。它与直接便利解码接近，并比当前 probe-then-supplied-probe 路径节省约 3–4 ms；不应据此宣称所有输入都获得同一比例收益。
+
+## 预算
+
+基线保存 observed 值和独立 budget：
+
+- median：`max(observed × 1.5, observed + 10 ms)`；
+- p90：`max(observed × 1.75, observed + 15 ms)`；
+- 三进程 RSS 增量中位数：`max(observed × 1.5, observed + 16 MiB)`；
+- 单进程 RSS 增量最大值：`max(observed × 1.5, observed + 32 MiB)`。
+
+预算故意宽于微基准噪声，只用于发现显著回归。环境 identity、场景输入、输出语义、进程重复数和迭代数必须精确匹配；低功耗模式或 serious/critical thermal state 会使报告无效。
+
+性能验证不进入默认 `scripts/verify.sh` 的动态门禁，因为共享 CI、前台负载和温控状态会导致误报。默认门只静态验证 baseline schema 和预算自洽性。
+
+## 命令
+
+捕获原始聚合报告：
+
+```sh
+scripts/capture-performance-evidence.sh output.json 7 3
+```
+
+创建或有意更新 baseline：
+
+```sh
+scripts/create-performance-baseline.sh \
+  Evidence/Performance/macos-27.0-26A5388g-arm64-macbookpro18,3.json \
+  7 \
+  3
+```
+
+验证当前实现：
+
+```sh
+scripts/verify-performance-baseline.sh \
+  Evidence/Performance/macos-27.0-26A5388g-arm64-macbookpro18,3.json
+```
+
+baseline 更新必须伴随原因说明。代码变快并不自动要求收紧预算；应先确认变化来自实现而不是系统负载、工具链或框架缓存行为。
+
+## JPEG 熵区 marker 扫描实验
+
+`Evidence/Experiments/jpeg-marker-scan-ab-2026-07-31.json` 记录了一次独立的实现 A/B，比较逐字节 Swift 扫描与 `Darwin.memchr` 搜索 JPEG entropy 区下一个 `0xFF` marker。两侧使用预构建 Release 可执行文件，按 A/B、B/A 顺序交替运行；共覆盖 6 条 JPEG 路径、每条 7 对独立进程、每进程 7 个计时样本，总计 588 个样本。
+
+在该固定 MacBookPro18,3、macOS 27.0 build 26A5388g、ImageIO 2847 环境中，六条路径的进程中位数配对变化均为改善：约 8.9% 至 16.9%。其中五条路径 7/7 配对获胜，full decode 为 6/7。该实验同时绑定完整测试、retained corpus、consumer 平台矩阵和独立 oracle 通过状态。
+
+该结果证明的是内部容器扫描实现的固定环境收益，不证明跨设备比例、ImageIO 光栅化算法优势、能耗改善或所有 JPEG 输入获得相同比例收益。稳定性能 baseline 与预算仍由 `Evidence/Performance` 管理，不因一次优化实验自动收紧。

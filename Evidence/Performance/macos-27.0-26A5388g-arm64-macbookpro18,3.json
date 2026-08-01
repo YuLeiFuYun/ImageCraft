@@ -1,0 +1,308 @@
+{
+  "benchmarkVersion": "imagecraft-performance-v1",
+  "buildConfiguration": "release",
+  "cases": [
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 34788938,
+        "maximumMedianSampledPeakDeltaBytes": 33898496,
+        "maximumP90Nanoseconds": 42643708,
+        "maximumProcessSampledPeakDeltaBytes": 51789824
+      },
+      "caseID": "decode-jpeg-fill-1024",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": 16777216,
+        "maximumSampledPeakDeltaBytes": 18235392,
+        "medianNanoseconds": 23192625,
+        "medianSampledPeakDeltaBytes": 17121280,
+        "p90Nanoseconds": 24367833
+      },
+      "output": {
+        "pixelHeight": 1024,
+        "pixelWidth": 1024,
+        "representation": "cgImage-srgb"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "contentMode": "fill",
+        "encodedByteCount": 5770629,
+        "encodedSHA256": "e4ecba46152cd538308c08dd80e5f7900bfb460715d7b1caa0f80a80c97d4b9f",
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 1024,
+        "targetWidth": 1024
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 45414687,
+        "maximumMedianSampledPeakDeltaBytes": 30310400,
+        "maximumP90Nanoseconds": 67634657,
+        "maximumProcessSampledPeakDeltaBytes": 49135616
+      },
+      "caseID": "decode-jpeg-fit-1024",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": 8392704,
+        "maximumSampledPeakDeltaBytes": 15581184,
+        "medianNanoseconds": 30276458,
+        "medianSampledPeakDeltaBytes": 13533184,
+        "p90Nanoseconds": 38648375
+      },
+      "output": {
+        "pixelHeight": 683,
+        "pixelWidth": 1024,
+        "representation": "cgImage-srgb"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5770629,
+        "encodedSHA256": "e4ecba46152cd538308c08dd80e5f7900bfb460715d7b1caa0f80a80c97d4b9f",
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 1024,
+        "targetWidth": 1024
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 57401625,
+        "maximumMedianSampledPeakDeltaBytes": 19742720,
+        "maximumP90Nanoseconds": 69417688,
+        "maximumProcessSampledPeakDeltaBytes": 36569088
+      },
+      "caseID": "decode-jpeg-fit-512",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": 2101248,
+        "maximumSampledPeakDeltaBytes": 3014656,
+        "medianNanoseconds": 38267750,
+        "medianSampledPeakDeltaBytes": 2965504,
+        "p90Nanoseconds": 39667250
+      },
+      "output": {
+        "pixelHeight": 341,
+        "pixelWidth": 512,
+        "representation": "cgImage-srgb"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5770629,
+        "encodedSHA256": "e4ecba46152cd538308c08dd80e5f7900bfb460715d7b1caa0f80a80c97d4b9f",
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 512,
+        "targetWidth": 512
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 58102814,
+        "maximumMedianSampledPeakDeltaBytes": 104693760,
+        "maximumP90Nanoseconds": 74850782,
+        "maximumProcessSampledPeakDeltaBytes": 109731840
+      },
+      "caseID": "decode-jpeg-full",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": 75497472,
+        "maximumSampledPeakDeltaBytes": 73154560,
+        "medianNanoseconds": 38735209,
+        "medianSampledPeakDeltaBytes": 69795840,
+        "p90Nanoseconds": 42771875
+      },
+      "output": {
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "cgImage-srgb"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5770629,
+        "encodedSHA256": "e4ecba46152cd538308c08dd80e5f7900bfb460715d7b1caa0f80a80c97d4b9f",
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 2048,
+        "targetWidth": 3072
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 113842500,
+        "maximumMedianSampledPeakDeltaBytes": 84000768,
+        "maximumP90Nanoseconds": 146466469,
+        "maximumProcessSampledPeakDeltaBytes": 94978048
+      },
+      "caseID": "encode-jpeg-q75",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": null,
+        "maximumSampledPeakDeltaBytes": 61423616,
+        "medianNanoseconds": 75895000,
+        "medianSampledPeakDeltaBytes": 56000512,
+        "p90Nanoseconds": 83695125
+      },
+      "output": {
+        "encodedByteCount": 5358197,
+        "representation": "jpeg",
+        "sha256": "cc12010e4cb8a2f7d85773947d3cbb1602dfee0e52e8bebcef1f133db1f06f75"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "cgImage-srgb-rgb8"
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 96593376,
+        "maximumMedianSampledPeakDeltaBytes": 29949952,
+        "maximumP90Nanoseconds": 157364449,
+        "maximumProcessSampledPeakDeltaBytes": 49070080
+      },
+      "caseID": "encode-png",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": null,
+        "maximumSampledPeakDeltaBytes": 15515648,
+        "medianNanoseconds": 64395584,
+        "medianSampledPeakDeltaBytes": 13172736,
+        "p90Nanoseconds": 89922542
+      },
+      "output": {
+        "encodedByteCount": 263131,
+        "representation": "png",
+        "sha256": "b4a70de67fe2863ca14b142aed7d611ca6af608816bb0443ec7182147f13fb03"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 1200,
+        "pixelWidth": 1600,
+        "representation": "cgImage-srgb-rgb8"
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 57553875,
+        "maximumMedianSampledPeakDeltaBytes": 19726336,
+        "maximumP90Nanoseconds": 69659918,
+        "maximumProcessSampledPeakDeltaBytes": 36667392
+      },
+      "caseID": "prepare-then-decode-jpeg-fit-512",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": 2101248,
+        "maximumSampledPeakDeltaBytes": 3112960,
+        "medianNanoseconds": 38369250,
+        "medianSampledPeakDeltaBytes": 2949120,
+        "p90Nanoseconds": 39805667
+      },
+      "output": {
+        "pixelHeight": 341,
+        "pixelWidth": 512,
+        "representation": "cgImage-srgb"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5770629,
+        "encodedSHA256": "e4ecba46152cd538308c08dd80e5f7900bfb460715d7b1caa0f80a80c97d4b9f",
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 512,
+        "targetWidth": 512
+      },
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "budget": {
+        "maximumMedianNanoseconds": 62640875,
+        "maximumMedianSampledPeakDeltaBytes": 19824640,
+        "maximumP90Nanoseconds": 75568864,
+        "maximumProcessSampledPeakDeltaBytes": 36765696
+      },
+      "caseID": "probe-then-decode-jpeg-fit-512",
+      "iterationsPerProcess": 7,
+      "memoryIterationsPerProcess": 1,
+      "observed": {
+        "estimatedWorkingSetBytes": 2101248,
+        "maximumSampledPeakDeltaBytes": 3211264,
+        "medianNanoseconds": 41760583,
+        "medianSampledPeakDeltaBytes": 3047424,
+        "p90Nanoseconds": 43182208
+      },
+      "output": {
+        "pixelHeight": 341,
+        "pixelWidth": 512,
+        "representation": "cgImage-srgb"
+      },
+      "processRepetitions": 3,
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5770629,
+        "encodedSHA256": "e4ecba46152cd538308c08dd80e5f7900bfb460715d7b1caa0f80a80c97d4b9f",
+        "generator": "imagecraft-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 512,
+        "targetWidth": 512
+      },
+      "warmupIterationsPerProcess": 2
+    }
+  ],
+  "decoderFingerprint": "dev.fovea.imageio#impl=1#contract=1",
+  "encoderFingerprint": "dev.imagecraft.imageio.encoder#impl=2#contract=1",
+  "hardware": {
+    "activeProcessorCount": 8,
+    "hardwareModel": "MacBookPro18,3",
+    "physicalMemoryBytes": 17179869184
+  },
+  "rssSampleIntervalMicroseconds": 500,
+  "runtime": {
+    "architecture": "arm64",
+    "coreGraphicsBundleVersion": "2047",
+    "imageIOBundleShortVersion": "3.3.0",
+    "imageIOBundleVersion": "2847",
+    "operatingSystemBuild": "26A5388g",
+    "operatingSystemVersion": {
+      "majorVersion": 27,
+      "minorVersion": 0,
+      "patchVersion": 0
+    },
+    "platform": "macOS",
+    "schemaVersion": 1
+  },
+  "schemaVersion": 1,
+  "swiftVersion": "Apple Swift version 6.4 (swiftlang-6.4.0.20.104 clang-2100.3.20.102) Target: arm64-apple-macosx27.0.0"
+}

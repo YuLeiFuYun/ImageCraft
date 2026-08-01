@@ -1,0 +1,249 @@
+{
+  "imageCraftEncoderFingerprint": "dev.imagecraft.imageio.encoder#impl=2#contract=1",
+  "jpeg": {
+    "imageIOEncoder": [
+      {
+        "byteCount": 2217,
+        "crossDecoder": {
+          "differentChannelCount": 10147,
+          "maximumAbsoluteError": 98,
+          "meanAbsoluteError": 5.077582465,
+          "meanSquaredError": 114.608723958,
+          "psnrDB": 27.538626837
+        },
+        "imageIODecode": {
+          "differentChannelCount": 18183,
+          "maximumAbsoluteError": 240,
+          "meanAbsoluteError": 31.702202691,
+          "meanSquaredError": 2002.389160156,
+          "psnrDB": 15.115318753
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 18205,
+          "maximumAbsoluteError": 240,
+          "meanAbsoluteError": 32.980957031,
+          "meanSquaredError": 2110.064615885,
+          "psnrDB": 14.887846061
+        },
+        "quality": 25,
+        "sha256": "9a381e3864e8ed7b2fb6168379bb6c81c8ad49955d1746c51cd21b770b5ee82c"
+      },
+      {
+        "byteCount": 3966,
+        "crossDecoder": {
+          "differentChannelCount": 14290,
+          "maximumAbsoluteError": 92,
+          "meanAbsoluteError": 6.130208333,
+          "meanSquaredError": 124.429470486,
+          "psnrDB": 27.181571079
+        },
+        "imageIODecode": {
+          "differentChannelCount": 18009,
+          "maximumAbsoluteError": 207,
+          "meanAbsoluteError": 22.220106337,
+          "meanSquaredError": 1108.142849392,
+          "psnrDB": 17.684846125
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 18068,
+          "maximumAbsoluteError": 207,
+          "meanAbsoluteError": 24.509168837,
+          "meanSquaredError": 1222.965983073,
+          "psnrDB": 17.256659836
+        },
+        "quality": 50,
+        "sha256": "dcbd192ca63ba476258c1aa49f548e625382e8dd8e8b7d417703ae9106500df5"
+      },
+      {
+        "byteCount": 6025,
+        "crossDecoder": {
+          "differentChannelCount": 6646,
+          "maximumAbsoluteError": 84,
+          "meanAbsoluteError": 3.480957031,
+          "meanSquaredError": 90.860839844,
+          "psnrDB": 28.547036141
+        },
+        "imageIODecode": {
+          "differentChannelCount": 17751,
+          "maximumAbsoluteError": 196,
+          "meanAbsoluteError": 19.808539497,
+          "meanSquaredError": 954.642849392,
+          "psnrDB": 18.33239437
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 17853,
+          "maximumAbsoluteError": 196,
+          "meanAbsoluteError": 22.092773438,
+          "meanSquaredError": 1084.844943576,
+          "psnrDB": 17.777126918
+        },
+        "quality": 75,
+        "sha256": "267ea791ee9d7b7c26fb936178e57e486f76a569ce0cdd6d9291a954a3118d48"
+      },
+      {
+        "byteCount": 7229,
+        "crossDecoder": {
+          "differentChannelCount": 6741,
+          "maximumAbsoluteError": 91,
+          "meanAbsoluteError": 3.482584635,
+          "meanSquaredError": 90.70437283,
+          "psnrDB": 28.554521361
+        },
+        "imageIODecode": {
+          "differentChannelCount": 17383,
+          "maximumAbsoluteError": 193,
+          "meanAbsoluteError": 19.225423177,
+          "meanSquaredError": 940.614420573,
+          "psnrDB": 18.396687282
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 17513,
+          "maximumAbsoluteError": 194,
+          "meanAbsoluteError": 21.612087674,
+          "meanSquaredError": 1071.418294271,
+          "psnrDB": 17.831213033
+        },
+        "quality": 90,
+        "sha256": "a948a4aa3acdcd1e5347c4654d3a4f98de4492715521836302c7b7b47acd2096"
+      }
+    ],
+    "libjpegTurboEncoder": [
+      {
+        "byteCount": 1838,
+        "crossDecoder": {
+          "differentChannelCount": 9402,
+          "maximumAbsoluteError": 95,
+          "meanAbsoluteError": 4.803385417,
+          "meanSquaredError": 110.969943576,
+          "psnrDB": 27.678749957
+        },
+        "imageIODecode": {
+          "differentChannelCount": 18208,
+          "maximumAbsoluteError": 253,
+          "meanAbsoluteError": 33.80984158,
+          "meanSquaredError": 2221.611056858,
+          "psnrDB": 14.664123327
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 18212,
+          "maximumAbsoluteError": 250,
+          "meanAbsoluteError": 35.01296658,
+          "meanSquaredError": 2340.310058594,
+          "psnrDB": 14.438069617
+        },
+        "quality": 25,
+        "sha256": "4c9d99c492eb65c4fb6b377b4ed5394353bd28e67feb5543101a6492bb229892"
+      },
+      {
+        "byteCount": 2620,
+        "crossDecoder": {
+          "differentChannelCount": 10852,
+          "maximumAbsoluteError": 92,
+          "meanAbsoluteError": 5.422851562,
+          "meanSquaredError": 122.868706597,
+          "psnrDB": 27.236390743
+        },
+        "imageIODecode": {
+          "differentChannelCount": 18146,
+          "maximumAbsoluteError": 220,
+          "meanAbsoluteError": 27.210557726,
+          "meanSquaredError": 1517.000379774,
+          "psnrDB": 16.320946714
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 18164,
+          "maximumAbsoluteError": 220,
+          "meanAbsoluteError": 28.704589844,
+          "meanSquaredError": 1627.443196615,
+          "psnrDB": 16.015745217
+        },
+        "quality": 50,
+        "sha256": "0b6e0a98ea0b9585885aa2da26af126d03c637feac117a7f3cceafae20b0c827"
+      },
+      {
+        "byteCount": 3693,
+        "crossDecoder": {
+          "differentChannelCount": 13979,
+          "maximumAbsoluteError": 96,
+          "meanAbsoluteError": 6.073567708,
+          "meanSquaredError": 127.268988715,
+          "psnrDB": 27.083577677
+        },
+        "imageIODecode": {
+          "differentChannelCount": 18018,
+          "maximumAbsoluteError": 220,
+          "meanAbsoluteError": 22.418185764,
+          "meanSquaredError": 1114.332356771,
+          "psnrDB": 17.660656196
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 18098,
+          "maximumAbsoluteError": 218,
+          "meanAbsoluteError": 24.678493924,
+          "meanSquaredError": 1234.119574653,
+          "psnrDB": 17.217231201
+        },
+        "quality": 75,
+        "sha256": "3ebf495dfbf14813824f1cee6c03ab0341d65fb20484beeba21a287ad4fcfc8a"
+      },
+      {
+        "byteCount": 5439,
+        "crossDecoder": {
+          "differentChannelCount": 6688,
+          "maximumAbsoluteError": 89,
+          "meanAbsoluteError": 3.480414497,
+          "meanSquaredError": 90.61702474,
+          "psnrDB": 28.558705621
+        },
+        "imageIODecode": {
+          "differentChannelCount": 17748,
+          "maximumAbsoluteError": 202,
+          "meanAbsoluteError": 20.058322483,
+          "meanSquaredError": 965.967068142,
+          "psnrDB": 18.281180402
+        },
+        "libjpegTurboDecode": {
+          "differentChannelCount": 17868,
+          "maximumAbsoluteError": 202,
+          "meanAbsoluteError": 22.262152778,
+          "meanSquaredError": 1094.690755208,
+          "psnrDB": 17.737889104
+        },
+        "quality": 90,
+        "sha256": "772ce540ebf632efccd5bb477f0f32605e6c6de1dbc27bb7df4e6ebde790f8f3"
+      }
+    ]
+  },
+  "oracles": {
+    "analysisPython": "3.14.6",
+    "libjpegTurbo": "libjpeg-turbo version 3.2.0 (build 20260630)",
+    "libpng": "1.6.58"
+  },
+  "png": {
+    "byteCount": 2045,
+    "imageIODecodeExact": true,
+    "libpngDecodeExact": true,
+    "sha256": "db4c721301d42505b1b428b96fbce69531b9c9fb36b479a2135172b4bcfc005a"
+  },
+  "runtime": {
+    "architecture": "arm64",
+    "coreGraphicsBundleVersion": "2047",
+    "imageIOBundleShortVersion": "3.3.0",
+    "imageIOBundleVersion": "2847",
+    "operatingSystemBuild": "26A5388g",
+    "operatingSystemVersion": {
+      "majorVersion": 27,
+      "minorVersion": 0,
+      "patchVersion": 0
+    },
+    "platform": "macOS",
+    "schemaVersion": 1
+  },
+  "schemaVersion": 1,
+  "source": {
+    "generator": "imagecraft-pattern-v1",
+    "height": 64,
+    "ppmSHA256": "a8714609b69bb5a3e008e1e8b1c8860efbbfbbd240c75a278924038ec4c78a44",
+    "width": 96
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "baselineCommit": "d59366e84bfc2a75cbff7fa8fc055f91f6b05846",
+  "benchmarkVersion": "imagecraft-performance-v1",
+  "buildConfiguration": "release",
+  "cases": {
+    "decode-jpeg-fill-1024": {
+      "allSampleMedianDeltaPercent": -16.56802381812352,
+      "baseProcessMedianNs": 24347375,
+      "losses": 0,
+      "p90DeltaPercent": -14.07497438531684,
+      "pairedMedianDeltaPercent": -15.844601321951558,
+      "pairs": [
+        {
+          "baselineMedianNs": 23106292,
+          "deltaPercent": -13.396424662165618,
+          "memchrMedianNs": 20010875
+        },
+        {
+          "baselineMedianNs": 24197708,
+          "deltaPercent": -18.646737120722346,
+          "memchrMedianNs": 19685625
+        },
+        {
+          "baselineMedianNs": 29526958,
+          "deltaPercent": -29.700682339169514,
+          "memchrMedianNs": 20757250
+        },
+        {
+          "baselineMedianNs": 25184083,
+          "deltaPercent": -18.10535249586018,
+          "memchrMedianNs": 20624416
+        },
+        {
+          "baselineMedianNs": 23547459,
+          "deltaPercent": -15.844601321951558,
+          "memchrMedianNs": 19816458
+        },
+        {
+          "baselineMedianNs": 24555083,
+          "deltaPercent": -12.123424710069198,
+          "memchrMedianNs": 21578166
+        },
+        {
+          "baselineMedianNs": 24347375,
+          "deltaPercent": -12.43306516616267,
+          "memchrMedianNs": 21320250
+        }
+      ],
+      "patchProcessMedianNs": 20624416,
+      "signTestTwoSidedP": 0.015625,
+      "ties": 0,
+      "wins": 7
+    },
+    "decode-jpeg-fit-1024": {
+      "allSampleMedianDeltaPercent": -13.980048609908092,
+      "baseProcessMedianNs": 30541417,
+      "losses": 0,
+      "p90DeltaPercent": -16.324601554313812,
+      "pairedMedianDeltaPercent": -13.943102384396255,
+      "pairs": [
+        {
+          "baselineMedianNs": 30697666,
+          "deltaPercent": -13.943102384396255,
+          "memchrMedianNs": 26417459
+        },
+        {
+          "baselineMedianNs": 33052541,
+          "deltaPercent": -19.938076772977908,
+          "memchrMedianNs": 26462500
+        },
+        {
+          "baselineMedianNs": 29906583,
+          "deltaPercent": -11.441878866602718,
+          "memchrMedianNs": 26484708
+        },
+        {
+          "baselineMedianNs": 30220416,
+          "deltaPercent": -11.037789817320842,
+          "memchrMedianNs": 26884750
+        },
+        {
+          "baselineMedianNs": 30541417,
+          "deltaPercent": -14.737639710691875,
+          "memchrMedianNs": 26040333
+        },
+        {
+          "baselineMedianNs": 28870000,
+          "deltaPercent": -9.247776238309669,
+          "memchrMedianNs": 26200167
+        },
+        {
+          "baselineMedianNs": 31136084,
+          "deltaPercent": -15.852189376159187,
+          "memchrMedianNs": 26200333
+        }
+      ],
+      "patchProcessMedianNs": 26417459,
+      "signTestTwoSidedP": 0.015625,
+      "ties": 0,
+      "wins": 7
+    },
+    "decode-jpeg-fit-512": {
+      "allSampleMedianDeltaPercent": -9.505386493906931,
+      "baseProcessMedianNs": 38612708,
+      "losses": 0,
+      "p90DeltaPercent": -6.756579403232054,
+      "pairedMedianDeltaPercent": -9.688119762848258,
+      "pairs": [
+        {
+          "baselineMedianNs": 39030375,
+          "deltaPercent": -9.757892410718572,
+          "memchrMedianNs": 35221833
+        },
+        {
+          "baselineMedianNs": 37840583,
+          "deltaPercent": -9.688119762848258,
+          "memchrMedianNs": 34174542
+        },
+        {
+          "baselineMedianNs": 37697458,
+          "deltaPercent": -5.223384027644517,
+          "memchrMedianNs": 35728375
+        },
+        {
+          "baselineMedianNs": 36622084,
+          "deltaPercent": -9.260578944660825,
+          "memchrMedianNs": 33230667
+        },
+        {
+          "baselineMedianNs": 38612708,
+          "deltaPercent": -8.048948548234435,
+          "memchrMedianNs": 35504791
+        },
+        {
+          "baselineMedianNs": 38628125,
+          "deltaPercent": -11.511796132998953,
+          "memchrMedianNs": 34181334
+        },
+        {
+          "baselineMedianNs": 38898541,
+          "deltaPercent": -9.799424096651855,
+          "memchrMedianNs": 35086708
+        }
+      ],
+      "patchProcessMedianNs": 35086708,
+      "signTestTwoSidedP": 0.015625,
+      "ties": 0,
+      "wins": 7
+    },
+    "decode-jpeg-full": {
+      "allSampleMedianDeltaPercent": -10.023017232063635,
+      "baseProcessMedianNs": 40297833,
+      "losses": 1,
+      "p90DeltaPercent": -5.835862644789636,
+      "pairedMedianDeltaPercent": -8.870574536311937,
+      "pairs": [
+        {
+          "baselineMedianNs": 40297833,
+          "deltaPercent": -8.183546743071767,
+          "memchrMedianNs": 37000041
+        },
+        {
+          "baselineMedianNs": 42513125,
+          "deltaPercent": -2.160116434630477,
+          "memchrMedianNs": 41594792
+        },
+        {
+          "baselineMedianNs": 39752541,
+          "deltaPercent": -13.329859844682634,
+          "memchrMedianNs": 34453583
+        },
+        {
+          "baselineMedianNs": 37543666,
+          "deltaPercent": 4.1387380763508785,
+          "memchrMedianNs": 39097500
+        },
+        {
+          "baselineMedianNs": 42526500,
+          "deltaPercent": -21.302011686830568,
+          "memchrMedianNs": 33467500
+        },
+        {
+          "baselineMedianNs": 36140083,
+          "deltaPercent": -8.870574536311937,
+          "memchrMedianNs": 32934250
+        },
+        {
+          "baselineMedianNs": 40979250,
+          "deltaPercent": -9.668102759323316,
+          "memchrMedianNs": 37017334
+        }
+      ],
+      "patchProcessMedianNs": 37000041,
+      "signTestTwoSidedP": 0.125,
+      "ties": 0,
+      "wins": 6
+    },
+    "prepare-then-decode-jpeg-fit-512": {
+      "allSampleMedianDeltaPercent": -8.182397242955574,
+      "baseProcessMedianNs": 38714791,
+      "losses": 0,
+      "p90DeltaPercent": -8.959603113206782,
+      "pairedMedianDeltaPercent": -9.12072904917467,
+      "pairs": [
+        {
+          "baselineMedianNs": 38714791,
+          "deltaPercent": -8.906371210941055,
+          "memchrMedianNs": 35266708
+        },
+        {
+          "baselineMedianNs": 39019500,
+          "deltaPercent": -9.870705672804625,
+          "memchrMedianNs": 35168000
+        },
+        {
+          "baselineMedianNs": 37035333,
+          "deltaPercent": -3.231373672271287,
+          "memchrMedianNs": 35838583
+        },
+        {
+          "baselineMedianNs": 37201459,
+          "deltaPercent": -8.05232934547002,
+          "memchrMedianNs": 34205875
+        },
+        {
+          "baselineMedianNs": 37590209,
+          "deltaPercent": -10.475469822474249,
+          "memchrMedianNs": 33652458
+        },
+        {
+          "baselineMedianNs": 38716291,
+          "deltaPercent": -9.12072904917467,
+          "memchrMedianNs": 35185083
+        },
+        {
+          "baselineMedianNs": 38875458,
+          "deltaPercent": -9.676413329972855,
+          "memchrMedianNs": 35113708
+        }
+      ],
+      "patchProcessMedianNs": 35168000,
+      "signTestTwoSidedP": 0.015625,
+      "ties": 0,
+      "wins": 7
+    },
+    "probe-then-decode-jpeg-fit-512": {
+      "allSampleMedianDeltaPercent": -17.837040068437695,
+      "baseProcessMedianNs": 42002417,
+      "losses": 0,
+      "p90DeltaPercent": -16.764338883869023,
+      "pairedMedianDeltaPercent": -16.87231066030701,
+      "pairs": [
+        {
+          "baselineMedianNs": 42245500,
+          "deltaPercent": -16.87231066030701,
+          "memchrMedianNs": 35117708
+        },
+        {
+          "baselineMedianNs": 42002417,
+          "deltaPercent": -13.916363432132961,
+          "memchrMedianNs": 36157208
+        },
+        {
+          "baselineMedianNs": 40526375,
+          "deltaPercent": -14.591322317873235,
+          "memchrMedianNs": 34613041
+        },
+        {
+          "baselineMedianNs": 41872833,
+          "deltaPercent": -19.23701460562747,
+          "memchrMedianNs": 33817750
+        },
+        {
+          "baselineMedianNs": 43444792,
+          "deltaPercent": -17.649604583214483,
+          "memchrMedianNs": 35776958
+        },
+        {
+          "baselineMedianNs": 43002792,
+          "deltaPercent": -21.55770955523074,
+          "memchrMedianNs": 33732375
+        },
+        {
+          "baselineMedianNs": 40545917,
+          "deltaPercent": -16.562602345385358,
+          "memchrMedianNs": 33830458
+        }
+      ],
+      "patchProcessMedianNs": 34613041,
+      "signTestTwoSidedP": 0.015625,
+      "ties": 0,
+      "wins": 7
+    }
+  },
+  "claims": {
+    "notSupported": [
+      "Cross-device or cross-OS speedup guarantees.",
+      "A claim that ImageCraft is algorithmically faster than ImageIO rasterization.",
+      "A claim that every JPEG input receives the same proportional improvement.",
+      "Energy or thermal improvements."
+    ],
+    "supported": [
+      "All six retained JPEG decode paths improved in the alternating paired experiment.",
+      "Five paths won all seven process pairs; full decode won six of seven.",
+      "The change does not alter public API, output semantics, or resource limits."
+    ]
+  },
+  "correctnessQualification": {
+    "addedRegressionTest": "testJPEGRestartMarkersDoNotHidePostScanMetadata",
+    "consumerMatrix": [
+      "macOS",
+      "iOS Simulator",
+      "iOS device"
+    ],
+    "imageCraftCoreTests": "8/8 passed",
+    "imageCraftImageIOTests": "56/56 passed",
+    "independentOracles": [
+      "libjpeg-turbo 3.2.0",
+      "libpng 1.6.58"
+    ],
+    "releaseReadiness": "passed",
+    "retainedCorpus": "passed"
+  },
+  "date": "2026-07-31",
+  "decoderFingerprint": "dev.fovea.imageio#impl=1#contract=1",
+  "environment": {
+    "activeProcessorCount": 8,
+    "hardwareModel": "MacBookPro18,3",
+    "lowPowerModeEnabled": false,
+    "physicalMemoryBytes": 17179869184,
+    "thermalState": "nominal"
+  },
+  "experimentID": "jpeg-marker-scan-memchr-ab-v1",
+  "implementationCommit": "0e60c5677824af59cfa05242691bbc2e678d1cc3",
+  "methodology": {
+    "alternatingOrder": true,
+    "iterationsPerProcess": 7,
+    "pairingUnit": "adjacent independent processes using prebuilt baseline and implementation executables",
+    "primaryStatistic": "median of per-pair percentage changes in process medians",
+    "processPairsPerCase": 7,
+    "secondaryStatistics": [
+      "all-sample median change",
+      "all-sample p90 change",
+      "exact two-sided sign test"
+    ],
+    "totalTimedSamples": 588,
+    "warmupIterationsPerProcess": 2
+  },
+  "purpose": "Measure the effect of replacing the Swift byte-by-byte JPEG entropy marker search with Darwin memchr while preserving parser semantics.",
+  "rawReportSHA256": "84ce44eb083f82ec3e7b741477d6455e1bb006c4f6ccef8185c33aaa0ffb5a71",
+  "runtime": {
+    "architecture": "arm64",
+    "coreGraphicsBundleVersion": "2047",
+    "imageIOBundleShortVersion": "3.3.0",
+    "imageIOBundleVersion": "2847",
+    "operatingSystemBuild": "26A5388g",
+    "operatingSystemVersion": {
+      "majorVersion": 27,
+      "minorVersion": 0,
+      "patchVersion": 0
+    },
+    "platform": "macOS",
+    "schemaVersion": 1
+  },
+  "schemaVersion": 1
+}

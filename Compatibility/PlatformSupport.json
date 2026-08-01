@@ -1,0 +1,65 @@
+{
+  "consumerFixture": {
+    "name": "ImageCraftConsumerSmoke",
+    "platforms": [
+      {
+        "minimumVersion": "15.0",
+        "name": "ios"
+      },
+      {
+        "minimumVersion": "12.0",
+        "name": "macos"
+      }
+    ],
+    "requiredProducts": [
+      "ImageCraftCore",
+      "ImageCraftImageIO"
+    ]
+  },
+  "evidenceProducts": [
+    {
+      "name": "ImageCraftEvidence",
+      "targets": [
+        "ImageCraftEvidence"
+      ],
+      "type": "executable"
+    }
+  ],
+  "packageName": "ImageCraft",
+  "publicLibraryProducts": [
+    {
+      "name": "ImageCraftCore",
+      "targets": [
+        "ImageCraftCore"
+      ]
+    },
+    {
+      "name": "ImageCraftImageIO",
+      "targets": [
+        "ImageCraftImageIO"
+      ]
+    }
+  ],
+  "releaseEntrypoint": "scripts/verify-release-readiness.sh",
+  "releaseGates": [
+    "scripts/verify.sh",
+    "scripts/verify-compatibility-contract.sh",
+    "scripts/verify-consumer-package.sh",
+    "scripts/verify-platform-matrix.sh",
+    "scripts/verify-independent-oracles.sh",
+    "scripts/verify-retained-corpus-reproducibility.sh"
+  ],
+  "rootDependenciesMustBeEmpty": true,
+  "schemaVersion": 1,
+  "supportedPlatforms": [
+    {
+      "minimumVersion": "15.0",
+      "name": "ios"
+    },
+    {
+      "minimumVersion": "12.0",
+      "name": "macos"
+    }
+  ],
+  "swiftToolsVersion": "6.2"
+}
