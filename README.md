@@ -82,9 +82,9 @@ scripts/verify-performance-baseline.sh \
 
 `verify.sh` 执行 macOS 测试、Release 构建和 ImageIO 行为证据确定性检查；iOS Simulator 编译门单独运行，避免普通本地迭代每次重建双架构产物。`ImageCraftEvidence` 会记录实际运行时、固定输入输出摘要、JPEG SOF/采样结构和量化表摘要。独立 oracle 门使用 libjpeg-turbo 与 libpng，不进入生产依赖。受版本管理的 retained corpus 固化 PNG/JPEG/GIF 的代表性与边界位流、SHA-256 和稳定失败语义；公共符号图 baseline 阻止内部研究接口泄漏。性能门使用独立进程、Release 构建、3×7 样本和采样 RSS，只作为绑定硬件与系统版本的显式门禁，不进入默认动态验证。兼容性门另外验证根包声明、独立消费者、macOS 12、iOS 15 Simulator 和 iOS 15 device Release 编译。详见 `docs/EVIDENCE.md`、`docs/INDEPENDENT_ORACLES.md`、`docs/RETAINED_CORPUS.md`、`docs/PERFORMANCE.md`、`docs/COMPATIBILITY.md`、`docs/RELEASING.md` 与 `docs/PUBLIC_API.md`。
 
-## 来源与迁移状态
+## 仓库状态
 
-初始代码从 Fovea 当前工作树的 `ImageCraftCore` 与 `ImageCraftImageIO` target 提取。提取不修改 Fovea；待独立仓库稳定后，再让 Fovea 通过 SwiftPM 依赖本仓库，完成物理解绑。
+ImageCraft 已作为独立 SwiftPM 仓库维护。`main` 是 pre-1.0 开发分支，可能发生破坏性变化；可复现集成应固定到已验证的精确提交或不可变开发标签。Fovea 仅通过公开产品与版本化 codec 契约集成，不复制 ImageCraft 生产源码。
 
 详见 `docs/ARCHITECTURE.md`、`docs/ENCODING_CONTRACT.md`、`docs/EVIDENCE.md`、`docs/INDEPENDENT_ORACLES.md`、`docs/RETAINED_CORPUS.md`、`docs/PERFORMANCE.md`、`docs/COMPATIBILITY.md`、`docs/RELEASING.md`、`docs/PUBLIC_API.md` 与 `ROADMAP.md`。
 

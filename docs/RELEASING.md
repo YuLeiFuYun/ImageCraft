@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-ImageCraft 已具备公开 Git remote、核心 CI workflow 和本地 release-readiness gate，但尚未发布稳定版本 tag。以下流程不会自动创建 tag或发布二进制。
+ImageCraft 已具备公开 Git remote、核心 CI workflow、本地 release-readiness gate 与不可变 pre-1.0 开发标签。尚未发布稳定版本；以下流程不会自动创建 tag 或发布二进制。
 
 ## 发布前门禁
 
@@ -41,13 +41,13 @@ IMAGECRAFT_VERIFY_PERFORMANCE=1 scripts/verify-release-readiness.sh
 
 1.0 之前可发布 `0.x` 版本，但破坏性公共 API 变化仍必须在 release note 中逐项列出。1.0 之后遵循 `docs/PUBLIC_API.md` 中的 major-version 规则。
 
-## 建立远端后的步骤
+## 稳定版本前的步骤
 
 首次稳定版本发布前执行：
 
-1. 将核心 CI 升级为 required check，并确认平台矩阵与本地 release-readiness 的证据边界；
-2. 确认主分支保护和 required checks；
-3. 更新 README 中的 SwiftPM URL 示例；
+1. 确认主分支保护与 required checks 持续生效；
+2. 完成稳定设备上的平台、资源与能耗证据；
+3. 审核公共 API、codec identity 与 contract/version 变更；
 4. 创建带说明的 annotated tag；
 5. 从新 clone 而非现有工作树复跑 consumer smoke；
 6. 让 Fovea 固定到明确 tag 或 commit，再运行双仓 compatibility gate。

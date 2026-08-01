@@ -36,9 +36,9 @@ ImageCraft 拥有：
 - 缓存、调度、UI 和持久发布；
 - 多 codec 选择与 rollout policy。
 
-## 提取约束
+## 兼容身份
 
-初始版本保留原有 codec identifier `dev.fovea.imageio`，避免在提取时无意改变缓存身份。是否迁移到新的标识符必须作为显式破坏性变更处理。
+解码器当前保留 codec identifier `dev.fovea.imageio`，因为该值参与宿主派生缓存身份。迁移到新的标识符必须作为显式破坏性变更处理，并要求宿主建立新缓存代际。
 
 ## 编码数据流
 
@@ -59,7 +59,7 @@ CGImage + ImageEncodeRequest + EncodeLimits
 
 ## 编码与解码身份
 
-解码器保留提取时的 `dev.fovea.imageio`，以避免无意改变既有 Fovea 派生缓存身份。新编码器没有历史缓存兼容义务，使用独立身份 `dev.imagecraft.imageio.encoder`。两者 contract/version fingerprint 分开演进，不能用一个版本号推断另一方向的语义。
+解码器使用 `dev.fovea.imageio`，以保持既有宿主派生缓存身份。新编码器没有历史缓存兼容义务，使用独立身份 `dev.imagecraft.imageio.encoder`。两者 contract/version fingerprint 分开演进，不能用一个版本号推断另一方向的语义。
 
 
 ## 系统框架证据边界

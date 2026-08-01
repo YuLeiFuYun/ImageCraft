@@ -24,15 +24,19 @@ rm -f "$OUTPUT"/*.symbols.json
 
 cd "$ROOT"
 swift build --scratch-path "$SCRATCH" --target ImageCraftImageIO >/dev/null
-CORE=$(find "$SCRATCH" -type d -name ImageCraftCore.swiftmodule -print | head -n 1)
-IMAGEIO=$(find "$SCRATCH" -type d -name ImageCraftImageIO.swiftmodule -print | head -n 1)
-if [ -z "$CORE" ] || [ -z "$IMAGEIO" ]; then
-    echo 'production Swift modules were not produced' >&2
-    exit 1
-fi
-MODULE_PATH=$(dirname "$CORE")
-if [ "$(dirname "$IMAGEIO")" != "$MODULE_PATH" ]; then
-    echo 'production modules do not share one module search path' >&2
+MODULE_PATH=$(
+    find "$SCRATCH" \( -type f -o -type d \) -name ImageCraftCore.swiftmodule -print |
+    while IFS= read -r CORE
+    do
+        CANDIDATE=$(dirname "$CORE")
+        if [ -e "$CANDIDATE/ImageCraftImageIO.swiftmodule" ]; then
+            printf '%s\n' "$CANDIDATE"
+        fi
+    done |
+    head -n 1
+)
+if [ -z "$MODULE_PATH" ]; then
+    echo 'production Swift modules were not produced in one search path' >&2
     exit 1
 fi
 
