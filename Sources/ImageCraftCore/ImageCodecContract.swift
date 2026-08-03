@@ -111,6 +111,8 @@ public struct ImageDecodeCapabilityRequest: Codable, Hashable, Sendable {
 public struct ImageCodecCapabilities: Codable, Hashable, Sendable {
     public let formats: Set<EncodedImageFormat>
     public let deliveryModes: Set<ImageDecodeDeliveryMode>
+    /// 能够交付渐进代次的格式；避免把 delivery mode 与 format 误当作笛卡尔积。
+    public let progressiveFormats: Set<EncodedImageFormat>
     public let trackModes: Set<ImageDecodeTrackMode>
     public let metadata: Set<ImageDecodeMetadataCapability>
     public let dynamicRanges: Set<ImageDecodeDynamicRange>
@@ -120,6 +122,7 @@ public struct ImageCodecCapabilities: Codable, Hashable, Sendable {
     public init(
         formats: Set<EncodedImageFormat>,
         deliveryModes: Set<ImageDecodeDeliveryMode>,
+        progressiveFormats: Set<EncodedImageFormat>,
         trackModes: Set<ImageDecodeTrackMode>,
         metadata: Set<ImageDecodeMetadataCapability>,
         dynamicRanges: Set<ImageDecodeDynamicRange>,
@@ -128,11 +131,62 @@ public struct ImageCodecCapabilities: Codable, Hashable, Sendable {
     ) {
         self.formats = formats
         self.deliveryModes = deliveryModes
+        self.progressiveFormats = progressiveFormats
         self.trackModes = trackModes
         self.metadata = metadata
         self.dynamicRanges = dynamicRanges
         self.outputRepresentations = outputRepresentations
         self.cancellationMode = cancellationMode
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case formats
+        case deliveryModes
+        case progressiveFormats
+        case trackModes
+        case metadata
+        case dynamicRanges
+        case outputRepresentations
+        case cancellationMode
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        formats = try values.decode(Set<EncodedImageFormat>.self, forKey: .formats)
+        deliveryModes = try values.decode(Set<ImageDecodeDeliveryMode>.self, forKey: .deliveryModes)
+        progressiveFormats = try values.decodeIfPresent(
+            Set<EncodedImageFormat>.self,
+            forKey: .progressiveFormats
+        ) ?? []
+        trackModes = try values.decode(Set<ImageDecodeTrackMode>.self, forKey: .trackModes)
+        metadata = try values.decode(
+            Set<ImageDecodeMetadataCapability>.self,
+            forKey: .metadata
+        )
+        dynamicRanges = try values.decode(
+            Set<ImageDecodeDynamicRange>.self,
+            forKey: .dynamicRanges
+        )
+        outputRepresentations = try values.decode(
+            Set<ImageDecodeOutputRepresentation>.self,
+            forKey: .outputRepresentations
+        )
+        cancellationMode = try values.decode(
+            ImageDecodeCancellationMode.self,
+            forKey: .cancellationMode
+        )
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(formats, forKey: .formats)
+        try values.encode(deliveryModes, forKey: .deliveryModes)
+        try values.encode(progressiveFormats, forKey: .progressiveFormats)
+        try values.encode(trackModes, forKey: .trackModes)
+        try values.encode(metadata, forKey: .metadata)
+        try values.encode(dynamicRanges, forKey: .dynamicRanges)
+        try values.encode(outputRepresentations, forKey: .outputRepresentations)
+        try values.encode(cancellationMode, forKey: .cancellationMode)
     }
 }
 
@@ -149,7 +203,7 @@ public enum ImageCodecSupportFailure: Codable, Equatable, Hashable, Sendable {
 
 /// 后端能力及其参与缓存身份的版本化描述。
 public struct ImageCodecDescriptor: Codable, Hashable, Sendable {
-    public static let currentContractVersion: UInt16 = 1
+    public static let currentContractVersion: UInt16 = 2
 
     public let identifier: ImageCodecIdentifier
     public let implementationVersion: UInt32
@@ -181,6 +235,11 @@ public struct ImageCodecDescriptor: Codable, Hashable, Sendable {
             return .format(request.format)
         }
         guard capabilities.deliveryModes.contains(request.deliveryMode) else {
+            return .deliveryMode(request.deliveryMode)
+        }
+        if request.deliveryMode == .progressiveGenerations,
+            !capabilities.progressiveFormats.contains(request.format)
+        {
             return .deliveryMode(request.deliveryMode)
         }
         guard capabilities.trackModes.contains(request.trackMode) else {
@@ -262,4 +321,42 @@ extension ImageCodec {
             )
         )
     }
+}
+
+
+/// 增量解码器产生的一个非最终像素代次。
+///
+/// `generation` 只表达严格递增顺序，不是感知质量分数。最终像素仍必须由完整、
+/// 已验证正文通过常规 `ImageDecoding` 路径产生。
+public struct ImageProgressiveDecodeGeneration: Sendable {
+    public let image: DecodedImage
+    public let generation: UInt32
+    public let sourceByteCount: Int
+
+    public init(image: DecodedImage, generation: UInt32, sourceByteCount: Int) {
+        self.image = image
+        self.generation = generation
+        self.sourceByteCount = sourceByteCount
+    }
+}
+
+/// 单个编码流的状态化增量解码会话。
+///
+/// 会话必须并发安全，保留字节不得超过创建时的 `DecodeLimits`，取消后不得再产生像素。
+/// 后端可以为控制解码放大而合并多个容器 scan；代次数量不等于容器 scan 数量。
+/// `finish()` 只封闭增量会话，不替代完整正文的安全检查与最终解码。
+public protocol ImageProgressiveDecodeSession: AnyObject, Sendable {
+    var receivedByteCount: Int { get }
+    func append(_ chunk: Data) throws -> ImageProgressiveDecodeGeneration?
+    func finish() throws
+    func cancel()
+}
+
+/// codec 可选的真实增量像素能力。
+public protocol ProgressiveImageDecoding: ImageCodec {
+    func makeProgressiveSession(
+        format: EncodedImageFormat,
+        request: ImageDecodeRequest,
+        limits: DecodeLimits
+    ) throws -> any ImageProgressiveDecodeSession
 }

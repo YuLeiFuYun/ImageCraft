@@ -380,6 +380,9 @@ public enum ImageCraftError: Error, Equatable, Sendable {
     case pixelLimitExceeded
     case frameLimitExceeded
     case probeMismatch
+    case progressiveDecodingUnsupported
+    case progressiveSessionFinished
+    case progressiveSessionCancelled
     case decodeFailed
 }
 

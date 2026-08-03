@@ -17,6 +17,7 @@ ImageCraft 的公开接口只描述宿主确实需要依赖、并且当前实现
 - probe、decoded/encoded result 和稳定错误分类；
 - 基础 decoder/encoder 协议；
 - prepared decode 一次性状态；
+- JPEG 渐进会话、非最终像素代次和接收字节计数；
 - codec/encoder 身份、版本和有限能力 descriptor；
 - 保守资源估计结果。
 
@@ -25,12 +26,11 @@ ImageCraft 的公开接口只描述宿主确实需要依赖、并且当前实现
 - UI 点尺寸、display scale、尺寸分桶和迟滞；
 - render-cache admission；
 - 图像变换管线；
-- progressive generation 状态机；
 - 动画 frame timing 值模型；
 - 证据采集时长、性能/RSS 采样和运行时 framework fingerprint；
 - Fovea 的 ContentID、DecodeKey、RenderKey、namespace 或缓存策略。
 
-能力 descriptor 仍保留 progressive、动画、HDR、pixel buffer 等有限词汇，用于明确报告“不支持”。这不代表 ImageCraft 已经公开对应的数据交付模型。
+能力 descriptor 以 `progressiveFormats` 显式限定 delivery mode 与容器格式的组合；当前只有 JPEG 可声明渐进交付。动画、HDR 与 pixel buffer 等词汇仍用于明确报告“不支持”，不代表已有对应交付模型。
 
 ### ImageCraftImageIO
 
@@ -38,7 +38,8 @@ ImageCraft 的公开接口只描述宿主确实需要依赖、并且当前实现
 
 - `ImageIOImageDecoder`；
 - `ImageIOImageEncoder`；
-- 两者公开协议所要求的操作和 descriptor。
+- 两者公开协议所要求的操作和 descriptor；
+- `ImageIOImageDecoder.makeProgressiveSession` 的 JPEG 增量适配。
 
 运行时 fingerprint、诊断计时、container inspection 结果、bounded consumer 和 evidence 辅助接口均为 package-only。
 
@@ -53,6 +54,8 @@ ImageCraft 的公开接口只描述宿主确实需要依赖、并且当前实现
 - 将 EXIF orientation 纳入 probe 和目标几何；
 - 执行明确的 preserve-source 或 convert-to-sRGB 策略；
 - 对 prepared state 执行同实例、同 limits、一次性消费约束；
+- 渐进会话按增量游标解析 JPEG marker，保留字节不超过 `maximumEncodedBytes`，只在完整 scan 边界尝试预览；当前 ImageIO adapter 使用 1/2/4/8 scan 几何阈值，将预览光栅化限制为最多四次；
+- 代次严格递增，取消后 append/finish 均稳定失败，旧 descriptor 缺失 `progressiveFormats` 时保守解码为空集合；
 - 为公开失败提供稳定的 ImageCraft 错误分类；
 - 编码时对输出 consumer 强制字节硬上限，并在返回前自检容器。
 
@@ -73,8 +76,9 @@ ImageCraft 的 container scanner 不是第二套 JPEG/PNG/GIF codec，也不验�
 
 - 任意损坏文件在所有 Apple OS build 上得到完全相同的 ImageIO 接受/拒绝结果；
 - 不同 OS build 的编码字节或解码像素逐字节相同；
-- interruptible cancellation；
-- progressive preview 代次；
+- ImageIO 正在执行的单次预览生成可被中途打断；
+- baseline JPEG、PNG 或 GIF 的 progressive preview；
+- 渐进代次是感知质量分数，或最后一个预览等同最终像素；
 - 动画时间轴、disposal 和 loop；
 - HDR/gain map/auxiliary image 交付；
 - 任意 EXIF/XMP/IPTC metadata 透传；

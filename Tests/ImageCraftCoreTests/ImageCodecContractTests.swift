@@ -1,3 +1,4 @@
+import Foundation
 import ImageCraftCore
 import XCTest
 
@@ -42,6 +43,7 @@ final class ImageCodecContractTests: XCTestCase {
             capabilities: ImageCodecCapabilities(
                 formats: Set(EncodedImageFormat.allCases),
                 deliveryModes: Set(ImageDecodeDeliveryMode.allCases),
+                progressiveFormats: Set(EncodedImageFormat.allCases),
                 trackModes: Set(ImageDecodeTrackMode.allCases),
                 metadata: Set(ImageDecodeMetadataCapability.allCases),
                 dynamicRanges: Set(ImageDecodeDynamicRange.allCases),
@@ -50,6 +52,42 @@ final class ImageCodecContractTests: XCTestCase {
             )
         )
         XCTAssertTrue(superset.supports(request))
+    }
+
+    func testMissingProgressiveFormatFieldFailsClosed() throws {
+        let capabilities = ImageCodecCapabilities(
+            formats: [.jpeg],
+            deliveryModes: [.completeFrame, .progressiveGenerations],
+            progressiveFormats: [.jpeg],
+            trackModes: [.primaryFrame],
+            metadata: [.orientation],
+            dynamicRanges: [.standard],
+            outputRepresentations: [.coreGraphicsImage],
+            cancellationMode: .operationBoundary
+        )
+        let encoded = try JSONEncoder().encode(capabilities)
+        var object = try XCTUnwrap(
+            JSONSerialization.jsonObject(with: encoded) as? [String: Any]
+        )
+        object.removeValue(forKey: "progressiveFormats")
+        let legacy = try JSONSerialization.data(withJSONObject: object)
+        let decoded = try JSONDecoder().decode(ImageCodecCapabilities.self, from: legacy)
+
+        XCTAssertEqual(decoded.progressiveFormats, [])
+        let descriptor = ImageCodecDescriptor(
+            identifier: ImageCodecIdentifier(rawValue: "test.legacy-capabilities"),
+            implementationVersion: 1,
+            capabilities: decoded
+        )
+        XCTAssertEqual(
+            descriptor.supportFailure(
+                for: ImageDecodeCapabilityRequest(
+                    format: .jpeg,
+                    deliveryMode: .progressiveGenerations
+                )
+            ),
+            .deliveryMode(.progressiveGenerations)
+        )
     }
 
     func testConservativeResourceEstimateNeverTrustsBackendUnderreporting() throws {
@@ -82,6 +120,7 @@ final class ImageCodecContractTests: XCTestCase {
             capabilities: ImageCodecCapabilities(
                 formats: [.png],
                 deliveryModes: [.completeFrame],
+                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation, .sourceColorProfile],
                 dynamicRanges: [.standard],

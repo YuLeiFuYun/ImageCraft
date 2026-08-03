@@ -38,6 +38,7 @@ def main() -> None:
     parser.add_argument("--case-directory", type=Path, required=True)
     parser.add_argument("--swift-version", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--expected-case", action="append", default=[])
     args = parser.parse_args()
 
     reports = [
@@ -81,8 +82,12 @@ def main() -> None:
             raise AssertionError(f"sample count mismatch: {report['caseID']}")
         grouped[report["caseID"]].append(report)
 
-    if set(grouped) != EXPECTED_CASES:
-        raise AssertionError(f"performance case set mismatch: {sorted(grouped)}")
+    expected_cases = set(args.expected_case) if args.expected_case else EXPECTED_CASES
+    if set(grouped) != expected_cases:
+        raise AssertionError(
+            f"performance case set mismatch: actual={sorted(grouped)} "
+            f"expected={sorted(expected_cases)}"
+        )
 
     cases = []
     for case_id, group in sorted(grouped.items()):

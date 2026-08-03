@@ -26,7 +26,7 @@ ImageCraft 拥有：
 - 容器探测与格式限制；
 - 解码/编码请求与能力描述；
 - 像素、颜色、方向和 metadata 解释；
-- prepared-state 生命周期；
+- prepared-state 与渐进会话生命周期；
 - codec 内部资源估计与失败分类。
 
 宿主拥有：
@@ -81,7 +81,9 @@ corpus 版本只追加、不原地改变语义。工具升级、位流变化或�
 
 ## 公共 API 收敛
 
-ImageCraft 公开 codec 请求、限制、结果、descriptor 和 ImageIO adapter；UI 几何分桶、render-cache admission、transform pipeline、progressive generation 状态与 frame timing 值模型属于宿主或未来模块，不进入当前公共面。运行时 fingerprint 和详细诊断只服务本仓库证据，保持 package-only。
+ImageCraft 公开 codec 请求、限制、结果、descriptor、JPEG 渐进会话和 ImageIO adapter；UI 几何分桶、render-cache admission、transform pipeline、预览替换策略与 frame timing 值模型属于宿主或未来模块，不进入当前公共面。运行时 fingerprint 和详细诊断只服务本仓库证据，保持 package-only。
+
+渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在完整 scan 边界更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 尝试预览，将昂贵光栅化限制为常数上界，同时保留早期与逐级细化的可见结果。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
 
 容器 scanner 的目标是为资源 admission 提供最小结构事实，而不是复制 ImageIO codec。JPEG entropy/Huffman/IDCT、PNG filter/interlace/palette 和最终压缩流合法性继续委托给系统框架。完整边界见 `docs/PUBLIC_API.md`。
 

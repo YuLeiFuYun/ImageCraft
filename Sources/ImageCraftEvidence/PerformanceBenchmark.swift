@@ -2,8 +2,10 @@ import CoreGraphics
 import CryptoKit
 import Darwin
 import Foundation
+import ImageIO
 import ImageCraftCore
 import ImageCraftImageIO
+import UniformTypeIdentifiers
 
 private let performanceBenchmarkVersion = "imagecraft-performance-v1"
 private let performanceRSSSampleIntervalMicroseconds: UInt32 = 500
@@ -84,6 +86,8 @@ enum PerformanceBenchmarkCase: String, CaseIterable {
   case decodeJPEGFill1024 = "decode-jpeg-fill-1024"
   case probeThenDecodeJPEGFit512 = "probe-then-decode-jpeg-fit-512"
   case prepareThenDecodeJPEGFit512 = "prepare-then-decode-jpeg-fit-512"
+  case progressiveJPEGFit512Chunk1K = "progressive-jpeg-fit-512-chunk-1024"
+  case progressiveJPEGFit512Chunk32K = "progressive-jpeg-fit-512-chunk-32768"
   case encodePNG = "encode-png"
   case encodeJPEG75 = "encode-jpeg-q75"
 }
@@ -203,6 +207,10 @@ private func makeBenchmarkOperation(
       contentMode: .fit,
       strategy: .prepareThenDecode
     )
+  case .progressiveJPEGFit512Chunk1K:
+    return try makeProgressiveJPEGOperation(chunkSize: 1_024)
+  case .progressiveJPEGFit512Chunk32K:
+    return try makeProgressiveJPEGOperation(chunkSize: 32 * 1_024)
   case .encodePNG:
     return try makeEncodeOperation(format: .png, width: 1_600, height: 1_200)
   case .encodeJPEG75:
@@ -311,6 +319,114 @@ private func makeJPEGDecodeOperation(
     output: output,
     run: run
   )
+}
+
+private func makeProgressiveJPEGOperation(chunkSize: Int) throws -> BenchmarkOperation {
+  let sourceWidth = 3_072
+  let sourceHeight = 2_048
+  let sourceRGB = makePatternRGBData(width: sourceWidth, height: sourceHeight)
+  let sourceImage = try makePatternImage(width: sourceWidth, height: sourceHeight, rgb: sourceRGB)
+  let encoded = try makeProgressiveJPEG(image: sourceImage, quality: 0.82)
+  let limits = DecodeLimits(
+    maximumEncodedBytes: max(encoded.count, 1),
+    maximumDimension: 16_384,
+    maximumPixelCount: 100_000_000,
+    maximumFrameCount: 1,
+    maximumMetadataBytes: 4 * 1024 * 1024,
+    maximumAuxiliaryAttachments: 0,
+    allowedFormats: [.jpeg]
+  )
+  let request = ImageDecodeRequest(
+    target: try TargetPixels(width: 512, height: 512),
+    contentMode: .fit,
+    colorPolicy: .preserveSource
+  )
+  let chunks = stride(from: 0, to: encoded.count, by: chunkSize).map { offset in
+    encoded.subdata(in: offset..<min(encoded.count, offset + chunkSize))
+  }
+  let decoder = ImageIOImageDecoder()
+  let probe = try decoder.probe(data: encoded, limits: limits)
+  let estimatedWorkingSetBytes = try decoder.resourceEstimate(
+    probe: probe,
+    request: request
+  ).workingSetBytes
+
+  func execute() throws -> (generationCount: Int, last: DecodedImage) {
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: request,
+      limits: limits
+    )
+    var generationCount = 0
+    var last: DecodedImage?
+    for chunk in chunks {
+      if let generation = try session.append(chunk) {
+        generationCount += 1
+        last = generation.image
+      }
+    }
+    try session.finish()
+    guard generationCount >= 2, let last else {
+      throw PerformanceBenchmarkError.unexpectedOutput
+    }
+    return (generationCount, last)
+  }
+
+  let reference = try execute()
+  let output = PerformanceOutput(
+    representation: "progressive-cgImage-source-color",
+    pixelWidth: reference.last.pixelWidth,
+    pixelHeight: reference.last.pixelHeight,
+    encodedByteCount: nil,
+    sha256: nil
+  )
+  let run: () throws -> Void = {
+    let result = try execute()
+    guard result.generationCount == reference.generationCount,
+      result.last.pixelWidth == output.pixelWidth,
+      result.last.pixelHeight == output.pixelHeight
+    else {
+      throw PerformanceBenchmarkError.unexpectedOutput
+    }
+  }
+
+  return BenchmarkOperation(
+    source: PerformanceSource(
+      generator: "imagecraft-progressive-pattern-v1",
+      representation: EncodedImageFormat.jpeg.rawValue,
+      pixelWidth: sourceWidth,
+      pixelHeight: sourceHeight,
+      encodedByteCount: encoded.count,
+      encodedSHA256: sha256(encoded),
+      targetWidth: 512,
+      targetHeight: 512,
+      contentMode: ImageContentMode.fit.rawValue
+    ),
+    estimatedWorkingSetBytes: estimatedWorkingSetBytes,
+    output: output,
+    run: run
+  )
+}
+
+private func makeProgressiveJPEG(image: CGImage, quality: Double) throws -> Data {
+  let output = NSMutableData()
+  guard let destination = CGImageDestinationCreateWithData(
+    output,
+    UTType.jpeg.identifier as CFString,
+    1,
+    nil
+  ) else {
+    throw PerformanceBenchmarkError.unexpectedOutput
+  }
+  let properties: [CFString: Any] = [
+    kCGImageDestinationLossyCompressionQuality: quality,
+    kCGImagePropertyJFIFDictionary: [kCGImagePropertyJFIFIsProgressive: true],
+  ]
+  CGImageDestinationAddImage(destination, image, properties as CFDictionary)
+  guard CGImageDestinationFinalize(destination) else {
+    throw PerformanceBenchmarkError.unexpectedOutput
+  }
+  return output as Data
 }
 
 private func makeEncodeOperation(

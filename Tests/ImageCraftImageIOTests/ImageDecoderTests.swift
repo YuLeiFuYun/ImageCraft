@@ -479,7 +479,11 @@ extension ImageDecoderTests {
         let descriptor = ImageIOImageDecoder().codecDescriptor
         XCTAssertEqual(descriptor.identifier.rawValue, "dev.fovea.imageio")
         XCTAssertEqual(descriptor.capabilities.formats, [.png, .jpeg, .gif])
-        XCTAssertEqual(descriptor.capabilities.deliveryModes, [.completeFrame])
+        XCTAssertEqual(
+            descriptor.capabilities.deliveryModes,
+            [.completeFrame, .progressiveGenerations]
+        )
+        XCTAssertEqual(descriptor.capabilities.progressiveFormats, [.jpeg])
         XCTAssertEqual(descriptor.capabilities.trackModes, [.primaryFrame])
         XCTAssertEqual(
             descriptor.capabilities.metadata,

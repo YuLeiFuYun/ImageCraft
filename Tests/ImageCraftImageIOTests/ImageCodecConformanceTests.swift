@@ -15,6 +15,7 @@ final class ImageCodecConformanceTests: XCTestCase {
             capabilities: ImageCodecCapabilities(
                 formats: [.png, .jpeg],
                 deliveryModes: [.completeFrame],
+                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation, .sourceColorProfile],
                 dynamicRanges: [.standard],
@@ -68,6 +69,7 @@ final class ImageCodecConformanceTests: XCTestCase {
             capabilities: ImageCodecCapabilities(
                 formats: [.png],
                 deliveryModes: [.completeFrame],
+                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation],
                 dynamicRanges: [.standard],
@@ -108,6 +110,7 @@ final class ImageCodecConformanceTests: XCTestCase {
             capabilities: ImageCodecCapabilities(
                 formats: [.png],
                 deliveryModes: [.completeFrame],
+                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation],
                 dynamicRanges: [.standard],
@@ -121,6 +124,7 @@ final class ImageCodecConformanceTests: XCTestCase {
             capabilities: ImageCodecCapabilities(
                 formats: Set(EncodedImageFormat.allCases),
                 deliveryModes: Set(ImageDecodeDeliveryMode.allCases),
+                progressiveFormats: Set(EncodedImageFormat.allCases),
                 trackModes: Set(ImageDecodeTrackMode.allCases),
                 metadata: Set(ImageDecodeMetadataCapability.allCases),
                 dynamicRanges: Set(ImageDecodeDynamicRange.allCases),
@@ -181,6 +185,7 @@ final class ImageCodecConformanceTests: XCTestCase {
         let capabilities = ImageCodecCapabilities(
             formats: Set(EncodedImageFormat.allCases),
             deliveryModes: [.completeFrame],
+            progressiveFormats: [],
             trackModes: [.primaryFrame],
             metadata: [.orientation, .sourceColorProfile],
             dynamicRanges: [.standard],
@@ -222,12 +227,20 @@ final class ImageCodecConformanceTests: XCTestCase {
         )
     }
 
-    func testImageIOFailsClosedForReservedFutureSemantics() {
+    func testImageIOFailsClosedForUnsupportedFutureSemantics() {
         let descriptor = ImageIOImageDecoder().codecDescriptor
-        XCTAssertEqual(
+        XCTAssertNil(
             descriptor.supportFailure(
                 for: ImageDecodeCapabilityRequest(
                     format: .jpeg,
+                    deliveryMode: .progressiveGenerations
+                )
+            )
+        )
+        XCTAssertEqual(
+            descriptor.supportFailure(
+                for: ImageDecodeCapabilityRequest(
+                    format: .png,
                     deliveryMode: .progressiveGenerations
                 )
             ),

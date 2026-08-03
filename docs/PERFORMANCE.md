@@ -126,6 +126,28 @@ scripts/verify-performance-baseline.sh \
 
 baseline 更新必须伴随原因说明。代码变快并不自动要求收紧预算；应先确认变化来自实现而不是系统负载、工具链或框架缓存行为。
 
+
+## 渐进 JPEG 独立基准
+
+渐进会话不并入既有八场景稳定 baseline，因为它使用 progressive JPEG、多个预览输出和不同的完成边界。`scripts/capture-progressive-performance-evidence.sh` 单独测量同一 3072×2048 progressive JPEG、512×512 fit 目标与两种预分片大小：1 KiB 和 32 KiB。fixture 构造与分片数组创建位于计时区间之外；计时包含会话创建、全部 append、预览光栅化、尺寸校验和 finish。
+
+2026-08-04 在 MacBookPro18,3、Xcode 27 / Swift 6.4 上执行 3 个独立进程、每进程 7 次计时。把“每个已完成 scan 都尝试预览”改为 1/2/4/8 scan 几何阈值后，同机 A/B 结果为：
+
+| 分片 | 旧 median | 新 median | median 加速 | 旧 p90 | 新 p90 | RSS 增量中位数（旧→新） |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 KiB | 433.5 ms | 144.6 ms | 3.00× | 454.1 ms | 156.4 ms | 10.58→2.83 MiB |
+| 32 KiB | 371.2 ms | 145.2 ms | 2.56× | 383.8 ms | 160.4 ms | 12.31→2.44 MiB |
+
+同轮普通完整 JPEG fit-512 解码的 median/p90 为约 33.5/34.0 ms，RSS 增量中位数约 2.75 MiB。渐进路径仍约等于四次目标尺寸光栅化的总成本，因此该结果证明的是工作放大被限制并显著下降，不是渐进会话比单次最终解码更快。后续比较必须把首预览延迟、完整渐进会话成本、预览数量、最终解码成本和用户实际显示结果分开，不能只用一个总耗时排名。
+
+捕获命令：
+
+```sh
+scripts/capture-progressive-performance-evidence.sh output.json 7 3
+```
+
+该报告默认写入忽略目录，不作为跨机器预算；只有固定设备、系统 build、工具链、位流和预览政策均冻结后，才能升级为受版本管理的基线。
+
 ## JPEG 熵区 marker 扫描实验
 
 `Evidence/Experiments/jpeg-marker-scan-ab-2026-07-31.json` 记录了一次独立的实现 A/B，比较逐字节 Swift 扫描与 `Darwin.memchr` 搜索 JPEG entropy 区下一个 `0xFF` marker。两侧使用预构建 Release 可执行文件，按 A/B、B/A 顺序交替运行；共覆盖 6 条 JPEG 路径、每条 7 对独立进程、每进程 7 个计时样本，总计 588 个样本。

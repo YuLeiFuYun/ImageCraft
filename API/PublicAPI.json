@@ -1305,6 +1305,26 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageProgressiveDecodeGeneration",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodeGeneration",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodeSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodeSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "PreparedImageDecoding",
           "target": "Swift.Sendable"
         },
@@ -1316,6 +1336,26 @@
         {
           "kind": "conformsTo",
           "source": "PreparedImageDecoding",
+          "target": "s:14ImageCraftCore0A8DecodingP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecoding",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecoding",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecoding",
+          "target": "s:14ImageCraftCore0A5CodecP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecoding",
           "target": "s:14ImageCraftCore0A8DecodingP"
         },
         {
@@ -1384,7 +1424,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 310,
+      "symbolCount": 327,
       "symbols": [
         {
           "declaration": "struct DecodeLimits",
@@ -1729,16 +1769,22 @@
           "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV13dynamicRangesShyAA0A18DecodeDynamicRangeOGvp"
         },
         {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageCodecCapabilities.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV6encode2toys7Encoder_p_tKF"
+        },
+        {
           "declaration": "let formats: Set<EncodedImageFormat>",
           "kind": "swift.property",
           "path": "ImageCodecCapabilities.formats",
           "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV7formatsShyAA07EncodedA6FormatOGvp"
         },
         {
-          "declaration": "init(formats: Set<EncodedImageFormat>, deliveryModes: Set<ImageDecodeDeliveryMode>, trackModes: Set<ImageDecodeTrackMode>, metadata: Set<ImageDecodeMetadataCapability>, dynamicRanges: Set<ImageDecodeDynamicRange>, outputRepresentations: Set<ImageDecodeOutputRepresentation>, cancellationMode: ImageDecodeCancellationMode)",
+          "declaration": "init(formats: Set<EncodedImageFormat>, deliveryModes: Set<ImageDecodeDeliveryMode>, progressiveFormats: Set<EncodedImageFormat>, trackModes: Set<ImageDecodeTrackMode>, metadata: Set<ImageDecodeMetadataCapability>, dynamicRanges: Set<ImageDecodeDynamicRange>, outputRepresentations: Set<ImageDecodeOutputRepresentation>, cancellationMode: ImageDecodeCancellationMode)",
           "kind": "swift.init",
-          "path": "ImageCodecCapabilities.init(formats:deliveryModes:trackModes:metadata:dynamicRanges:outputRepresentations:cancellationMode:)",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV7formats13deliveryModes05trackH08metadata13dynamicRanges21outputRepresentations16cancellationModeACShyAA07EncodedA6FormatOG_ShyAA0a14DecodeDeliveryP0OGShyAA0as5TrackP0OGShyAA0aS18MetadataCapabilityOGShyAA0aS12DynamicRangeOGShyAA0aS20OutputRepresentationOGAA0as12CancellationP0Otcfc"
+          "path": "ImageCodecCapabilities.init(formats:deliveryModes:progressiveFormats:trackModes:metadata:dynamicRanges:outputRepresentations:cancellationMode:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV7formats13deliveryModes18progressiveFormats05trackH08metadata13dynamicRanges21outputRepresentations16cancellationModeACShyAA07EncodedA6FormatOG_ShyAA0a14DecodeDeliveryR0OGANShyAA0au5TrackR0OGShyAA0aU18MetadataCapabilityOGShyAA0aU12DynamicRangeOGShyAA0aU20OutputRepresentationOGAA0au12CancellationR0Otcfc"
         },
         {
           "declaration": "init(from decoder: any Decoder) throws",
@@ -1757,6 +1803,12 @@
           "kind": "swift.property",
           "path": "ImageCodecCapabilities.outputRepresentations",
           "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV21outputRepresentationsShyAA0A26DecodeOutputRepresentationOGvp"
+        },
+        {
+          "declaration": "let progressiveFormats: Set<EncodedImageFormat>",
+          "kind": "swift.property",
+          "path": "ImageCodecCapabilities.progressiveFormats",
+          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV18progressiveFormatsShyAA07EncodedA6FormatOGvp"
         },
         {
           "declaration": "let trackModes: Set<ImageDecodeTrackMode>",
@@ -2069,6 +2121,24 @@
           "kind": "swift.enum.case",
           "path": "ImageCraftError.probeMismatch",
           "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO13probeMismatchyA2CmF"
+        },
+        {
+          "declaration": "case progressiveDecodingUnsupported",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.progressiveDecodingUnsupported",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO30progressiveDecodingUnsupportedyA2CmF"
+        },
+        {
+          "declaration": "case progressiveSessionCancelled",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.progressiveSessionCancelled",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO27progressiveSessionCancelledyA2CmF"
+        },
+        {
+          "declaration": "case progressiveSessionFinished",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.progressiveSessionFinished",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO26progressiveSessionFinishedyA2CmF"
         },
         {
           "declaration": "case unsupportedFormat",
@@ -3139,6 +3209,66 @@
           "preciseIdentifier": "s:14ImageCraftCore0A5ProbeV18sourceColorProfileAA06SourcefG0Ovp"
         },
         {
+          "declaration": "struct ImageProgressiveDecodeGeneration",
+          "kind": "swift.struct",
+          "path": "ImageProgressiveDecodeGeneration",
+          "preciseIdentifier": "s:14ImageCraftCore0A27ProgressiveDecodeGenerationV"
+        },
+        {
+          "declaration": "let generation: UInt32",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeGeneration.generation",
+          "preciseIdentifier": "s:14ImageCraftCore0A27ProgressiveDecodeGenerationV10generations6UInt32Vvp"
+        },
+        {
+          "declaration": "let image: DecodedImage",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeGeneration.image",
+          "preciseIdentifier": "s:14ImageCraftCore0A27ProgressiveDecodeGenerationV5imageAA07DecodedA0Vvp"
+        },
+        {
+          "declaration": "init(image: DecodedImage, generation: UInt32, sourceByteCount: Int)",
+          "kind": "swift.init",
+          "path": "ImageProgressiveDecodeGeneration.init(image:generation:sourceByteCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A27ProgressiveDecodeGenerationV5image10generation15sourceByteCountAcA07DecodedA0V_s6UInt32VSitcfc"
+        },
+        {
+          "declaration": "let sourceByteCount: Int",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeGeneration.sourceByteCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A27ProgressiveDecodeGenerationV15sourceByteCountSivp"
+        },
+        {
+          "declaration": "protocol ImageProgressiveDecodeSession : AnyObject, Sendable",
+          "kind": "swift.protocol",
+          "path": "ImageProgressiveDecodeSession",
+          "preciseIdentifier": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
+        },
+        {
+          "declaration": "func append(_ chunk: Data) throws -> ImageProgressiveDecodeGeneration?",
+          "kind": "swift.method",
+          "path": "ImageProgressiveDecodeSession.append(_:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP6appendyAA0adE10GenerationVSg10Foundation4DataVKF"
+        },
+        {
+          "declaration": "func cancel()",
+          "kind": "swift.method",
+          "path": "ImageProgressiveDecodeSession.cancel()",
+          "preciseIdentifier": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP6cancelyyF"
+        },
+        {
+          "declaration": "func finish() throws",
+          "kind": "swift.method",
+          "path": "ImageProgressiveDecodeSession.finish()",
+          "preciseIdentifier": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP6finishyyKF"
+        },
+        {
+          "declaration": "var receivedByteCount: Int { get }",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeSession.receivedByteCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP17receivedByteCountSivp"
+        },
+        {
           "declaration": "protocol PreparedImageDecoding : ImageDecoding",
           "kind": "swift.protocol",
           "path": "PreparedImageDecoding",
@@ -3161,6 +3291,18 @@
           "kind": "swift.method",
           "path": "PreparedImageDecoding.prepare(data:limits:)",
           "preciseIdentifier": "s:14ImageCraftCore08PreparedA8DecodingP7prepare4data6limitsAA0A17DecodePreparationV10Foundation4DataV_AA0I6LimitsVtKF"
+        },
+        {
+          "declaration": "protocol ProgressiveImageDecoding : ImageCodec",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImageDecoding",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA8DecodingP"
+        },
+        {
+          "declaration": "func makeProgressiveSession(format: EncodedImageFormat, request: ImageDecodeRequest, limits: DecodeLimits) throws -> any ImageProgressiveDecodeSession",
+          "kind": "swift.method",
+          "path": "ProgressiveImageDecoding.makeProgressiveSession(format:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA8DecodingP04makeD7Session6format7request6limitsAA0ad6DecodeG0_pAA07EncodedA6FormatO_AA0aK7RequestVAA0K6LimitsVtKF"
         },
         {
           "declaration": "enum SourceColorProfile",
@@ -3259,6 +3401,16 @@
         {
           "kind": "conformsTo",
           "source": "ImageIOImageDecoder",
+          "target": "ImageCraftCore.ImageCodec"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "ImageCraftCore.ImageDecoding"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
           "target": "ImageCraftCore.ImageDecoding"
         },
         {
@@ -3269,7 +3421,32 @@
         {
           "kind": "conformsTo",
           "source": "ImageIOImageDecoder",
+          "target": "ImageCraftCore.ProgressiveImageDecoding"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "Swift.Copyable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "Swift.Escapable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
           "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "Swift.SendableMetatype"
         },
         {
           "kind": "conformsTo",
@@ -3292,7 +3469,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 14,
+      "symbolCount": 15,
       "symbols": [
         {
           "declaration": "struct ImageIOImageDecoder",
@@ -3341,6 +3518,12 @@
           "kind": "swift.init",
           "path": "ImageIOImageDecoder.init()",
           "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderVACycfc"
+        },
+        {
+          "declaration": "func makeProgressiveSession(format: EncodedImageFormat, request: ImageDecodeRequest, limits: DecodeLimits) throws -> any ImageProgressiveDecodeSession",
+          "kind": "swift.method",
+          "path": "ImageIOImageDecoder.makeProgressiveSession(format:request:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderV22makeProgressiveSession6format7request6limits0aB4Core0ag6DecodeH0_pAH07EncodedA6FormatO_AH0aM7RequestVAH0M6LimitsVtKF"
         },
         {
           "declaration": "func prepare(data: Data, limits: DecodeLimits) throws -> ImageDecodePreparation",

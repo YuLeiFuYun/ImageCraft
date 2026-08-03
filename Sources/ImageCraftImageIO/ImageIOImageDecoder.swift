@@ -12,10 +12,11 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     /// GIF 多帧容器可以被安全探测，但该适配器尚未公开动画时间轴语义。
     public let codecDescriptor = ImageCodecDescriptor(
         identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio"),
-        implementationVersion: 1,
+        implementationVersion: 2,
         capabilities: ImageCodecCapabilities(
             formats: [.png, .jpeg, .gif],
-            deliveryModes: [.completeFrame],
+            deliveryModes: [.completeFrame, .progressiveGenerations],
+            progressiveFormats: [.jpeg],
             trackModes: [.primaryFrame],
             metadata: [.orientation, .sourceColorProfile],
             dynamicRanges: [.standard],
@@ -768,5 +769,322 @@ private final class ImageIOPreparationStore: @unchecked Sendable {
         lock.lock()
         entries.removeValue(forKey: identifier)
         lock.unlock()
+    }
+}
+
+extension ImageIOImageDecoder: ProgressiveImageDecoding {
+    public func makeProgressiveSession(
+        format: EncodedImageFormat,
+        request: ImageDecodeRequest,
+        limits: DecodeLimits
+    ) throws -> any ImageProgressiveDecodeSession {
+        let capability = ImageDecodeCapabilityRequest(
+            format: format,
+            deliveryMode: .progressiveGenerations
+        )
+        guard codecDescriptor.supports(capability), format == .jpeg else {
+            throw ImageCraftError.progressiveDecodingUnsupported
+        }
+        guard request.colorPolicy == .preserveSource else {
+            throw ImageCraftError.progressiveDecodingUnsupported
+        }
+        let source = CGImageSourceCreateIncremental(sourceOptions(format: format))
+        return ImageIOProgressiveSession(
+            decoder: self,
+            source: source,
+            request: request,
+            limits: limits
+        )
+    }
+
+    private final class ImageIOProgressiveSession: ImageProgressiveDecodeSession,
+        @unchecked Sendable
+    {
+        private enum FrameKind {
+            case unknown
+            case baseline
+            case progressive
+        }
+
+        private struct JPEGState {
+            var frameKind: FrameKind = .unknown
+            var scanCount = 0
+            var completedScanCount = 0
+            var foundEnd = false
+            private var offset = 0
+            private var insideScan = false
+            private var sawStart = false
+
+            mutating func consume(_ data: Data) throws {
+                if !sawStart {
+                    guard data.count >= 2 else { return }
+                    guard data[0] == 0xFF, data[1] == 0xD8 else {
+                        throw ImageCraftError.formatMismatch
+                    }
+                    sawStart = true
+                    offset = 2
+                }
+
+                while offset < data.count, !foundEnd {
+                    if insideScan {
+                        guard consumeScanBytes(data) else { return }
+                        continue
+                    }
+                    guard let marker = nextMarker(data) else { return }
+                    switch marker.value {
+                    case 0xD8:
+                        throw ImageCraftError.unsupportedOrCorruptImage
+                    case 0xD9:
+                        foundEnd = true
+                    case 0x01, 0xD0...0xD7:
+                        offset = marker.payloadOffset
+                    default:
+                        guard let end = segmentEnd(
+                            data,
+                            markerStart: marker.start,
+                            payloadOffset: marker.payloadOffset
+                        ) else { return }
+                        updateFrameKind(marker.value)
+                        offset = end
+                        if marker.value == 0xDA {
+                            scanCount += 1
+                            insideScan = true
+                        }
+                    }
+                }
+            }
+
+            private mutating func consumeScanBytes(_ data: Data) -> Bool {
+                while offset < data.count {
+                    guard data[offset] == 0xFF else {
+                        offset += 1
+                        continue
+                    }
+                    let markerStart = offset
+                    var cursor = offset + 1
+                    while cursor < data.count, data[cursor] == 0xFF { cursor += 1 }
+                    guard cursor < data.count else {
+                        offset = markerStart
+                        return false
+                    }
+                    let marker = data[cursor]
+                    if marker == 0x00 || (0xD0...0xD7).contains(marker) {
+                        offset = cursor + 1
+                        continue
+                    }
+                    completedScanCount += 1
+                    insideScan = false
+                    offset = markerStart
+                    return true
+                }
+                return false
+            }
+
+            private mutating func nextMarker(
+                _ data: Data
+            ) -> (start: Int, value: UInt8, payloadOffset: Int)? {
+                while offset < data.count {
+                    while offset < data.count, data[offset] != 0xFF { offset += 1 }
+                    guard offset < data.count else { return nil }
+                    let markerStart = offset
+                    var cursor = offset + 1
+                    while cursor < data.count, data[cursor] == 0xFF { cursor += 1 }
+                    guard cursor < data.count else {
+                        offset = markerStart
+                        return nil
+                    }
+                    let marker = data[cursor]
+                    offset = cursor + 1
+                    if marker == 0x00 { continue }
+                    return (markerStart, marker, cursor + 1)
+                }
+                return nil
+            }
+
+            private mutating func updateFrameKind(_ marker: UInt8) {
+                if marker == 0xC0 {
+                    frameKind = .baseline
+                } else if marker == 0xC2 {
+                    frameKind = .progressive
+                }
+            }
+
+            private mutating func segmentEnd(
+                _ data: Data,
+                markerStart: Int,
+                payloadOffset: Int
+            ) -> Int? {
+                guard payloadOffset + 1 < data.count else {
+                    offset = markerStart
+                    return nil
+                }
+                let length = Int(data[payloadOffset]) << 8 | Int(data[payloadOffset + 1])
+                guard length >= 2 else {
+                    offset = markerStart
+                    return nil
+                }
+                let end = payloadOffset.addingReportingOverflow(length)
+                guard !end.overflow else {
+                    offset = markerStart
+                    return nil
+                }
+                guard end.partialValue <= data.count else {
+                    offset = markerStart
+                    return nil
+                }
+                return end.partialValue
+            }
+        }
+
+        private let lock = NSLock()
+        private let decoder: ImageIOImageDecoder
+        private let request: ImageDecodeRequest
+        private let limits: DecodeLimits
+        private var source: CGImageSource?
+        private var data = Data()
+        private var totalReceivedBytes = 0
+        // 四个几何阈值把预览光栅化从 O(scanCount) 限制为常数上界；
+        // 完整正文仍走独立最终解码，因此不需要在 EOI 前追逐每个细化 scan。
+        private static let previewScanThresholds = [1, 2, 4, 8]
+
+        private var jpegState = JPEGState()
+        private var nextPreviewThresholdIndex = 0
+        private var nextGeneration: UInt32 = 1
+        private var isFinished = false
+        private var isCancelled = false
+
+        init(
+            decoder: ImageIOImageDecoder,
+            source: CGImageSource,
+            request: ImageDecodeRequest,
+            limits: DecodeLimits
+        ) {
+            self.decoder = decoder
+            self.source = source
+            self.request = request
+            self.limits = limits
+        }
+
+        var receivedByteCount: Int {
+            lock.lock()
+            defer { lock.unlock() }
+            return totalReceivedBytes
+        }
+
+        func append(_ chunk: Data) throws -> ImageProgressiveDecodeGeneration? {
+            lock.lock()
+            defer { lock.unlock() }
+            guard !isCancelled else { throw ImageCraftError.progressiveSessionCancelled }
+            guard !isFinished else { throw ImageCraftError.progressiveSessionFinished }
+            guard !chunk.isEmpty else { return nil }
+
+            let nextCount = data.count.addingReportingOverflow(chunk.count)
+            guard !nextCount.overflow, nextCount.partialValue <= limits.maximumEncodedBytes else {
+                throw ImageCraftError.encodedBytesExceeded
+            }
+            data.append(chunk)
+            totalReceivedBytes = nextCount.partialValue
+
+            try jpegState.consume(data)
+            guard jpegState.frameKind != .baseline else {
+                throw ImageCraftError.progressiveDecodingUnsupported
+            }
+            guard jpegState.frameKind == .progressive,
+                !jpegState.foundEnd,
+                shouldAttemptPreview(completedScanCount: jpegState.completedScanCount)
+            else { return nil }
+
+            guard let source else { throw ImageCraftError.progressiveSessionCancelled }
+            CGImageSourceUpdateData(source, data as CFData, false)
+            guard let image = try makePreview(source: source) else { return nil }
+
+            let generation = nextGeneration
+            let nextGeneration = generation.addingReportingOverflow(1)
+            guard !nextGeneration.overflow else { throw ImageCraftError.decodeFailed }
+            self.nextGeneration = nextGeneration.partialValue
+            return ImageProgressiveDecodeGeneration(
+                image: image,
+                generation: generation,
+                sourceByteCount: totalReceivedBytes
+            )
+        }
+
+        func finish() throws {
+            lock.lock()
+            defer { lock.unlock() }
+            guard !isCancelled else { throw ImageCraftError.progressiveSessionCancelled }
+            guard !isFinished else { throw ImageCraftError.progressiveSessionFinished }
+            isFinished = true
+            try jpegState.consume(data)
+            guard jpegState.frameKind == .progressive, jpegState.foundEnd, let source else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+            CGImageSourceUpdateData(source, data as CFData, true)
+            self.source = nil
+            data.removeAll(keepingCapacity: false)
+        }
+
+        func cancel() {
+            lock.lock()
+            guard !isCancelled else {
+                lock.unlock()
+                return
+            }
+            isCancelled = true
+            source = nil
+            data.removeAll(keepingCapacity: false)
+            lock.unlock()
+        }
+
+        private func shouldAttemptPreview(completedScanCount: Int) -> Bool {
+            guard nextPreviewThresholdIndex < Self.previewScanThresholds.count,
+                completedScanCount >= Self.previewScanThresholds[nextPreviewThresholdIndex]
+            else { return false }
+            while nextPreviewThresholdIndex < Self.previewScanThresholds.count,
+                completedScanCount >= Self.previewScanThresholds[nextPreviewThresholdIndex]
+            {
+                nextPreviewThresholdIndex += 1
+            }
+            return true
+        }
+
+        private func makePreview(source: CGImageSource) throws -> DecodedImage? {
+            guard CGImageSourceGetStatusAtIndex(source, 0) != .statusInvalidData,
+                let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil)
+                    as? [CFString: Any],
+                let rawWidth = properties[kCGImagePropertyPixelWidth] as? Int,
+                let rawHeight = properties[kCGImagePropertyPixelHeight] as? Int
+            else { return nil }
+
+            let orientation = decoder.orientationValue(properties[kCGImagePropertyOrientation])
+            let swapsDimensions = (5...8).contains(orientation)
+            let width = swapsDimensions ? rawHeight : rawWidth
+            let height = swapsDimensions ? rawWidth : rawHeight
+            let probe = try ImageProbe(
+                pixelWidth: width,
+                pixelHeight: height,
+                frameCount: 1,
+                orientation: orientation,
+                format: .jpeg,
+                sourceColorProfile: .unknown
+            )
+            try probe.validate(under: limits)
+            let geometry = decoder.decodeGeometry(
+                probe: probe,
+                request: request,
+                limits: limits
+            )
+            guard let raster = try? decoder.createRaster(source: source, geometry: geometry) else {
+                return nil
+            }
+            return try decoder.finalizeDecodedImage(
+                raster,
+                probe: probe,
+                sourceColorSpace: nil,
+                request: request,
+                limits: limits
+            )
+        }
+
     }
 }

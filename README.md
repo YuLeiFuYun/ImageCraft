@@ -22,12 +22,13 @@ ImageCraft 是独立于网络加载、缓存、UI 与持久化系统的 Apple �
 当前实现已支持：
 
 - 有界 PNG/JPEG/GIF 探测与静态主帧解码；
+- JPEG 渐进扫描的有界增量会话、严格递增的非最终像素代次与取消封锁；
 - 目标尺寸缩放、方向、ICC/颜色策略、metadata 预算和 prepared source 复用；
 - 静态 PNG 无损编码与 JPEG 有损编码；
 - 显式质量、色彩策略、方向、alpha preserve/reject/flatten 和写入期输出字节硬上限；
 - 解码与编码各自独立的 capability descriptor、稳定失败分类和版本 fingerprint。
 
-它明确不声明渐进代次、动画时间轴、HDR 输出、planar/pixel-buffer 输出、可中断取消、任意 EXIF/XMP 透传或跨 OS 字节确定性。
+它明确不声明 baseline JPEG、PNG 或 GIF 的渐进代次，也不声明动画时间轴、HDR 输出、planar/pixel-buffer 输出、ImageIO 操作中途可中断取消、任意 EXIF/XMP 透传或跨 OS 字节确定性。渐进会话只产生预览；完整正文仍须经过常规 probe/decode 路径生成最终像素。
 
 仓库不依赖 Fovea、HTTP、URLSession、缓存、安全 namespace、UI 或 AxiomRaster。Fovea 中的宿主集成与 DecodeKey/RenderKey 身份测试仍应留在 Fovea。
 
@@ -68,6 +69,25 @@ let result = try encoder.encode(
 ```
 
 JPEG 不会静默丢弃 alpha。带 alpha 的源必须显式拒绝或指定 flatten 背景。
+
+## 渐进 JPEG 示例
+
+```swift
+let decoder = ImageIOImageDecoder()
+let session = try decoder.makeProgressiveSession(
+    format: .jpeg,
+    request: ImageDecodeRequest(target: try TargetPixels(width: 320, height: 240)),
+    limits: .coreV1
+)
+for chunk in networkChunks {
+    if let preview = try session.append(chunk) {
+        display(preview.image, generation: preview.generation)
+    }
+}
+try session.finish()
+```
+
+`finish()` 只封闭并验证增量容器生命周期；最终可缓存像素仍应使用完整、已验证正文调用常规解码接口。
 
 ## 验证
 
