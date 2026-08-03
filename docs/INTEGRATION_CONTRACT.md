@@ -1,8 +1,8 @@
-# 平台与 SwiftPM 兼容性
+# 当前平台与 SwiftPM 集成契约
 
-## 支持契约
+## 当前支持契约
 
-机器可读契约位于 `Compatibility/PlatformSupport.json`。当前声明：
+机器可读契约位于 `Integration/PlatformSupport.json`。当前声明：
 
 - Swift tools 6.4；
 - macOS 12.0 及以上；
@@ -11,7 +11,7 @@
 - `ImageCraftEvidence` 是证据可执行产品，不属于宿主运行时依赖；
 - 根包没有第三方依赖。
 
-`scripts/verify-compatibility-contract.sh` 使用 `swift package describe --type json` 同时读取根包和外部消费者包，阻止 Package.swift、文档和集成 fixture 静默漂移。
+`scripts/verify-integration-contract.sh` 使用 `swift package describe --type json` 同时读取根包和外部消费者包，阻止 Package.swift、文档和集成 fixture 静默漂移。
 
 ## 平台编译矩阵
 

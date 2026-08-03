@@ -83,11 +83,11 @@ ImageCraft 的 container scanner 不是第二套 JPEG/PNG/GIF codec，也不验�
 
 ## 版本规则
 
-- 公共 Swift 符号变化：更新 `API/PublicAPI.json`，并在提交中说明 source compatibility 影响；
+- 公共 Swift 符号变化：直接更新当前实现与 `API/PublicAPI.json`；删除旧符号，不保留 deprecated shim；
 - 像素、颜色解释、错误分类或资源语义变化：递增对应 codec/encoder `implementationVersion`；
 - descriptor/request 的持久化契约变化：递增 `contractVersion`；
 - 仅证据、测试、package-only 诊断或内部实现变化：不要求公共 API 版本变化；
-- 1.0 之后，删除或不兼容修改公共 API 需要新的 major version。
+- 当前尚无外部用户，仓库只维护最新 API；稳定兼容政策在首次真实采用前另行决策。
 
 验证：
 

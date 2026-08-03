@@ -43,7 +43,7 @@
   "releaseEntrypoint": "scripts/verify-release-readiness.sh",
   "releaseGates": [
     "scripts/verify.sh",
-    "scripts/verify-compatibility-contract.sh",
+    "scripts/verify-integration-contract.sh",
     "scripts/verify-consumer-package.sh",
     "scripts/verify-platform-matrix.sh",
     "scripts/verify-independent-oracles.sh",

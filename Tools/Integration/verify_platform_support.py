@@ -104,7 +104,7 @@ def main() -> None:
     args = parser.parse_args()
 
     contract = load(args.contract)
-    require(contract["schemaVersion"] == 1, "unsupported compatibility schema")
+    require(contract["schemaVersion"] == 1, "unsupported integration-contract schema")
     verify_root(contract, load(args.root_description))
     verify_consumer(contract, load(args.consumer_description))
     verify_gate_files(contract, args.repository_root)

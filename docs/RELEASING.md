@@ -50,6 +50,6 @@ IMAGECRAFT_VERIFY_PERFORMANCE=1 scripts/verify-release-readiness.sh
 3. 审核公共 API、codec identity 与 contract/version 变更；
 4. 创建带说明的 annotated tag；
 5. 从新 clone 而非现有工作树复跑 consumer smoke；
-6. 让 Fovea 固定到明确 tag 或 commit，再运行双仓 compatibility gate。
+6. 让 Fovea 固定到明确 tag 或 commit，再运行双仓 current-integration gate。
 
 远端固定为 `YuLeiFuYun/ImageCraft`；tag 名和发布时点仍由独立发布决策确定。

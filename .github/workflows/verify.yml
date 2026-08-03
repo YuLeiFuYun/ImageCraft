@@ -34,5 +34,5 @@ jobs:
         run: |
           scripts/verify-public-api.sh
           scripts/verify-consumer-package.sh
-      - name: Compatibility contract
-        run: scripts/verify-compatibility-contract.sh
+      - name: Current integration contract
+        run: scripts/verify-integration-contract.sh

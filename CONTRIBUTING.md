@@ -2,7 +2,7 @@
 
 This project is under active development. Changes should preserve the documented
 contract boundaries, add or update executable tests, and state any unverified
-assumptions or compatibility effects.
+assumptions or current contract effects.
 
 Before opening a pull request, run the repository's documented verification entrypoint:
 

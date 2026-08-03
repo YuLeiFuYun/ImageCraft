@@ -12,8 +12,8 @@ trap 'rm -rf "$TMPDIR_ROOT"' EXIT HUP INT TERM
 xcrun swift package describe --type json > "$TMPDIR_ROOT/root.json"
 xcrun swift package --package-path Fixtures/ConsumerSmoke describe --type json \
     > "$TMPDIR_ROOT/consumer.json"
-Tools/Compatibility/verify_platform_support.py \
-    --contract Compatibility/PlatformSupport.json \
+Tools/Integration/verify_platform_support.py \
+    --contract Integration/PlatformSupport.json \
     --root-description "$TMPDIR_ROOT/root.json" \
     --consumer-description "$TMPDIR_ROOT/consumer.json" \
     --repository-root "$ROOT"

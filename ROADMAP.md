@@ -25,5 +25,5 @@ ImageCraft is an actively developed pre-1.0 package. The repository contains onl
 
 - `main` may contain breaking changes before 1.0.
 - Every published development tag is immutable.
-- Stable claims require clean-clone CI, public API review, compatibility gates, and evidence bound to the exact source identity.
+- Stable claims require clean-clone CI, public API review, current integration gates, and evidence bound to the exact source identity.
 - Capability gaps and non-comparable results remain explicit; no global “best codec” claim is permitted.
