@@ -80,6 +80,8 @@ scripts/verify-independent-oracles.sh
 scripts/verify-retained-corpus.sh
 scripts/verify-retained-corpus-reproducibility.sh
 scripts/verify-public-api.sh
+scripts/verify-source-identity.sh
+scripts/verify-clean-copy.sh
 scripts/verify-integration-contract.sh
 scripts/verify-consumer-package.sh
 scripts/verify-platform-matrix.sh
@@ -89,7 +91,7 @@ scripts/verify-performance-baseline.sh \
   Evidence/Performance/macos-27.0-26A5388g-arm64-macbookpro18,3.json
 ```
 
-`verify.sh` 执行 macOS 测试、Release 构建和 ImageIO 行为证据确定性检查；iOS Simulator 编译门单独运行，避免普通本地迭代每次重建双架构产物。`ImageCraftEvidence` 会记录实际运行时、固定输入输出摘要、JPEG SOF/采样结构和量化表摘要。独立 oracle 门使用 libjpeg-turbo 与 libpng，不进入生产依赖。受版本管理的 retained corpus 固化 PNG/JPEG/GIF 的代表性与边界位流、SHA-256 和稳定失败语义；公共符号图 baseline 阻止内部研究接口泄漏。性能门使用独立进程、Release 构建、3×7 样本和采样 RSS，只作为绑定硬件与系统版本的显式门禁，不进入默认动态验证。当前集成门另外验证根包声明、独立消费者、macOS 12、iOS 15 Simulator 和 iOS 15 device Release 编译。详见 `docs/EVIDENCE.md`、`docs/INDEPENDENT_ORACLES.md`、`docs/RETAINED_CORPUS.md`、`docs/PERFORMANCE.md`、`docs/INTEGRATION_CONTRACT.md`、`docs/RELEASING.md` 与 `docs/PUBLIC_API.md`。
+`verify.sh` 执行 macOS 测试、Release 构建、ImageIO 行为证据确定性检查与 source identity v2；身份摘要对 schema/identity ID 做域分离，绑定每个文件的可执行位，并区分仅顶层构建排除、任意层级临时文件排除和两个精确声明的 ConsumerSmoke 构建缓存子树。`verify-clean-copy.sh` 从完整身份清单物化无 Git、无构建缓存副本并重放 `verify.sh`。iOS Simulator 编译门单独运行，避免普通本地迭代每次重建双架构产物。`ImageCraftEvidence` 会记录实际运行时、固定输入输出摘要、JPEG SOF/采样结构和量化表摘要。独立 oracle 门使用 libjpeg-turbo 与 libpng，不进入生产依赖。受版本管理的 retained corpus 固化 PNG/JPEG/GIF 的代表性与边界位流、SHA-256 和稳定失败语义；公共符号图 baseline 阻止内部研究接口泄漏。性能门使用独立进程、Release 构建、3×7 样本和采样 RSS，只作为绑定硬件与系统版本的显式门禁，不进入默认动态验证。当前集成门另外验证根包声明、独立消费者、macOS 12、iOS 15 Simulator 和 iOS 15 device Release 编译。详见 `docs/EVIDENCE.md`、`docs/INDEPENDENT_ORACLES.md`、`docs/RETAINED_CORPUS.md`、`docs/PERFORMANCE.md`、`docs/INTEGRATION_CONTRACT.md`、`docs/RELEASING.md` 与 `docs/PUBLIC_API.md`。
 
 ## 仓库状态
 

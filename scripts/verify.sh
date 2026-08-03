@@ -22,6 +22,7 @@ fi
 xcrun swift package describe >/dev/null
 scripts/verify-integration-contract.sh
 scripts/verify-public-api.sh
+scripts/verify-source-identity.sh
 python3 Tools/Corpus/verify_manifest.py Tests/ImageCraftImageIOTests/Resources/Corpus/v1/manifest.json
 python3 Tools/Performance/validate_performance_baseline.py Evidence/Performance/*.json
 xcrun swift test

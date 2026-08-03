@@ -4,6 +4,7 @@ ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$ROOT"
 
 scripts/verify.sh
+scripts/verify-clean-copy.sh
 scripts/verify-consumer-package.sh
 scripts/verify-platform-matrix.sh
 scripts/verify-independent-oracles.sh

@@ -14,6 +14,13 @@ ImageIO 和 Core Graphics 是系统框架。ImageCraft 的源码与 encoder fing
 
 `ImageIORuntimeFingerprint.capture()` 提供上述运行时身份。它记录实际运行环境，不把编译 SDK 版本误当作系统框架版本。
 
+
+## 源码身份证据
+
+`Tools/Identity/capture_source_identity.py` 使用 source identity v2：显式列出必须完整覆盖的顶层根、仅限仓库顶层的构建/版本控制排除项、任意层级临时文件排除项，以及 `Fixtures/ConsumerSmoke/.build` 和 `.swiftpm` 两个精确构建缓存子树。它对当前发布候选中的 Package、源码、测试、工具、文档、证据与 CI 治理文件生成逐文件 SHA-256 清单，并把 schema、identity ID、覆盖契约、逐文件可执行位与文件清单共同纳入总摘要。捕获会拒绝符号链接、未知顶层内容、未声明的嵌套构建目录和遗漏的覆盖根。`scripts/verify-source-identity.sh` 连续捕获两次，要求报告逐字节一致，再把结果写入 `.build/source-identity.json`。
+
+`scripts/verify-clean-copy.sh` 由独立 materializer 重新枚举来源树、复算大小、摘要和可执行位、拒绝 missing/extra 条目，然后直接从已校验字节物化无 Git、无构建缓存副本并重放完整 `verify.sh`。该身份用于把 Fovea 的 Git-free 候选组合测试绑定到实际 ImageCraft 内容，而不是绑定工作区路径或可变分支名。它不等于公开 Git revision、不可变 tag、受保护 CI、代码签名或供应链证明。
+
 ## 行为探针
 
 `ImageCraftEvidence` 使用确定性的 `imagecraft-pattern-v1` 生成一张 96×64 sRGB 无 alpha 图像，并输出：
