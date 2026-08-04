@@ -104,6 +104,36 @@ final class ProgressiveImageIOTests: XCTestCase {
     XCTAssertEqual(try rgbaBytes(prepared.cgImage), try rgbaBytes(direct.cgImage))
   }
 
+  func testEarlyPreparingSessionReturnsNilWithoutClosingUntilEOI() throws {
+    let decoder = ImageIOImageDecoder()
+    let data = try fixture(named: "jpeg-progressive-420.jpg")
+    let request = ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32))
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: request,
+      limits: .coreV1
+    )
+    let early = try XCTUnwrap(session as? any ProgressiveImageEarlyPreparingSession)
+    let split = data.count / 2
+
+    _ = try session.append(data.subdata(in: 0..<split))
+    XCTAssertNil(try early.finishWithPreparationIfComplete())
+    _ = try session.append(data.subdata(in: split..<data.count))
+    let candidate = try XCTUnwrap(early.finishWithPreparationIfComplete())
+    let prepared = try decoder.decode(
+      preparation: candidate.preparation,
+      request: request,
+      limits: .coreV1
+    )
+    let direct = try decoder.decode(data: data, request: request, limits: .coreV1)
+
+    XCTAssertEqual(candidate.sourceByteCount, data.count)
+    XCTAssertEqual(try rgbaBytes(prepared.cgImage), try rgbaBytes(direct.cgImage))
+    XCTAssertThrowsError(try session.append(Data([0]))) { error in
+      XCTAssertEqual(error as? ImageCraftError, .progressiveSessionFinished)
+    }
+  }
+
   func testFinalizingSessionMatchesStandardCompleteDecode() throws {
     let decoder = ImageIOImageDecoder()
     let data = try fixture(named: "jpeg-progressive-420.jpg")

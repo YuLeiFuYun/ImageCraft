@@ -393,6 +393,16 @@ public protocol ProgressiveImagePreparingSession: ImageProgressiveDecodeSession 
     func finishWithPreparation() throws -> ImageProgressiveDecodePreparationFinalization
 }
 
+/// 可在完整容器前缀到达时提前创建一次性 prepared-decode 令牌的可选能力。
+///
+/// `finishWithPreparationIfComplete()` 在尚未观察到完整容器时返回 `nil`，且不得封闭或
+/// 改变会话；返回非空值时会话被一次性封闭。宿主仍必须在采用结果前独立验证最终
+/// transport 正文的摘要和字节数，因为后续网络字节可能使该前缀不再等于完整正文。
+public protocol ProgressiveImageEarlyPreparingSession: ProgressiveImagePreparingSession {
+    func finishWithPreparationIfComplete() throws
+        -> ImageProgressiveDecodePreparationFinalization?
+}
+
 /// 可在完成时复用增量 source 产生最终像素的可选会话能力。
 ///
 /// 基础 `ImageProgressiveDecodeSession` 保持兼容；不支持该能力的 codec 继续调用

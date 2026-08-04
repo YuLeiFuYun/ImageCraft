@@ -1380,6 +1380,26 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ProgressiveImageEarlyPreparingSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageEarlyPreparingSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageEarlyPreparingSession",
+          "target": "s:14ImageCraftCore011ProgressiveA16PreparingSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageEarlyPreparingSession",
+          "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ProgressiveImageFinalizingSession",
           "target": "Swift.Sendable"
         },
@@ -1474,7 +1494,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 340,
+      "symbolCount": 342,
       "symbols": [
         {
           "declaration": "struct DecodeLimits",
@@ -3407,6 +3427,18 @@
           "kind": "swift.method",
           "path": "ProgressiveImageDecoding.makeProgressiveSession(format:request:limits:)",
           "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA8DecodingP04makeD7Session6format7request6limitsAA0ad6DecodeG0_pAA07EncodedA6FormatO_AA0aK7RequestVAA0K6LimitsVtKF"
+        },
+        {
+          "declaration": "protocol ProgressiveImageEarlyPreparingSession : ProgressiveImagePreparingSession",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImageEarlyPreparingSession",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA21EarlyPreparingSessionP"
+        },
+        {
+          "declaration": "func finishWithPreparationIfComplete() throws -> ImageProgressiveDecodePreparationFinalization?",
+          "kind": "swift.method",
+          "path": "ProgressiveImageEarlyPreparingSession.finishWithPreparationIfComplete()",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA21EarlyPreparingSessionP31finishWithPreparationIfCompleteAA0ad6DecodeJ12FinalizationVSgyKF"
         },
         {
           "declaration": "protocol ProgressiveImageFinalizingSession : ImageProgressiveDecodeSession",

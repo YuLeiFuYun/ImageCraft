@@ -810,7 +810,7 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
     }
 
     private final class ImageIOProgressiveSession: ProgressiveImageFinalizingSession,
-        ProgressiveImagePreparingSession, @unchecked Sendable
+        ProgressiveImageEarlyPreparingSession, @unchecked Sendable
     {
         private enum FrameKind {
             case unknown
@@ -1033,6 +1033,24 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
         func finishWithPreparation() throws -> ImageProgressiveDecodePreparationFinalization {
             lock.lock()
             defer { lock.unlock() }
+            return try finishWithPreparationLocked()
+        }
+
+        func finishWithPreparationIfComplete() throws
+            -> ImageProgressiveDecodePreparationFinalization?
+        {
+            lock.lock()
+            defer { lock.unlock() }
+            guard !isCancelled else { throw ImageCraftError.progressiveSessionCancelled }
+            guard !isFinished else { throw ImageCraftError.progressiveSessionFinished }
+            try jpegState.consume(data)
+            guard jpegState.foundEnd else { return nil }
+            return try finishWithPreparationLocked()
+        }
+
+        private func finishWithPreparationLocked() throws
+            -> ImageProgressiveDecodePreparationFinalization
+        {
             let source = try completeSourceLocked(retainingBytes: true)
             defer {
                 self.source = nil
