@@ -50,6 +50,7 @@ enum EvidenceCommand {
   case decode(input: URL, output: URL)
   case benchmark(caseID: String, iterations: Int)
   case progressiveTimeline(caseID: String, iterations: Int)
+  case progressiveQuality(caseID: String)
 }
 
 enum EvidenceError: Error {
@@ -91,6 +92,9 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
   {
     return .progressiveTimeline(caseID: parameters[1], iterations: iterations)
   }
+  if parameters.count == 2, parameters[0] == "--progressive-quality-case" {
+    return .progressiveQuality(caseID: parameters[1])
+  }
   throw EvidenceError.invalidArguments
 }
 
@@ -104,6 +108,8 @@ func run(command: EvidenceCommand) throws {
     try writePerformanceBenchmark(caseID: caseID, iterations: iterations)
   case .progressiveTimeline(let caseID, let iterations):
     try writeProgressiveTimelineBenchmark(caseID: caseID, iterations: iterations)
+  case .progressiveQuality(let caseID):
+    try writeProgressiveQualityEvidence(caseID: caseID)
   }
 }
 
