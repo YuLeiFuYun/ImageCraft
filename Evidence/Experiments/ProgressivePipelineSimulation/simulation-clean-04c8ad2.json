@@ -1,0 +1,2444 @@
+{
+  "cases": [
+    {
+      "cancellationMode": "none",
+      "caseID": "decode-pressure-80mbps-32k--immediate--complete",
+      "network": {
+        "bitsPerSecond": 80000000,
+        "cancellationDeadlineNanoseconds": 25000000,
+        "firstChunkDelayNanoseconds": 10000000,
+        "id": "decode-pressure-80mbps-32k"
+      },
+      "presentationPolicy": "immediate",
+      "samples": [
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 68731350,
+          "finalAfterNetworkCompleteNs": 24988250,
+          "finalGeneratedNs": 68699475,
+          "finalPresentedNs": 68731350,
+          "firstPreviewAcceptedNs": 14643416,
+          "firstPreviewGeneratedNs": 14605416,
+          "firstPreviewPresentedNs": 14643416,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 163840,
+          "maximumDecodeQueueDelayNs": 12139874,
+          "meanDecodeQueueDelayNs": 3894186,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 54087934,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 73253665,
+          "finalAfterNetworkCompleteNs": 29510565,
+          "finalGeneratedNs": 73124248,
+          "finalPresentedNs": 73253665,
+          "firstPreviewAcceptedNs": 15528625,
+          "firstPreviewGeneratedNs": 15478041,
+          "firstPreviewPresentedNs": 15528625,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 19935915,
+          "meanDecodeQueueDelayNs": 9322392,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 57725040,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 76072707,
+          "finalAfterNetworkCompleteNs": 32329607,
+          "finalGeneratedNs": 76019291,
+          "finalPresentedNs": 76072707,
+          "firstPreviewAcceptedNs": 16895000,
+          "firstPreviewGeneratedNs": 16755750,
+          "firstPreviewPresentedNs": 16895000,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 21552292,
+          "meanDecodeQueueDelayNs": 10081613,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 59177707,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 80810666,
+          "finalAfterNetworkCompleteNs": 37067566,
+          "finalGeneratedNs": 80715000,
+          "finalPresentedNs": 80810666,
+          "firstPreviewAcceptedNs": 17383292,
+          "firstPreviewGeneratedNs": 17272875,
+          "firstPreviewPresentedNs": 17383292,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 23256625,
+          "meanDecodeQueueDelayNs": 11786943,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 63427374,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 79767126,
+          "finalAfterNetworkCompleteNs": 36024026,
+          "finalGeneratedNs": 79663251,
+          "finalPresentedNs": 79767126,
+          "firstPreviewAcceptedNs": 15176124,
+          "firstPreviewGeneratedNs": 15140041,
+          "firstPreviewPresentedNs": 15176124,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 18361874,
+          "meanDecodeQueueDelayNs": 7935116,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 64591002,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 74287709,
+          "finalAfterNetworkCompleteNs": 30544609,
+          "finalGeneratedNs": 74209084,
+          "finalPresentedNs": 74287709,
+          "firstPreviewAcceptedNs": 14473209,
+          "firstPreviewGeneratedNs": 14448625,
+          "firstPreviewPresentedNs": 14473209,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 19033124,
+          "meanDecodeQueueDelayNs": 7847178,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 59814500,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 78244708,
+          "finalAfterNetworkCompleteNs": 34501608,
+          "finalGeneratedNs": 78202875,
+          "finalPresentedNs": 78244708,
+          "firstPreviewAcceptedNs": 16620584,
+          "firstPreviewGeneratedNs": 16578792,
+          "firstPreviewPresentedNs": 16620584,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 23811626,
+          "meanDecodeQueueDelayNs": 11848728,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 61624124,
+          "supersededPreviewCount": 0
+        }
+      ],
+      "summary": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 80810666,
+          "meanNanoseconds": 75881133,
+          "medianNanoseconds": 76072707,
+          "minimumNanoseconds": 68731350,
+          "p90Nanoseconds": 80810666
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 37067566,
+          "meanNanoseconds": 32138033,
+          "medianNanoseconds": 32329607,
+          "minimumNanoseconds": 24988250,
+          "p90Nanoseconds": 37067566
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 80715000,
+          "meanNanoseconds": 75804746,
+          "medianNanoseconds": 76019291,
+          "minimumNanoseconds": 68699475,
+          "p90Nanoseconds": 80715000
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 80810666,
+          "meanNanoseconds": 75881133,
+          "medianNanoseconds": 76072707,
+          "minimumNanoseconds": 68731350,
+          "p90Nanoseconds": 80810666
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 17383292,
+          "meanNanoseconds": 15817178,
+          "medianNanoseconds": 15528625,
+          "minimumNanoseconds": 14473209,
+          "p90Nanoseconds": 17383292
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 17272875,
+          "meanNanoseconds": 15754220,
+          "medianNanoseconds": 15478041,
+          "minimumNanoseconds": 14448625,
+          "p90Nanoseconds": 17272875
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 17383292,
+          "meanNanoseconds": 15817178,
+          "medianNanoseconds": 15528625,
+          "minimumNanoseconds": 14473209,
+          "p90Nanoseconds": 17383292
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 239127,
+          "meanMicrounits": 228371714285,
+          "median": 239127,
+          "minimum": 163840,
+          "p90": 239127
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 23811626,
+          "meanNanoseconds": 19727332,
+          "medianNanoseconds": 19935915,
+          "minimumNanoseconds": 12139874,
+          "p90Nanoseconds": 23811626
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 11848728,
+          "meanNanoseconds": 8959450,
+          "medianNanoseconds": 9322392,
+          "minimumNanoseconds": 3894186,
+          "p90Nanoseconds": 11848728
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 43743100,
+          "meanNanoseconds": 43743100,
+          "medianNanoseconds": 43743100,
+          "minimumNanoseconds": 43743100,
+          "p90Nanoseconds": 43743100
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 64591002,
+          "meanNanoseconds": 60063954,
+          "medianNanoseconds": 59814500,
+          "minimumNanoseconds": 54087934,
+          "p90Nanoseconds": 64591002
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      }
+    },
+    {
+      "cancellationMode": "fence-presentation-at-request; session-cancel-completes-after-in-flight-append",
+      "caseID": "decode-pressure-80mbps-32k--immediate--cancel",
+      "network": {
+        "bitsPerSecond": 80000000,
+        "cancellationDeadlineNanoseconds": 25000000,
+        "firstChunkDelayNanoseconds": 10000000,
+        "id": "decode-pressure-80mbps-32k"
+      },
+      "presentationPolicy": "immediate",
+      "samples": [
+        {
+          "appendWorkAfterCancellationRequestNs": 1873207,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 1873207,
+          "cancellationCompletedNs": 26873207,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 1
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 8006374,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 8006374,
+          "cancellationCompletedNs": 33006374,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 7590833,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 7590833,
+          "cancellationCompletedNs": 32590833,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 1
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 1426667,
+          "bufferedBytesDiscarded": 98304,
+          "cancellationBlockingNs": 1426667,
+          "cancellationCompletedNs": 26426667,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 1
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 7387332,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 7387332,
+          "cancellationCompletedNs": 32387332,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 1
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 5141249,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 5141249,
+          "cancellationCompletedNs": 30141249,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 1
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 8521751,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 8521751,
+          "cancellationCompletedNs": 33521751,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 1
+        }
+      ],
+      "summary": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 98304,
+          "meanMicrounits": 70217142857,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 33521751,
+          "meanNanoseconds": 30706773,
+          "medianNanoseconds": 32387332,
+          "minimumNanoseconds": 26426667,
+          "p90Nanoseconds": 33521751
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 25000000,
+          "meanNanoseconds": 25000000,
+          "medianNanoseconds": 25000000,
+          "minimumNanoseconds": 25000000,
+          "p90Nanoseconds": 25000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 98304,
+          "meanMicrounits": 93622857142,
+          "median": 98304,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "generatedPreviewCount": {
+          "maximum": 3,
+          "meanMicrounits": 2857142,
+          "median": 3,
+          "minimum": 2,
+          "p90": 3
+        },
+        "networkReceivedByteCount": {
+          "maximum": 163840,
+          "meanMicrounits": 163840000000,
+          "median": 163840,
+          "minimum": 163840,
+          "p90": 163840
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "presentedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 1714285,
+          "median": 2,
+          "minimum": 1,
+          "p90": 2
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 1,
+          "meanMicrounits": 1000000,
+          "median": 1,
+          "minimum": 1,
+          "p90": 1
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 1142857,
+          "median": 1,
+          "minimum": 1,
+          "p90": 2
+        }
+      }
+    },
+    {
+      "cancellationMode": "none",
+      "caseID": "decode-pressure-80mbps-32k--frame-coalesced-60hz--complete",
+      "network": {
+        "bitsPerSecond": 80000000,
+        "cancellationDeadlineNanoseconds": 25000000,
+        "firstChunkDelayNanoseconds": 10000000,
+        "id": "decode-pressure-80mbps-32k"
+      },
+      "presentationPolicy": "frame-coalesced-60hz",
+      "samples": [
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 68731350,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 68699475,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 14643416,
+          "firstPreviewGeneratedNs": 14605416,
+          "firstPreviewPresentedNs": 16666667,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 163840,
+          "maximumDecodeQueueDelayNs": 12139874,
+          "meanDecodeQueueDelayNs": 3894186,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 3,
+          "presentedPreviewGenerations": [
+            1,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 66666668,
+          "supersededPreviewCount": 1
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 73253665,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 73124248,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 15528625,
+          "firstPreviewGeneratedNs": 15478041,
+          "firstPreviewPresentedNs": 16666667,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 19935915,
+          "meanDecodeQueueDelayNs": 9322392,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 3,
+          "presentedPreviewGenerations": [
+            1,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 66666668,
+          "supersededPreviewCount": 1
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 76072707,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 76019291,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 16895000,
+          "firstPreviewGeneratedNs": 16755750,
+          "firstPreviewPresentedNs": 33333334,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 21552292,
+          "meanDecodeQueueDelayNs": 10081613,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 50000001,
+          "supersededPreviewCount": 2
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 80810666,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 80715000,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 17383292,
+          "firstPreviewGeneratedNs": 17272875,
+          "firstPreviewPresentedNs": 33333334,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 23256625,
+          "meanDecodeQueueDelayNs": 11786943,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            2,
+            4
+          ],
+          "progressiveVisibleWindowNs": 50000001,
+          "supersededPreviewCount": 2
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 79767126,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 79663251,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 15176124,
+          "firstPreviewGeneratedNs": 15140041,
+          "firstPreviewPresentedNs": 16666667,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 18361874,
+          "meanDecodeQueueDelayNs": 7935116,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 3,
+          "presentedPreviewGenerations": [
+            1,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 66666668,
+          "supersededPreviewCount": 1
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 74287709,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 74209084,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 14473209,
+          "firstPreviewGeneratedNs": 14448625,
+          "firstPreviewPresentedNs": 16666667,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 19033124,
+          "meanDecodeQueueDelayNs": 7847178,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 3,
+          "presentedPreviewGenerations": [
+            1,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 66666668,
+          "supersededPreviewCount": 1
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 78244708,
+          "finalAfterNetworkCompleteNs": 39590235,
+          "finalGeneratedNs": 78202875,
+          "finalPresentedNs": 83333335,
+          "firstPreviewAcceptedNs": 16620584,
+          "firstPreviewGeneratedNs": 16578792,
+          "firstPreviewPresentedNs": 16666667,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 239127,
+          "maximumDecodeQueueDelayNs": 23811626,
+          "meanDecodeQueueDelayNs": 11848728,
+          "networkCompleteNs": 43743100,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 66666668,
+          "supersededPreviewCount": 0
+        }
+      ],
+      "summary": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 80810666,
+          "meanNanoseconds": 75881133,
+          "medianNanoseconds": 76072707,
+          "minimumNanoseconds": 68731350,
+          "p90Nanoseconds": 80810666
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 39590235,
+          "meanNanoseconds": 39590235,
+          "medianNanoseconds": 39590235,
+          "minimumNanoseconds": 39590235,
+          "p90Nanoseconds": 39590235
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 80715000,
+          "meanNanoseconds": 75804746,
+          "medianNanoseconds": 76019291,
+          "minimumNanoseconds": 68699475,
+          "p90Nanoseconds": 80715000
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 83333335,
+          "meanNanoseconds": 83333335,
+          "medianNanoseconds": 83333335,
+          "minimumNanoseconds": 83333335,
+          "p90Nanoseconds": 83333335
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 17383292,
+          "meanNanoseconds": 15817178,
+          "medianNanoseconds": 15528625,
+          "minimumNanoseconds": 14473209,
+          "p90Nanoseconds": 17383292
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 17272875,
+          "meanNanoseconds": 15754220,
+          "medianNanoseconds": 15478041,
+          "minimumNanoseconds": 14448625,
+          "p90Nanoseconds": 17272875
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 33333334,
+          "meanNanoseconds": 21428571,
+          "medianNanoseconds": 16666667,
+          "minimumNanoseconds": 16666667,
+          "p90Nanoseconds": 33333334
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 239127,
+          "meanMicrounits": 228371714285,
+          "median": 239127,
+          "minimum": 163840,
+          "p90": 239127
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 23811626,
+          "meanNanoseconds": 19727332,
+          "medianNanoseconds": 19935915,
+          "minimumNanoseconds": 12139874,
+          "p90Nanoseconds": 23811626
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 11848728,
+          "meanNanoseconds": 8959450,
+          "medianNanoseconds": 9322392,
+          "minimumNanoseconds": 3894186,
+          "p90Nanoseconds": 11848728
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 43743100,
+          "meanNanoseconds": 43743100,
+          "medianNanoseconds": 43743100,
+          "minimumNanoseconds": 43743100,
+          "p90Nanoseconds": 43743100
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 2857142,
+          "median": 3,
+          "minimum": 2,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 66666668,
+          "meanNanoseconds": 61904763,
+          "medianNanoseconds": 66666668,
+          "minimumNanoseconds": 50000001,
+          "p90Nanoseconds": 66666668
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 1142857,
+          "median": 1,
+          "minimum": 0,
+          "p90": 2
+        }
+      }
+    },
+    {
+      "cancellationMode": "fence-presentation-at-request; session-cancel-completes-after-in-flight-append",
+      "caseID": "decode-pressure-80mbps-32k--frame-coalesced-60hz--cancel",
+      "network": {
+        "bitsPerSecond": 80000000,
+        "cancellationDeadlineNanoseconds": 25000000,
+        "firstChunkDelayNanoseconds": 10000000,
+        "id": "decode-pressure-80mbps-32k"
+      },
+      "presentationPolicy": "frame-coalesced-60hz",
+      "samples": [
+        {
+          "appendWorkAfterCancellationRequestNs": 1873207,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 1873207,
+          "cancellationCompletedNs": 26873207,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 1,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 8006374,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 8006374,
+          "cancellationCompletedNs": 33006374,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 7590833,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 7590833,
+          "cancellationCompletedNs": 32590833,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 2,
+          "presentedPreviewCount": 0,
+          "presentedPreviewGenerations": [],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 3
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 1426667,
+          "bufferedBytesDiscarded": 98304,
+          "cancellationBlockingNs": 1426667,
+          "cancellationCompletedNs": 26426667,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 1,
+          "presentedPreviewCount": 0,
+          "presentedPreviewGenerations": [],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 7387332,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 7387332,
+          "cancellationCompletedNs": 32387332,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 1,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 5141249,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 5141249,
+          "cancellationCompletedNs": 30141249,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 1,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 8521751,
+          "bufferedBytesDiscarded": 65536,
+          "cancellationBlockingNs": 8521751,
+          "cancellationCompletedNs": 33521751,
+          "cancellationRequestedNs": 25000000,
+          "completed": false,
+          "decoderReceivedByteCount": 98304,
+          "generatedPreviewCount": 3,
+          "networkReceivedByteCount": 163840,
+          "pendingPreviewSuppressedAtCancellationCount": 1,
+          "presentedPreviewCount": 1,
+          "presentedPreviewGenerations": [
+            1
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 1,
+          "supersededOrFencedPreviewCount": 2
+        }
+      ],
+      "summary": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 98304,
+          "meanMicrounits": 70217142857,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 33521751,
+          "meanNanoseconds": 30706773,
+          "medianNanoseconds": 32387332,
+          "minimumNanoseconds": 26426667,
+          "p90Nanoseconds": 33521751
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 25000000,
+          "meanNanoseconds": 25000000,
+          "medianNanoseconds": 25000000,
+          "minimumNanoseconds": 25000000,
+          "p90Nanoseconds": 25000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 98304,
+          "meanMicrounits": 93622857142,
+          "median": 98304,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "generatedPreviewCount": {
+          "maximum": 3,
+          "meanMicrounits": 2857142,
+          "median": 3,
+          "minimum": 2,
+          "p90": 3
+        },
+        "networkReceivedByteCount": {
+          "maximum": 163840,
+          "meanMicrounits": 163840000000,
+          "median": 163840,
+          "minimum": 163840,
+          "p90": 163840
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 2,
+          "meanMicrounits": 1000000,
+          "median": 1,
+          "minimum": 0,
+          "p90": 2
+        },
+        "presentedPreviewCount": {
+          "maximum": 1,
+          "meanMicrounits": 714285,
+          "median": 1,
+          "minimum": 0,
+          "p90": 1
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1
+          ],
+          [
+            1
+          ],
+          [],
+          [],
+          [
+            1
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 1,
+          "meanMicrounits": 1000000,
+          "median": 1,
+          "minimum": 1,
+          "p90": 1
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 3,
+          "meanMicrounits": 2142857,
+          "median": 2,
+          "minimum": 2,
+          "p90": 3
+        }
+      }
+    },
+    {
+      "cancellationMode": "none",
+      "caseID": "network-dominant-4mbps-16k--immediate--complete",
+      "network": {
+        "bitsPerSecond": 4000000,
+        "cancellationDeadlineNanoseconds": 180000000,
+        "firstChunkDelayNanoseconds": 50000000,
+        "id": "network-dominant-4mbps-16k"
+      },
+      "presentationPolicy": "immediate",
+      "samples": [
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 786459666,
+          "finalAfterNetworkCompleteNs": 28829666,
+          "finalGeneratedNs": 786383166,
+          "finalPresentedNs": 786459666,
+          "firstPreviewAcceptedNs": 89515333,
+          "firstPreviewGeneratedNs": 89469458,
+          "firstPreviewPresentedNs": 89515333,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 696944333,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 787697957,
+          "finalAfterNetworkCompleteNs": 30067957,
+          "finalGeneratedNs": 787649874,
+          "finalPresentedNs": 787697957,
+          "firstPreviewAcceptedNs": 89213625,
+          "firstPreviewGeneratedNs": 89168458,
+          "firstPreviewPresentedNs": 89213625,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 698484332,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 781142542,
+          "finalAfterNetworkCompleteNs": 23512542,
+          "finalGeneratedNs": 781067917,
+          "finalPresentedNs": 781142542,
+          "firstPreviewAcceptedNs": 89095292,
+          "firstPreviewGeneratedNs": 89060834,
+          "firstPreviewPresentedNs": 89095292,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 692047250,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 780588665,
+          "finalAfterNetworkCompleteNs": 22958665,
+          "finalGeneratedNs": 780556499,
+          "finalPresentedNs": 780588665,
+          "firstPreviewAcceptedNs": 87375750,
+          "firstPreviewGeneratedNs": 87340667,
+          "firstPreviewPresentedNs": 87375750,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 693212915,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 779793834,
+          "finalAfterNetworkCompleteNs": 22163834,
+          "finalGeneratedNs": 779759834,
+          "finalPresentedNs": 779793834,
+          "firstPreviewAcceptedNs": 87134792,
+          "firstPreviewGeneratedNs": 87075542,
+          "firstPreviewPresentedNs": 87134792,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 692659042,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 780545417,
+          "finalAfterNetworkCompleteNs": 22915417,
+          "finalGeneratedNs": 780510917,
+          "finalPresentedNs": 780545417,
+          "firstPreviewAcceptedNs": 87050833,
+          "firstPreviewGeneratedNs": 87016833,
+          "firstPreviewPresentedNs": 87050833,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 693494584,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 780771251,
+          "finalAfterNetworkCompleteNs": 23141251,
+          "finalGeneratedNs": 780734626,
+          "finalPresentedNs": 780771251,
+          "firstPreviewAcceptedNs": 87411251,
+          "firstPreviewGeneratedNs": 87367042,
+          "firstPreviewPresentedNs": 87411251,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 693360000,
+          "supersededPreviewCount": 0
+        }
+      ],
+      "summary": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 787697957,
+          "meanNanoseconds": 782428476,
+          "medianNanoseconds": 780771251,
+          "minimumNanoseconds": 779793834,
+          "p90Nanoseconds": 787697957
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 30067957,
+          "meanNanoseconds": 24798476,
+          "medianNanoseconds": 23141251,
+          "minimumNanoseconds": 22163834,
+          "p90Nanoseconds": 30067957
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 787649874,
+          "meanNanoseconds": 782380404,
+          "medianNanoseconds": 780734626,
+          "minimumNanoseconds": 779759834,
+          "p90Nanoseconds": 787649874
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 787697957,
+          "meanNanoseconds": 782428476,
+          "medianNanoseconds": 780771251,
+          "minimumNanoseconds": 779793834,
+          "p90Nanoseconds": 787697957
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 89515333,
+          "meanNanoseconds": 88113839,
+          "medianNanoseconds": 87411251,
+          "minimumNanoseconds": 87050833,
+          "p90Nanoseconds": 89515333
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 89469458,
+          "meanNanoseconds": 88071262,
+          "medianNanoseconds": 87367042,
+          "minimumNanoseconds": 87016833,
+          "p90Nanoseconds": 89469458
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 89515333,
+          "meanNanoseconds": 88113839,
+          "medianNanoseconds": 87411251,
+          "minimumNanoseconds": 87050833,
+          "p90Nanoseconds": 89515333
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 16384,
+          "meanMicrounits": 16384000000,
+          "median": 16384,
+          "minimum": 16384,
+          "p90": 16384
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 757630000,
+          "meanNanoseconds": 757630000,
+          "medianNanoseconds": 757630000,
+          "minimumNanoseconds": 757630000,
+          "p90Nanoseconds": 757630000
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 698484332,
+          "meanNanoseconds": 694314636,
+          "medianNanoseconds": 693360000,
+          "minimumNanoseconds": 692047250,
+          "p90Nanoseconds": 698484332
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      }
+    },
+    {
+      "cancellationMode": "fence-presentation-at-request; session-cancel-completes-after-in-flight-append",
+      "caseID": "network-dominant-4mbps-16k--immediate--cancel",
+      "network": {
+        "bitsPerSecond": 4000000,
+        "cancellationDeadlineNanoseconds": 180000000,
+        "firstChunkDelayNanoseconds": 50000000,
+        "id": "network-dominant-4mbps-16k"
+      },
+      "presentationPolicy": "immediate",
+      "samples": [
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        }
+      ],
+      "summary": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "generatedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "networkReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "presentedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      }
+    },
+    {
+      "cancellationMode": "none",
+      "caseID": "network-dominant-4mbps-16k--frame-coalesced-60hz--complete",
+      "network": {
+        "bitsPerSecond": 4000000,
+        "cancellationDeadlineNanoseconds": 180000000,
+        "firstChunkDelayNanoseconds": 50000000,
+        "id": "network-dominant-4mbps-16k"
+      },
+      "presentationPolicy": "frame-coalesced-60hz",
+      "samples": [
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 786459666,
+          "finalAfterNetworkCompleteNs": 42370016,
+          "finalGeneratedNs": 786383166,
+          "finalPresentedNs": 800000016,
+          "firstPreviewAcceptedNs": 89515333,
+          "firstPreviewGeneratedNs": 89469458,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 700000014,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 787697957,
+          "finalAfterNetworkCompleteNs": 42370016,
+          "finalGeneratedNs": 787649874,
+          "finalPresentedNs": 800000016,
+          "firstPreviewAcceptedNs": 89213625,
+          "firstPreviewGeneratedNs": 89168458,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 700000014,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 781142542,
+          "finalAfterNetworkCompleteNs": 25703349,
+          "finalGeneratedNs": 781067917,
+          "finalPresentedNs": 783333349,
+          "firstPreviewAcceptedNs": 89095292,
+          "firstPreviewGeneratedNs": 89060834,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 683333347,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 780588665,
+          "finalAfterNetworkCompleteNs": 25703349,
+          "finalGeneratedNs": 780556499,
+          "finalPresentedNs": 783333349,
+          "firstPreviewAcceptedNs": 87375750,
+          "firstPreviewGeneratedNs": 87340667,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 683333347,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 779793834,
+          "finalAfterNetworkCompleteNs": 25703349,
+          "finalGeneratedNs": 779759834,
+          "finalPresentedNs": 783333349,
+          "firstPreviewAcceptedNs": 87134792,
+          "firstPreviewGeneratedNs": 87075542,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 683333347,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 780545417,
+          "finalAfterNetworkCompleteNs": 25703349,
+          "finalGeneratedNs": 780510917,
+          "finalPresentedNs": 783333349,
+          "firstPreviewAcceptedNs": 87050833,
+          "firstPreviewGeneratedNs": 87016833,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 683333347,
+          "supersededPreviewCount": 0
+        },
+        {
+          "completed": true,
+          "decoderIdleBeforeFinalNs": 0,
+          "finalAcceptedNs": 780771251,
+          "finalAfterNetworkCompleteNs": 25703349,
+          "finalGeneratedNs": 780734626,
+          "finalPresentedNs": 783333349,
+          "firstPreviewAcceptedNs": 87411251,
+          "firstPreviewGeneratedNs": 87367042,
+          "firstPreviewPresentedNs": 100000002,
+          "generatedPreviewCount": 4,
+          "maximumBufferedNetworkBytes": 16384,
+          "maximumDecodeQueueDelayNs": 0,
+          "meanDecodeQueueDelayNs": 0,
+          "networkCompleteNs": 757630000,
+          "presentedPreviewCount": 4,
+          "presentedPreviewGenerations": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "progressiveVisibleWindowNs": 683333347,
+          "supersededPreviewCount": 0
+        }
+      ],
+      "summary": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 787697957,
+          "meanNanoseconds": 782428476,
+          "medianNanoseconds": 780771251,
+          "minimumNanoseconds": 779793834,
+          "p90Nanoseconds": 787697957
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 42370016,
+          "meanNanoseconds": 30465253,
+          "medianNanoseconds": 25703349,
+          "minimumNanoseconds": 25703349,
+          "p90Nanoseconds": 42370016
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 787649874,
+          "meanNanoseconds": 782380404,
+          "medianNanoseconds": 780734626,
+          "minimumNanoseconds": 779759834,
+          "p90Nanoseconds": 787649874
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 800000016,
+          "meanNanoseconds": 788095253,
+          "medianNanoseconds": 783333349,
+          "minimumNanoseconds": 783333349,
+          "p90Nanoseconds": 800000016
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 89515333,
+          "meanNanoseconds": 88113839,
+          "medianNanoseconds": 87411251,
+          "minimumNanoseconds": 87050833,
+          "p90Nanoseconds": 89515333
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 89469458,
+          "meanNanoseconds": 88071262,
+          "medianNanoseconds": 87367042,
+          "minimumNanoseconds": 87016833,
+          "p90Nanoseconds": 89469458
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 100000002,
+          "meanNanoseconds": 100000002,
+          "medianNanoseconds": 100000002,
+          "minimumNanoseconds": 100000002,
+          "p90Nanoseconds": 100000002
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 16384,
+          "meanMicrounits": 16384000000,
+          "median": 16384,
+          "minimum": 16384,
+          "p90": 16384
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 757630000,
+          "meanNanoseconds": 757630000,
+          "medianNanoseconds": 757630000,
+          "minimumNanoseconds": 757630000,
+          "p90Nanoseconds": 757630000
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 700000014,
+          "meanNanoseconds": 688095251,
+          "medianNanoseconds": 683333347,
+          "minimumNanoseconds": 683333347,
+          "p90Nanoseconds": 700000014
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      }
+    },
+    {
+      "cancellationMode": "fence-presentation-at-request; session-cancel-completes-after-in-flight-append",
+      "caseID": "network-dominant-4mbps-16k--frame-coalesced-60hz--cancel",
+      "network": {
+        "bitsPerSecond": 4000000,
+        "cancellationDeadlineNanoseconds": 180000000,
+        "firstChunkDelayNanoseconds": 50000000,
+        "id": "network-dominant-4mbps-16k"
+      },
+      "presentationPolicy": "frame-coalesced-60hz",
+      "samples": [
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        },
+        {
+          "appendWorkAfterCancellationRequestNs": 0,
+          "bufferedBytesDiscarded": 0,
+          "cancellationBlockingNs": 0,
+          "cancellationCompletedNs": 180000000,
+          "cancellationRequestedNs": 180000000,
+          "completed": false,
+          "decoderReceivedByteCount": 65536,
+          "generatedPreviewCount": 2,
+          "networkReceivedByteCount": 65536,
+          "pendingPreviewSuppressedAtCancellationCount": 0,
+          "presentedPreviewCount": 2,
+          "presentedPreviewGenerations": [
+            1,
+            2
+          ],
+          "previewGeneratedAfterCancellationRequestCount": 0,
+          "supersededOrFencedPreviewCount": 0
+        }
+      ],
+      "summary": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "generatedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "networkReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "presentedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      }
+    }
+  ],
+  "frameIntervalNanoseconds": 16666667,
+  "input": {
+    "encodedByteCount": 370199,
+    "encodedSHA256": "494941339b490cededbb482a47ff7e1352761a4dcc93c82527775ae46c573a87",
+    "profile16KCaseID": "people-usda-meeting--default-successive-v1--chunk-16384",
+    "profile32KCaseID": "people-usda-meeting--default-successive-v1--chunk-32768",
+    "scanScriptID": "default-successive-v1",
+    "sourceID": "people-usda-meeting"
+  },
+  "modelBoundary": {
+    "measured": [
+      "per-chunk ImageIO append duration",
+      "generation byte boundary",
+      "detached-task to MainActor.run handoff duration",
+      "finish duration",
+      "final full decode duration"
+    ],
+    "notMeasured": [
+      "URLSession or kernel networking",
+      "Core Animation commit",
+      "GPU presentation",
+      "display-link callback",
+      "energy"
+    ],
+    "simulated": [
+      "exact encoded-byte arrival times",
+      "decode queue backlog",
+      "60 Hz host-decision coalescing",
+      "presentation cancellation fence",
+      "in-flight append cancellation blocking"
+    ]
+  },
+  "schemaVersion": 1,
+  "simulationVersion": "imagecraft-progressive-pipeline-simulation-v1"
+}

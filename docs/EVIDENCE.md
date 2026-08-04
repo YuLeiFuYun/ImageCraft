@@ -123,3 +123,11 @@ scripts/verify-imageio-evidence.sh Evidence/Baselines/macos-27.0-26A5388g-arm64.
 `Tools/Performance/validate_progressive_scan_checkpoint_experiment.py` 会重算每个 checkpoint 的固定点误差与 PSNR、验证 scan/marker/prefix 边界、成对确定性、fresh/sequential 像素一致性、自原始报告重建聚合与策略分析，并在 Git 历史可用时逐文件绑定 measured commit。
 
 该记录支持：固定环境与 corpus 中，完整 entropy prefix 在终止 marker 前已可光栅化；ImageIO status raw value 不是充分的预览可用性判据；当前 `[1,2,4,8]` 在限定五指标/56 候选中非支配。它不支持跨 OS 的 ImageIO 行为承诺、感知可用性、网络到屏幕收益或全局最优阈值。生产阈值因此保持不变。
+
+## 渐进 JPEG pipeline profile 与模拟证据
+
+`Evidence/Experiments/progressive-jpeg-pipeline-simulation-2026-08-04.json` 绑定 clean 提交 `04c8ad2984ef94ad31d4bd386e2d06bdddf58304`、Git tree、239 文件 source identity、两份 7-iteration Release profile 与可从 profile 逐字重建的 8-case 离散事件模拟。
+
+`Tools/Performance/validate_progressive_pipeline_experiment.py` 会重算 profile 的每 chunk 统计与 generation 边界，验证最终像素一致性，从 profile 重建完整 simulation，并在 Git 历史可用时逐文件绑定 measured commit。`Tools/Performance/test_progressive_pipeline_simulation.py` 另用合成输入固定精确到达、帧内 latest-wins、network-dominant 无排队和 in-flight 取消语义。
+
+该证据把实测 ImageIO/MainActor 成本与模拟网络/帧时钟严格分开。它支持：decode-pressure 和 network-dominant 需要不同宿主策略；取消发布栅栏应先于等待 `session.cancel()`；presentation policy 属于宿主。它不支持 URLSession、Core Animation、GPU 呈现、真机能耗或固定 60 Hz 策略的生产最优性。

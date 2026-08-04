@@ -85,6 +85,8 @@ ImageCraft 公开 codec 请求、限制、结果、descriptor、JPEG 渐进会�
 
 渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在预览尝试或 finish 时更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 达到时尝试预览，将昂贵光栅化限制为常数上界；一次 append 最多返回一个代次，并可合并同一 chunk 跨过的多个阈值。真实照片矩阵已证明 chunk overshoot 会改变代次数量与同序号像素，因此 generation 只有单会话顺序语义，`sourceByteCount` 只有累计 append 边界语义。完整正文若一次到达可以零预览完成。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
 
+宿主在取消、view identity 变化或请求替换时，必须先关闭该请求的像素发布权限，再调用并等待 `session.cancel()`；ImageIO 操作本身不能中途抢占，取消可能阻塞在当前 append 的会话锁之后。frame cadence 合并、latest-wins、MainActor 调度和最终像素替换同样属于宿主/UI 边界，不得反向进入 codec generation 语义。
+
 容器 scanner 的目标是为资源 admission 提供最小结构事实，而不是复制 ImageIO codec。JPEG entropy/Huffman/IDCT、PNG filter/interlace/palette 和最终压缩流合法性继续委托给系统框架。完整边界见 `docs/PUBLIC_API.md`。
 
 

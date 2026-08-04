@@ -38,6 +38,8 @@ python3 Tools/Performance/validate_progressive_photo_matrix_experiment.py \
 python3 Tools/Performance/validate_progressive_scan_checkpoint_experiment.py \
     Evidence/Experiments/progressive-jpeg-scan-checkpoint-policy-2026-08-04.json
 python3 Tools/Performance/test_progressive_pipeline_simulation.py
+python3 Tools/Performance/validate_progressive_pipeline_experiment.py \
+    Evidence/Experiments/progressive-jpeg-pipeline-simulation-2026-08-04.json
 xcrun swift test
 xcrun swift build -c release
 scripts/verify-imageio-evidence.sh

@@ -1,0 +1,1305 @@
+{
+  "artifacts": {
+    "manifest": {
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/manifest.json",
+      "sha256": "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46"
+    },
+    "profile16K": {
+      "path": "Evidence/Experiments/ProgressivePipelineSimulation/profile-16k-clean-04c8ad2.json",
+      "sha256": "620f8f8fce82940f264d65bd1eab5956febc3a148dc00626f94b157ecb9e4686"
+    },
+    "profile32K": {
+      "path": "Evidence/Experiments/ProgressivePipelineSimulation/profile-32k-clean-04c8ad2.json",
+      "sha256": "8038bee482f49869c722d2cdb09b71bf292e6e9f5e0efbd37974734dc4c45be9"
+    },
+    "simulation": {
+      "path": "Evidence/Experiments/ProgressivePipelineSimulation/simulation-clean-04c8ad2.json",
+      "sha256": "a06f55ccdc5068630efe6625b971a0a1d8501a6dfc89985e3e6a5188dca6266e"
+    }
+  },
+  "capturedAt": "2026-08-04",
+  "decision": {
+    "addPresentationPolicyToCodec": false,
+    "changeCodecThresholds": false,
+    "hostIntegrationGuidance": [
+      "Fence preview publication immediately when cancellation is requested; do not wait for session.cancel() to acquire the decoder lock.",
+      "Keep presentation coalescing in the host/UI integration layer because it depends on frame cadence and network/decode backlog, not codec correctness.",
+      "Use latest-candidate coalescing only as an overload control; the network-dominant scenario showed no preview-count reduction and only frame-alignment delay."
+    ],
+    "passed": true,
+    "qualification": "pipeline profile and discrete-event model are reproducible; policy effects depend on whether decode or network is the bottleneck",
+    "supportedClaims": [
+      "On the bound Mac/ImageIO environment, detached-task to MainActor.run handoff is small relative to final complete-body decode for both retained chunk profiles.",
+      "In the deterministic 80 Mbps/32 KiB decode-pressure model, measured append costs create queueing and multi-chunk buffering; 60 Hz coalescing reduces the median number of committed previews.",
+      "In the deterministic 4 Mbps/16 KiB network-dominant model, measured append costs create no decode queue and 60 Hz coalescing does not reduce the median preview count.",
+      "When cancellation intersects an in-flight append in the decode-pressure model, the cancellation call completes only after that append finishes, so a separate publication fence is required to suppress late pixels."
+    ],
+    "unsupportedClaims": [
+      "The virtual network profiles reproduce URLSession, kernel socket buffering, radio behavior, or a named access network.",
+      "MainActor.run completion means Core Animation committed or a GPU/display presented the image.",
+      "The results establish energy, frame pacing, or user-perceived quality on iOS devices.",
+      "A fixed 60 Hz coalescing policy is optimal for all hosts, refresh rates, images, or network conditions."
+    ]
+  },
+  "environment": {
+    "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+    "environment": {
+      "activeProcessorCount": 8,
+      "hardwareModel": "MacBookPro18,3",
+      "lowPowerModeEnabled": false,
+      "physicalMemoryBytes": 17179869184,
+      "thermalState": "nominal"
+    },
+    "runtime": {
+      "architecture": "arm64",
+      "coreGraphicsBundleVersion": "2047",
+      "imageIOBundleShortVersion": "3.3.0",
+      "imageIOBundleVersion": "2847",
+      "operatingSystemBuild": "26A5388g",
+      "operatingSystemVersion": {
+        "majorVersion": 27,
+        "minorVersion": 0,
+        "patchVersion": 0
+      },
+      "platform": "macOS",
+      "schemaVersion": 1
+    }
+  },
+  "experimentID": "progressive-jpeg-pipeline-simulation-v1",
+  "findings": {
+    "measuredProfiles": {
+      "chunk16K": {
+        "caseID": "people-usda-meeting--default-successive-v1--chunk-16384",
+        "chunkCount": 23,
+        "chunkSizeBytes": 16384,
+        "finalDecodeDuration": {
+          "maximumNanoseconds": 29952292,
+          "meanNanoseconds": 24694553,
+          "medianNanoseconds": 23057750,
+          "minimumNanoseconds": 22070958,
+          "p90Nanoseconds": 29952292
+        },
+        "finalHandoffToDecodeMedianPPM": 1588,
+        "finalMainActorHandoff": {
+          "maximumNanoseconds": 76500,
+          "meanNanoseconds": 48071,
+          "medianNanoseconds": 36625,
+          "minimumNanoseconds": 32166,
+          "p90Nanoseconds": 76500
+        },
+        "generationSequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "generationSourceByteCounts": [
+          32768,
+          65536,
+          81920,
+          163840
+        ],
+        "iterations": 7,
+        "totalDuration": {
+          "maximumNanoseconds": 85301916,
+          "meanNanoseconds": 71962023,
+          "medianNanoseconds": 66623541,
+          "minimumNanoseconds": 62459542,
+          "p90Nanoseconds": 85301916
+        }
+      },
+      "chunk32K": {
+        "caseID": "people-usda-meeting--default-successive-v1--chunk-32768",
+        "chunkCount": 12,
+        "chunkSizeBytes": 32768,
+        "finalDecodeDuration": {
+          "maximumNanoseconds": 33589458,
+          "meanNanoseconds": 27823577,
+          "medianNanoseconds": 26851417,
+          "minimumNanoseconds": 24904958,
+          "p90Nanoseconds": 33589458
+        },
+        "finalHandoffToDecodeMedianPPM": 2928,
+        "finalMainActorHandoff": {
+          "maximumNanoseconds": 129417,
+          "meanNanoseconds": 76386,
+          "medianNanoseconds": 78625,
+          "minimumNanoseconds": 31875,
+          "p90Nanoseconds": 129417
+        },
+        "generationSequence": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "generationSourceByteCounts": [
+          32768,
+          65536,
+          98304,
+          163840
+        ],
+        "iterations": 7,
+        "totalDuration": {
+          "maximumNanoseconds": 88285334,
+          "meanNanoseconds": 82361053,
+          "medianNanoseconds": 86371500,
+          "minimumNanoseconds": 69628083,
+          "p90Nanoseconds": 88285334
+        }
+      }
+    },
+    "simulationCaseSummaries": {
+      "decode-pressure-80mbps-32k--frame-coalesced-60hz--cancel": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 98304,
+          "meanMicrounits": 70217142857,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 33521751,
+          "meanNanoseconds": 30706773,
+          "medianNanoseconds": 32387332,
+          "minimumNanoseconds": 26426667,
+          "p90Nanoseconds": 33521751
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 25000000,
+          "meanNanoseconds": 25000000,
+          "medianNanoseconds": 25000000,
+          "minimumNanoseconds": 25000000,
+          "p90Nanoseconds": 25000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 98304,
+          "meanMicrounits": 93622857142,
+          "median": 98304,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "generatedPreviewCount": {
+          "maximum": 3,
+          "meanMicrounits": 2857142,
+          "median": 3,
+          "minimum": 2,
+          "p90": 3
+        },
+        "networkReceivedByteCount": {
+          "maximum": 163840,
+          "meanMicrounits": 163840000000,
+          "median": 163840,
+          "minimum": 163840,
+          "p90": 163840
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 2,
+          "meanMicrounits": 1000000,
+          "median": 1,
+          "minimum": 0,
+          "p90": 2
+        },
+        "presentedPreviewCount": {
+          "maximum": 1,
+          "meanMicrounits": 714285,
+          "median": 1,
+          "minimum": 0,
+          "p90": 1
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1
+          ],
+          [
+            1
+          ],
+          [],
+          [],
+          [
+            1
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 1,
+          "meanMicrounits": 1000000,
+          "median": 1,
+          "minimum": 1,
+          "p90": 1
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 3,
+          "meanMicrounits": 2142857,
+          "median": 2,
+          "minimum": 2,
+          "p90": 3
+        }
+      },
+      "decode-pressure-80mbps-32k--frame-coalesced-60hz--complete": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 80810666,
+          "meanNanoseconds": 75881133,
+          "medianNanoseconds": 76072707,
+          "minimumNanoseconds": 68731350,
+          "p90Nanoseconds": 80810666
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 39590235,
+          "meanNanoseconds": 39590235,
+          "medianNanoseconds": 39590235,
+          "minimumNanoseconds": 39590235,
+          "p90Nanoseconds": 39590235
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 80715000,
+          "meanNanoseconds": 75804746,
+          "medianNanoseconds": 76019291,
+          "minimumNanoseconds": 68699475,
+          "p90Nanoseconds": 80715000
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 83333335,
+          "meanNanoseconds": 83333335,
+          "medianNanoseconds": 83333335,
+          "minimumNanoseconds": 83333335,
+          "p90Nanoseconds": 83333335
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 17383292,
+          "meanNanoseconds": 15817178,
+          "medianNanoseconds": 15528625,
+          "minimumNanoseconds": 14473209,
+          "p90Nanoseconds": 17383292
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 17272875,
+          "meanNanoseconds": 15754220,
+          "medianNanoseconds": 15478041,
+          "minimumNanoseconds": 14448625,
+          "p90Nanoseconds": 17272875
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 33333334,
+          "meanNanoseconds": 21428571,
+          "medianNanoseconds": 16666667,
+          "minimumNanoseconds": 16666667,
+          "p90Nanoseconds": 33333334
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 239127,
+          "meanMicrounits": 228371714285,
+          "median": 239127,
+          "minimum": 163840,
+          "p90": 239127
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 23811626,
+          "meanNanoseconds": 19727332,
+          "medianNanoseconds": 19935915,
+          "minimumNanoseconds": 12139874,
+          "p90Nanoseconds": 23811626
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 11848728,
+          "meanNanoseconds": 8959450,
+          "medianNanoseconds": 9322392,
+          "minimumNanoseconds": 3894186,
+          "p90Nanoseconds": 11848728
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 43743100,
+          "meanNanoseconds": 43743100,
+          "medianNanoseconds": 43743100,
+          "minimumNanoseconds": 43743100,
+          "p90Nanoseconds": 43743100
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 2857142,
+          "median": 3,
+          "minimum": 2,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            1,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 66666668,
+          "meanNanoseconds": 61904763,
+          "medianNanoseconds": 66666668,
+          "minimumNanoseconds": 50000001,
+          "p90Nanoseconds": 66666668
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 1142857,
+          "median": 1,
+          "minimum": 0,
+          "p90": 2
+        }
+      },
+      "decode-pressure-80mbps-32k--immediate--cancel": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 98304,
+          "meanMicrounits": 70217142857,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 8521751,
+          "meanNanoseconds": 5706773,
+          "medianNanoseconds": 7387332,
+          "minimumNanoseconds": 1426667,
+          "p90Nanoseconds": 8521751
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 33521751,
+          "meanNanoseconds": 30706773,
+          "medianNanoseconds": 32387332,
+          "minimumNanoseconds": 26426667,
+          "p90Nanoseconds": 33521751
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 25000000,
+          "meanNanoseconds": 25000000,
+          "medianNanoseconds": 25000000,
+          "minimumNanoseconds": 25000000,
+          "p90Nanoseconds": 25000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 98304,
+          "meanMicrounits": 93622857142,
+          "median": 98304,
+          "minimum": 65536,
+          "p90": 98304
+        },
+        "generatedPreviewCount": {
+          "maximum": 3,
+          "meanMicrounits": 2857142,
+          "median": 3,
+          "minimum": 2,
+          "p90": 3
+        },
+        "networkReceivedByteCount": {
+          "maximum": 163840,
+          "meanMicrounits": 163840000000,
+          "median": 163840,
+          "minimum": 163840,
+          "p90": 163840
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "presentedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 1714285,
+          "median": 2,
+          "minimum": 1,
+          "p90": 2
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 1,
+          "meanMicrounits": 1000000,
+          "median": 1,
+          "minimum": 1,
+          "p90": 1
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 1142857,
+          "median": 1,
+          "minimum": 1,
+          "p90": 2
+        }
+      },
+      "decode-pressure-80mbps-32k--immediate--complete": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 80810666,
+          "meanNanoseconds": 75881133,
+          "medianNanoseconds": 76072707,
+          "minimumNanoseconds": 68731350,
+          "p90Nanoseconds": 80810666
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 37067566,
+          "meanNanoseconds": 32138033,
+          "medianNanoseconds": 32329607,
+          "minimumNanoseconds": 24988250,
+          "p90Nanoseconds": 37067566
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 80715000,
+          "meanNanoseconds": 75804746,
+          "medianNanoseconds": 76019291,
+          "minimumNanoseconds": 68699475,
+          "p90Nanoseconds": 80715000
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 80810666,
+          "meanNanoseconds": 75881133,
+          "medianNanoseconds": 76072707,
+          "minimumNanoseconds": 68731350,
+          "p90Nanoseconds": 80810666
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 17383292,
+          "meanNanoseconds": 15817178,
+          "medianNanoseconds": 15528625,
+          "minimumNanoseconds": 14473209,
+          "p90Nanoseconds": 17383292
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 17272875,
+          "meanNanoseconds": 15754220,
+          "medianNanoseconds": 15478041,
+          "minimumNanoseconds": 14448625,
+          "p90Nanoseconds": 17272875
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 17383292,
+          "meanNanoseconds": 15817178,
+          "medianNanoseconds": 15528625,
+          "minimumNanoseconds": 14473209,
+          "p90Nanoseconds": 17383292
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 239127,
+          "meanMicrounits": 228371714285,
+          "median": 239127,
+          "minimum": 163840,
+          "p90": 239127
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 23811626,
+          "meanNanoseconds": 19727332,
+          "medianNanoseconds": 19935915,
+          "minimumNanoseconds": 12139874,
+          "p90Nanoseconds": 23811626
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 11848728,
+          "meanNanoseconds": 8959450,
+          "medianNanoseconds": 9322392,
+          "minimumNanoseconds": 3894186,
+          "p90Nanoseconds": 11848728
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 43743100,
+          "meanNanoseconds": 43743100,
+          "medianNanoseconds": 43743100,
+          "minimumNanoseconds": 43743100,
+          "p90Nanoseconds": 43743100
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 64591002,
+          "meanNanoseconds": 60063954,
+          "medianNanoseconds": 59814500,
+          "minimumNanoseconds": 54087934,
+          "p90Nanoseconds": 64591002
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      },
+      "network-dominant-4mbps-16k--frame-coalesced-60hz--cancel": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "generatedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "networkReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "presentedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      },
+      "network-dominant-4mbps-16k--frame-coalesced-60hz--complete": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 787697957,
+          "meanNanoseconds": 782428476,
+          "medianNanoseconds": 780771251,
+          "minimumNanoseconds": 779793834,
+          "p90Nanoseconds": 787697957
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 42370016,
+          "meanNanoseconds": 30465253,
+          "medianNanoseconds": 25703349,
+          "minimumNanoseconds": 25703349,
+          "p90Nanoseconds": 42370016
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 787649874,
+          "meanNanoseconds": 782380404,
+          "medianNanoseconds": 780734626,
+          "minimumNanoseconds": 779759834,
+          "p90Nanoseconds": 787649874
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 800000016,
+          "meanNanoseconds": 788095253,
+          "medianNanoseconds": 783333349,
+          "minimumNanoseconds": 783333349,
+          "p90Nanoseconds": 800000016
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 89515333,
+          "meanNanoseconds": 88113839,
+          "medianNanoseconds": 87411251,
+          "minimumNanoseconds": 87050833,
+          "p90Nanoseconds": 89515333
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 89469458,
+          "meanNanoseconds": 88071262,
+          "medianNanoseconds": 87367042,
+          "minimumNanoseconds": 87016833,
+          "p90Nanoseconds": 89469458
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 100000002,
+          "meanNanoseconds": 100000002,
+          "medianNanoseconds": 100000002,
+          "minimumNanoseconds": 100000002,
+          "p90Nanoseconds": 100000002
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 16384,
+          "meanMicrounits": 16384000000,
+          "median": 16384,
+          "minimum": 16384,
+          "p90": 16384
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 757630000,
+          "meanNanoseconds": 757630000,
+          "medianNanoseconds": 757630000,
+          "minimumNanoseconds": 757630000,
+          "p90Nanoseconds": 757630000
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 700000014,
+          "meanNanoseconds": 688095251,
+          "medianNanoseconds": 683333347,
+          "minimumNanoseconds": 683333347,
+          "p90Nanoseconds": 700000014
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      },
+      "network-dominant-4mbps-16k--immediate--cancel": {
+        "appendWorkAfterCancellationRequestNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "bufferedBytesDiscarded": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "cancellationBlockingNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "cancellationCompletedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "cancellationRequestedNs": {
+          "maximumNanoseconds": 180000000,
+          "meanNanoseconds": 180000000,
+          "medianNanoseconds": 180000000,
+          "minimumNanoseconds": 180000000,
+          "p90Nanoseconds": 180000000
+        },
+        "completionCount": 0,
+        "decoderReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "generatedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "networkReceivedByteCount": {
+          "maximum": 65536,
+          "meanMicrounits": 65536000000,
+          "median": 65536,
+          "minimum": 65536,
+          "p90": 65536
+        },
+        "pendingPreviewSuppressedAtCancellationCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "presentedPreviewCount": {
+          "maximum": 2,
+          "meanMicrounits": 2000000,
+          "median": 2,
+          "minimum": 2,
+          "p90": 2
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "previewGeneratedAfterCancellationRequestCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        },
+        "sampleCount": 7,
+        "supersededOrFencedPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      },
+      "network-dominant-4mbps-16k--immediate--complete": {
+        "completionCount": 7,
+        "decoderIdleBeforeFinalNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "finalAcceptedNs": {
+          "maximumNanoseconds": 787697957,
+          "meanNanoseconds": 782428476,
+          "medianNanoseconds": 780771251,
+          "minimumNanoseconds": 779793834,
+          "p90Nanoseconds": 787697957
+        },
+        "finalAfterNetworkCompleteNs": {
+          "maximumNanoseconds": 30067957,
+          "meanNanoseconds": 24798476,
+          "medianNanoseconds": 23141251,
+          "minimumNanoseconds": 22163834,
+          "p90Nanoseconds": 30067957
+        },
+        "finalGeneratedNs": {
+          "maximumNanoseconds": 787649874,
+          "meanNanoseconds": 782380404,
+          "medianNanoseconds": 780734626,
+          "minimumNanoseconds": 779759834,
+          "p90Nanoseconds": 787649874
+        },
+        "finalPresentedNs": {
+          "maximumNanoseconds": 787697957,
+          "meanNanoseconds": 782428476,
+          "medianNanoseconds": 780771251,
+          "minimumNanoseconds": 779793834,
+          "p90Nanoseconds": 787697957
+        },
+        "firstPreviewAcceptedNs": {
+          "maximumNanoseconds": 89515333,
+          "meanNanoseconds": 88113839,
+          "medianNanoseconds": 87411251,
+          "minimumNanoseconds": 87050833,
+          "p90Nanoseconds": 89515333
+        },
+        "firstPreviewGeneratedNs": {
+          "maximumNanoseconds": 89469458,
+          "meanNanoseconds": 88071262,
+          "medianNanoseconds": 87367042,
+          "minimumNanoseconds": 87016833,
+          "p90Nanoseconds": 89469458
+        },
+        "firstPreviewPresentedNs": {
+          "maximumNanoseconds": 89515333,
+          "meanNanoseconds": 88113839,
+          "medianNanoseconds": 87411251,
+          "minimumNanoseconds": 87050833,
+          "p90Nanoseconds": 89515333
+        },
+        "generatedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "maximumBufferedNetworkBytes": {
+          "maximum": 16384,
+          "meanMicrounits": 16384000000,
+          "median": 16384,
+          "minimum": 16384,
+          "p90": 16384
+        },
+        "maximumDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "meanDecodeQueueDelayNs": {
+          "maximumNanoseconds": 0,
+          "meanNanoseconds": 0,
+          "medianNanoseconds": 0,
+          "minimumNanoseconds": 0,
+          "p90Nanoseconds": 0
+        },
+        "networkCompleteNs": {
+          "maximumNanoseconds": 757630000,
+          "meanNanoseconds": 757630000,
+          "medianNanoseconds": 757630000,
+          "minimumNanoseconds": 757630000,
+          "p90Nanoseconds": 757630000
+        },
+        "presentedPreviewCount": {
+          "maximum": 4,
+          "meanMicrounits": 4000000,
+          "median": 4,
+          "minimum": 4,
+          "p90": 4
+        },
+        "presentedPreviewGenerationSequences": [
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            1,
+            2,
+            3,
+            4
+          ]
+        ],
+        "progressiveVisibleWindowNs": {
+          "maximumNanoseconds": 698484332,
+          "meanNanoseconds": 694314636,
+          "medianNanoseconds": 693360000,
+          "minimumNanoseconds": 692047250,
+          "p90Nanoseconds": 698484332
+        },
+        "sampleCount": 7,
+        "supersededPreviewCount": {
+          "maximum": 0,
+          "meanMicrounits": 0,
+          "median": 0,
+          "minimum": 0,
+          "p90": 0
+        }
+      }
+    }
+  },
+  "implementation": {
+    "cleanWorktreeAtCapture": true,
+    "commit": "04c8ad2984ef94ad31d4bd386e2d06bdddf58304",
+    "commitTree": "cf2582f1bb5bcd2821dde8dc9b86560d98debfa9",
+    "sourceIdentityFileCount": 239,
+    "sourceIdentityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+    "sourceIdentityReportPath": "Evidence/Experiments/ProgressivePipelineSimulation/source-identity-04c8ad2.json",
+    "sourceIdentityReportSHA256": "e54607d6dc959badb9a537449038213eb0b25d86fbebefa6353a7d6735f71002",
+    "sourceIdentitySHA256": "2b7d5b218a84c02848de6f6c0525521c74ef89fe73e7bd4f125e5050199cc5c4",
+    "sourceIdentitySchemaVersion": 2
+  },
+  "interpretation": {
+    "frameCoalescingUniversallyBeneficial": false,
+    "mainActorHandoffIsScreenPresentation": false,
+    "ruleTiming": "network profiles, cancellation deadlines, and host policies were selected after earlier scan experiments; results are descriptive mechanism probes, not preregistered production benchmarks",
+    "simulationIsProductionNetworkProof": false
+  },
+  "methodology": {
+    "buildConfiguration": "release",
+    "encodedByteCount": 370199,
+    "mainActorBoundaryIsScreenPresentation": false,
+    "measuredBoundaries": [
+      "per-chunk ImageIO append duration",
+      "generation and source-byte boundary",
+      "detached orchestration to MainActor.run handoff",
+      "progressive finish duration",
+      "final complete-body ImageIO decode duration"
+    ],
+    "measuredIterationsPerProfile": 7,
+    "networkArrivalTimesAreMeasured": false,
+    "profileChunkSizesBytes": [
+      16384,
+      32768
+    ],
+    "profileVersion": "imagecraft-progressive-pipeline-profile-v1",
+    "scanScriptID": "default-successive-v1",
+    "simulatedBoundaries": [
+      "exact encoded-byte arrival schedule",
+      "serial decode queue backlog",
+      "60 Hz latest-candidate host-decision coalescing",
+      "cancellation presentation fence",
+      "session cancellation after an in-flight append"
+    ],
+    "simulationVersion": "imagecraft-progressive-pipeline-simulation-v1",
+    "sourceID": "people-usda-meeting",
+    "targetPixels": [
+      512,
+      512
+    ],
+    "warmupIterationsPerProfile": 1
+  },
+  "remainingEvidence": [
+    "An iOS Simulator host that records display-link callbacks and Core Animation transaction timing while replaying the same generation schedule.",
+    "iOS-device signposts for URLSession delivery, decoder work, MainActor publication, frame presentation, working set, and energy.",
+    "Multiple image classes and scan scripts rather than one default-successive people/indoor JPEG.",
+    "Adaptive host policies driven by measured queue depth or pending-generation age, compared against immediate and fixed-frame policies.",
+    "Cancellation tests where identity changes race with final publication, cache insertion, and view reuse."
+  ],
+  "schemaVersion": 1
+}

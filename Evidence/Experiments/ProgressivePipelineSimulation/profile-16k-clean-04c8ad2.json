@@ -1,0 +1,1543 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "people-usda-meeting--default-successive-v1--chunk-16384",
+  "chunkCount" : 23,
+  "chunkSizeBytes" : 16384,
+  "contentClass" : "people-indoor",
+  "corpusVersion" : "progressive-real-photo-v1",
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "encodedByteCount" : 370199,
+  "encodedSHA256" : "494941339b490cededbb482a47ff7e1352761a4dcc93c82527775ae46c573a87",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "handoffBoundary" : "detached orchestration to MainActor.run; not Core Animation or GPU presentation",
+  "iterations" : 7,
+  "manifestSHA256" : "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46",
+  "profileVersion" : "imagecraft-progressive-pipeline-profile-v1",
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "samples" : [
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 85291,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 6701458,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 45875
+        },
+        {
+          "appendDurationNanoseconds" : 92083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 7833708,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 39916
+        },
+        {
+          "appendDurationNanoseconds" : 8418416,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 37916
+        },
+        {
+          "appendDurationNanoseconds" : 128500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 84792,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 84500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 84542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 14942250,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 32084
+        },
+        {
+          "appendDurationNanoseconds" : 93208,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 85166,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 84167,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 84083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 93500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 83625,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 83708,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 83875,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 83917,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 84166,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 85375,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 84792,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 51166,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 15226416,
+      "finalDecodeDurationNanoseconds" : 28684958,
+      "finalMainActorHandoffNanoseconds" : 76500,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 17042,
+      "totalDurationNanoseconds" : 83875292
+    },
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 89416,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 6400458,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 45167
+        },
+        {
+          "appendDurationNanoseconds" : 104042,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 7706041,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 23750
+        },
+        {
+          "appendDurationNanoseconds" : 7549125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 31542
+        },
+        {
+          "appendDurationNanoseconds" : 107916,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 77583,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 77083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 77209,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 15570834,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 40209
+        },
+        {
+          "appendDurationNanoseconds" : 172833,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 86584,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 85875,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 85458,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 85375,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 85000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 85084,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 85292,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 85125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 85584,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 86500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 85791,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 52916,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 16014542,
+      "finalDecodeDurationNanoseconds" : 29952292,
+      "finalMainActorHandoffNanoseconds" : 48083,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 14666,
+      "totalDurationNanoseconds" : 85301916
+    },
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 85208,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 6292834,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 34458
+        },
+        {
+          "appendDurationNanoseconds" : 89208,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 7498333,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 24166
+        },
+        {
+          "appendDurationNanoseconds" : 8239750,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 39292
+        },
+        {
+          "appendDurationNanoseconds" : 126042,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 84708,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 100833,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 95125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 16897500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 77958
+        },
+        {
+          "appendDurationNanoseconds" : 121041,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 70125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 69667,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 70291,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 69542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 88000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 73292,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 68916,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 69750,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 70042,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 125125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 71208,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 43417,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 11751250,
+      "finalDecodeDurationNanoseconds" : 23379958,
+      "finalMainActorHandoffNanoseconds" : 74625,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 14542,
+      "totalDurationNanoseconds" : 76128917
+    },
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 55208,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 4572667,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 35083
+        },
+        {
+          "appendDurationNanoseconds" : 77125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 7497208,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 34791
+        },
+        {
+          "appendDurationNanoseconds" : 5626417,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 32000
+        },
+        {
+          "appendDurationNanoseconds" : 96959,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 57583,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 55875,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 54083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 11374875,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 37666
+        },
+        {
+          "appendDurationNanoseconds" : 102750,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 57000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 56375,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 57292,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 76459,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 57959,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 56500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 57375,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 56167,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 56958,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 57542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 57417,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 34708,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 11899833,
+      "finalDecodeDurationNanoseconds" : 22879958,
+      "finalMainActorHandoffNanoseconds" : 32166,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 11833,
+      "totalDurationNanoseconds" : 65363250
+    },
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 55292,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 4307542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 59250
+        },
+        {
+          "appendDurationNanoseconds" : 60417,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 5381459,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 31250
+        },
+        {
+          "appendDurationNanoseconds" : 5717250,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 31375
+        },
+        {
+          "appendDurationNanoseconds" : 93083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 56667,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 56291,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 57000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 11573625,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 33750
+        },
+        {
+          "appendDurationNanoseconds" : 110416,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 56333,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 56209,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 56125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 82292,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 57083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 54500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 54292,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 54625,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 54500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 56500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 54542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 34084,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 13388167,
+      "finalDecodeDurationNanoseconds" : 22070958,
+      "finalMainActorHandoffNanoseconds" : 34000,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 24792,
+      "totalDurationNanoseconds" : 63981708
+    },
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 56083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 4248833,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 34000
+        },
+        {
+          "appendDurationNanoseconds" : 58458,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 4961583,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 94416
+        },
+        {
+          "appendDurationNanoseconds" : 5605458,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 30791
+        },
+        {
+          "appendDurationNanoseconds" : 80542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 56667,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 56416,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 56959,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 11464333,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 38208
+        },
+        {
+          "appendDurationNanoseconds" : 106333,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 56500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 56500,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 56958,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 66792,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 57542,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 55917,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 57042,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 56625,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 55667,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 57000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 56083,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 33625,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 11788875,
+      "finalDecodeDurationNanoseconds" : 22836000,
+      "finalMainActorHandoffNanoseconds" : 34500,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 11292,
+      "totalDurationNanoseconds" : 62459542
+    },
+    {
+      "chunks" : [
+        {
+          "appendDurationNanoseconds" : 54375,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 0,
+          "cumulativeByteCount" : 16384
+        },
+        {
+          "appendDurationNanoseconds" : 4599042,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 1,
+          "cumulativeByteCount" : 32768,
+          "generation" : 1,
+          "generationSourceByteCount" : 32768,
+          "mainActorHandoffNanoseconds" : 44209
+        },
+        {
+          "appendDurationNanoseconds" : 66834,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 2,
+          "cumulativeByteCount" : 49152
+        },
+        {
+          "appendDurationNanoseconds" : 5402583,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 3,
+          "cumulativeByteCount" : 65536,
+          "generation" : 2,
+          "generationSourceByteCount" : 65536,
+          "mainActorHandoffNanoseconds" : 30292
+        },
+        {
+          "appendDurationNanoseconds" : 6965000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 4,
+          "cumulativeByteCount" : 81920,
+          "generation" : 3,
+          "generationSourceByteCount" : 81920,
+          "mainActorHandoffNanoseconds" : 37584
+        },
+        {
+          "appendDurationNanoseconds" : 82834,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 5,
+          "cumulativeByteCount" : 98304
+        },
+        {
+          "appendDurationNanoseconds" : 56792,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 6,
+          "cumulativeByteCount" : 114688
+        },
+        {
+          "appendDurationNanoseconds" : 56666,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 7,
+          "cumulativeByteCount" : 131072
+        },
+        {
+          "appendDurationNanoseconds" : 69000,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 8,
+          "cumulativeByteCount" : 147456
+        },
+        {
+          "appendDurationNanoseconds" : 11097958,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 9,
+          "cumulativeByteCount" : 163840,
+          "generation" : 4,
+          "generationSourceByteCount" : 163840,
+          "mainActorHandoffNanoseconds" : 33333
+        },
+        {
+          "appendDurationNanoseconds" : 114333,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 10,
+          "cumulativeByteCount" : 180224
+        },
+        {
+          "appendDurationNanoseconds" : 55708,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 11,
+          "cumulativeByteCount" : 196608
+        },
+        {
+          "appendDurationNanoseconds" : 55959,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 12,
+          "cumulativeByteCount" : 212992
+        },
+        {
+          "appendDurationNanoseconds" : 55792,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 13,
+          "cumulativeByteCount" : 229376
+        },
+        {
+          "appendDurationNanoseconds" : 54917,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 14,
+          "cumulativeByteCount" : 245760
+        },
+        {
+          "appendDurationNanoseconds" : 54583,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 15,
+          "cumulativeByteCount" : 262144
+        },
+        {
+          "appendDurationNanoseconds" : 55834,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 16,
+          "cumulativeByteCount" : 278528
+        },
+        {
+          "appendDurationNanoseconds" : 55959,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 17,
+          "cumulativeByteCount" : 294912
+        },
+        {
+          "appendDurationNanoseconds" : 55791,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 18,
+          "cumulativeByteCount" : 311296
+        },
+        {
+          "appendDurationNanoseconds" : 56125,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 19,
+          "cumulativeByteCount" : 327680
+        },
+        {
+          "appendDurationNanoseconds" : 56625,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 20,
+          "cumulativeByteCount" : 344064
+        },
+        {
+          "appendDurationNanoseconds" : 56417,
+          "chunkByteCount" : 16384,
+          "chunkIndex" : 21,
+          "cumulativeByteCount" : 360448
+        },
+        {
+          "appendDurationNanoseconds" : 34667,
+          "chunkByteCount" : 9751,
+          "chunkIndex" : 22,
+          "cumulativeByteCount" : 370199
+        }
+      ],
+      "finalAnalysisHashDurationNanoseconds" : 13984750,
+      "finalDecodeDurationNanoseconds" : 23057750,
+      "finalMainActorHandoffNanoseconds" : 36625,
+      "finalPixelHeight" : 341,
+      "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+      "finalPixelWidth" : 512,
+      "finishDurationNanoseconds" : 12209,
+      "totalDurationNanoseconds" : 66623541
+    }
+  ],
+  "scanScriptID" : "default-successive-v1",
+  "schemaVersion" : 1,
+  "sourceDescription" : "USDA food-safety officials meeting with the Iowa Cattlemen’s Association.",
+  "sourceID" : "people-usda-meeting",
+  "summary" : {
+    "chunks" : [
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 89416,
+          "meanNanoseconds" : 68696,
+          "medianNanoseconds" : 56083,
+          "minimumNanoseconds" : 54375,
+          "p90Nanoseconds" : 89416
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 0,
+        "cumulativeByteCount" : 16384
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 6701458,
+          "meanNanoseconds" : 5303262,
+          "medianNanoseconds" : 4599042,
+          "minimumNanoseconds" : 4248833,
+          "p90Nanoseconds" : 6701458
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 1,
+        "cumulativeByteCount" : 32768,
+        "generation" : 1,
+        "generationSourceByteCount" : 32768,
+        "mainActorHandoff" : {
+          "maximumNanoseconds" : 59250,
+          "meanNanoseconds" : 42577,
+          "medianNanoseconds" : 44209,
+          "minimumNanoseconds" : 34000,
+          "p90Nanoseconds" : 59250
+        }
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 104042,
+          "meanNanoseconds" : 78309,
+          "medianNanoseconds" : 77125,
+          "minimumNanoseconds" : 58458,
+          "p90Nanoseconds" : 104042
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 2,
+        "cumulativeByteCount" : 49152
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 7833708,
+          "meanNanoseconds" : 6611559,
+          "medianNanoseconds" : 7497208,
+          "minimumNanoseconds" : 4961583,
+          "p90Nanoseconds" : 7833708
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 3,
+        "cumulativeByteCount" : 65536,
+        "generation" : 2,
+        "generationSourceByteCount" : 65536,
+        "mainActorHandoff" : {
+          "maximumNanoseconds" : 94416,
+          "meanNanoseconds" : 39797,
+          "medianNanoseconds" : 31250,
+          "minimumNanoseconds" : 23750,
+          "p90Nanoseconds" : 94416
+        }
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 8418416,
+          "meanNanoseconds" : 6874488,
+          "medianNanoseconds" : 6965000,
+          "minimumNanoseconds" : 5605458,
+          "p90Nanoseconds" : 8418416
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 4,
+        "cumulativeByteCount" : 81920,
+        "generation" : 3,
+        "generationSourceByteCount" : 81920,
+        "mainActorHandoff" : {
+          "maximumNanoseconds" : 39292,
+          "meanNanoseconds" : 34357,
+          "medianNanoseconds" : 32000,
+          "minimumNanoseconds" : 30791,
+          "p90Nanoseconds" : 39292
+        }
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 128500,
+          "meanNanoseconds" : 102268,
+          "medianNanoseconds" : 96959,
+          "minimumNanoseconds" : 80542,
+          "p90Nanoseconds" : 128500
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 5,
+        "cumulativeByteCount" : 98304
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 84792,
+          "meanNanoseconds" : 67827,
+          "medianNanoseconds" : 57583,
+          "minimumNanoseconds" : 56667,
+          "p90Nanoseconds" : 84792
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 6,
+        "cumulativeByteCount" : 114688
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 100833,
+          "meanNanoseconds" : 69666,
+          "medianNanoseconds" : 56666,
+          "minimumNanoseconds" : 55875,
+          "p90Nanoseconds" : 100833
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 7,
+        "cumulativeByteCount" : 131072
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 95125,
+          "meanNanoseconds" : 70559,
+          "medianNanoseconds" : 69000,
+          "minimumNanoseconds" : 54083,
+          "p90Nanoseconds" : 95125
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 8,
+        "cumulativeByteCount" : 147456
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 16897500,
+          "meanNanoseconds" : 13274482,
+          "medianNanoseconds" : 11573625,
+          "minimumNanoseconds" : 11097958,
+          "p90Nanoseconds" : 16897500
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 9,
+        "cumulativeByteCount" : 163840,
+        "generation" : 4,
+        "generationSourceByteCount" : 163840,
+        "mainActorHandoff" : {
+          "maximumNanoseconds" : 77958,
+          "meanNanoseconds" : 41886,
+          "medianNanoseconds" : 37666,
+          "minimumNanoseconds" : 32084,
+          "p90Nanoseconds" : 77958
+        }
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 172833,
+          "meanNanoseconds" : 117273,
+          "medianNanoseconds" : 110416,
+          "minimumNanoseconds" : 93208,
+          "p90Nanoseconds" : 172833
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 10,
+        "cumulativeByteCount" : 180224
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 86584,
+          "meanNanoseconds" : 66773,
+          "medianNanoseconds" : 57000,
+          "minimumNanoseconds" : 55708,
+          "p90Nanoseconds" : 86584
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 11,
+        "cumulativeByteCount" : 196608
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85875,
+          "meanNanoseconds" : 66393,
+          "medianNanoseconds" : 56500,
+          "minimumNanoseconds" : 55959,
+          "p90Nanoseconds" : 85875
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 12,
+        "cumulativeByteCount" : 212992
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85458,
+          "meanNanoseconds" : 66571,
+          "medianNanoseconds" : 57292,
+          "minimumNanoseconds" : 55792,
+          "p90Nanoseconds" : 85458
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 13,
+        "cumulativeByteCount" : 229376
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 93500,
+          "meanNanoseconds" : 75553,
+          "medianNanoseconds" : 76459,
+          "minimumNanoseconds" : 54917,
+          "p90Nanoseconds" : 93500
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 14,
+        "cumulativeByteCount" : 245760
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 88000,
+          "meanNanoseconds" : 69113,
+          "medianNanoseconds" : 57959,
+          "minimumNanoseconds" : 54583,
+          "p90Nanoseconds" : 88000
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 15,
+        "cumulativeByteCount" : 262144
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85084,
+          "meanNanoseconds" : 66405,
+          "medianNanoseconds" : 56500,
+          "minimumNanoseconds" : 54500,
+          "p90Nanoseconds" : 85084
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 16,
+        "cumulativeByteCount" : 278528
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85292,
+          "meanNanoseconds" : 66107,
+          "medianNanoseconds" : 57375,
+          "minimumNanoseconds" : 54292,
+          "p90Nanoseconds" : 85292
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 17,
+        "cumulativeByteCount" : 294912
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85125,
+          "meanNanoseconds" : 66000,
+          "medianNanoseconds" : 56625,
+          "minimumNanoseconds" : 54625,
+          "p90Nanoseconds" : 85125
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 18,
+        "cumulativeByteCount" : 311296
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85584,
+          "meanNanoseconds" : 66148,
+          "medianNanoseconds" : 56958,
+          "minimumNanoseconds" : 54500,
+          "p90Nanoseconds" : 85584
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 19,
+        "cumulativeByteCount" : 327680
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 125125,
+          "meanNanoseconds" : 74952,
+          "medianNanoseconds" : 57542,
+          "minimumNanoseconds" : 56500,
+          "p90Nanoseconds" : 125125
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 20,
+        "cumulativeByteCount" : 344064
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 85791,
+          "meanNanoseconds" : 66607,
+          "medianNanoseconds" : 57417,
+          "minimumNanoseconds" : 54542,
+          "p90Nanoseconds" : 85791
+        },
+        "chunkByteCount" : 16384,
+        "chunkIndex" : 21,
+        "cumulativeByteCount" : 360448
+      },
+      {
+        "appendDuration" : {
+          "maximumNanoseconds" : 52916,
+          "meanNanoseconds" : 40654,
+          "medianNanoseconds" : 34708,
+          "minimumNanoseconds" : 33625,
+          "p90Nanoseconds" : 52916
+        },
+        "chunkByteCount" : 9751,
+        "chunkIndex" : 22,
+        "cumulativeByteCount" : 370199
+      }
+    ],
+    "finalAnalysisHashDuration" : {
+      "maximumNanoseconds" : 16014542,
+      "meanNanoseconds" : 13436261,
+      "medianNanoseconds" : 13388167,
+      "minimumNanoseconds" : 11751250,
+      "p90Nanoseconds" : 16014542
+    },
+    "finalDecodeDuration" : {
+      "maximumNanoseconds" : 29952292,
+      "meanNanoseconds" : 24694553,
+      "medianNanoseconds" : 23057750,
+      "minimumNanoseconds" : 22070958,
+      "p90Nanoseconds" : 29952292
+    },
+    "finalMainActorHandoff" : {
+      "maximumNanoseconds" : 76500,
+      "meanNanoseconds" : 48071,
+      "medianNanoseconds" : 36625,
+      "minimumNanoseconds" : 32166,
+      "p90Nanoseconds" : 76500
+    },
+    "finishDuration" : {
+      "maximumNanoseconds" : 24792,
+      "meanNanoseconds" : 15196,
+      "medianNanoseconds" : 14542,
+      "minimumNanoseconds" : 11292,
+      "p90Nanoseconds" : 24792
+    },
+    "generationCount" : 4,
+    "generationSequence" : [
+      1,
+      2,
+      3,
+      4
+    ],
+    "generationSourceByteCounts" : [
+      32768,
+      65536,
+      81920,
+      163840
+    ],
+    "totalDuration" : {
+      "maximumNanoseconds" : 85301916,
+      "meanNanoseconds" : 71962023,
+      "medianNanoseconds" : 66623541,
+      "minimumNanoseconds" : 62459542,
+      "p90Nanoseconds" : 85301916
+    }
+  },
+  "targetHeight" : 512,
+  "targetWidth" : 512,
+  "warmupIterations" : 1
+}

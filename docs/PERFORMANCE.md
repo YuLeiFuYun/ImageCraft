@@ -322,6 +322,70 @@ python3 Tools/Performance/validate_progressive_scan_checkpoint_experiment.py \
 scripts/capture-progressive-scan-checkpoints.sh aggregate.json raw-reports
 ```
 
+## 渐进 JPEG pipeline profile 与离散事件模拟
+
+真实网络线程、ImageIO 解码和主机调度共处一个进程时，线程迟到会把本机调度抖动误写成“网络行为”。因此本实验没有继续调参伪造实时网络，而是拆成两个可核验层次：
+
+1. **实测 profile**：在 clean 提交 `04c8ad2984ef94ad31d4bd386e2d06bdddf58304` 上，以同一个 `people-usda-meeting--default-successive-v1` JPEG 分别使用 16 KiB 与 32 KiB chunk。每档 1 次 warmup、7 次 Release iteration，记录每个 `append`、generation 字节边界、detached task 到 `MainActor.run` 的 handoff、`finish()`、最终完整正文解码和分析哈希成本。
+2. **离散事件模拟**：把每次实测 chunk 成本投影到精确虚拟到达时间，计算串行 decoder backlog、60 Hz latest-candidate host-decision 合并、取消发布栅栏和 in-flight append 完成时间。网络到达、帧边界和取消时钟均为模拟量。
+
+`MainActor.run` 只表示宿主代码获得执行并作出提交决定；它不等于 Core Animation transaction、GPU 呈现或 display-link 回调。
+
+### 实测 profile
+
+| Chunk | generation source bytes | 最终完整解码 median | 最终 MainActor handoff median | handoff / decode |
+|---|---|---:|---:|---:|
+| 16 KiB | 32 / 64 / 80 / 160 KiB | 23.058 ms | 36.625 µs | 0.159% |
+| 32 KiB | 32 / 64 / 96 / 160 KiB | 26.851 ms | 78.625 µs | 0.293% |
+
+两档 profile 的最终像素 SHA-256 完全一致。该数据只说明固定机器上 actor handoff 相对完整解码很小；它不证明主线程无争用，也不包含 UI 树更新、layout、transaction commit 或屏幕扫描。
+
+### 完成路径模拟
+
+| 虚拟机制区间 | Host policy | 首预览 median | 最终提交 median | 预览提交 median | 最大 decode queue median | 缓冲峰值 median |
+|---|---|---:|---:|---:|---:|---:|
+| decode-pressure：80 Mbps / 32 KiB | immediate | 15.529 ms | 76.073 ms | 4 | 19.936 ms | 239,127 B |
+| decode-pressure：80 Mbps / 32 KiB | 60 Hz coalesced | 16.667 ms | 83.333 ms | 3 | 19.936 ms | 239,127 B |
+| network-dominant：4 Mbps / 16 KiB | immediate | 87.411 ms | 780.771 ms | 4 | 0 | 16,384 B |
+| network-dominant：4 Mbps / 16 KiB | 60 Hz coalesced | 100.000 ms | 783.333 ms | 4 | 0 | 16,384 B |
+
+机制结论不是“60 Hz 一定更好”：
+
+- decode-pressure 下，frame coalescing 的 median 从 4 次提交降到 3 次，但最终 host-decision 时间增加约 7.26 ms；具体保留 generation 序列随实测 append 样本变化，不能固定为某个序列契约。
+- network-dominant 下没有 decoder queue，frame coalescing 的 median 仍提交 4 个预览，只增加帧对齐等待。固定帧策略在该机制区间没有减负收益。
+
+### 取消路径模拟
+
+25 ms decode-pressure 取消点的 median：
+
+- 网络已到达 163,840 B；
+- decoder 已接收 98,304 B；
+- 65,536 B 仍在缓冲并被丢弃；
+- `session.cancel()` 需等待 in-flight append，阻塞约 7.387 ms；
+- 该 append 会在取消请求后产生一个 generation，必须由独立的 publication fence 拦截。
+
+180 ms network-dominant 取消点中，网络和 decoder 均为 65,536 B，没有 in-flight append、额外工作或迟到 generation。
+
+因此取消正确性不能只依赖 `session.cancel()` 返回：宿主必须在身份变化或取消请求发生时先原子地关闭发布权限，再等待 codec 会话完成取消。该 publication fence、frame coalescing 和 view identity 仍属于宿主/UI 集成边界，不应进入 ImageCraft codec API。
+
+机器可读证据：
+
+```text
+Evidence/Experiments/progressive-jpeg-pipeline-simulation-2026-08-04.json
+Evidence/Experiments/ProgressivePipelineSimulation/
+```
+
+验证与重捕获：
+
+```sh
+python3 Tools/Performance/validate_progressive_pipeline_experiment.py \
+  Evidence/Experiments/progressive-jpeg-pipeline-simulation-2026-08-04.json
+
+scripts/capture-progressive-pipeline-evidence.sh output-directory 7
+```
+
+仍缺少：URLSession/kernel 实际交付、iOS display-link、Core Animation/GPU 呈现、真机工作集与能耗、多图片类别/scan script，以及 view reuse、最终缓存发布和身份切换的竞争测试。
+
 ## JPEG 熵区 marker 扫描实验
 
 `Evidence/Experiments/jpeg-marker-scan-ab-2026-07-31.json` 记录了一次独立的实现 A/B，比较逐字节 Swift 扫描与 `Darwin.memchr` 搜索 JPEG entropy 区下一个 `0xFF` marker。两侧使用预构建 Release 可执行文件，按 A/B、B/A 顺序交替运行；共覆盖 6 条 JPEG 路径、每条 7 对独立进程、每进程 7 个计时样本，总计 588 个样本。
