@@ -1305,6 +1305,16 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageProgressiveDecodeFinalization",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodeFinalization",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageProgressiveDecodeGeneration",
           "target": "Swift.Sendable"
         },
@@ -1357,6 +1367,21 @@
           "kind": "conformsTo",
           "source": "ProgressiveImageDecoding",
           "target": "s:14ImageCraftCore0A8DecodingP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageFinalizingSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageFinalizingSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageFinalizingSession",
+          "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
         },
         {
           "kind": "conformsTo",
@@ -1424,7 +1449,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 327,
+      "symbolCount": 334,
       "symbols": [
         {
           "declaration": "struct DecodeLimits",
@@ -3209,6 +3234,36 @@
           "preciseIdentifier": "s:14ImageCraftCore0A5ProbeV18sourceColorProfileAA06SourcefG0Ovp"
         },
         {
+          "declaration": "struct ImageProgressiveDecodeFinalization",
+          "kind": "swift.struct",
+          "path": "ImageProgressiveDecodeFinalization",
+          "preciseIdentifier": "s:14ImageCraftCore0A29ProgressiveDecodeFinalizationV"
+        },
+        {
+          "declaration": "let image: DecodedImage",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeFinalization.image",
+          "preciseIdentifier": "s:14ImageCraftCore0A29ProgressiveDecodeFinalizationV5imageAA07DecodedA0Vvp"
+        },
+        {
+          "declaration": "init(image: DecodedImage, probe: ImageProbe, sourceByteCount: Int)",
+          "kind": "swift.init",
+          "path": "ImageProgressiveDecodeFinalization.init(image:probe:sourceByteCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A29ProgressiveDecodeFinalizationV5image5probe15sourceByteCountAcA07DecodedA0V_AA0A5ProbeVSitcfc"
+        },
+        {
+          "declaration": "let probe: ImageProbe",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeFinalization.probe",
+          "preciseIdentifier": "s:14ImageCraftCore0A29ProgressiveDecodeFinalizationV5probeAA0A5ProbeVvp"
+        },
+        {
+          "declaration": "let sourceByteCount: Int",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodeFinalization.sourceByteCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A29ProgressiveDecodeFinalizationV15sourceByteCountSivp"
+        },
+        {
           "declaration": "struct ImageProgressiveDecodeGeneration",
           "kind": "swift.struct",
           "path": "ImageProgressiveDecodeGeneration",
@@ -3303,6 +3358,18 @@
           "kind": "swift.method",
           "path": "ProgressiveImageDecoding.makeProgressiveSession(format:request:limits:)",
           "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA8DecodingP04makeD7Session6format7request6limitsAA0ad6DecodeG0_pAA07EncodedA6FormatO_AA0aK7RequestVAA0K6LimitsVtKF"
+        },
+        {
+          "declaration": "protocol ProgressiveImageFinalizingSession : ImageProgressiveDecodeSession",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImageFinalizingSession",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA17FinalizingSessionP"
+        },
+        {
+          "declaration": "func finishWithFinalImage() throws -> ImageProgressiveDecodeFinalization",
+          "kind": "swift.method",
+          "path": "ProgressiveImageFinalizingSession.finishWithFinalImage()",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA17FinalizingSessionP015finishWithFinalA0AA0aD18DecodeFinalizationVyKF"
         },
         {
           "declaration": "enum SourceColorProfile",

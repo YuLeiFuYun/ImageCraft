@@ -12,7 +12,7 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     /// GIF 多帧容器可以被安全探测，但该适配器尚未公开动画时间轴语义。
     public let codecDescriptor = ImageCodecDescriptor(
         identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio"),
-        implementationVersion: 2,
+        implementationVersion: 3,
         capabilities: ImageCodecCapabilities(
             formats: [.png, .jpeg, .gif],
             deliveryModes: [.completeFrame, .progressiveGenerations],
@@ -438,6 +438,18 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         else {
             throw ImageCraftError.unsupportedOrCorruptImage
         }
+        return try inspectImageSource(
+            source: source,
+            expectedFormat: expectedFormat,
+            limits: limits
+        )
+    }
+
+    private func inspectImageSource(
+        source: CGImageSource,
+        expectedFormat: EncodedImageFormat,
+        limits: DecodeLimits
+    ) throws -> SourceMetadata {
         guard sourceFormat(source) == expectedFormat else {
             throw ImageCraftError.formatMismatch
         }
@@ -797,7 +809,7 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
         )
     }
 
-    private final class ImageIOProgressiveSession: ImageProgressiveDecodeSession,
+    private final class ImageIOProgressiveSession: ProgressiveImageFinalizingSession,
         @unchecked Sendable
     {
         private enum FrameKind {
@@ -1012,16 +1024,63 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
         func finish() throws {
             lock.lock()
             defer { lock.unlock() }
+            _ = try completeSourceLocked()
+        }
+
+        func finishWithFinalImage() throws -> ImageProgressiveDecodeFinalization {
+            lock.lock()
+            defer { lock.unlock() }
+            let source = try completeSourceLocked(retainingBytes: true)
+            defer {
+                self.source = nil
+                data.removeAll(keepingCapacity: false)
+            }
+            let container = try decoder.inspectContainer(data: data, limits: limits)
+            guard container.format == .jpeg else { throw ImageCraftError.formatMismatch }
+            let metadata = try decoder.inspectImageSource(
+                source: source,
+                expectedFormat: .jpeg,
+                limits: limits
+            )
+            let inspection = try decoder.makeInspection(
+                container: container,
+                metadata: metadata,
+                limits: limits
+            )
+            let image = try decoder.decode(
+                source: source,
+                probe: inspection.probe,
+                sourceColorSpace: inspection.sourceColorSpace,
+                request: request,
+                limits: limits
+            )
+            return ImageProgressiveDecodeFinalization(
+                image: image,
+                probe: inspection.probe,
+                sourceByteCount: totalReceivedBytes
+            )
+        }
+
+        private func completeSourceLocked(retainingBytes: Bool = false) throws -> CGImageSource {
             guard !isCancelled else { throw ImageCraftError.progressiveSessionCancelled }
             guard !isFinished else { throw ImageCraftError.progressiveSessionFinished }
             isFinished = true
-            try jpegState.consume(data)
-            guard jpegState.frameKind == .progressive, jpegState.foundEnd, let source else {
-                throw ImageCraftError.unsupportedOrCorruptImage
+            do {
+                try jpegState.consume(data)
+                guard jpegState.frameKind == .progressive, jpegState.foundEnd, let source else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                CGImageSourceUpdateData(source, data as CFData, true)
+                if !retainingBytes {
+                    self.source = nil
+                    data.removeAll(keepingCapacity: false)
+                }
+                return source
+            } catch {
+                self.source = nil
+                data.removeAll(keepingCapacity: false)
+                throw error
             }
-            CGImageSourceUpdateData(source, data as CFData, true)
-            self.source = nil
-            data.removeAll(keepingCapacity: false)
         }
 
         func cancel() {

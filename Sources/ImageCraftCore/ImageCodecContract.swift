@@ -357,6 +357,31 @@ public protocol ImageProgressiveDecodeSession: AnyObject, Sendable {
     func cancel()
 }
 
+/// 完整增量会话在同一已完成 source 上产生的最终像素候选。
+///
+/// 该值证明 codec 已按创建会话时的 request 与 limits 对完整编码体重新执行容器、
+/// metadata、几何和光栅验证；它不携带来源真实性、HTTP 完整性或缓存身份。宿主只有在
+/// 已独立确认完整 transport 正文，并验证 `sourceByteCount` 与正文长度一致后才能采用。
+public struct ImageProgressiveDecodeFinalization: Sendable {
+    public let image: DecodedImage
+    public let probe: ImageProbe
+    public let sourceByteCount: Int
+
+    public init(image: DecodedImage, probe: ImageProbe, sourceByteCount: Int) {
+        self.image = image
+        self.probe = probe
+        self.sourceByteCount = sourceByteCount
+    }
+}
+
+/// 可在完成时复用增量 source 产生最终像素的可选会话能力。
+///
+/// 基础 `ImageProgressiveDecodeSession` 保持兼容；不支持该能力的 codec 继续调用
+/// `finish()`，宿主随后通过普通 `ImageDecoding` 路径完成最终解码。
+public protocol ProgressiveImageFinalizingSession: ImageProgressiveDecodeSession {
+    func finishWithFinalImage() throws -> ImageProgressiveDecodeFinalization
+}
+
 /// codec 可选的真实增量像素能力。
 public protocol ProgressiveImageDecoding: ImageCodec {
     func makeProgressiveSession(

@@ -77,6 +77,49 @@ final class ProgressiveImageIOTests: XCTestCase {
     XCTAssertNoThrow(try session.finish())
   }
 
+  func testFinalizingSessionMatchesStandardCompleteDecode() throws {
+    let decoder = ImageIOImageDecoder()
+    let data = try fixture(named: "jpeg-progressive-420.jpg")
+    let request = ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32))
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: request,
+      limits: .coreV1
+    )
+    for chunk in chunks(data, maximumSize: 32) {
+      _ = try session.append(chunk)
+    }
+
+    let finalizing = try XCTUnwrap(session as? any ProgressiveImageFinalizingSession)
+    let candidate = try finalizing.finishWithFinalImage()
+    let direct = try decoder.decode(data: data, request: request, limits: .coreV1)
+    let probe = try decoder.probe(data: data, limits: .coreV1)
+
+    XCTAssertEqual(candidate.sourceByteCount, data.count)
+    XCTAssertEqual(candidate.probe, probe)
+    XCTAssertEqual(candidate.image.pixelWidth, direct.pixelWidth)
+    XCTAssertEqual(candidate.image.pixelHeight, direct.pixelHeight)
+    XCTAssertEqual(try rgbaBytes(candidate.image.cgImage), try rgbaBytes(direct.cgImage))
+    XCTAssertThrowsError(try session.finish()) { error in
+      XCTAssertEqual(error as? ImageCraftError, .progressiveSessionFinished)
+    }
+  }
+
+  func testFinalizingSessionRejectsTrailingBytes() throws {
+    let decoder = ImageIOImageDecoder()
+    var data = try fixture(named: "jpeg-progressive-420.jpg")
+    data.append(0)
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32)),
+      limits: .coreV1
+    )
+    _ = try session.append(data)
+    let finalizing = try XCTUnwrap(session as? any ProgressiveImageFinalizingSession)
+
+    XCTAssertThrowsError(try finalizing.finishWithFinalImage())
+  }
+
   func testBaselineJPEGFailsClosedWithoutPretendingToBeProgressive() throws {
     let decoder = ImageIOImageDecoder()
     let session = try decoder.makeProgressiveSession(
@@ -164,5 +207,26 @@ final class ProgressiveImageIOTests: XCTestCase {
     stride(from: 0, to: data.count, by: maximumSize).map { offset in
       data.subdata(in: offset..<min(data.count, offset + maximumSize))
     }
+  }
+  private func rgbaBytes(_ image: CGImage) throws -> Data {
+    let bytesPerRow = image.width * 4
+    var bytes = Data(count: bytesPerRow * image.height)
+    let colorSpace = try XCTUnwrap(CGColorSpace(name: CGColorSpace.sRGB))
+    try bytes.withUnsafeMutableBytes { raw in
+      let context = try XCTUnwrap(
+        CGContext(
+          data: raw.baseAddress,
+          width: image.width,
+          height: image.height,
+          bitsPerComponent: 8,
+          bytesPerRow: bytesPerRow,
+          space: colorSpace,
+          bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        )
+      )
+      context.setBlendMode(.copy)
+      context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+    }
+    return bytes
   }
 }
