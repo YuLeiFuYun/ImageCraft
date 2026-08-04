@@ -83,7 +83,7 @@ corpus 版本只追加、不原地改变语义。工具升级、位流变化或�
 
 ImageCraft 公开 codec 请求、限制、结果、descriptor、JPEG 渐进会话和 ImageIO adapter；UI 几何分桶、render-cache admission、transform pipeline、预览替换策略与 frame timing 值模型属于宿主或未来模块，不进入当前公共面。运行时 fingerprint 和详细诊断只服务本仓库证据，保持 package-only。
 
-渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在完整 scan 边界更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 尝试预览，将昂贵光栅化限制为常数上界，同时保留早期与逐级细化的可见结果。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
+渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在预览尝试或 finish 时更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 达到时尝试预览，将昂贵光栅化限制为常数上界；一次 append 最多返回一个代次，并可合并同一 chunk 跨过的多个阈值。真实照片矩阵已证明 chunk overshoot 会改变代次数量与同序号像素，因此 generation 只有单会话顺序语义，`sourceByteCount` 只有累计 append 边界语义。完整正文若一次到达可以零预览完成。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
 
 容器 scanner 的目标是为资源 admission 提供最小结构事实，而不是复制 ImageIO codec。JPEG entropy/Huffman/IDCT、PNG filter/interlace/palette 和最终压缩流合法性继续委托给系统框架。完整边界见 `docs/PUBLIC_API.md`。
 

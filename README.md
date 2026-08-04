@@ -89,6 +89,8 @@ try session.finish()
 
 `finish()` 只封闭并验证增量容器生命周期；最终可缓存像素仍应使用完整、已验证正文调用常规解码接口。
 
+`generation` 只能用于同一 session 内丢弃过时代次，不能当作跨请求质量等级。网络 chunk 的切分方式会影响一次 append 跨过多少 scan，因此同一 JPEG 在不同 transport 下可能产生不同数量和不同像素的预览；`sourceByteCount` 也只是该预览返回时累计接收的字节边界。若完整正文一次到达，会话可以零预览完成。
+
 ## 验证
 
 ```sh

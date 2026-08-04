@@ -63,6 +63,20 @@ final class ProgressiveImageIOTests: XCTestCase {
     try session.finish()
   }
 
+  func testWholeBodyAppendMayProduceNoIntermediateGeneration() throws {
+    let decoder = ImageIOImageDecoder()
+    let data = try fixture(named: "jpeg-progressive-420.jpg")
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32)),
+      limits: .coreV1
+    )
+
+    XCTAssertNil(try session.append(data))
+    XCTAssertEqual(session.receivedByteCount, data.count)
+    XCTAssertNoThrow(try session.finish())
+  }
+
   func testBaselineJPEGFailsClosedWithoutPretendingToBeProgressive() throws {
     let decoder = ImageIOImageDecoder()
     let session = try decoder.makeProgressiveSession(

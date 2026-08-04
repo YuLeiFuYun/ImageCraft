@@ -326,8 +326,11 @@ extension ImageCodec {
 
 /// 增量解码器产生的一个非最终像素代次。
 ///
-/// `generation` 只表达严格递增顺序，不是感知质量分数。最终像素仍必须由完整、
-/// 已验证正文通过常规 `ImageDecoding` 路径产生。
+/// `generation` 只表达同一会话内的严格递增顺序，不是感知质量分数，也不能在两个
+/// 会话之间比较。容器 scan 排列、后端和调用方如何切分 `append(_:)` 都可能改变代次
+/// 数量、返回时机和像素。`sourceByteCount` 是产生该像素的 append 结束后累计接收的
+/// 字节数，可能越过真实容器边界；它不是总进度、精确 scan offset 或质量等级。
+/// 最终像素仍必须由完整、已验证正文通过常规 `ImageDecoding` 路径产生。
 public struct ImageProgressiveDecodeGeneration: Sendable {
     public let image: DecodedImage
     public let generation: UInt32
@@ -343,8 +346,10 @@ public struct ImageProgressiveDecodeGeneration: Sendable {
 /// 单个编码流的状态化增量解码会话。
 ///
 /// 会话必须并发安全，保留字节不得超过创建时的 `DecodeLimits`，取消后不得再产生像素。
-/// 后端可以为控制解码放大而合并多个容器 scan；代次数量不等于容器 scan 数量。
-/// `finish()` 只封闭增量会话，不替代完整正文的安全检查与最终解码。
+/// 每次 `append(_:)` 最多返回一个代次；后端可以为控制解码放大而合并多个容器 scan。
+/// 代次数量不等于容器 scan 数量，也不保证不同 chunk partition 产生相同数量。若完整
+/// 正文和结束标记在产生中间像素前已经到达，会话可以不返回任何代次。`finish()` 只封闭
+/// 增量会话，不替代完整正文的安全检查与最终解码。
 public protocol ImageProgressiveDecodeSession: AnyObject, Sendable {
     var receivedByteCount: Int { get }
     func append(_ chunk: Data) throws -> ImageProgressiveDecodeGeneration?
