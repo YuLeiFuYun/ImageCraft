@@ -408,7 +408,7 @@ private func makeProgressiveJPEGOperation(chunkSize: Int) throws -> BenchmarkOpe
   )
 }
 
-private func makeProgressiveJPEG(image: CGImage, quality: Double) throws -> Data {
+func makeProgressiveJPEG(image: CGImage, quality: Double) throws -> Data {
   let output = NSMutableData()
   guard let destination = CGImageDestinationCreateWithData(
     output,
@@ -490,7 +490,7 @@ private func makeEncodeOperation(
   )
 }
 
-private func durationStatistics(_ samples: [UInt64]) -> PerformanceDurationStatistics {
+func durationStatistics(_ samples: [UInt64]) -> PerformanceDurationStatistics {
   let sorted = samples.sorted()
   let sum = samples.reduce(UInt64(0), &+)
   return PerformanceDurationStatistics(
@@ -511,7 +511,7 @@ private func percentile(
   return sorted[min(sorted.count - 1, rank - 1)]
 }
 
-private func capturePerformanceEnvironment() -> PerformanceEnvironment {
+func capturePerformanceEnvironment() -> PerformanceEnvironment {
   let processInfo = ProcessInfo.processInfo
   return PerformanceEnvironment(
     hardwareModel: sysctlString("hw.model") ?? "unknown",

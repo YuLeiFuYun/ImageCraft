@@ -49,6 +49,7 @@ enum EvidenceCommand {
   case report(artifactDirectory: URL?)
   case decode(input: URL, output: URL)
   case benchmark(caseID: String, iterations: Int)
+  case progressiveTimeline(caseID: String, iterations: Int)
 }
 
 enum EvidenceError: Error {
@@ -83,6 +84,13 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
   {
     return .benchmark(caseID: parameters[1], iterations: iterations)
   }
+  if parameters.count == 4,
+    parameters[0] == "--progressive-timeline-case",
+    parameters[2] == "--iterations",
+    let iterations = Int(parameters[3])
+  {
+    return .progressiveTimeline(caseID: parameters[1], iterations: iterations)
+  }
   throw EvidenceError.invalidArguments
 }
 
@@ -94,6 +102,8 @@ func run(command: EvidenceCommand) throws {
     try decodeImageToPPM(input: input, output: output)
   case .benchmark(let caseID, let iterations):
     try writePerformanceBenchmark(caseID: caseID, iterations: iterations)
+  case .progressiveTimeline(let caseID, let iterations):
+    try writeProgressiveTimelineBenchmark(caseID: caseID, iterations: iterations)
   }
 }
 
