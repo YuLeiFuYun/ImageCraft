@@ -278,7 +278,49 @@ python3 Tools/Performance/validate_progressive_photo_matrix_experiment.py \
 scripts/capture-progressive-photo-matrix.sh aggregate.json raw-reports
 ```
 
-完整 corpus 生成谱系、公共领域来源和限制见 `docs/PROGRESSIVE_PHOTO_CORPUS.md`。下一步应比较 threshold retry、byte-fraction/time gating 和宿主抑制策略，并用更大分层 corpus、感知指标、任务实验及网络到 UI 链路验证；不能直接按本矩阵修改生产 scan 策略。
+完整 corpus 生成谱系、公共领域来源和限制见 `docs/PROGRESSIVE_PHOTO_CORPUS.md`。真实照片矩阵本身还不能直接修改生产 scan 策略；精确 scan checkpoint 与固定预算策略枚举见下一节。
+
+## 精确 scan checkpoint 与阈值策略枚举
+
+`8cbf3886ee69c03d813f97289a3b17a5b1c90aa7` 增加了不经过生产阈值调度器的 evidence oracle。它解析 12 个 progressive JPEG 的 104 个 scan，并在四类精确 prefix 上分别使用全新 incremental source 和持续更新的同一 source：entropy payload 结束但终止 marker 尚未到达、marker code 结束、紧随 segment 结束、下一 scan entropy 开始。每个变体重复两次，24 份原始报告逐字节一致。
+
+固定 macOS 27.0 build 26A5388g / ImageIO 2847 环境得到：
+
+- 104/104 个 scan 在 entropy payload 结束、终止 marker 尚未到达时已经可以光栅化；
+- 388/388 个 checkpoint 的 fresh 与 sequential source 像素一致，同一 scan 内四类 prefix 也产生相同像素；
+- fresh source 的 388 个可光栅化 checkpoint 中，frame status raw value 全为 `-1`。因此该状态值在本实验中不是“当前能否取得预览像素”的充分判据；这不是跨 OS 的框架承诺；
+- default successive 的 scan 8→9 只多接收 1.63%–3.28% 编码字节，却增加 4.28–11.13 dB PSNR，解释了为什么单看 `[1,2,4,8]` 容易产生“应增加 scan 9”的直觉。
+
+随后枚举所有包含 scan 1、总计四个整数阈值、其他阈值取自 2…9 的 56 个固定策略。诊断目标是从首预览到最终字节之间的 **encoded-byte-weighted final-reference MSE**；它不含首预览前空白、真实时间、网络调度、UI presentation、能耗或主观效用。
+
+不同目标给出不同领跑者：
+
+| 目标 | 阈值 |
+|---|---|
+| 最低平均字节加权 MSE | `[1,2,4,6]` |
+| 最低最坏 case MSE | `[1,2,3,4]` |
+| 最小最大预览字节间隔 | `[1,4,6,9]` |
+| 最高“最低尾部 PSNR” | `[1,2,4,8]` |
+
+当前 `[1,2,4,8]` 在 56 个候选中，平均 MSE 排名第 5、最坏 case 第 3、最低尾部 PSNR 第 1；它位于 11 个策略组成的 Pareto 前沿，没有策略同时在平均误差、最坏误差、最大间隔、最低尾部 PSNR 和平均 generation 数上支配它。`[1,2,4,9]` 虽捕获 default scan 9，却降低其他脚本的 generation 数并略恶化最坏 case；“补一个 9”不是无代价改进。
+
+因此本轮决定是保留生产阈值 `[1,2,4,8]`，而不是宣称其最优。改变阈值需要网络到 presentation 的受控实验、iOS 真机工作集与能耗、更大 corpus，以及感知/任务指标。
+
+版本化原始报告、聚合、策略枚举、source identity 和包装位于：
+
+```text
+Evidence/Experiments/progressive-jpeg-scan-checkpoint-policy-2026-08-04.json
+Evidence/Experiments/ProgressiveJPEGScanCheckpoints/
+```
+
+验证与重新捕获：
+
+```sh
+python3 Tools/Performance/validate_progressive_scan_checkpoint_experiment.py \
+  Evidence/Experiments/progressive-jpeg-scan-checkpoint-policy-2026-08-04.json
+
+scripts/capture-progressive-scan-checkpoints.sh aggregate.json raw-reports
+```
 
 ## JPEG 熵区 marker 扫描实验
 

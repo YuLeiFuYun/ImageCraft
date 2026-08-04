@@ -115,3 +115,11 @@ scripts/verify-imageio-evidence.sh Evidence/Baselines/macos-27.0-26A5388g-arm64.
 `Evidence/Experiments/progressive-jpeg-real-photo-scan-matrix-2026-08-04.json` 将内容、scan script 与 chunk schedule 拆成 4 × 3 × 2 的正交矩阵。证据绑定 clean 提交 `75acd9279304077ba4ba44fe42af1b03aa8009fe`、Git tree、149 文件 source identity、48 份成对原始报告和可逐字节再生的公共领域照片 corpus。
 
 `Tools/Performance/validate_progressive_photo_matrix_experiment.py` 会验证 manifest 与每份原始报告哈希、成对确定性、固定点 MAE/MSE 与 PSNR、自原始报告重建聚合、最终像素跨 scan script 一致性，以及 measured commit 的逐文件内容与可执行位。矩阵表明 generation 数量和同序号质量会随 chunk schedule 改变，且 luma-frontloaded 脚本可在接近流尾时仍明显偏离最终解码。因此 generation 只能表示单会话顺序；该记录不授予跨会话质量等级，也不把 PSNR 当作感知可用性证明。
+
+## 渐进 JPEG scan checkpoint 与策略证据
+
+`Evidence/Experiments/progressive-jpeg-scan-checkpoint-policy-2026-08-04.json` 绑定 clean 提交 `8cbf3886ee69c03d813f97289a3b17a5b1c90aa7`、Git tree、204 文件 source identity、24 份成对原始报告、checkpoint 聚合和完整 56 策略枚举。
+
+`Tools/Performance/validate_progressive_scan_checkpoint_experiment.py` 会重算每个 checkpoint 的固定点误差与 PSNR、验证 scan/marker/prefix 边界、成对确定性、fresh/sequential 像素一致性、自原始报告重建聚合与策略分析，并在 Git 历史可用时逐文件绑定 measured commit。
+
+该记录支持：固定环境与 corpus 中，完整 entropy prefix 在终止 marker 前已可光栅化；ImageIO status raw value 不是充分的预览可用性判据；当前 `[1,2,4,8]` 在限定五指标/56 候选中非支配。它不支持跨 OS 的 ImageIO 行为承诺、感知可用性、网络到屏幕收益或全局最优阈值。生产阈值因此保持不变。

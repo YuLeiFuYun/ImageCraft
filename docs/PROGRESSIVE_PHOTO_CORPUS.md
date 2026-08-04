@@ -72,3 +72,7 @@ Every case is executed twice and must produce byte-identical JSON.
 ## Limits
 
 Four public-domain photographs do not represent the distribution of images seen by applications. This corpus does not establish subjective usefulness, recognition accuracy, SSIM, visual masking, HDR/wide-gamut behavior, orientation behavior, mobile-device timing, network-to-presentation latency, or a universally optimal scan script. Pixel error against the final decode is a diagnostic measure, not a perceptual-quality standard.
+
+## Exact scan checkpoints
+
+The companion checkpoint oracle parses every retained JPEG scan and probes ImageIO at exact structural prefixes, independently of the production 1/2/4/8 scheduler. It compares a fresh incremental source with a repeatedly updated source and records deterministic pixel metrics against the final decode. Capture and policy analysis are documented in `docs/PERFORMANCE.md`; the versioned evidence is `Evidence/Experiments/progressive-jpeg-scan-checkpoint-policy-2026-08-04.json`.

@@ -1,0 +1,1947 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "architecture-usda-snow--luma-frontloaded-v1",
+  "contentClass" : "architecture-snow",
+  "corpusVersion" : "progressive-real-photo-v1",
+  "declaredScanCount" : 9,
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "encodedByteCount" : 384765,
+  "encodedSHA256" : "7cfe7f7b2e4757b6015a456160c6b273e6240e0ee0440f6befe6f42cc773eafa",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "evidenceVersion" : "imagecraft-progressive-scan-checkpoint-v1",
+  "finalPixelRGBSHA256" : "bdf35126d8b7bc9f7101072e9709d5f3d7b5664605ee6fdb806d6ae87f43b46f",
+  "manifestSHA256" : "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46",
+  "outputPixelHeight" : 340,
+  "outputPixelWidth" : 512,
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "scanScriptID" : "luma-frontloaded-v1",
+  "scans" : [
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 88586,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 34085,
+          "sequentialSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 88591,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 34087,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 88693,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 34126,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 88719,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 34136,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 931609,
+              "absoluteErrorAtMost32PPM" : 986153,
+              "absoluteErrorAtMost64PPM" : 998864,
+              "absoluteErrorAtMost8PPM" : 813878,
+              "absoluteErrorSum" : 2723954,
+              "channelCount" : 522240,
+              "differentChannelCount" : 427299,
+              "maximumAbsoluteError" : 142,
+              "meanAbsoluteErrorMicrounits" : 5215904,
+              "meanSquaredErrorMicrounits" : 84802726,
+              "psnrMicrodecibels" : 28846705,
+              "squaredErrorSum" : 44287376
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b0a760ca89280aec1ed64c354dcae567e2a9d2292ccaeb6c3ec8a18d4fb9488f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 34085,
+      "entropyStartOffset" : 249,
+      "immediateFollowingSegmentEndOffset" : 34126,
+      "nextScanEntropyStartOffset" : 34136,
+      "scan" : 1,
+      "terminatingMarkerCodeEndOffset" : 34087,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 200722,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 77231,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 200727,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 77233,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 200847,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 77279,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 200873,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 77289,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 988279,
+              "absoluteErrorAtMost32PPM" : 998816,
+              "absoluteErrorAtMost64PPM" : 999944,
+              "absoluteErrorAtMost8PPM" : 936657,
+              "absoluteErrorSum" : 1396323,
+              "channelCount" : 522240,
+              "differentChannelCount" : 384739,
+              "maximumAbsoluteError" : 119,
+              "meanAbsoluteErrorMicrounits" : 2673718,
+              "meanSquaredErrorMicrounits" : 21282772,
+              "psnrMicrodecibels" : 34850522,
+              "squaredErrorSum" : 11114715
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "8cae02463bf89a51a0bb6874db6ed781ad5e051f388c712088b61c8b782535cd",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 77231,
+      "entropyStartOffset" : 34136,
+      "immediateFollowingSegmentEndOffset" : 77279,
+      "nextScanEntropyStartOffset" : 77289,
+      "scan" : 2,
+      "terminatingMarkerCodeEndOffset" : 77233,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 333549,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 128338,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 333554,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 128340,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 333678,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 128388,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 333704,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 128398,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 997866,
+              "absoluteErrorAtMost32PPM" : 999684,
+              "absoluteErrorAtMost64PPM" : 999952,
+              "absoluteErrorAtMost8PPM" : 982544,
+              "absoluteErrorSum" : 835705,
+              "channelCount" : 522240,
+              "differentChannelCount" : 336204,
+              "maximumAbsoluteError" : 126,
+              "meanAbsoluteErrorMicrounits" : 1600231,
+              "meanSquaredErrorMicrounits" : 8163938,
+              "psnrMicrodecibels" : 39011807,
+              "squaredErrorSum" : 4263535
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "e9dc969ce7dee3a47adf917ce6f9f93d9c1b1c5827fe98542d2a066e97f6f972",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 128338,
+      "entropyStartOffset" : 77289,
+      "immediateFollowingSegmentEndOffset" : 128388,
+      "nextScanEntropyStartOffset" : 128398,
+      "scan" : 3,
+      "terminatingMarkerCodeEndOffset" : 128340,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 473239,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 182086,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 473244,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 182088,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 473439,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 182163,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 473465,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 182173,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998496,
+              "absoluteErrorAtMost32PPM" : 999726,
+              "absoluteErrorAtMost64PPM" : 999955,
+              "absoluteErrorAtMost8PPM" : 988899,
+              "absoluteErrorSum" : 659332,
+              "channelCount" : 522240,
+              "differentChannelCount" : 289077,
+              "maximumAbsoluteError" : 114,
+              "meanAbsoluteErrorMicrounits" : 1262507,
+              "meanSquaredErrorMicrounits" : 6072713,
+              "psnrMicrodecibels" : 40296976,
+              "squaredErrorSum" : 3171414
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "03b583125350098d068ac2ed4756bac36ae6f7cb6cd87fe5e4ced3408120ad35",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 182086,
+      "entropyStartOffset" : 128398,
+      "immediateFollowingSegmentEndOffset" : 182163,
+      "nextScanEntropyStartOffset" : 182173,
+      "scan" : 4,
+      "terminatingMarkerCodeEndOffset" : 182088,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 729533,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 280699,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 729538,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 280701,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 729741,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 280779,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 729767,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 280789,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998575,
+              "absoluteErrorAtMost32PPM" : 999733,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989723,
+              "absoluteErrorSum" : 604932,
+              "channelCount" : 522240,
+              "differentChannelCount" : 257768,
+              "maximumAbsoluteError" : 116,
+              "meanAbsoluteErrorMicrounits" : 1158340,
+              "meanSquaredErrorMicrounits" : 5720695,
+              "psnrMicrodecibels" : 40556315,
+              "squaredErrorSum" : 2987576
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "460e8175562a4f6404f2135e5c9af21f9d9bc987373d1fb0ca8528057b874608",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 280699,
+      "entropyStartOffset" : 182173,
+      "immediateFollowingSegmentEndOffset" : 280779,
+      "nextScanEntropyStartOffset" : 280789,
+      "scan" : 5,
+      "terminatingMarkerCodeEndOffset" : 280701,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 915496,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 352251,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 915501,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 352253,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 915665,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 352316,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 915691,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 352326,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 352251,
+      "entropyStartOffset" : 280789,
+      "immediateFollowingSegmentEndOffset" : 352316,
+      "nextScanEntropyStartOffset" : 352326,
+      "scan" : 6,
+      "terminatingMarkerCodeEndOffset" : 352253,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 963525,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 370731,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 963530,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 370733,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 963663,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 370784,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 963689,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 370794,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 998569,
+              "absoluteErrorAtMost32PPM" : 999728,
+              "absoluteErrorAtMost64PPM" : 999950,
+              "absoluteErrorAtMost8PPM" : 989721,
+              "absoluteErrorSum" : 589015,
+              "channelCount" : 522240,
+              "differentChannelCount" : 244052,
+              "maximumAbsoluteError" : 117,
+              "meanAbsoluteErrorMicrounits" : 1127862,
+              "meanSquaredErrorMicrounits" : 5672053,
+              "psnrMicrodecibels" : 40593401,
+              "squaredErrorSum" : 2962173
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "b316e16a1d3e5c33b771e4ef755dce087c0bfc5d611bf77199d2187898e3d3ec",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 370731,
+      "entropyStartOffset" : 352326,
+      "immediateFollowingSegmentEndOffset" : 370784,
+      "nextScanEntropyStartOffset" : 370794,
+      "scan" : 7,
+      "terminatingMarkerCodeEndOffset" : 370733,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 979499,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 376877,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 979504,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "terminating-marker-code-end"
+          ],
+          "offset" : 376879,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 979623,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end"
+          ],
+          "offset" : 376925,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 979649,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "next-scan-entropy-start"
+          ],
+          "offset" : 376935,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 999429,
+              "absoluteErrorAtMost32PPM" : 999990,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 992371,
+              "absoluteErrorSum" : 385099,
+              "channelCount" : 522240,
+              "differentChannelCount" : 157578,
+              "maximumAbsoluteError" : 36,
+              "meanAbsoluteErrorMicrounits" : 737398,
+              "meanSquaredErrorMicrounits" : 3353613,
+              "psnrMicrodecibels" : 42875674,
+              "squaredErrorSum" : 1751391
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "1a2a630cd29a7c65c76a08e2c1cba54f9ca67c2392b190f039a7a23a78424f67",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 376877,
+      "entropyStartOffset" : 370794,
+      "immediateFollowingSegmentEndOffset" : 376925,
+      "nextScanEntropyStartOffset" : 376935,
+      "scan" : 8,
+      "terminatingMarkerCodeEndOffset" : 376879,
+      "terminatingMarkerHex" : "0xC4"
+    },
+    {
+      "checkpoints" : [
+        {
+          "encodedByteFractionPPM" : 999994,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 1000000,
+              "absoluteErrorAtMost32PPM" : 1000000,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 1000000,
+              "absoluteErrorSum" : 0,
+              "channelCount" : 522240,
+              "differentChannelCount" : 0,
+              "maximumAbsoluteError" : 0,
+              "meanAbsoluteErrorMicrounits" : 0,
+              "meanSquaredErrorMicrounits" : 0,
+              "psnrMicrodecibels" : 999000000,
+              "squaredErrorSum" : 0
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "bdf35126d8b7bc9f7101072e9709d5f3d7b5664605ee6fdb806d6ae87f43b46f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "entropy-end-before-marker"
+          ],
+          "offset" : 384763,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 1000000,
+              "absoluteErrorAtMost32PPM" : 1000000,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 1000000,
+              "absoluteErrorSum" : 0,
+              "channelCount" : 522240,
+              "differentChannelCount" : 0,
+              "maximumAbsoluteError" : 0,
+              "meanAbsoluteErrorMicrounits" : 0,
+              "meanSquaredErrorMicrounits" : 0,
+              "psnrMicrodecibels" : 999000000,
+              "squaredErrorSum" : 0
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "bdf35126d8b7bc9f7101072e9709d5f3d7b5664605ee6fdb806d6ae87f43b46f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        },
+        {
+          "encodedByteFractionPPM" : 1000000,
+          "freshSource" : {
+            "frameStatusRawValue" : -1,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 1000000,
+              "absoluteErrorAtMost32PPM" : 1000000,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 1000000,
+              "absoluteErrorSum" : 0,
+              "channelCount" : 522240,
+              "differentChannelCount" : 0,
+              "maximumAbsoluteError" : 0,
+              "meanAbsoluteErrorMicrounits" : 0,
+              "meanSquaredErrorMicrounits" : 0,
+              "psnrMicrodecibels" : 999000000,
+              "squaredErrorSum" : 0
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "bdf35126d8b7bc9f7101072e9709d5f3d7b5664605ee6fdb806d6ae87f43b46f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          },
+          "labels" : [
+            "immediate-following-segment-end",
+            "next-scan-entropy-start",
+            "terminating-marker-code-end"
+          ],
+          "offset" : 384765,
+          "sequentialSource" : {
+            "frameStatusRawValue" : 0,
+            "metricsAgainstFinal" : {
+              "absoluteErrorAtMost16PPM" : 1000000,
+              "absoluteErrorAtMost32PPM" : 1000000,
+              "absoluteErrorAtMost64PPM" : 1000000,
+              "absoluteErrorAtMost8PPM" : 1000000,
+              "absoluteErrorSum" : 0,
+              "channelCount" : 522240,
+              "differentChannelCount" : 0,
+              "maximumAbsoluteError" : 0,
+              "meanAbsoluteErrorMicrounits" : 0,
+              "meanSquaredErrorMicrounits" : 0,
+              "psnrMicrodecibels" : 999000000,
+              "squaredErrorSum" : 0
+            },
+            "outputPixelHeight" : 340,
+            "outputPixelWidth" : 512,
+            "pixelRGBSHA256" : "bdf35126d8b7bc9f7101072e9709d5f3d7b5664605ee6fdb806d6ae87f43b46f",
+            "propertiesAvailable" : true,
+            "rasterAvailable" : true,
+            "sourceStatusRawValue" : -1
+          }
+        }
+      ],
+      "entropyEndMarkerStartOffset" : 384763,
+      "entropyStartOffset" : 376935,
+      "immediateFollowingSegmentEndOffset" : 384765,
+      "nextScanEntropyStartOffset" : 384765,
+      "scan" : 9,
+      "terminatingMarkerCodeEndOffset" : 384765,
+      "terminatingMarkerHex" : "0xD9"
+    }
+  ],
+  "schemaVersion" : 1,
+  "sourceDescription" : "USDA Whitten Building facade and Washington Monument after snow.",
+  "sourceID" : "architecture-usda-snow",
+  "sourcePixelHeight" : 1275,
+  "sourcePixelWidth" : 1920
+}

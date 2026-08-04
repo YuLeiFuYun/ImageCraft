@@ -1,0 +1,309 @@
+{
+  "artifacts": {
+    "aggregate": {
+      "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/aggregate-clean-8cbf388.json",
+      "sha256": "09ab328f2a9486b9b9e626f639c5b34029d222ada42089436850330c3e44e010"
+    },
+    "manifest": {
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/manifest.json",
+      "sha256": "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46"
+    },
+    "policyAnalysis": {
+      "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/policy-analysis-8cbf388.json",
+      "sha256": "98b4583cc924a1ecbb9995e891d0c9928ea4f1c11d4f76653b163c960d2ba670"
+    },
+    "rawReports": {
+      "animal-usda-cow-sunset--default-successive-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/animal-usda-cow-sunset--default-successive-v1-a.json",
+        "sha256": "91006aa001e9b4bffd1e2610c9e58a787ca7a98966f083c8387a2425234036e0"
+      },
+      "animal-usda-cow-sunset--default-successive-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/animal-usda-cow-sunset--default-successive-v1-b.json",
+        "sha256": "91006aa001e9b4bffd1e2610c9e58a787ca7a98966f083c8387a2425234036e0"
+      },
+      "animal-usda-cow-sunset--luma-frontloaded-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/animal-usda-cow-sunset--luma-frontloaded-v1-a.json",
+        "sha256": "a1871b9334eb9cde8471b094050e3041c8fa01d87f0220a38221082da319e5a1"
+      },
+      "animal-usda-cow-sunset--luma-frontloaded-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/animal-usda-cow-sunset--luma-frontloaded-v1-b.json",
+        "sha256": "a1871b9334eb9cde8471b094050e3041c8fa01d87f0220a38221082da319e5a1"
+      },
+      "animal-usda-cow-sunset--spectral-balanced-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/animal-usda-cow-sunset--spectral-balanced-v1-a.json",
+        "sha256": "877a35a77eb6de69ec0a803e055aaba995083391ff7611a09b5b971941b05aa3"
+      },
+      "animal-usda-cow-sunset--spectral-balanced-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/animal-usda-cow-sunset--spectral-balanced-v1-b.json",
+        "sha256": "877a35a77eb6de69ec0a803e055aaba995083391ff7611a09b5b971941b05aa3"
+      },
+      "architecture-usda-snow--default-successive-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/architecture-usda-snow--default-successive-v1-a.json",
+        "sha256": "9b82d0f5500dedee184f83ed7a33a297eaaf0ca8f1d2356fc34eb7dd9e8e2b19"
+      },
+      "architecture-usda-snow--default-successive-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/architecture-usda-snow--default-successive-v1-b.json",
+        "sha256": "9b82d0f5500dedee184f83ed7a33a297eaaf0ca8f1d2356fc34eb7dd9e8e2b19"
+      },
+      "architecture-usda-snow--luma-frontloaded-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/architecture-usda-snow--luma-frontloaded-v1-a.json",
+        "sha256": "1ac329e38d26191d703ca6311c58ad83d06f7bcc37ed81d28518c41ce514c48b"
+      },
+      "architecture-usda-snow--luma-frontloaded-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/architecture-usda-snow--luma-frontloaded-v1-b.json",
+        "sha256": "1ac329e38d26191d703ca6311c58ad83d06f7bcc37ed81d28518c41ce514c48b"
+      },
+      "architecture-usda-snow--spectral-balanced-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/architecture-usda-snow--spectral-balanced-v1-a.json",
+        "sha256": "f660aa052256acef58bdf571a9905747c3b97278c859f6d1f8a733bdff9a55a5"
+      },
+      "architecture-usda-snow--spectral-balanced-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/architecture-usda-snow--spectral-balanced-v1-b.json",
+        "sha256": "f660aa052256acef58bdf571a9905747c3b97278c859f6d1f8a733bdff9a55a5"
+      },
+      "landscape-coconino-sunflowers--default-successive-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/landscape-coconino-sunflowers--default-successive-v1-a.json",
+        "sha256": "c47f8a045a0554549beb79806c5ad8f6327ec4da22584add720fc7632b22ccca"
+      },
+      "landscape-coconino-sunflowers--default-successive-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/landscape-coconino-sunflowers--default-successive-v1-b.json",
+        "sha256": "c47f8a045a0554549beb79806c5ad8f6327ec4da22584add720fc7632b22ccca"
+      },
+      "landscape-coconino-sunflowers--luma-frontloaded-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/landscape-coconino-sunflowers--luma-frontloaded-v1-a.json",
+        "sha256": "1afd33a5dbbfffad26dcad6d725ff4c96b4d9c995c6c9ec9d18ee0799b78bb4d"
+      },
+      "landscape-coconino-sunflowers--luma-frontloaded-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/landscape-coconino-sunflowers--luma-frontloaded-v1-b.json",
+        "sha256": "1afd33a5dbbfffad26dcad6d725ff4c96b4d9c995c6c9ec9d18ee0799b78bb4d"
+      },
+      "landscape-coconino-sunflowers--spectral-balanced-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/landscape-coconino-sunflowers--spectral-balanced-v1-a.json",
+        "sha256": "b8e86a5dca17af478c8da1d34de7e90fee63f0596474ccbbbe139f341bf3ba4d"
+      },
+      "landscape-coconino-sunflowers--spectral-balanced-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/landscape-coconino-sunflowers--spectral-balanced-v1-b.json",
+        "sha256": "b8e86a5dca17af478c8da1d34de7e90fee63f0596474ccbbbe139f341bf3ba4d"
+      },
+      "people-usda-meeting--default-successive-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/people-usda-meeting--default-successive-v1-a.json",
+        "sha256": "fd8f7a857581f1eb633d99b87daf2bfa06382bf108373e2264112be0740d4b3a"
+      },
+      "people-usda-meeting--default-successive-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/people-usda-meeting--default-successive-v1-b.json",
+        "sha256": "fd8f7a857581f1eb633d99b87daf2bfa06382bf108373e2264112be0740d4b3a"
+      },
+      "people-usda-meeting--luma-frontloaded-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/people-usda-meeting--luma-frontloaded-v1-a.json",
+        "sha256": "cb84c7a15e5cf1be34607943e2eac6526a884c87cb62e7d18785436dde2c1cf5"
+      },
+      "people-usda-meeting--luma-frontloaded-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/people-usda-meeting--luma-frontloaded-v1-b.json",
+        "sha256": "cb84c7a15e5cf1be34607943e2eac6526a884c87cb62e7d18785436dde2c1cf5"
+      },
+      "people-usda-meeting--spectral-balanced-v1-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/people-usda-meeting--spectral-balanced-v1-a.json",
+        "sha256": "9d407a809a344cf8a28a07d5a4932ac7c37c1a4970cdbdd1cf7064637aa3c152"
+      },
+      "people-usda-meeting--spectral-balanced-v1-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/raw/people-usda-meeting--spectral-balanced-v1-b.json",
+        "sha256": "9d407a809a344cf8a28a07d5a4932ac7c37c1a4970cdbdd1cf7064637aa3c152"
+      }
+    }
+  },
+  "capturedAt": "2026-08-04",
+  "decision": {
+    "changeProductionThresholds": false,
+    "passed": true,
+    "productionThresholds": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "qualification": "retain the current non-dominated conservative default; no universal optimum is established",
+    "rationale": [
+      "The current policy is on the eleven-policy Pareto frontier and has no dominator across mean exposure, worst exposure, maximum byte gap, minimum last-preview PSNR, and mean generation count.",
+      "It ranks fifth of 56 for mean byte-weighted exposure MSE, third for worst exposure, and first for minimum last-preview PSNR.",
+      "Alternative leaders optimize mutually conflicting pixel-domain objectives and have not been tested under network timing, UI presentation, energy, or subjective tasks."
+    ],
+    "supportedClaims": [
+      "On the fixed macOS/ImageIO environment and retained corpus, all 104 scan entropy prefixes are rasterizable before the terminating marker arrives.",
+      "Fresh and repeatedly updated incremental sources produce identical pixels at all 388 recorded checkpoints.",
+      "CGImageSource frame status is not a sufficient preview-availability oracle in this experiment because rasterizable fresh prefixes report an incomplete status.",
+      "The current 1/2/4/8 policy is non-dominated within the explicitly enumerated 56-policy, four-threshold candidate set under the stated pixel-domain objectives."
+    ],
+    "unsupportedClaims": [
+      "The current policy is optimal for arbitrary JPEG scan scripts, image distributions, operating systems, devices, networks, or user tasks.",
+      "Entropy-end rasterizability is an Apple framework contract across OS releases.",
+      "Byte-weighted MSE or PSNR is a sufficient proxy for perceived usefulness, recognition, jank, or energy.",
+      "The experiment justifies increasing preview count or changing public generation semantics."
+    ]
+  },
+  "environment": {
+    "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+    "environment": {
+      "activeProcessorCount": 8,
+      "hardwareModel": "MacBookPro18,3",
+      "lowPowerModeEnabled": false,
+      "physicalMemoryBytes": 17179869184,
+      "thermalState": "nominal"
+    },
+    "runtime": {
+      "architecture": "arm64",
+      "coreGraphicsBundleVersion": "2047",
+      "imageIOBundleShortVersion": "3.3.0",
+      "imageIOBundleVersion": "2847",
+      "operatingSystemBuild": "26A5388g",
+      "operatingSystemVersion": {
+        "majorVersion": 27,
+        "minorVersion": 0,
+        "patchVersion": 0
+      },
+      "platform": "macOS",
+      "schemaVersion": 1
+    }
+  },
+  "experimentID": "progressive-jpeg-scan-checkpoint-policy-v1",
+  "findings": {
+    "checkpointFindings": {
+      "checkpointStableWithinScanCount": 104,
+      "defaultSuccessiveScan8To9": [
+        {
+          "additionalEncodedByteFractionPPM": 27532,
+          "additionalEncodedBytes": 6847,
+          "psnrGainMicrodecibels": 7190476,
+          "sourceID": "animal-usda-cow-sunset"
+        },
+        {
+          "additionalEncodedByteFractionPPM": 16324,
+          "additionalEncodedBytes": 6198,
+          "psnrGainMicrodecibels": 4275426,
+          "sourceID": "architecture-usda-snow"
+        },
+        {
+          "additionalEncodedByteFractionPPM": 32824,
+          "additionalEncodedBytes": 22177,
+          "psnrGainMicrodecibels": 11131796,
+          "sourceID": "landscape-coconino-sunflowers"
+        },
+        {
+          "additionalEncodedByteFractionPPM": 17150,
+          "additionalEncodedBytes": 6349,
+          "psnrGainMicrodecibels": 4779190,
+          "sourceID": "people-usda-meeting"
+        }
+      ],
+      "entropyEndBeforeMarkerRasterizableScanCount": 104,
+      "freshFrameStatusDistributionAtRasterizableCheckpoints": {
+        "-1": 388
+      },
+      "freshSequentialEqualScanCount": 104,
+      "sequentialFrameStatusDistributionAtRasterizableCheckpoints": {
+        "-1": 12,
+        "0": 376
+      },
+      "totalCheckpointCount": 388,
+      "totalScanCount": 104
+    },
+    "currentPolicy": {
+      "dominatingPolicies": [],
+      "generationCountDistribution": {
+        "3": 4,
+        "4": 8
+      },
+      "maximumPreviewGapPPM": 685457,
+      "meanByteWeightedExposureMSEMicrounits": 38109287,
+      "meanGenerationCountMicrounits": 3666667,
+      "minimumLastPreviewPSNRMicrodecibels": 28704763,
+      "ranks": {
+        "maximumGap": 28,
+        "meanExposure": 5,
+        "meanGenerationCount": 11,
+        "minimumLastPreviewPSNR": 1,
+        "policyCount": 56,
+        "worstExposure": 3
+      },
+      "thresholds": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "worstByteWeightedExposureMSEMicrounits": 144542645
+    },
+    "leaders": {
+      "maximumMinimumLastPreviewPSNR": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "minimumMaximumGap": [
+        1,
+        4,
+        6,
+        9
+      ],
+      "minimumMeanExposure": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "minimumWorstExposure": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "paretoFrontierCount": 11
+  },
+  "implementation": {
+    "cleanWorktreeAtCapture": true,
+    "commit": "8cbf3886ee69c03d813f97289a3b17a5b1c90aa7",
+    "commitTree": "d6eb977aafd5973871871bd423c6cd9f97ee9478",
+    "sourceIdentityFileCount": 204,
+    "sourceIdentityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+    "sourceIdentityReportPath": "Evidence/Experiments/ProgressiveJPEGScanCheckpoints/source-identity-8cbf388.json",
+    "sourceIdentityReportSHA256": "9f6263bd80f6b5ba6085c307491bdae8d8937718565dfe2bf687d548b72b0aec",
+    "sourceIdentitySHA256": "7d89e552b25a331337de0074ff0ceafe2c20ef018090260856a9249b1e9f2f05",
+    "sourceIdentitySchemaVersion": 2
+  },
+  "interpretation": {
+    "byteWeightedMSEIsPerceptualUtility": false,
+    "policyOptimalityEstablished": false,
+    "ruleTiming": "descriptive post-hoc policy enumeration; the objective and candidate space were selected after observing the real-photo matrix",
+    "statusIsRasterAvailabilityOracle": false
+  },
+  "methodology": {
+    "analysisSurface": "deterministic sRGB RGB8 channel metrics",
+    "buildConfiguration": "release",
+    "checkpointKinds": [
+      "entropy-end-before-marker",
+      "terminating-marker-code-end",
+      "immediate-following-segment-end",
+      "next-scan-entropy-start"
+    ],
+    "evidenceVersion": "imagecraft-progressive-scan-checkpoint-v1",
+    "executionsPerVariant": 2,
+    "freshAndSequentialIncrementalSources": true,
+    "matrixVersion": "imagecraft-progressive-scan-checkpoint-matrix-v1",
+    "policyEnumeration": "all four-threshold integer policies containing scan 1 with remaining thresholds chosen from scans 2 through 9",
+    "policyObjective": "encoded-byte-weighted final-reference MSE from first emitted preview until final bytes",
+    "reference": "complete ImageIO decode of the same encoded JPEG",
+    "scanScriptCount": 3,
+    "sourceCount": 4,
+    "timingMeasured": false,
+    "variantCount": 12
+  },
+  "remainingEvidence": [
+    "Controlled network-to-presentation experiments with bandwidth, latency, chunk partitioning, cancellation, display cadence, and frame timing.",
+    "Energy and peak-working-set measurements for candidate threshold policies on iOS devices.",
+    "A larger stratified image and scan-script corpus, including text, line art, dark scenes, grayscale, wide-gamut, HDR, and adversarial progressive streams.",
+    "Perceptual and task-based evaluation of preview utility rather than final-reference pixel error alone.",
+    "Cross-OS validation of raster availability before the terminating marker and the meaning of CGImageSource status values."
+  ],
+  "schemaVersion": 1
+}

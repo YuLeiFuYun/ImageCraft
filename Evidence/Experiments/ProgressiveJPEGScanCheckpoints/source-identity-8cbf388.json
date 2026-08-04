@@ -1,0 +1,1268 @@
+{
+  "coverage": {
+    "excludedAnywhere": [
+      ".DS_Store",
+      "__pycache__"
+    ],
+    "excludedSubtrees": [
+      "Fixtures/ConsumerSmoke/.build",
+      "Fixtures/ConsumerSmoke/.swiftpm"
+    ],
+    "excludedTopLevel": [
+      ".artifacts",
+      ".build",
+      ".git",
+      ".swiftpm"
+    ],
+    "includedTopLevel": [
+      ".github",
+      ".gitignore",
+      "API",
+      "CONTRIBUTING.md",
+      "Evidence",
+      "Fixtures",
+      "Integration",
+      "LICENSE",
+      "Package.swift",
+      "README.md",
+      "ROADMAP.md",
+      "SECURITY.md",
+      "Sources",
+      "Tests",
+      "Tools",
+      "docs",
+      "scripts"
+    ],
+    "mode": "explicit-top-level-complete-v2"
+  },
+  "fileCount": 204,
+  "files": [
+    {
+      "byteCount": 934,
+      "executable": false,
+      "path": ".github/workflows/verify.yml",
+      "sha256": "65639283925e42622430ffed46519f080e461cf1b1da4c48363d7e09d0890b84"
+    },
+    {
+      "byteCount": 84,
+      "executable": false,
+      "path": ".gitignore",
+      "sha256": "9b6b5f73d15e0934bcc8f145897c8f576a2350fcc3fe6306070cb9290653beb0"
+    },
+    {
+      "byteCount": 140831,
+      "executable": false,
+      "path": "API/PublicAPI.json",
+      "sha256": "85ba07c36420e3d08fa4eb34b24737105f7e556b226907f1448fda3c7f174c20"
+    },
+    {
+      "byteCount": 520,
+      "executable": false,
+      "path": "CONTRIBUTING.md",
+      "sha256": "c8a794bf760c90b8ba9d51bc69baacfc53c010a0b2b74cbf751dd67b94d75966"
+    },
+    {
+      "byteCount": 4890,
+      "executable": false,
+      "path": "Evidence/Baselines/macos-27.0-26A5388g-arm64.json",
+      "sha256": "b0f8446309426230ced77c384ccac9b36d186e9991432212172e9835ac3b45c6"
+    },
+    {
+      "byteCount": 5017,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/after-clean-4460ca8.json",
+      "sha256": "30d251bb0f10f11f0864af0a33b21437cd5777ede4ac1f9ebcf4f28fd34cf39f"
+    },
+    {
+      "byteCount": 5017,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/after-historical.json",
+      "sha256": "72c7022a07aff58bd88d9704122db7ecdef0ed42af9be87f913e2170c88dd2b3"
+    },
+    {
+      "byteCount": 5024,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/before-historical.json",
+      "sha256": "28265b1584520e1f65086104866e8cb1937ec530bb6fd32823f6560d1ff0adca"
+    },
+    {
+      "byteCount": 20857,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/source-identity-4460ca8.json",
+      "sha256": "4d52c5900ad6b4768170dbf00c182a02bcd7ffb212f27f00fdda913139c38e28"
+    },
+    {
+      "byteCount": 38924,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGFirstPreview/campaign-1.json",
+      "sha256": "0fca772f47853aa9de2efe48158e186f6c5b3478be07a55fa2d212f720071d99"
+    },
+    {
+      "byteCount": 38922,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGFirstPreview/campaign-2.json",
+      "sha256": "982ca5bfa1a3c3b5f7812f019164b208ebb19180e75e2a9e80a83e7cd17d8d4f"
+    },
+    {
+      "byteCount": 22936,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGFirstPreview/source-identity-ffaef9f.json",
+      "sha256": "66775fbd919086d5658e67686cc942a04014a0116da9f23ca8182c8136bafdf4"
+    },
+    {
+      "byteCount": 11108,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/aggregate-clean-085ba9b.json",
+      "sha256": "2c05d9bb4aaf53d53f229eb6a3b19b363c04e6cb4772a54420fc1c25d453e579"
+    },
+    {
+      "byteCount": 4505,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-1024-a.json",
+      "sha256": "5bb79ead4de31136457545bb046b8a9dc14f329ab3d95c996dbdbb84ebecd787"
+    },
+    {
+      "byteCount": 4505,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-1024-b.json",
+      "sha256": "5bb79ead4de31136457545bb046b8a9dc14f329ab3d95c996dbdbb84ebecd787"
+    },
+    {
+      "byteCount": 4506,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-32768-a.json",
+      "sha256": "c2798a744300a034793601231271d73007f9362f2a3ce66fb902cf91b9b5d7b3"
+    },
+    {
+      "byteCount": 4506,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-32768-b.json",
+      "sha256": "c2798a744300a034793601231271d73007f9362f2a3ce66fb902cf91b9b5d7b3"
+    },
+    {
+      "byteCount": 24764,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/source-identity-085ba9b.json",
+      "sha256": "99e49ca7b75180ea67bfb8caddf7d0f8ae850cbedbd21292e0c64bc24226a13d"
+    },
+    {
+      "byteCount": 111146,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/aggregate-clean-75acd92.json",
+      "sha256": "5c8066332556ad35cdb51eb5a18ca6c7e65cf7cc5a6e6c82d99a0d8089f06e5b"
+    },
+    {
+      "byteCount": 4592,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-1024-a.json",
+      "sha256": "54e00f5ef91589e9d31be98e11e2cb6bc9fcf976fec162134ff935c354928af8"
+    },
+    {
+      "byteCount": 4592,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-1024-b.json",
+      "sha256": "54e00f5ef91589e9d31be98e11e2cb6bc9fcf976fec162134ff935c354928af8"
+    },
+    {
+      "byteCount": 3843,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-32768-a.json",
+      "sha256": "f038769bbede1134b93aa1a69639975dc3dc25eb7bfebaff6dfddf5a75de480a"
+    },
+    {
+      "byteCount": 3843,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-32768-b.json",
+      "sha256": "f038769bbede1134b93aa1a69639975dc3dc25eb7bfebaff6dfddf5a75de480a"
+    },
+    {
+      "byteCount": 4591,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-1024-a.json",
+      "sha256": "675ff582ead700d25bce0e3b4ad2f2c573a4d7117f4869222f6ec2ba1fdd270b"
+    },
+    {
+      "byteCount": 4591,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-1024-b.json",
+      "sha256": "675ff582ead700d25bce0e3b4ad2f2c573a4d7117f4869222f6ec2ba1fdd270b"
+    },
+    {
+      "byteCount": 3843,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-32768-a.json",
+      "sha256": "8353a64a1fb375d1334d94bd2dcf87be2c9349d2d2a9be4789b11bdf062ceb3e"
+    },
+    {
+      "byteCount": 3843,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-32768-b.json",
+      "sha256": "8353a64a1fb375d1334d94bd2dcf87be2c9349d2d2a9be4789b11bdf062ceb3e"
+    },
+    {
+      "byteCount": 3843,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-1024-a.json",
+      "sha256": "1b0c192437914de283c02fc6b925feb8279ba4e57015b507ff393742e4907b18"
+    },
+    {
+      "byteCount": 3843,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-1024-b.json",
+      "sha256": "1b0c192437914de283c02fc6b925feb8279ba4e57015b507ff393742e4907b18"
+    },
+    {
+      "byteCount": 3842,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-32768-a.json",
+      "sha256": "af578122cf0996f7f59d4bdf57fb5d0cbb4dc169299869d003ed4e2a57b332ee"
+    },
+    {
+      "byteCount": 3842,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-32768-b.json",
+      "sha256": "af578122cf0996f7f59d4bdf57fb5d0cbb4dc169299869d003ed4e2a57b332ee"
+    },
+    {
+      "byteCount": 4618,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-1024-a.json",
+      "sha256": "540ae4066fa30645bf9cc8700d9209e6da19a012c6ff431ca1be9b4fd78009d0"
+    },
+    {
+      "byteCount": 4618,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-1024-b.json",
+      "sha256": "540ae4066fa30645bf9cc8700d9209e6da19a012c6ff431ca1be9b4fd78009d0"
+    },
+    {
+      "byteCount": 3870,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-32768-a.json",
+      "sha256": "0c2b4e7640dc78af46b13738ac7e327b52b99444814cf4874705ae07d37bd7f8"
+    },
+    {
+      "byteCount": 3870,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-32768-b.json",
+      "sha256": "0c2b4e7640dc78af46b13738ac7e327b52b99444814cf4874705ae07d37bd7f8"
+    },
+    {
+      "byteCount": 4612,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-1024-a.json",
+      "sha256": "81334d33bb2e078675f206c698f1db7067b0fbfd1c6bbbc2a62c6cff1bb6a1ef"
+    },
+    {
+      "byteCount": 4612,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-1024-b.json",
+      "sha256": "81334d33bb2e078675f206c698f1db7067b0fbfd1c6bbbc2a62c6cff1bb6a1ef"
+    },
+    {
+      "byteCount": 3867,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-32768-a.json",
+      "sha256": "4c530fa94b313eaa61e5b74818f699242f62651a4fd48d2c25c9f24d47bcd395"
+    },
+    {
+      "byteCount": 3867,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-32768-b.json",
+      "sha256": "4c530fa94b313eaa61e5b74818f699242f62651a4fd48d2c25c9f24d47bcd395"
+    },
+    {
+      "byteCount": 3868,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-1024-a.json",
+      "sha256": "c032f8ec02321c5f017d7288a73d6668876e427a4752b9bf374cada8fa9303e2"
+    },
+    {
+      "byteCount": 3868,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-1024-b.json",
+      "sha256": "c032f8ec02321c5f017d7288a73d6668876e427a4752b9bf374cada8fa9303e2"
+    },
+    {
+      "byteCount": 3867,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-32768-a.json",
+      "sha256": "fa0620360fada949abc76f1814b6a03e2402248fa2cdcb5c1d2932d0603d8158"
+    },
+    {
+      "byteCount": 3867,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-32768-b.json",
+      "sha256": "fa0620360fada949abc76f1814b6a03e2402248fa2cdcb5c1d2932d0603d8158"
+    },
+    {
+      "byteCount": 4643,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-1024-a.json",
+      "sha256": "a3082d4f9069320a3fa5168576d7380b51fc3323655fd3fd02a4d7df5c4cc875"
+    },
+    {
+      "byteCount": 4643,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-1024-b.json",
+      "sha256": "a3082d4f9069320a3fa5168576d7380b51fc3323655fd3fd02a4d7df5c4cc875"
+    },
+    {
+      "byteCount": 4641,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-32768-a.json",
+      "sha256": "69d255fb265d82da020e475593d12c4a4ebcbe85d5e931b3ca3d8bb8f323ec4a"
+    },
+    {
+      "byteCount": 4641,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-32768-b.json",
+      "sha256": "69d255fb265d82da020e475593d12c4a4ebcbe85d5e931b3ca3d8bb8f323ec4a"
+    },
+    {
+      "byteCount": 4640,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024-a.json",
+      "sha256": "91ef8ee4a270695b3261d4bed211663b7483f408566b37a41017304bc1988e00"
+    },
+    {
+      "byteCount": 4640,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024-b.json",
+      "sha256": "91ef8ee4a270695b3261d4bed211663b7483f408566b37a41017304bc1988e00"
+    },
+    {
+      "byteCount": 4639,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-32768-a.json",
+      "sha256": "463ed41eca9af553e46a66dbf967465260913fdac5f5926800fb091eecfe0ee7"
+    },
+    {
+      "byteCount": 4639,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-32768-b.json",
+      "sha256": "463ed41eca9af553e46a66dbf967465260913fdac5f5926800fb091eecfe0ee7"
+    },
+    {
+      "byteCount": 3891,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-1024-a.json",
+      "sha256": "a290f581212d9133ed40d1189016fdecb1d855aff0c065316eff53e194e4066f"
+    },
+    {
+      "byteCount": 3891,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-1024-b.json",
+      "sha256": "a290f581212d9133ed40d1189016fdecb1d855aff0c065316eff53e194e4066f"
+    },
+    {
+      "byteCount": 3892,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-32768-a.json",
+      "sha256": "afb6f73d0316689132348e9038d26331a7823ec8c308c0d9bd5ceef7150c9169"
+    },
+    {
+      "byteCount": 3892,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-32768-b.json",
+      "sha256": "afb6f73d0316689132348e9038d26331a7823ec8c308c0d9bd5ceef7150c9169"
+    },
+    {
+      "byteCount": 4618,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-1024-a.json",
+      "sha256": "b187ba868ee026c18a5f5adb4157c69e2ce4c8bb7f17d46153e18b0bc157f199"
+    },
+    {
+      "byteCount": 4618,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-1024-b.json",
+      "sha256": "b187ba868ee026c18a5f5adb4157c69e2ce4c8bb7f17d46153e18b0bc157f199"
+    },
+    {
+      "byteCount": 4617,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-32768-a.json",
+      "sha256": "15e0b9f25e4fa7887fe6ef568e36c9737f4fc764372009a9da6f56315ce16110"
+    },
+    {
+      "byteCount": 4617,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-32768-b.json",
+      "sha256": "15e0b9f25e4fa7887fe6ef568e36c9737f4fc764372009a9da6f56315ce16110"
+    },
+    {
+      "byteCount": 4613,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-1024-a.json",
+      "sha256": "cd94e17ce12310d2c08073eaaf19c77b230f3d38d2de4e503facabb7064269b2"
+    },
+    {
+      "byteCount": 4613,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-1024-b.json",
+      "sha256": "cd94e17ce12310d2c08073eaaf19c77b230f3d38d2de4e503facabb7064269b2"
+    },
+    {
+      "byteCount": 3866,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-32768-a.json",
+      "sha256": "a526b99a8e289eedfa5cdd6cd56de6dadd76ce979f8b4d90da0ffc39a64c6225"
+    },
+    {
+      "byteCount": 3866,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-32768-b.json",
+      "sha256": "a526b99a8e289eedfa5cdd6cd56de6dadd76ce979f8b4d90da0ffc39a64c6225"
+    },
+    {
+      "byteCount": 3867,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-1024-a.json",
+      "sha256": "34d17d2ad9a0d43c42ed66c6d14abfbe6432539ee9fe5922e9cbd6d65f6a04bc"
+    },
+    {
+      "byteCount": 3867,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-1024-b.json",
+      "sha256": "34d17d2ad9a0d43c42ed66c6d14abfbe6432539ee9fe5922e9cbd6d65f6a04bc"
+    },
+    {
+      "byteCount": 3866,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-32768-a.json",
+      "sha256": "3504e363b52d1473c598c04fdd279a5689813b5c19e6ddf0e66348e404767f75"
+    },
+    {
+      "byteCount": 3866,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-32768-b.json",
+      "sha256": "3504e363b52d1473c598c04fdd279a5689813b5c19e6ddf0e66348e404767f75"
+    },
+    {
+      "byteCount": 33671,
+      "executable": false,
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/source-identity-75acd92.json",
+      "sha256": "4834668eb2ca2722aa8c2a5796bef4c816f6b3b32780bbdfc4d1979de432bb84"
+    },
+    {
+      "byteCount": 11151,
+      "executable": false,
+      "path": "Evidence/Experiments/jpeg-marker-scan-ab-2026-07-31.json",
+      "sha256": "d00753208ed7b04954f0e7df9d030c2dc0704eac97b5cfc05f47374b34c65f88"
+    },
+    {
+      "byteCount": 8858,
+      "executable": false,
+      "path": "Evidence/Experiments/progressive-jpeg-bounded-preview-ab-2026-08-04.json",
+      "sha256": "8795b9543eec931b45dfaeec42c891dd5418757bddf3c69b58ee01c8f10d8c30"
+    },
+    {
+      "byteCount": 22234,
+      "executable": false,
+      "path": "Evidence/Experiments/progressive-jpeg-first-preview-timeline-2026-08-04.json",
+      "sha256": "a5575d4058e234c05e0649bf8b28e1dbb462aba795a2a2bd60ca48d4b4c421a5"
+    },
+    {
+      "byteCount": 14792,
+      "executable": false,
+      "path": "Evidence/Experiments/progressive-jpeg-generation-quality-2026-08-04.json",
+      "sha256": "9a3df47e7786181b5203e302189581b4d1bf970c2e6e37553b65ac8504344f26"
+    },
+    {
+      "byteCount": 38128,
+      "executable": false,
+      "path": "Evidence/Experiments/progressive-jpeg-real-photo-scan-matrix-2026-08-04.json",
+      "sha256": "632cc78ae7fc0dce10468687653aac49810c8b437c27faf870ee01b9fcec72da"
+    },
+    {
+      "byteCount": 248686,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/animal-usda-cow-sunset--default-successive-v1.jpg",
+      "sha256": "3c8c249b8a8554a0c6cb2cf936e3f9af091fcdee5ed259b7746e153b24629c6b"
+    },
+    {
+      "byteCount": 251629,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/animal-usda-cow-sunset--luma-frontloaded-v1.jpg",
+      "sha256": "21998130bc8ea706220b0db1bb696a332ca8c13c1e804033f313c393154da36f"
+    },
+    {
+      "byteCount": 251544,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/animal-usda-cow-sunset--spectral-balanced-v1.jpg",
+      "sha256": "fc5a7fc1b070573af9f60b8139ab5f86d6565302b4cbcc46271666293743f255"
+    },
+    {
+      "byteCount": 379664,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/architecture-usda-snow--default-successive-v1.jpg",
+      "sha256": "fb037db18e2345e132c0aa66814830aa954fab2673901a13467cd912dd49a849"
+    },
+    {
+      "byteCount": 384765,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/architecture-usda-snow--luma-frontloaded-v1.jpg",
+      "sha256": "7cfe7f7b2e4757b6015a456160c6b273e6240e0ee0440f6befe6f42cc773eafa"
+    },
+    {
+      "byteCount": 383893,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/architecture-usda-snow--spectral-balanced-v1.jpg",
+      "sha256": "9d6d9f1685699b50d8570d5974e8f0d0129f8a202fc89a7f22e2db6dcefa6837"
+    },
+    {
+      "byteCount": 675633,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+      "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6"
+    },
+    {
+      "byteCount": 702660,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--luma-frontloaded-v1.jpg",
+      "sha256": "b3dcc4b3febcbee68044ad01cef3cdf3fefaef5390d4f090b0d19c2b53526c4e"
+    },
+    {
+      "byteCount": 706271,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--spectral-balanced-v1.jpg",
+      "sha256": "2c0117a1a1530ca14ab2a45b8fe52cadb0b443359799719848084a09dda82739"
+    },
+    {
+      "byteCount": 370199,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/people-usda-meeting--default-successive-v1.jpg",
+      "sha256": "494941339b490cededbb482a47ff7e1352761a4dcc93c82527775ae46c573a87"
+    },
+    {
+      "byteCount": 388542,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/people-usda-meeting--luma-frontloaded-v1.jpg",
+      "sha256": "ea7db2da5a13d513afee92be197ce31b678d2d7f8f59c6ceb8c1c5b903a764da"
+    },
+    {
+      "byteCount": 385087,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/people-usda-meeting--spectral-balanced-v1.jpg",
+      "sha256": "4a4879eec680d13b40fe7835f9cae6e58bc7ccfb8a42d598993c925d9a50ac39"
+    },
+    {
+      "byteCount": 11142,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/manifest.json",
+      "sha256": "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46"
+    },
+    {
+      "byteCount": 262,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/scans/default-successive-v1.txt",
+      "sha256": "9912d811d470207fb86914690203b40b59aa31a4a26531f2c59a82168886736e"
+    },
+    {
+      "byteCount": 249,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/scans/luma-frontloaded-v1.txt",
+      "sha256": "9e1c6dc521b8234222bc96fd8e293149d529bbf28cd0ed7892609eee75b0c4ee"
+    },
+    {
+      "byteCount": 205,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/scans/spectral-balanced-v1.txt",
+      "sha256": "bf6877487bc88259d3a213470da9005eb6b5522da917d6da0aaa6132ee9d5de8"
+    },
+    {
+      "byteCount": 355061,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/sources/animal-usda-cow-sunset.jpg",
+      "sha256": "d1aa2d8c7d3db332a04c642c9d4de0a9c9cb618b295da614b8ff974f3df980ee"
+    },
+    {
+      "byteCount": 495429,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/sources/architecture-usda-snow.jpg",
+      "sha256": "448885a9605953919382d4b3a9cb99580a54ddc9c139e2a3b433b113851a6662"
+    },
+    {
+      "byteCount": 984074,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/sources/landscape-coconino-sunflowers.jpg",
+      "sha256": "432837759008a26d94377d5ade143d41c4252e5b8e20b26edafd6395e02a3d83"
+    },
+    {
+      "byteCount": 490902,
+      "executable": false,
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/sources/people-usda-meeting.jpg",
+      "sha256": "df0e5784ee997e37df423eeec39bb0c914845b805c0cea383821cdb62ca6a561"
+    },
+    {
+      "byteCount": 8109,
+      "executable": false,
+      "path": "Evidence/Oracles/macos-27.0-26A5388g-arm64-imageio2847-jpegturbo3.2.0-libpng1.6.58.json",
+      "sha256": "4dd890d64fe4745528e4e87e2501445a6d3f79f615f72c9be0784ce24d6fcbc1"
+    },
+    {
+      "byteCount": 10026,
+      "executable": false,
+      "path": "Evidence/Performance/macos-27.0-26A5388g-arm64-macbookpro18,3.json",
+      "sha256": "468f983c24fbb5edb06150b563430a434e9db4ae5b18be64165f89170b474a5a"
+    },
+    {
+      "byteCount": 694,
+      "executable": false,
+      "path": "Fixtures/ConsumerSmoke/Package.swift",
+      "sha256": "81ed76a4a0a3c84202b0f92bf5cb3cd788ecca4b73342f39379794d516dc3d55"
+    },
+    {
+      "byteCount": 1593,
+      "executable": false,
+      "path": "Fixtures/ConsumerSmoke/Sources/ImageCraftConsumerSmoke/ImageCraftConsumerSmoke.swift",
+      "sha256": "f4bc98eff91687383341e1b3fcd04daf83c93486d9e938a7b2d84e9e3aa3dfe1"
+    },
+    {
+      "byteCount": 1345,
+      "executable": false,
+      "path": "Integration/PlatformSupport.json",
+      "sha256": "8257bf0eea7422fbccc93e08d9647cddf62eae23b6ea711cfafdb2851f568408"
+    },
+    {
+      "byteCount": 1080,
+      "executable": false,
+      "path": "LICENSE",
+      "sha256": "74e73887767e08c8f02c81cc211186fb45deb4ef1f5e4fc38b2b1a095d1b567d"
+    },
+    {
+      "byteCount": 1481,
+      "executable": false,
+      "path": "Package.swift",
+      "sha256": "73c8e240b1b33a69c5e2c6e3f3fb32576506a89723fab128a1e2221cf5ba2e51"
+    },
+    {
+      "byteCount": 6873,
+      "executable": false,
+      "path": "README.md",
+      "sha256": "dfcd73861ab047a06915ba594e9032be345f744046f2b2c2989e695eef395aae"
+    },
+    {
+      "byteCount": 2049,
+      "executable": false,
+      "path": "ROADMAP.md",
+      "sha256": "fe7e313b9857c88b0ae56c5a3a822249be11244321af9ef6ed83766e95e451a2"
+    },
+    {
+      "byteCount": 374,
+      "executable": false,
+      "path": "SECURITY.md",
+      "sha256": "c34311dea6b09220ec9596234e46d4b16b069bb89e4498f460742afd24c55536"
+    },
+    {
+      "byteCount": 15321,
+      "executable": false,
+      "path": "Sources/ImageCraftCore/ImageCodecContract.swift",
+      "sha256": "ba464c5db9c4a74d80e10a2e5f3c5b0f24b6ae3f69f25fb60a379d33e7bbd522"
+    },
+    {
+      "byteCount": 283,
+      "executable": false,
+      "path": "Sources/ImageCraftCore/ImageContentMode.swift",
+      "sha256": "2137518ad390c990ef6a19896e5d45e0ec9f44acbc6f3bc384af2feaaef11b4a"
+    },
+    {
+      "byteCount": 2237,
+      "executable": false,
+      "path": "Sources/ImageCraftCore/ImageDecodeWorkingSetEstimator.swift",
+      "sha256": "898ca22750a4b94b9355e84de44036d8badb7c85cad28410f9cd3155625b0974"
+    },
+    {
+      "byteCount": 17053,
+      "executable": false,
+      "path": "Sources/ImageCraftCore/ImageEncoding.swift",
+      "sha256": "a2f00d5675017a76bcc64b03764f6c70ce7b29ec2b136c4dc69d935ca8f2071b"
+    },
+    {
+      "byteCount": 20730,
+      "executable": false,
+      "path": "Sources/ImageCraftCore/ImageTypes.swift",
+      "sha256": "334ba48d06e3db54d442dc7c08e1e8d6f3acbaa007785cbf80018afe1beacd79"
+    },
+    {
+      "byteCount": 19107,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/PerformanceBenchmark.swift",
+      "sha256": "8e6c7cd40e280ef057f605d1827efc209a4b5062edcd176be28e59f01108ca9a"
+    },
+    {
+      "byteCount": 6753,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/ProgressivePhotoCorpusEvidence.swift",
+      "sha256": "f107e3be17c99f7be71aa33cec4c2055d873374eac1efc5a8c77a2f4f9b1984a"
+    },
+    {
+      "byteCount": 3297,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/ProgressivePixelMetrics.swift",
+      "sha256": "8711fa8e30705c3b8d9531fa801a5bc8fe3be86f6695411553c5763e999b0b5d"
+    },
+    {
+      "byteCount": 8599,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/ProgressiveQualityEvidence.swift",
+      "sha256": "483050955239a81ae8d970de1f445a77b700d1dafa4647c1c751257c9e8065b7"
+    },
+    {
+      "byteCount": 15493,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/ProgressiveScanCheckpointEvidence.swift",
+      "sha256": "2d2272c5587a44cb84637679ff921dfb873fe04c4498408d2b4140a30add4136"
+    },
+    {
+      "byteCount": 10106,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/ProgressiveTimelineBenchmark.swift",
+      "sha256": "61dd60430fa517da68e52499b88adbe03b4550b12b6ffc47c0200be0c207c978"
+    },
+    {
+      "byteCount": 13742,
+      "executable": false,
+      "path": "Sources/ImageCraftEvidence/main.swift",
+      "sha256": "a933d835baab0b0c27f17d62c03dad82d1e20f44d339235221b858c002458719"
+    },
+    {
+      "byteCount": 3558,
+      "executable": false,
+      "path": "Sources/ImageCraftImageIO/BoundedDataConsumer.swift",
+      "sha256": "da130891adcec27a2277a6391e0b0edecf8f0f92a0d7e31bcb8bf4aedcd6ad39"
+    },
+    {
+      "byteCount": 17382,
+      "executable": false,
+      "path": "Sources/ImageCraftImageIO/EncodedImageSecurityInspector.swift",
+      "sha256": "a2086a12ca67845ccd2315724595d068e37f8296c517cca3a5e4a6808f4f0cc9"
+    },
+    {
+      "byteCount": 41084,
+      "executable": false,
+      "path": "Sources/ImageCraftImageIO/ImageIOImageDecoder.swift",
+      "sha256": "fac2d3c8ee7a519f1de0371c1bcc79882584493fdd7a67870905e089722a4bff"
+    },
+    {
+      "byteCount": 6240,
+      "executable": false,
+      "path": "Sources/ImageCraftImageIO/ImageIOImageEncoder.swift",
+      "sha256": "f0e172e3a22957b35a8e4825e318998c886d47d40776a83dd51f0e9d98ed7380"
+    },
+    {
+      "byteCount": 4517,
+      "executable": false,
+      "path": "Sources/ImageCraftImageIO/ImageIORuntimeFingerprint.swift",
+      "sha256": "ab0d0db3cafa8e047250617d7c654a8ff795b3567afdeb5c053a26007b1737e7"
+    },
+    {
+      "byteCount": 6143,
+      "executable": false,
+      "path": "Tests/ImageCraftCoreTests/ImageCodecContractTests.swift",
+      "sha256": "f5c9c4e13076d677184a4a1115f675874b3f3a54ab11e0a65b993ce47969fa56"
+    },
+    {
+      "byteCount": 4806,
+      "executable": false,
+      "path": "Tests/ImageCraftCoreTests/ImageEncodingContractTests.swift",
+      "sha256": "11be5be5f3c726a5e546fa55a31491ee9d3527ac898440905939c7d3ff280e2d"
+    },
+    {
+      "byteCount": 14683,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/ImageCodecConformanceTests.swift",
+      "sha256": "c20e5d170e356192e06f2def341cc080c0eed67f8077cf6fd2749fb9d22fd267"
+    },
+    {
+      "byteCount": 29697,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/ImageDecoderTests.swift",
+      "sha256": "ff7155e07924d22b7a318673e4775eb0bda452c1bd566d8d2bf586ac0c9abae3"
+    },
+    {
+      "byteCount": 13865,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/ImageEncoderTests.swift",
+      "sha256": "ad2a1c0e41bb9ce6fca14d9352edc7898387616e3d5ed937d25ccba11bb51db4"
+    },
+    {
+      "byteCount": 915,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/ImageIORuntimeFingerprintTests.swift",
+      "sha256": "5414e82723ed7cb257c9f3ccb3cba2ed215b066bf63dd896870620b28cf65b33"
+    },
+    {
+      "byteCount": 5987,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/ProgressiveImageIOTests.swift",
+      "sha256": "660e3063c480b3ab67ca7a174f99bab575222498f88ec17d1f34212cf0f0db73"
+    },
+    {
+      "byteCount": 64,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/gif-animated-two-frame.gif",
+      "sha256": "c2e0b8151788241a8469e37f7626eb4ca90a89ac6a2336d281e2ca3246768336"
+    },
+    {
+      "byteCount": 42,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/gif-static.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629"
+    },
+    {
+      "byteCount": 41,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/gif-truncated.gif",
+      "sha256": "1b5cfe9133478c27bfeedbabd4ec83e935e4c575ca6da86460928b7cea585734"
+    },
+    {
+      "byteCount": 988,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-app3-128.jpg",
+      "sha256": "1b3facceb7ed215ff0bc11548b9d54092e029aaa6aea3f4f442a0616ab76f4e2"
+    },
+    {
+      "byteCount": 856,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-baseline-420.jpg",
+      "sha256": "218392f142ad2f1bcf5280ecc1f82ded3152ecfa65fdcde23a6ff2c07f405585"
+    },
+    {
+      "byteCount": 454,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-cmyk.jpg",
+      "sha256": "b55909157e780b706627fcb05cadc3bd30dba19c8dcdd1e5f14516d85f14739c"
+    },
+    {
+      "byteCount": 543,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-grayscale.jpg",
+      "sha256": "f9f74e388a7dcd740c878c895a3e00b917f8739f3d86f71798742dfe9176f0c7"
+    },
+    {
+      "byteCount": 892,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-orientation-6.jpg",
+      "sha256": "bebf1713dc45fe10a3a3ec1823ea79ca748b9de416f98649b5b468123cb26b08"
+    },
+    {
+      "byteCount": 787,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "sha256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966"
+    },
+    {
+      "byteCount": 854,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-truncated.jpg",
+      "sha256": "cd8c5e327796efe946c5d090ab206c759c1f3bf08a9b3957596749b3b97e94ac"
+    },
+    {
+      "byteCount": 5406,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/manifest.json",
+      "sha256": "d253c39b803e96765be8e4c879717e30f28232c7ea798a5c797ac2cfe326f298"
+    },
+    {
+      "byteCount": 108,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/png-gray-unlabeled.png",
+      "sha256": "e476ddc1c76faadaba87e6e58010abe1f8a89baee7d0013c7f80817eb8aad47f"
+    },
+    {
+      "byteCount": 702,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/png-rgba-srgb.png",
+      "sha256": "1fbde630b05b5089d5a230dfeec1bcdcda5063f649b2207258626b5c2af6c8a1"
+    },
+    {
+      "byteCount": 592,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/png-text-128.png",
+      "sha256": "92f0ddc6f60ee57a6f56fb9c9f656bf9abb032f6c553fc0b6fc834c7e2f6f740"
+    },
+    {
+      "byteCount": 701,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/png-truncated.png",
+      "sha256": "c8907c3a76e343529c8c04de708989520d893a788947f42b50ad84ac03135949"
+    },
+    {
+      "byteCount": 8934,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/RetainedCorpusTests.swift",
+      "sha256": "677b3b3d11d4af560eca40b2e1da2bf2b93d4f70da312cdb6687fd73bd60dd11"
+    },
+    {
+      "byteCount": 1555,
+      "executable": false,
+      "path": "Tests/ImageCraftImageIOTests/TestFixtures.swift",
+      "sha256": "ee1ac5057393d5e04873285144337223d3d648edd391f6e75cd095ef25d99429"
+    },
+    {
+      "byteCount": 2772,
+      "executable": true,
+      "path": "Tools/API/normalize_public_api.py",
+      "sha256": "19567d3ab2d3165afeb45cccb10536d10aff9045b983329805ead2777e59422e"
+    },
+    {
+      "byteCount": 5168,
+      "executable": true,
+      "path": "Tools/Corpus/generate_progressive_photo_corpus.py",
+      "sha256": "f9c7641cb4d015c52039197762a6751216c3db5cd139831f6338232fc5c34fac"
+    },
+    {
+      "byteCount": 9592,
+      "executable": true,
+      "path": "Tools/Corpus/generate_retained_corpus.py",
+      "sha256": "e9c9c7420e6d69462c9012ca6f41cd333608993c0dc7536d5d153fa18854ea64"
+    },
+    {
+      "byteCount": 1539,
+      "executable": false,
+      "path": "Tools/Corpus/jpeg_cmyk_fixture.c",
+      "sha256": "512a1aed52b3857ca5ce135fd34b47eddb610879367d3397ab8b09aadba41f68"
+    },
+    {
+      "byteCount": 3447,
+      "executable": true,
+      "path": "Tools/Corpus/verify_manifest.py",
+      "sha256": "e3ee0b87cd5c99988201ca25b2639571435edd214df52230e2a4476a540dad1c"
+    },
+    {
+      "byteCount": 5743,
+      "executable": true,
+      "path": "Tools/Corpus/verify_progressive_photo_corpus.py",
+      "sha256": "1fc2644e848abb2d732624d69e85331a6c65d50f2a79d89419ef5a8d2044d0d5"
+    },
+    {
+      "byteCount": 6225,
+      "executable": true,
+      "path": "Tools/Identity/capture_source_identity.py",
+      "sha256": "ca943450e3fe36f8284fd422cd95832a5e66e09a6473bef6a81a3f9424d591d6"
+    },
+    {
+      "byteCount": 9447,
+      "executable": true,
+      "path": "Tools/Identity/materialize_clean_copy.py",
+      "sha256": "f0a0264267c52f84424c9ed67430469342d871ebb151abba369365886b3f2b6b"
+    },
+    {
+      "byteCount": 4389,
+      "executable": true,
+      "path": "Tools/Integration/verify_platform_support.py",
+      "sha256": "ba22127bb5dd925bbed97b8234f12da3da83b1574c51e688b53ad674fb10ea6f"
+    },
+    {
+      "byteCount": 7052,
+      "executable": true,
+      "path": "Tools/Oracle/analyze_oracle.py",
+      "sha256": "902ebeae3da8815e6c580c8fe9d079f7f1c1fb01f9ab128f875976b731aaeab7"
+    },
+    {
+      "byteCount": 1577,
+      "executable": false,
+      "path": "Tools/Oracle/png_decode.c",
+      "sha256": "6d32838946785807459e32db26d0f03ed12f604d5d2417234dffdb4b0aea91c2"
+    },
+    {
+      "byteCount": 6779,
+      "executable": true,
+      "path": "Tools/Performance/aggregate_performance.py",
+      "sha256": "ec8e9f95f2a1f8e2d909077bb711d6b5f3774585565defb67293c25ee19ae295"
+    },
+    {
+      "byteCount": 4554,
+      "executable": true,
+      "path": "Tools/Performance/aggregate_progressive_photo_matrix.py",
+      "sha256": "2847de2a6ceabff646f7a874ccf6e708c43ee902064594ef48be21d3dc1b8465"
+    },
+    {
+      "byteCount": 8001,
+      "executable": true,
+      "path": "Tools/Performance/aggregate_progressive_quality.py",
+      "sha256": "2f6883c43fd41e1c08db8ed65396ec6c43929254b9d62d86bc09da9dd7ea46a3"
+    },
+    {
+      "byteCount": 3738,
+      "executable": true,
+      "path": "Tools/Performance/aggregate_progressive_scan_checkpoints.py",
+      "sha256": "edab09a312c4708b80787d7116c90fdfb274c7e7112f2eaa95859ffe7b493583"
+    },
+    {
+      "byteCount": 9884,
+      "executable": true,
+      "path": "Tools/Performance/aggregate_progressive_timeline.py",
+      "sha256": "5d042b4fd8dbabf6a5b239472dd3ce563f68e87b51280666499dc11a19c037e4"
+    },
+    {
+      "byteCount": 3291,
+      "executable": true,
+      "path": "Tools/Performance/create_performance_baseline.py",
+      "sha256": "f3ace8619e810738cdfcc08ebb60f5485875c2e1ca95df9190c402eaa153735b"
+    },
+    {
+      "byteCount": 4069,
+      "executable": true,
+      "path": "Tools/Performance/validate_performance_baseline.py",
+      "sha256": "f25834369a70b8844b2caca2840a7c00f255c2aacc383f0fef98d52de80e9997"
+    },
+    {
+      "byteCount": 16564,
+      "executable": true,
+      "path": "Tools/Performance/validate_progressive_experiment.py",
+      "sha256": "8afcbd0a2eeebf4aa28310b9b4e901f6edc0b7b38f6104161e8a36d3f798d5bd"
+    },
+    {
+      "byteCount": 18527,
+      "executable": true,
+      "path": "Tools/Performance/validate_progressive_photo_matrix_experiment.py",
+      "sha256": "655efacdb2777c78fe3d3a9738ed118a072a3d94e6e39f788fb9fd46d62d4359"
+    },
+    {
+      "byteCount": 13160,
+      "executable": true,
+      "path": "Tools/Performance/validate_progressive_quality_experiment.py",
+      "sha256": "b961290807c4dbcd4c686bced1f81aed8b6ea2b4b251d48c0db045b734b716dc"
+    },
+    {
+      "byteCount": 14526,
+      "executable": true,
+      "path": "Tools/Performance/validate_progressive_timeline_experiment.py",
+      "sha256": "7c9d921a5ca2658c3e4f5798f88c7f582f320bc55ef4dbe316bbe48dba482e59"
+    },
+    {
+      "byteCount": 3485,
+      "executable": true,
+      "path": "Tools/Performance/verify_performance.py",
+      "sha256": "d9ea47f1159fc54449dbf6cf5db0171c1734256187802403b8825a6ae0735eb9"
+    },
+    {
+      "byteCount": 6628,
+      "executable": false,
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "1c130bef4b30283a3155104adc2b3b00f5682d613fa6a586300dc912ea82e467"
+    },
+    {
+      "byteCount": 4095,
+      "executable": false,
+      "path": "docs/ENCODING_CONTRACT.md",
+      "sha256": "168b8a5cc91dd9ad41b2d76bdd720ccdee6a2933787a2b68d43d4dc01fec422b"
+    },
+    {
+      "byteCount": 9536,
+      "executable": false,
+      "path": "docs/EVIDENCE.md",
+      "sha256": "bbba84bc7b0a4d3fe9145fcae97bccf40baefd38910d56f88b5c14e51124e887"
+    },
+    {
+      "byteCount": 3637,
+      "executable": false,
+      "path": "docs/INDEPENDENT_ORACLES.md",
+      "sha256": "117619f6e12ec1db33305571562d0004331e24c0995e3db9e4d97399f7c07196"
+    },
+    {
+      "byteCount": 2451,
+      "executable": false,
+      "path": "docs/INTEGRATION_CONTRACT.md",
+      "sha256": "3591b42868589168834c4511a2d8be60039e6427afa26decc2a401010b49fff0"
+    },
+    {
+      "byteCount": 20305,
+      "executable": false,
+      "path": "docs/PERFORMANCE.md",
+      "sha256": "4f0d12a413ed7f30c1605c8cb9e882c148096428a9baa7695b2ac124052cf32b"
+    },
+    {
+      "byteCount": 4078,
+      "executable": false,
+      "path": "docs/PROGRESSIVE_PHOTO_CORPUS.md",
+      "sha256": "3f4982b4b2e5516d7c1a5df82cc70179c9d830ec8efdaf4e566d4878b0687ee6"
+    },
+    {
+      "byteCount": 5198,
+      "executable": false,
+      "path": "docs/PUBLIC_API.md",
+      "sha256": "4e07cfc1573141faacb5fe3be7dd12f00fb2fcca35f4ceb92558e4b22c4800fe"
+    },
+    {
+      "byteCount": 2048,
+      "executable": false,
+      "path": "docs/RELEASING.md",
+      "sha256": "c6973d8915c75e3256d2d930e547fb5123bd65799f8f617d28e8f02461b736fd"
+    },
+    {
+      "byteCount": 3194,
+      "executable": false,
+      "path": "docs/RETAINED_CORPUS.md",
+      "sha256": "2814be123b2030a6fdbfc5f6deae7a995c0dc26ede88f21b8815319e4c2cbf3c"
+    },
+    {
+      "byteCount": 677,
+      "executable": true,
+      "path": "scripts/capture-imageio-evidence.sh",
+      "sha256": "2d9d000eff67297d9d8cbf07a8248b132d49e3ca869afc2486431880ba3d0950"
+    },
+    {
+      "byteCount": 1489,
+      "executable": true,
+      "path": "scripts/capture-performance-evidence.sh",
+      "sha256": "c311b0161a75881a1692c7e8f3487bef6e031b4f87a1cb03861a0841033eb023"
+    },
+    {
+      "byteCount": 1472,
+      "executable": true,
+      "path": "scripts/capture-progressive-performance-evidence.sh",
+      "sha256": "22230d59e2f0cd30d17dc450e2d18892a7f70bf2a440e506996a86f047f1e514"
+    },
+    {
+      "byteCount": 1413,
+      "executable": true,
+      "path": "scripts/capture-progressive-photo-matrix.sh",
+      "sha256": "c968e7116dd0468e00acab74d107faa22e44f8e3250e689b53f1c1bc41202c36"
+    },
+    {
+      "byteCount": 1256,
+      "executable": true,
+      "path": "scripts/capture-progressive-quality-evidence.sh",
+      "sha256": "737959656faec43d16ec206506e3e677f2ebb36a0ea42e3219dc0f5122bcdec6"
+    },
+    {
+      "byteCount": 1349,
+      "executable": true,
+      "path": "scripts/capture-progressive-scan-checkpoints.sh",
+      "sha256": "8b0c95be8432fc3e7e921295fbe2873a1e5d39ad67e8eaac85a0c02b16a0cf07"
+    },
+    {
+      "byteCount": 1495,
+      "executable": true,
+      "path": "scripts/capture-progressive-timeline-evidence.sh",
+      "sha256": "a823137f69e74027f8a90dc7f980741f0ac0c702eb358aa162685002ac644f9c"
+    },
+    {
+      "byteCount": 2898,
+      "executable": true,
+      "path": "scripts/check-swift-toolchain.py",
+      "sha256": "430b1838aa51f0b0829bd5c8eb794eb03ebff3afccc589e33139b934b8b2a233"
+    },
+    {
+      "byteCount": 524,
+      "executable": true,
+      "path": "scripts/create-performance-baseline.sh",
+      "sha256": "2796910fcedb1626134924db8d0a103a7a9aa51e62e0c60c2f17bd4685274ee9"
+    },
+    {
+      "byteCount": 1769,
+      "executable": true,
+      "path": "scripts/dump-public-api-symbols.sh",
+      "sha256": "20a2a24aad748b6a9460583171efd94f846d362e407949cafbea181d8b389b7f"
+    },
+    {
+      "byteCount": 3308,
+      "executable": true,
+      "path": "scripts/select-xcode.sh",
+      "sha256": "6dd1e414c00107bb2b26bbc89c975884ebd18fbfe8a5600a398fb57eaf0fc2bf"
+    },
+    {
+      "byteCount": 733,
+      "executable": true,
+      "path": "scripts/update-public-api-baseline.sh",
+      "sha256": "479d9387cfa23d3fe584ea7757e4f9a354174c2b81f8ec524db6ab85b56a66e9"
+    },
+    {
+      "byteCount": 783,
+      "executable": true,
+      "path": "scripts/verify-clean-copy.sh",
+      "sha256": "cb9434b642519aeb72143857bcd0c9276b34f2ae8366c6c589d422351f4cbd9e"
+    },
+    {
+      "byteCount": 1664,
+      "executable": true,
+      "path": "scripts/verify-consumer-package.sh",
+      "sha256": "daf95287c6f453f7de6272af274d2fab5af25eccd3f45f8901975689636fa37e"
+    },
+    {
+      "byteCount": 1980,
+      "executable": true,
+      "path": "scripts/verify-imageio-evidence.sh",
+      "sha256": "cc9eade5dfe6ca93218c411711b275a38bea415e3d3e216f92cecee006717151"
+    },
+    {
+      "byteCount": 3223,
+      "executable": true,
+      "path": "scripts/verify-independent-oracles.sh",
+      "sha256": "97ae8c7bc7184649b73792cc56ab1184c3d56478f7f264b063bb9470de4163da"
+    },
+    {
+      "byteCount": 684,
+      "executable": true,
+      "path": "scripts/verify-integration-contract.sh",
+      "sha256": "6fcf8be0f0f8f97eb45dfe4a76aeebdbdedfea6e488503d03555c2105a1dedc2"
+    },
+    {
+      "byteCount": 797,
+      "executable": true,
+      "path": "scripts/verify-ios-simulator.sh",
+      "sha256": "1414f7b8ea8c53cac7851ca72e3b6c2b1c4a6718ab181314d4b08bed8a034873"
+    },
+    {
+      "byteCount": 933,
+      "executable": true,
+      "path": "scripts/verify-performance-baseline.sh",
+      "sha256": "40b2345f462812a29ce2ea7bef846aa0e011aad24959b13e2b1c75cd8d2498c0"
+    },
+    {
+      "byteCount": 2318,
+      "executable": true,
+      "path": "scripts/verify-platform-matrix.sh",
+      "sha256": "4e5a9af6de77d226862ead9392610dcd686b4098eb293749214f838d89e606f5"
+    },
+    {
+      "byteCount": 911,
+      "executable": true,
+      "path": "scripts/verify-progressive-photo-corpus-reproducibility.sh",
+      "sha256": "969302285a2dedf4e18a9cfd84cc8069ff12d53ebecdd2f7386f8d7db28a2c20"
+    },
+    {
+      "byteCount": 869,
+      "executable": true,
+      "path": "scripts/verify-public-api.sh",
+      "sha256": "b5df020d69cfaa516f5940b92f92efc95a90ad3971fecd3147c83429334cd77c"
+    },
+    {
+      "byteCount": 527,
+      "executable": true,
+      "path": "scripts/verify-release-readiness.sh",
+      "sha256": "c14f76089c20631750376c9518a6539573c0d9ba4b9387c8528faeea492e9fe0"
+    },
+    {
+      "byteCount": 736,
+      "executable": true,
+      "path": "scripts/verify-retained-corpus-reproducibility.sh",
+      "sha256": "3cb6af950196f920b0e6621182cc88e141f5a1630be11de940aefbd3f2e5ac94"
+    },
+    {
+      "byteCount": 687,
+      "executable": true,
+      "path": "scripts/verify-retained-corpus.sh",
+      "sha256": "66a71769f5aaadc772813e0633ae90a15be27160a5a56f4a4414c1dfa20fae8f"
+    },
+    {
+      "byteCount": 560,
+      "executable": true,
+      "path": "scripts/verify-source-identity.sh",
+      "sha256": "4c2a940d9a1ecabf98e18047a832342403347becbfd5b40d293dd95fe4a96ba7"
+    },
+    {
+      "byteCount": 1723,
+      "executable": true,
+      "path": "scripts/verify.sh",
+      "sha256": "dedd13dab38e09ded8aa39ef0e35b396599ceee93ffb00f0eccd97c95ab8d494"
+    }
+  ],
+  "identityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+  "schemaVersion": 2,
+  "sourceIdentitySHA256": "7d89e552b25a331337de0074ff0ceafe2c20ef018090260856a9249b1e9f2f05"
+}
