@@ -53,6 +53,7 @@ enum EvidenceCommand {
   case progressiveQuality(caseID: String)
   case progressivePhotoCorpus(manifest: URL, variantID: String, chunkSize: Int)
   case progressiveScanCheckpoints(manifest: URL, variantID: String)
+  case progressivePipelineProfile(manifest: URL, variantID: String, chunkSize: Int, iterations: Int)
 }
 
 enum EvidenceError: Error {
@@ -62,7 +63,7 @@ enum EvidenceError: Error {
   case pixelConversionFailed
 }
 
-try run(command: parseCommand(CommandLine.arguments))
+try await run(command: parseCommand(CommandLine.arguments))
 
 func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
   let parameters = Array(arguments.dropFirst())
@@ -113,10 +114,23 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
       variantID: parameters[2]
     )
   }
+  if parameters.count == 6,
+    parameters[0] == "--progressive-pipeline-profile",
+    parameters[4] == "--iterations",
+    let chunkSize = Int(parameters[3]),
+    let iterations = Int(parameters[5])
+  {
+    return .progressivePipelineProfile(
+      manifest: URL(fileURLWithPath: parameters[1]),
+      variantID: parameters[2],
+      chunkSize: chunkSize,
+      iterations: iterations
+    )
+  }
   throw EvidenceError.invalidArguments
 }
 
-func run(command: EvidenceCommand) throws {
+func run(command: EvidenceCommand) async throws {
   switch command {
   case .report(let artifactDirectory):
     try writeReport(artifactDirectory: artifactDirectory)
@@ -138,6 +152,13 @@ func run(command: EvidenceCommand) throws {
     try writeProgressiveScanCheckpointEvidence(
       manifestURL: manifest,
       variantID: variantID
+    )
+  case .progressivePipelineProfile(let manifest, let variantID, let chunkSize, let iterations):
+    try await writeProgressivePipelineProfile(
+      manifestURL: manifest,
+      variantID: variantID,
+      chunkSize: chunkSize,
+      iterations: iterations
     )
   }
 }
