@@ -25,6 +25,8 @@ scripts/verify-public-api.sh
 scripts/verify-source-identity.sh
 python3 Tools/Corpus/verify_manifest.py Tests/ImageCraftImageIOTests/Resources/Corpus/v1/manifest.json
 python3 Tools/Performance/validate_performance_baseline.py Evidence/Performance/*.json
+python3 Tools/Performance/validate_progressive_experiment.py \
+    Evidence/Experiments/progressive-jpeg-bounded-preview-ab-2026-08-04.json
 xcrun swift test
 xcrun swift build -c release
 scripts/verify-imageio-evidence.sh

@@ -83,3 +83,18 @@ scripts/verify-imageio-evidence.sh Evidence/Baselines/macos-27.0-26A5388g-arm64.
 `ImageCraftEvidence --benchmark-case` 在 Release 构建中执行固定 decode/encode 场景。`scripts/capture-performance-evidence.sh` 为每个场景启动独立进程，默认聚合 3 个进程。每个进程先在 malloc pressure relief 后单独采样一次操作的 RSS，再关闭 sampler，执行 2 次 warmup 和 7 次计时。RSS 通过 500 微秒轮询 `mach_task_basic_info.resident_size` 采样。机器可读 baseline 位于 `Evidence/Performance`。
 
 性能数值绑定硬件型号、OS build、ImageIO/Core Graphics、Swift 工具链以及 codec fingerprint。默认 `scripts/verify.sh` 只校验 baseline schema 与预算自洽性，不在共享或高负载环境中动态运行微基准。完整场景、计时边界、预算公式与限制见 `docs/PERFORMANCE.md`。
+
+## 渐进 JPEG 工作放大实验
+
+`Evidence/Experiments/progressive-jpeg-bounded-preview-ab-2026-08-04.json` 固化了渐进 JPEG 预览策略的历史 before、历史 after 和精确 clean after 重放。三份原始聚合报告均保留完整计时样本、RSS 样本、运行时、硬件、工具链、输入 SHA-256 和输出身份；clean after 另绑定提交 `4460ca8aee1196cefad2f9f5076e601b7ef30f94`、其 Git tree 以及 source identity v2 的 96 个文件条目。
+
+`Tools/Performance/validate_progressive_experiment.py` 会：
+
+- 重算三个原始报告和 source identity 文件的 SHA-256；
+- 从原始样本重算 median、p90、mean 和 RSS 聚合；
+- 拒绝环境、位流、输出尺寸、generation count 契约或样本结构漂移；
+- 在 Git 历史可用时逐文件验证 source identity 的内容、大小、可执行位和覆盖集合与记录提交一致；
+- 验证两种分片在 duration 与 RSS 上相对旧实现均达到声明的 2×保守门；
+- 验证 clean after 的 duration 在首次 after 的 0.8×–1.2×范围内重现。
+
+该 2×规则是历史结果已知后建立的证据资格线，不是预注册假设检验。历史 before/after 也不是交替配对实验，因此记录明确禁止统计显著性、跨设备速度保证、固定 RSS、能耗或用户可感知延迟主张。完整数值和后续缺口见 `docs/PERFORMANCE.md`。

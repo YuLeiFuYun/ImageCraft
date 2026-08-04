@@ -129,24 +129,42 @@ baseline 更新必须伴随原因说明。代码变快并不自动要求收紧�
 
 ## 渐进 JPEG 独立基准
 
-渐进会话不并入既有八场景稳定 baseline，因为它使用 progressive JPEG、多个预览输出和不同的完成边界。`scripts/capture-progressive-performance-evidence.sh` 单独测量同一 3072×2048 progressive JPEG、512×512 fit 目标与两种预分片大小：1 KiB 和 32 KiB。fixture 构造与分片数组创建位于计时区间之外；计时包含会话创建、全部 append、预览光栅化、尺寸校验和 finish。
+渐进会话不并入既有八场景稳定 baseline，因为它使用 progressive JPEG、多个预览输出和不同的完成边界。`scripts/capture-progressive-performance-evidence.sh` 单独测量同一 3072×2048 progressive JPEG、512×512 fit 目标与两种预分片大小：1 KiB 和 32 KiB。fixture 构造与分片数组创建位于计时区间之外；计时包含会话创建、全部 append、预览光栅化、尺寸与 generation-count 校验以及 finish。
 
-2026-08-04 在 MacBookPro18,3、Xcode 27 / Swift 6.4 上执行 3 个独立进程、每进程 7 次计时。把“每个已完成 scan 都尝试预览”改为 1/2/4/8 scan 几何阈值后，同机 A/B 结果为：
+2026-08-04 的历史 before/after 聚合均来自 MacBookPro18,3、macOS 27.0 build 26A5388g、ImageIO 2847 与 Swift 6.4，每个场景使用 3 个独立进程、每进程 7 次计时。优化把“每个已完成 scan 都尝试预览”改为只在 1/2/4/8 scan 几何阈值光栅化。随后又在精确 clean 提交 `4460ca8aee1196cefad2f9f5076e601b7ef30f94` 上独立重放 after 路径：
 
-| 分片 | 旧 median | 新 median | median 加速 | 旧 p90 | 新 p90 | RSS 增量中位数（旧→新） |
+| 分片 | 旧 median | 历史 after median | clean after median | 旧→clean median | 旧 p90→clean p90 | RSS 中位数旧→clean |
 |---|---:|---:|---:|---:|---:|---:|
-| 1 KiB | 433.5 ms | 144.6 ms | 3.00× | 454.1 ms | 156.4 ms | 10.58→2.83 MiB |
-| 32 KiB | 371.2 ms | 145.2 ms | 2.56× | 383.8 ms | 160.4 ms | 12.31→2.44 MiB |
+| 1 KiB | 433.5 ms | 144.6 ms | 145.2 ms | 2.99× | 454.1→147.0 ms（3.09×） | 10.58→4.22 MiB（2.51×） |
+| 32 KiB | 371.2 ms | 145.2 ms | 146.7 ms | 2.53× | 383.8→163.2 ms（2.35×） | 12.31→3.88 MiB（3.18×） |
 
-同轮普通完整 JPEG fit-512 解码的 median/p90 为约 33.5/34.0 ms，RSS 增量中位数约 2.75 MiB。渐进路径仍约等于四次目标尺寸光栅化的总成本，因此该结果证明的是工作放大被限制并显著下降，不是渐进会话比单次最终解码更快。后续比较必须把首预览延迟、完整渐进会话成本、预览数量、最终解码成本和用户实际显示结果分开，不能只用一个总耗时排名。
+clean after 的 median 与首次 after 相差约 0.4% 和 1.1%，p90 比率分别为 0.94 和 1.02。RSS 对 allocator 与系统框架高水位更敏感：clean after 高于首次 after，但相对旧实现的 RSS 中位数和单进程最大值仍全部改善至少 2×。因此机器判定只使用保守的 2×相对改善门，不承诺固定 MiB。
 
-捕获命令：
+这不是预注册或配对统计实验。历史 before/after 是独立聚合，而且历史两侧没有完整源码身份；2×门槛是在历史结果已知后声明的保守证据验收线。可支持的结论仅是：在绑定环境和固定输入上，clean 实现重现了明显的工作放大下降。不能从该记录推导显著性 p 值、跨设备比例、所有渐进 JPEG 的统一收益、能耗收益或应用级首屏体验改善。
+
+同轮普通完整 JPEG fit-512 解码约为 33–34 ms。渐进路径仍约等于四次目标尺寸光栅化的总成本，因此该结果不表示渐进会话快于单次最终解码。后续比较必须分别报告首预览延迟、完整会话成本、预览数量、最终解码成本和用户实际显示结果。
+
+版本化实验记录位于：
+
+```text
+Evidence/Experiments/progressive-jpeg-bounded-preview-ab-2026-08-04.json
+Evidence/Experiments/ProgressiveJPEGBoundedPreview/
+```
+
+静态验证会重算原始报告哈希、样本统计、环境与输出身份、source identity、Git commit tree 绑定以及所有改善比率：
+
+```sh
+python3 Tools/Performance/validate_progressive_experiment.py \
+  Evidence/Experiments/progressive-jpeg-bounded-preview-ab-2026-08-04.json
+```
+
+重新捕获当前实现：
 
 ```sh
 scripts/capture-progressive-performance-evidence.sh output.json 7 3
 ```
 
-该报告默认写入忽略目录，不作为跨机器预算；只有固定设备、系统 build、工具链、位流和预览政策均冻结后，才能升级为受版本管理的基线。
+该实验记录不是跨机器回归预算。正式百分比主张仍需两个不可变可执行文件的交替配对进程实验；iOS 真机、低性能设备、首预览和能耗证据仍未完成。
 
 ## JPEG 熵区 marker 扫描实验
 

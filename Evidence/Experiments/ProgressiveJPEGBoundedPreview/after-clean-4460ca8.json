@@ -1,0 +1,190 @@
+{
+  "benchmarkVersion": "imagecraft-performance-v1",
+  "buildConfiguration": "release",
+  "cases": [
+    {
+      "caseID": "progressive-jpeg-fit-512-chunk-1024",
+      "duration": {
+        "maximumNanoseconds": 151023167,
+        "meanNanoseconds": 145233865,
+        "medianNanoseconds": 145203292,
+        "minimumNanoseconds": 142499458,
+        "p90Nanoseconds": 146958959
+      },
+      "environment": {
+        "lowPowerModeEnabled": false,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "iterationsPerProcess": 7,
+      "memory": {
+        "baselineResidentBytes": [
+          53706752,
+          54870016,
+          55377920
+        ],
+        "estimatedWorkingSetBytes": 2101248,
+        "maximumSampledPeakDeltaBytes": 7389184,
+        "medianSampledPeakDeltaBytes": 4423680,
+        "sampledPeakDeltaBytes": [
+          2310144,
+          4423680,
+          7389184
+        ],
+        "sampledPeakResidentBytes": [
+          56016896,
+          59293696,
+          62767104
+        ]
+      },
+      "memoryIterationsPerProcess": 1,
+      "output": {
+        "pixelHeight": 341,
+        "pixelWidth": 512,
+        "representation": "progressive-cgImage-source-color"
+      },
+      "processRepetitions": 3,
+      "samplesNanoseconds": [
+        147678750,
+        146237416,
+        145407625,
+        143314875,
+        145263833,
+        146796084,
+        144298792,
+        143971541,
+        142499458,
+        143899959,
+        145203292,
+        142940500,
+        146608667,
+        143594875,
+        151023167,
+        144937542,
+        145446291,
+        146958959,
+        144511584,
+        145357500,
+        143960459
+      ],
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5447669,
+        "encodedSHA256": "016b1bc3caeef5b250953c33524020d1b025b7c5cb461ae06de84061757dcb22",
+        "generator": "imagecraft-progressive-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 512,
+        "targetWidth": 512
+      },
+      "totalIterations": 21,
+      "warmupIterationsPerProcess": 2
+    },
+    {
+      "caseID": "progressive-jpeg-fit-512-chunk-32768",
+      "duration": {
+        "maximumNanoseconds": 169016000,
+        "meanNanoseconds": 149041936,
+        "medianNanoseconds": 146718292,
+        "minimumNanoseconds": 144334000,
+        "p90Nanoseconds": 163151125
+      },
+      "environment": {
+        "lowPowerModeEnabled": false,
+        "thermalStates": [
+          "nominal"
+        ]
+      },
+      "iterationsPerProcess": 7,
+      "memory": {
+        "baselineResidentBytes": [
+          50774016,
+          53886976,
+          52183040
+        ],
+        "estimatedWorkingSetBytes": 2101248,
+        "maximumSampledPeakDeltaBytes": 6275072,
+        "medianSampledPeakDeltaBytes": 4063232,
+        "sampledPeakDeltaBytes": [
+          3325952,
+          4063232,
+          6275072
+        ],
+        "sampledPeakResidentBytes": [
+          57049088,
+          57212928,
+          56246272
+        ]
+      },
+      "memoryIterationsPerProcess": 1,
+      "output": {
+        "pixelHeight": 341,
+        "pixelWidth": 512,
+        "representation": "progressive-cgImage-source-color"
+      },
+      "processRepetitions": 3,
+      "samplesNanoseconds": [
+        146718292,
+        163151125,
+        165059458,
+        169016000,
+        145037709,
+        144530458,
+        149863166,
+        147436166,
+        144334000,
+        145344416,
+        145230333,
+        148154291,
+        145363625,
+        146753416,
+        147904584,
+        147695625,
+        144699875,
+        144975208,
+        147666917,
+        145004584,
+        145941417
+      ],
+      "source": {
+        "contentMode": "fit",
+        "encodedByteCount": 5447669,
+        "encodedSHA256": "016b1bc3caeef5b250953c33524020d1b025b7c5cb461ae06de84061757dcb22",
+        "generator": "imagecraft-progressive-pattern-v1",
+        "pixelHeight": 2048,
+        "pixelWidth": 3072,
+        "representation": "jpeg",
+        "targetHeight": 512,
+        "targetWidth": 512
+      },
+      "totalIterations": 21,
+      "warmupIterationsPerProcess": 2
+    }
+  ],
+  "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+  "encoderFingerprint": "dev.imagecraft.imageio.encoder#impl=2#contract=1",
+  "hardware": {
+    "activeProcessorCount": 8,
+    "hardwareModel": "MacBookPro18,3",
+    "physicalMemoryBytes": 17179869184
+  },
+  "rssSampleIntervalMicroseconds": 500,
+  "runtime": {
+    "architecture": "arm64",
+    "coreGraphicsBundleVersion": "2047",
+    "imageIOBundleShortVersion": "3.3.0",
+    "imageIOBundleVersion": "2847",
+    "operatingSystemBuild": "26A5388g",
+    "operatingSystemVersion": {
+      "majorVersion": 27,
+      "minorVersion": 0,
+      "patchVersion": 0
+    },
+    "platform": "macOS",
+    "schemaVersion": 1
+  },
+  "schemaVersion": 1,
+  "swiftVersion": "Apple Swift version 6.4 (swiftlang-6.4.0.27.1 clang-2100.3.27.1) Target: arm64-apple-macosx27.0.0"
+}

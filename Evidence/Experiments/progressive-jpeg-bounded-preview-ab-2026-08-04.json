@@ -1,0 +1,190 @@
+{
+  "artifacts": {
+    "afterClean": {
+      "implementationPolicy": "rasterize at bounded geometric scan thresholds 1, 2, 4 and 8",
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/after-clean-4460ca8.json",
+      "sha256": "30d251bb0f10f11f0864af0a33b21437cd5777ede4ac1f9ebcf4f28fd34cf39f",
+      "sourceIdentityBound": true
+    },
+    "afterHistorical": {
+      "implementationPolicy": "rasterize at bounded geometric scan thresholds 1, 2, 4 and 8",
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/after-historical.json",
+      "sha256": "72c7022a07aff58bd88d9704122db7ecdef0ed42af9be87f913e2170c88dd2b3",
+      "sourceIdentityBound": false
+    },
+    "beforeHistorical": {
+      "implementationPolicy": "attempt preview rasterization after every completed progressive scan",
+      "path": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/before-historical.json",
+      "sha256": "28265b1584520e1f65086104866e8cb1937ec530bb6fd32823f6560d1ff0adca",
+      "sourceIdentityBound": false
+    }
+  },
+  "cases": {
+    "progressive-jpeg-fit-512-chunk-1024": {
+      "afterClean": {
+        "maximumSampledPeakDeltaBytes": 7389184,
+        "medianNanoseconds": 145203292,
+        "medianSampledPeakDeltaBytes": 4423680,
+        "p90Nanoseconds": 146958959
+      },
+      "afterHistorical": {
+        "maximumSampledPeakDeltaBytes": 4177920,
+        "medianNanoseconds": 144618000,
+        "medianSampledPeakDeltaBytes": 2965504,
+        "p90Nanoseconds": 156446334
+      },
+      "beforeHistorical": {
+        "maximumSampledPeakDeltaBytes": 19775488,
+        "medianNanoseconds": 433530833,
+        "medianSampledPeakDeltaBytes": 11091968,
+        "p90Nanoseconds": 454096250
+      },
+      "decision": {
+        "cleanDurationReproductionPassed": true,
+        "substantialImprovementPassed": true
+      },
+      "ratios": {
+        "beforeToCleanMaximumRSSReduction": 2.6762749445676275,
+        "beforeToCleanMedianRSSReduction": 2.5074074074074075,
+        "beforeToCleanMedianSpeedup": 2.9856818466622643,
+        "beforeToCleanP90Speedup": 3.0899528214540495,
+        "cleanToHistoricalAfterMedianRatio": 1.0040471587215976,
+        "cleanToHistoricalAfterP90Ratio": 0.9393570002094137
+      }
+    },
+    "progressive-jpeg-fit-512-chunk-32768": {
+      "afterClean": {
+        "maximumSampledPeakDeltaBytes": 6275072,
+        "medianNanoseconds": 146718292,
+        "medianSampledPeakDeltaBytes": 4063232,
+        "p90Nanoseconds": 163151125
+      },
+      "afterHistorical": {
+        "maximumSampledPeakDeltaBytes": 3129344,
+        "medianNanoseconds": 145155917,
+        "medianSampledPeakDeltaBytes": 2555904,
+        "p90Nanoseconds": 160385292
+      },
+      "beforeHistorical": {
+        "maximumSampledPeakDeltaBytes": 15056896,
+        "medianNanoseconds": 371194500,
+        "medianSampledPeakDeltaBytes": 12910592,
+        "p90Nanoseconds": 383771667
+      },
+      "decision": {
+        "cleanDurationReproductionPassed": true,
+        "substantialImprovementPassed": true
+      },
+      "ratios": {
+        "beforeToCleanMaximumRSSReduction": 2.3994778067885116,
+        "beforeToCleanMedianRSSReduction": 3.1774193548387095,
+        "beforeToCleanMedianSpeedup": 2.529981060575596,
+        "beforeToCleanP90Speedup": 2.352246526035294,
+        "cleanToHistoricalAfterMedianRatio": 1.0107634261991538,
+        "cleanToHistoricalAfterP90Ratio": 1.0172449291671957
+      }
+    }
+  },
+  "correctnessQualification": {
+    "baselineJPEGFailsClosed": "covered",
+    "benchmarkInvariant": "each timed operation must reproduce the reference generation count and final pixel dimensions",
+    "cancellationIdempotence": "covered",
+    "encodedByteLimitAndUnsupportedPolicies": "covered",
+    "progressiveGenerationBounds": "at least 2 and at most 4 non-final preview generations in retained tests",
+    "singleByteChunkLifecycle": "covered"
+  },
+  "date": "2026-08-04",
+  "decision": {
+    "passed": true,
+    "supportedClaims": [
+      "On the bound MacBookPro18,3/macOS 27.0 build 26A5388g environment, both chunk sizes exceed the declared machine-checked 2x evidence floor for median, p90, median sampled RSS delta and maximum sampled RSS delta versus the historical per-scan implementation.",
+      "The exact clean implementation commit reproduces the historical after duration within the 0.8x to 1.2x interval for both chunk sizes.",
+      "The bounded preview policy preserves the benchmark output identity and stable generation count checked inside each timed operation."
+    ],
+    "unsupportedClaims": [
+      "Cross-device, cross-OS or cross-ImageIO speedup guarantees.",
+      "A claim that progressive delivery is faster than one final decode.",
+      "A claim that every progressive JPEG or chunk schedule receives the same improvement.",
+      "Exact RSS values, energy savings, thermal savings or application-level user-visible latency improvements.",
+      "Statistical significance from paired process samples; the historical before and after captures were independent aggregates."
+    ]
+  },
+  "decisionRules": {
+    "cleanToHistoricalAfterDurationRatioRange": [
+      0.8,
+      1.2
+    ],
+    "memoryReproductionPolicy": "RSS sampling is required to remain at least 2x better than before; exact agreement with the first after run is not required because allocator/framework resident peaks are noisy.",
+    "minimumBeforeToCleanRSSReduction": 2.0,
+    "minimumBeforeToCleanSpeedup": 2.0,
+    "ruleTiming": "post-hoc conservative evidence qualification declared after the historical aggregates were available; not a preregistered hypothesis test"
+  },
+  "environment": {
+    "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+    "encoderFingerprint": "dev.imagecraft.imageio.encoder#impl=2#contract=1",
+    "hardware": {
+      "activeProcessorCount": 8,
+      "hardwareModel": "MacBookPro18,3",
+      "physicalMemoryBytes": 17179869184
+    },
+    "runtime": {
+      "architecture": "arm64",
+      "coreGraphicsBundleVersion": "2047",
+      "imageIOBundleShortVersion": "3.3.0",
+      "imageIOBundleVersion": "2847",
+      "operatingSystemBuild": "26A5388g",
+      "operatingSystemVersion": {
+        "majorVersion": 27,
+        "minorVersion": 0,
+        "patchVersion": 0
+      },
+      "platform": "macOS",
+      "schemaVersion": 1
+    },
+    "swiftVersion": "Apple Swift version 6.4 (swiftlang-6.4.0.27.1 clang-2100.3.27.1) Target: arm64-apple-macosx27.0.0"
+  },
+  "experimentID": "progressive-jpeg-bounded-preview-ab-v1",
+  "implementation": {
+    "cleanWorktreeAtCapture": true,
+    "commit": "4460ca8aee1196cefad2f9f5076e601b7ef30f94",
+    "commitTree": "915c2efc1c61700ddabdef96032544332b42208e",
+    "gitBinding": "source identity entries, byte counts, SHA-256 values, executable bits and covered file set were verified against the recorded commit tree",
+    "sourceIdentityFileCount": 96,
+    "sourceIdentityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+    "sourceIdentityReportPath": "Evidence/Experiments/ProgressiveJPEGBoundedPreview/source-identity-4460ca8.json",
+    "sourceIdentityReportSHA256": "4d52c5900ad6b4768170dbf00c182a02bcd7ffb212f27f00fdda913139c38e28",
+    "sourceIdentitySHA256": "77a99405e3426695f1824c39980cc0da83b52b5dbf68b718aa860b260673646d",
+    "sourceIdentitySchemaVersion": 2
+  },
+  "methodology": {
+    "benchmarkVersion": "imagecraft-performance-v1",
+    "buildConfiguration": "release",
+    "caseIDs": [
+      "progressive-jpeg-fit-512-chunk-1024",
+      "progressive-jpeg-fit-512-chunk-32768"
+    ],
+    "comparisonDesign": "historical independent before/after aggregates plus clean exact-source after reproduction; not a paired statistical experiment",
+    "memoryIterationsPerProcess": 1,
+    "primaryDecisionMetrics": [
+      "median duration",
+      "p90 duration",
+      "median sampled RSS delta",
+      "maximum sampled RSS delta"
+    ],
+    "processRepetitionsPerCase": 3,
+    "rssSampleIntervalMicroseconds": 500,
+    "timedIterationsPerProcess": 7,
+    "timingBoundary": "session creation, all preconstructed chunk appends, preview rasterization, output checks and finish; fixture and chunk-array construction excluded",
+    "totalTimedIterationsPerCase": 21,
+    "warmupIterationsPerProcess": 2
+  },
+  "purpose": "Measure the effect of replacing per-completed-scan preview rasterization with bounded geometric 1/2/4/8 scan thresholds while preserving progressive JPEG lifecycle and final output semantics.",
+  "remainingEvidence": [
+    "alternating paired-process reproduction from two immutable executables if a formal percentage claim is needed",
+    "physical iOS devices and lower-performance hardware",
+    "time-to-first-preview and user-visible display tracing",
+    "energy, thermal and long-stream memory behavior",
+    "additional held-out progressive JPEG scan structures and network chunk schedules"
+  ],
+  "schemaVersion": 1
+}
