@@ -1,0 +1,370 @@
+{
+  "artifacts": {
+    "aggregate": {
+      "path": "Evidence/Experiments/ProgressiveJPEGQuality/aggregate-clean-085ba9b.json",
+      "sha256": "2c05d9bb4aaf53d53f229eb6a3b19b363c04e6cb4772a54420fc1c25d453e579"
+    },
+    "rawReports": {
+      "progressive-jpeg-quality-fit-512-chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-1024-a.json",
+        "sha256": "5bb79ead4de31136457545bb046b8a9dc14f329ab3d95c996dbdbb84ebecd787"
+      },
+      "progressive-jpeg-quality-fit-512-chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-1024-b.json",
+        "sha256": "5bb79ead4de31136457545bb046b8a9dc14f329ab3d95c996dbdbb84ebecd787"
+      },
+      "progressive-jpeg-quality-fit-512-chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-32768-a.json",
+        "sha256": "c2798a744300a034793601231271d73007f9362f2a3ce66fb902cf91b9b5d7b3"
+      },
+      "progressive-jpeg-quality-fit-512-chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGQuality/progressive-jpeg-quality-fit-512-chunk-32768-b.json",
+        "sha256": "c2798a744300a034793601231271d73007f9362f2a3ce66fb902cf91b9b5d7b3"
+      }
+    }
+  },
+  "cases": {
+    "progressive-jpeg-quality-fit-512-chunk-1024": {
+      "chunkCount": 5320,
+      "chunkSizeBytes": 1024,
+      "classifications": {
+        "1": {
+          "coarseRelativeToFinal": true,
+          "nearFinalByDeclaredPixelThresholds": false
+        },
+        "2": {
+          "coarseRelativeToFinal": true,
+          "nearFinalByDeclaredPixelThresholds": false
+        },
+        "3": {
+          "coarseRelativeToFinal": false,
+          "nearFinalByDeclaredPixelThresholds": true
+        },
+        "4": {
+          "coarseRelativeToFinal": false,
+          "nearFinalByDeclaredPixelThresholds": true
+        }
+      },
+      "generations": [
+        {
+          "encodedByteFractionPPM": 34022,
+          "generation": 1,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 441284,
+            "absoluteErrorAtMost32PPM": 736641,
+            "absoluteErrorAtMost64PPM": 970600,
+            "absoluteErrorAtMost8PPM": 238516,
+            "absoluteErrorSum": 12100575,
+            "channelCount": 523776,
+            "differentChannelCount": 516325,
+            "maximumAbsoluteError": 126,
+            "meanAbsoluteErrorMicrounits": 23102576,
+            "meanSquaredErrorMicrounits": 854406629,
+            "psnrMicrodecibels": 18814158,
+            "squaredErrorSum": 447517687
+          },
+          "pixelRGBSHA256": "f0246193e98044450b1739fbb4eb4e2f48ef7c5c8644dc9e342e957482db0523",
+          "sourceByteCount": 185344
+        },
+        {
+          "encodedByteFractionPPM": 114661,
+          "generation": 2,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 486921,
+            "absoluteErrorAtMost32PPM": 774468,
+            "absoluteErrorAtMost64PPM": 970853,
+            "absoluteErrorAtMost8PPM": 266894,
+            "absoluteErrorSum": 11264407,
+            "channelCount": 523776,
+            "differentChannelCount": 515338,
+            "maximumAbsoluteError": 127,
+            "meanAbsoluteErrorMicrounits": 21506153,
+            "meanSquaredErrorMicrounits": 775007547,
+            "psnrMicrodecibels": 19237744,
+            "squaredErrorSum": 405930353
+          },
+          "pixelRGBSHA256": "dfc087e9d4b544cf3c04c6e7d207cf5ca2d04f2c9c1064129d4fc0db554e3408",
+          "sourceByteCount": 624640
+        },
+        {
+          "encodedByteFractionPPM": 356579,
+          "generation": 3,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 1000000,
+            "absoluteErrorAtMost32PPM": 1000000,
+            "absoluteErrorAtMost64PPM": 1000000,
+            "absoluteErrorAtMost8PPM": 1000000,
+            "absoluteErrorSum": 479990,
+            "channelCount": 523776,
+            "differentChannelCount": 347366,
+            "maximumAbsoluteError": 6,
+            "meanAbsoluteErrorMicrounits": 916403,
+            "meanSquaredErrorMicrounits": 1533075,
+            "psnrMicrodecibels": 46275169,
+            "squaredErrorSum": 802988
+          },
+          "pixelRGBSHA256": "b23d6bf329ea17a45a98b390dd574477f8b601b34d74d9901e474511b2e89e9a",
+          "sourceByteCount": 1942528
+        },
+        {
+          "encodedByteFractionPPM": 777257,
+          "generation": 4,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 1000000,
+            "absoluteErrorAtMost32PPM": 1000000,
+            "absoluteErrorAtMost64PPM": 1000000,
+            "absoluteErrorAtMost8PPM": 1000000,
+            "absoluteErrorSum": 314555,
+            "channelCount": 523776,
+            "differentChannelCount": 245478,
+            "maximumAbsoluteError": 6,
+            "meanAbsoluteErrorMicrounits": 600552,
+            "meanSquaredErrorMicrounits": 931293,
+            "psnrMicrodecibels": 48439940,
+            "squaredErrorSum": 487789
+          },
+          "pixelRGBSHA256": "6c3c595ffd88a059d4b59abdb107fb626c88a6dc45874eefb3b11151e006790f",
+          "sourceByteCount": 4234240
+        }
+      ]
+    },
+    "progressive-jpeg-quality-fit-512-chunk-32768": {
+      "chunkCount": 167,
+      "chunkSizeBytes": 32768,
+      "classifications": {
+        "1": {
+          "coarseRelativeToFinal": true,
+          "nearFinalByDeclaredPixelThresholds": false
+        },
+        "2": {
+          "coarseRelativeToFinal": true,
+          "nearFinalByDeclaredPixelThresholds": false
+        },
+        "3": {
+          "coarseRelativeToFinal": false,
+          "nearFinalByDeclaredPixelThresholds": true
+        },
+        "4": {
+          "coarseRelativeToFinal": false,
+          "nearFinalByDeclaredPixelThresholds": true
+        }
+      },
+      "generations": [
+        {
+          "encodedByteFractionPPM": 36090,
+          "generation": 1,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 442315,
+            "absoluteErrorAtMost32PPM": 737517,
+            "absoluteErrorAtMost64PPM": 970611,
+            "absoluteErrorAtMost8PPM": 238926,
+            "absoluteErrorSum": 12080860,
+            "channelCount": 523776,
+            "differentChannelCount": 516310,
+            "maximumAbsoluteError": 126,
+            "meanAbsoluteErrorMicrounits": 23064936,
+            "meanSquaredErrorMicrounits": 852316673,
+            "psnrMicrodecibels": 18824794,
+            "squaredErrorSum": 446423018
+          },
+          "pixelRGBSHA256": "d21d017c1fd679bd619b0f00fec4a0386205b6834c4ca0c050b6e86c58ed7a94",
+          "sourceByteCount": 196608
+        },
+        {
+          "encodedByteFractionPPM": 120300,
+          "generation": 2,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 500421,
+            "absoluteErrorAtMost32PPM": 779107,
+            "absoluteErrorAtMost64PPM": 971151,
+            "absoluteErrorAtMost8PPM": 284587,
+            "absoluteErrorSum": 11029821,
+            "channelCount": 523776,
+            "differentChannelCount": 512751,
+            "maximumAbsoluteError": 127,
+            "meanAbsoluteErrorMicrounits": 21058278,
+            "meanSquaredErrorMicrounits": 759562627,
+            "psnrMicrodecibels": 19325168,
+            "squaredErrorSum": 397840675
+          },
+          "pixelRGBSHA256": "16956fe5d9b238c4d454ed105e169a0acf637add8e6704b2346fe1c0cef7277b",
+          "sourceByteCount": 655360
+        },
+        {
+          "encodedByteFractionPPM": 360902,
+          "generation": 3,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 1000000,
+            "absoluteErrorAtMost32PPM": 1000000,
+            "absoluteErrorAtMost64PPM": 1000000,
+            "absoluteErrorAtMost8PPM": 1000000,
+            "absoluteErrorSum": 479990,
+            "channelCount": 523776,
+            "differentChannelCount": 347366,
+            "maximumAbsoluteError": 6,
+            "meanAbsoluteErrorMicrounits": 916403,
+            "meanSquaredErrorMicrounits": 1533075,
+            "psnrMicrodecibels": 46275169,
+            "squaredErrorSum": 802988
+          },
+          "pixelRGBSHA256": "b23d6bf329ea17a45a98b390dd574477f8b601b34d74d9901e474511b2e89e9a",
+          "sourceByteCount": 1966080
+        },
+        {
+          "encodedByteFractionPPM": 781956,
+          "generation": 4,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 1000000,
+            "absoluteErrorAtMost32PPM": 1000000,
+            "absoluteErrorAtMost64PPM": 1000000,
+            "absoluteErrorAtMost8PPM": 1000000,
+            "absoluteErrorSum": 297972,
+            "channelCount": 523776,
+            "differentChannelCount": 235295,
+            "maximumAbsoluteError": 6,
+            "meanAbsoluteErrorMicrounits": 568892,
+            "meanSquaredErrorMicrounits": 869035,
+            "psnrMicrodecibels": 48740428,
+            "squaredErrorSum": 455180
+          },
+          "pixelRGBSHA256": "45349fac74d5c9a802d1f4790a8bb17c3a0fdd2704fd8bfe1007734bbc8d0492",
+          "sourceByteCount": 4259840
+        }
+      ]
+    }
+  },
+  "chunkScheduleComparison": [
+    {
+      "generation": 1,
+      "meanAbsoluteErrorDifferenceMicrounits": 37640,
+      "pixelRGBExactMatch": false,
+      "psnrDifferenceMicrodecibels": 10636,
+      "sourceByteFractionDifferencePPM": 2068
+    },
+    {
+      "generation": 2,
+      "meanAbsoluteErrorDifferenceMicrounits": 447875,
+      "pixelRGBExactMatch": false,
+      "psnrDifferenceMicrodecibels": 87424,
+      "sourceByteFractionDifferencePPM": 5639
+    },
+    {
+      "generation": 3,
+      "meanAbsoluteErrorDifferenceMicrounits": 0,
+      "pixelRGBExactMatch": true,
+      "psnrDifferenceMicrodecibels": 0,
+      "sourceByteFractionDifferencePPM": 4323
+    },
+    {
+      "generation": 4,
+      "meanAbsoluteErrorDifferenceMicrounits": 31660,
+      "pixelRGBExactMatch": false,
+      "psnrDifferenceMicrodecibels": 300488,
+      "sourceByteFractionDifferencePPM": 4699
+    }
+  ],
+  "date": "2026-08-04",
+  "decision": {
+    "passed": true,
+    "supportedClaims": [
+      "For the fixed generated progressive JPEG, generations 1 and 2 are materially different from the final decode under the declared pixel metrics: PSNR is below 20 dB and mean absolute channel error remains above 21.",
+      "Generation 3, emitted near 36% of encoded bytes, is close to the final decode under the declared pixel metrics: PSNR is 46.275169 dB, mean absolute channel error is 0.916403, every channel is within 8 levels and maximum error is 6.",
+      "Generation 4 improves the fixed-input metrics further, reaching approximately 48.4 to 48.7 dB PSNR.",
+      "The qualitative transition and metrics are robust across the two tested chunk schedules; generation 3 pixels are byte-identical."
+    ],
+    "unsupportedClaims": [
+      "That generation 1 or 2 is perceptually useful, acceptable or recognizable to users.",
+      "That PSNR, MAE or threshold coverage fully models perceptual quality.",
+      "That the complete decode is an original-source ground truth; it is the final decode of the same lossy JPEG.",
+      "Any cross-image, cross-device, cross-OS, network, UI, energy or accessibility guarantee."
+    ]
+  },
+  "decisionRules": {
+    "chunkScheduleRobustness": {
+      "maximumMeanAbsoluteErrorDifferenceMicrounits": 1000000,
+      "maximumPSNRDifferenceMicrodecibels": 500000
+    },
+    "coarseRelativeToFinal": {
+      "generationRange": [
+        1,
+        2
+      ],
+      "maximumAbsoluteErrorAtMost16PPMExclusive": 600000,
+      "maximumPSNRMicrodecibelsExclusive": 25000000,
+      "minimumMeanAbsoluteErrorMicrounitsExclusive": 10000000
+    },
+    "nearFinalByDeclaredPixelThresholds": {
+      "generationRange": [
+        3,
+        4
+      ],
+      "maximumAbsoluteError": 8,
+      "maximumMeanAbsoluteErrorMicrounits": 2000000,
+      "minimumPSNRMicrodecibels": 40000000,
+      "requiredAbsoluteErrorAtMost8PPM": 1000000
+    },
+    "ruleTiming": "post-hoc descriptive classification; not a preregistered perceptual-quality threshold"
+  },
+  "environment": {
+    "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+    "hardware": {
+      "activeProcessorCount": 8,
+      "hardwareModel": "MacBookPro18,3",
+      "physicalMemoryBytes": 17179869184
+    },
+    "runtime": {
+      "architecture": "arm64",
+      "coreGraphicsBundleVersion": "2047",
+      "imageIOBundleShortVersion": "3.3.0",
+      "imageIOBundleVersion": "2847",
+      "operatingSystemBuild": "26A5388g",
+      "operatingSystemVersion": {
+        "majorVersion": 27,
+        "minorVersion": 0,
+        "patchVersion": 0
+      },
+      "platform": "macOS",
+      "schemaVersion": 1
+    }
+  },
+  "experimentID": "progressive-jpeg-generation-quality-v1",
+  "implementation": {
+    "cleanWorktreeAtCapture": true,
+    "commit": "085ba9b6a53f56c6fb5f41df9048401a43dc5b48",
+    "commitTree": "fc316d90e1221f55ab7799bdb0749032ca4740f1",
+    "sourceIdentityFileCount": 113,
+    "sourceIdentityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+    "sourceIdentityReportPath": "Evidence/Experiments/ProgressiveJPEGQuality/source-identity-085ba9b.json",
+    "sourceIdentityReportSHA256": "99e49ca7b75180ea67bfb8caddf7d0f8ae850cbedbd21292e0c64bc24226a13d",
+    "sourceIdentitySHA256": "4ef12fe3d5aa6d7c1d392315742280553dca1c02617d25cf16a71acea7cd907e",
+    "sourceIdentitySchemaVersion": 2
+  },
+  "methodology": {
+    "analysisSurface": "each CGImage is rendered into deterministic sRGB RGB8 bytes before comparison",
+    "buildConfiguration": "release",
+    "caseCount": 2,
+    "evidenceVersion": "imagecraft-progressive-quality-v1",
+    "executionsPerCase": 2,
+    "metrics": [
+      "exact pixel SHA-256",
+      "absolute error sum",
+      "squared error sum",
+      "maximum absolute error",
+      "MAE fixed point",
+      "MSE fixed point",
+      "PSNR microdecibels",
+      "channel coverage within absolute error 8, 16, 32 and 64"
+    ],
+    "reference": "independent complete decode of the same lossy progressive JPEG using the same target geometry and color policy",
+    "repeatRequirement": "the two complete JSON reports for each case must be byte-for-byte identical"
+  },
+  "purpose": "Quantify how closely each bounded progressive JPEG generation matches the independent final decode, without treating pixel metrics as a complete perceptual-utility measure.",
+  "remainingEvidence": [
+    "held-out real photographs and independent progressive scan scripts",
+    "SSIM or a better validated perceptual metric",
+    "human or task-based recognition study if product claims require the word useful",
+    "iOS device and lower-performance hardware",
+    "network-paced and UI-presentation integration"
+  ],
+  "schemaVersion": 1
+}

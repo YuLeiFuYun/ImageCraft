@@ -208,6 +208,39 @@ scripts/capture-progressive-timeline-evidence.sh output.json 7 3
 
 资格门是在观测后声明的描述性证据规则，不是预注册假设检验：pooled 首预览不得晚于 10 ms、不得晚于 5% 编码字节，两轮首预览 median/p90 与 finish median 的比率必须落在 0.8–1.2。下一步仍需网络节奏回放、generation 到 UI presentation 的链路追踪、held-out scan 结构和 iOS 真机。
 
+## 渐进 JPEG generation 质量
+
+首预览时间线只证明像素产生得早，不证明早期像素已经接近最终图，更不能直接称为“可用”。`imagecraft-progressive-quality-v1` 因此把每个 generation 的 `CGImage` 转换为确定性 sRGB RGB8 字节，与同一 lossy progressive JPEG 的独立完整解码结果比较。完整解码是收敛参考，不是原始未压缩图像的质量真值。
+
+质量工具提交 `085ba9b6a53f56c6fb5f41df9048401a43dc5b48` 在 clean 工作树上捕获。1 KiB 和 32 KiB 两个 chunk schedule 各执行两次，完整 JSON 逐字节一致。指标包括像素 SHA-256、逐通道绝对误差与平方误差、最大误差、固定点 MAE/MSE、PSNR，以及绝对误差不超过 8/16/32/64 的通道覆盖率。
+
+| Generation | 字节占比范围 | PSNR 范围 | MAE 范围 | ≤16 覆盖率 | 最大误差 | 结论边界 |
+|---|---:|---:|---:|---:|---:|---|
+| G1 | 3.40%–3.61% | 18.81–18.82 dB | 23.06–23.10 | 44.13%–44.23% | 126 | 早，但相对最终解码仍粗糙 |
+| G2 | 11.47%–12.03% | 19.24–19.33 dB | 21.06–21.51 | 48.69%–50.04% | 127 | 有限改善，仍明显偏离最终解码 |
+| G3 | 35.66%–36.09% | 46.275 dB | 0.916 | 100% | 6 | 在声明的像素阈值下接近最终解码 |
+| G4 | 77.73%–78.20% | 48.44–48.74 dB | 0.569–0.601 | 100% | 6 | 进一步细化 |
+
+G3 在两个 chunk schedule 下得到完全相同的 RGB SHA-256；所有 generation 的跨 schedule PSNR 差异均低于 0.31 dB，MAE 差异低于 0.45。由此可见，该固定输入的质量演化不是平滑线性改善，而是在 G3、约 36% 编码字节处发生明显跃迁。G1/G2 可以作为“早期低保真像素”描述，但当前证据不支持“足够清晰”“可识别”或“用户可用”等产品措辞。
+
+机器判定使用观测后声明的描述性分类，而非预注册感知阈值：G1/G2 必须同时满足 PSNR < 25 dB、MAE > 10、误差 ≤16 的通道覆盖率 < 60%；G3/G4 必须同时满足 PSNR ≥ 40 dB、MAE ≤ 2、最大误差 ≤8 且全部通道误差 ≤8。该分类只用于防止文档把早期像素错误包装成近最终质量，不声称这些阈值对应人类视觉效用。
+
+版本化证据与验证命令：
+
+```text
+Evidence/Experiments/progressive-jpeg-generation-quality-2026-08-04.json
+Evidence/Experiments/ProgressiveJPEGQuality/
+```
+
+```sh
+python3 Tools/Performance/validate_progressive_quality_experiment.py \
+  Evidence/Experiments/progressive-jpeg-generation-quality-2026-08-04.json
+
+scripts/capture-progressive-quality-evidence.sh output.json
+```
+
+仍缺少真实照片与独立 scan script、SSIM 或经过验证的感知指标、识别任务/用户研究、iOS 真机以及网络到 UI 的完整链路。尤其不能把 PSNR 当作主观质量的充分统计量。
+
 ## JPEG 熵区 marker 扫描实验
 
 `Evidence/Experiments/jpeg-marker-scan-ab-2026-07-31.json` 记录了一次独立的实现 A/B，比较逐字节 Swift 扫描与 `Darwin.memchr` 搜索 JPEG entropy 区下一个 `0xFF` marker。两侧使用预构建 Release 可执行文件，按 A/B、B/A 顺序交替运行；共覆盖 6 条 JPEG 路径、每条 7 对独立进程、每进程 7 个计时样本，总计 588 个样本。

@@ -1,0 +1,129 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "progressive-jpeg-quality-fit-512-chunk-32768",
+  "chunkCount" : 167,
+  "chunkSizeBytes" : 32768,
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "evidenceVersion" : "imagecraft-progressive-quality-v1",
+  "finalPixelRGBSHA256" : "9a2ecf22294a1e7e25fe28fd242342ff215914c94422c5b68a9ba2a9010b3de3",
+  "generations" : [
+    {
+      "encodedByteFractionPPM" : 36090,
+      "generation" : 1,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 442315,
+        "absoluteErrorAtMost32PPM" : 737517,
+        "absoluteErrorAtMost64PPM" : 970611,
+        "absoluteErrorAtMost8PPM" : 238926,
+        "absoluteErrorSum" : 12080860,
+        "channelCount" : 523776,
+        "differentChannelCount" : 516310,
+        "maximumAbsoluteError" : 126,
+        "meanAbsoluteErrorMicrounits" : 23064936,
+        "meanSquaredErrorMicrounits" : 852316673,
+        "psnrMicrodecibels" : 18824794,
+        "squaredErrorSum" : 446423018
+      },
+      "pixelRGBSHA256" : "d21d017c1fd679bd619b0f00fec4a0386205b6834c4ca0c050b6e86c58ed7a94",
+      "sourceByteCount" : 196608
+    },
+    {
+      "encodedByteFractionPPM" : 120300,
+      "generation" : 2,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 500421,
+        "absoluteErrorAtMost32PPM" : 779107,
+        "absoluteErrorAtMost64PPM" : 971151,
+        "absoluteErrorAtMost8PPM" : 284587,
+        "absoluteErrorSum" : 11029821,
+        "channelCount" : 523776,
+        "differentChannelCount" : 512751,
+        "maximumAbsoluteError" : 127,
+        "meanAbsoluteErrorMicrounits" : 21058278,
+        "meanSquaredErrorMicrounits" : 759562627,
+        "psnrMicrodecibels" : 19325168,
+        "squaredErrorSum" : 397840675
+      },
+      "pixelRGBSHA256" : "16956fe5d9b238c4d454ed105e169a0acf637add8e6704b2346fe1c0cef7277b",
+      "sourceByteCount" : 655360
+    },
+    {
+      "encodedByteFractionPPM" : 360902,
+      "generation" : 3,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 1000000,
+        "absoluteErrorAtMost32PPM" : 1000000,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 1000000,
+        "absoluteErrorSum" : 479990,
+        "channelCount" : 523776,
+        "differentChannelCount" : 347366,
+        "maximumAbsoluteError" : 6,
+        "meanAbsoluteErrorMicrounits" : 916403,
+        "meanSquaredErrorMicrounits" : 1533075,
+        "psnrMicrodecibels" : 46275169,
+        "squaredErrorSum" : 802988
+      },
+      "pixelRGBSHA256" : "b23d6bf329ea17a45a98b390dd574477f8b601b34d74d9901e474511b2e89e9a",
+      "sourceByteCount" : 1966080
+    },
+    {
+      "encodedByteFractionPPM" : 781956,
+      "generation" : 4,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 1000000,
+        "absoluteErrorAtMost32PPM" : 1000000,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 1000000,
+        "absoluteErrorSum" : 297972,
+        "channelCount" : 523776,
+        "differentChannelCount" : 235295,
+        "maximumAbsoluteError" : 6,
+        "meanAbsoluteErrorMicrounits" : 568892,
+        "meanSquaredErrorMicrounits" : 869035,
+        "psnrMicrodecibels" : 48740428,
+        "squaredErrorSum" : 455180
+      },
+      "pixelRGBSHA256" : "45349fac74d5c9a802d1f4790a8bb17c3a0fdd2704fd8bfe1007734bbc8d0492",
+      "sourceByteCount" : 4259840
+    }
+  ],
+  "output" : {
+    "pixelHeight" : 341,
+    "pixelWidth" : 512,
+    "representation" : "progressive-cgImage-source-color-rgb8-srgb-analysis"
+  },
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "schemaVersion" : 1,
+  "source" : {
+    "contentMode" : "fit",
+    "encodedByteCount" : 5447669,
+    "encodedSHA256" : "016b1bc3caeef5b250953c33524020d1b025b7c5cb461ae06de84061757dcb22",
+    "generator" : "imagecraft-progressive-pattern-v1",
+    "pixelHeight" : 2048,
+    "pixelWidth" : 3072,
+    "representation" : "jpeg",
+    "targetHeight" : 512,
+    "targetWidth" : 512
+  }
+}

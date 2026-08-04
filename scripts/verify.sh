@@ -29,6 +29,8 @@ python3 Tools/Performance/validate_progressive_experiment.py \
     Evidence/Experiments/progressive-jpeg-bounded-preview-ab-2026-08-04.json
 python3 Tools/Performance/validate_progressive_timeline_experiment.py \
     Evidence/Experiments/progressive-jpeg-first-preview-timeline-2026-08-04.json
+python3 Tools/Performance/validate_progressive_quality_experiment.py \
+    Evidence/Experiments/progressive-jpeg-generation-quality-2026-08-04.json
 xcrun swift test
 xcrun swift build -c release
 scripts/verify-imageio-evidence.sh
