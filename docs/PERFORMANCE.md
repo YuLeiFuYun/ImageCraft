@@ -239,7 +239,46 @@ python3 Tools/Performance/validate_progressive_quality_experiment.py \
 scripts/capture-progressive-quality-evidence.sh output.json
 ```
 
-仍缺少真实照片与独立 scan script、SSIM 或经过验证的感知指标、识别任务/用户研究、iOS 真机以及网络到 UI 的完整链路。尤其不能把 PSNR 当作主观质量的充分统计量。
+仍缺少 SSIM 或经过验证的感知指标、识别任务/用户研究、iOS 真机以及网络到 UI 的完整链路。尤其不能把 PSNR 当作主观质量的充分统计量。真实照片与独立 scan script 的第一版矩阵见下一节。
+
+## 渐进 JPEG 真实照片与 scan script 矩阵
+
+单个程序化图案无法区分内容、JPEG 扫描顺序和 transport chunk 的影响。`progressive-real-photo-v1` 因此固定四张美国联邦政府公共领域照片，覆盖室内人物、自然景观、雪景建筑和逆光动物；每张照片在相同 quality 75、4:2:0 与 optimized Huffman 设置下由 libjpeg-turbo 3.2.0 编成三种 progressive scan script：默认 successive approximation、七 scan spectral selection，以及“全部亮度 AC 先于色度 AC”的实验脚本。三种脚本对同一来源经 `djpeg` 得到完全相同的最终 PPM 字节。
+
+基础设施提交 `75acd9279304077ba4ba44fe42af1b03aa8009fe` 在 clean 工作树上对 4 × 3 × 2 个 source/script/chunk case 各执行两次，48 份原始 JSON 成对逐字节一致。矩阵不测时间；它记录实际产生的 generation、返回时的字节比例，以及相对同一编码 JPEG 最终 ImageIO 解码的固定点像素误差。
+
+| Scan script | 最后一个预览的字节占比范围 | PSNR 范围 | MAE 范围 | 最大局部误差范围 |
+|---|---:|---:|---:|---:|
+| default successive | 43.15%–63.05% | 36.79–48.60 dB | 0.59–2.14 | 4–48 |
+| spectral balanced | 31.46%–42.68% | 31.82–45.61 dB | 0.60–4.15 | 33–126 |
+| luma front-loaded | 50.60%–98.20% | 28.70–43.30 dB | 0.65–4.23 | 36–130 |
+
+该矩阵否定了三个容易产生的假设：
+
+1. generation 序号没有跨会话质量含义。同一 source/script 的相同序号会因 chunk overshoot 落在不同 scan 边界之后；Coconino 景观的 default G4 在 1 KiB chunk 下为 36.79 dB，在 32 KiB 下为 48.11 dB，相差 11.32 dB。
+2. chunk schedule 还会改变 generation 数量。牛只照片的 default successive 在 1 KiB 下产生四代，在 32 KiB 下只产生三代；达到阈值不保证 ImageIO 当时可光栅化，而一次 append 也最多返回一代。
+3. “亮度优先”不是普遍更好的 progressive 策略。Coconino 景观的 luma-frontloaded G4 已收到 93.85% 字节，仍只有 28.70 dB、MAE 4.23、最大通道误差 130。
+
+因此 `generation` 只能保持当前契约中的单会话严格顺序含义，不能被宿主解释为固定质量等级。当前数据也不足以选出普遍最优 scan script；default successive 在这个小矩阵中的尾部行为更稳健，但四张照片不是生产分布，PSNR 也不是感知效用。
+
+版本化 corpus、48 份原始报告、聚合、source identity 和机器可读结论位于：
+
+```text
+Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/
+Evidence/Experiments/progressive-jpeg-real-photo-scan-matrix-2026-08-04.json
+Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/
+```
+
+验证与重新捕获：
+
+```sh
+python3 Tools/Performance/validate_progressive_photo_matrix_experiment.py \
+  Evidence/Experiments/progressive-jpeg-real-photo-scan-matrix-2026-08-04.json
+
+scripts/capture-progressive-photo-matrix.sh aggregate.json raw-reports
+```
+
+完整 corpus 生成谱系、公共领域来源和限制见 `docs/PROGRESSIVE_PHOTO_CORPUS.md`。下一步应比较 threshold retry、byte-fraction/time gating 和宿主抑制策略，并用更大分层 corpus、感知指标、任务实验及网络到 UI 链路验证；不能直接按本矩阵修改生产 scan 策略。
 
 ## JPEG 熵区 marker 扫描实验
 

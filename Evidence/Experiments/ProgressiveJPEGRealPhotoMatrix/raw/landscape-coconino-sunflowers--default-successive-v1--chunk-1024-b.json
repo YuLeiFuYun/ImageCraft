@@ -1,0 +1,126 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "landscape-coconino-sunflowers--default-successive-v1--chunk-1024",
+  "chunkCount" : 660,
+  "chunkSizeBytes" : 1024,
+  "contentClass" : "natural-landscape",
+  "corpusVersion" : "progressive-real-photo-v1",
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "encodedByteCount" : 675633,
+  "encodedSHA256" : "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "evidenceVersion" : "imagecraft-progressive-photo-corpus-v1",
+  "finalPixelRGBSHA256" : "45bc203a4c3ff1ac39662a16e079e9714ea8f9b51a07bd14bbd208a9e55757c6",
+  "generations" : [
+    {
+      "encodedByteFractionPPM" : 57593,
+      "generation" : 1,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 737081,
+        "absoluteErrorAtMost32PPM" : 915141,
+        "absoluteErrorAtMost64PPM" : 993232,
+        "absoluteErrorAtMost8PPM" : 536089,
+        "absoluteErrorSum" : 6398409,
+        "channelCount" : 525312,
+        "differentChannelCount" : 496635,
+        "maximumAbsoluteError" : 146,
+        "meanAbsoluteErrorMicrounits" : 12180207,
+        "meanSquaredErrorMicrounits" : 325674983,
+        "psnrMicrodecibels" : 23002960,
+        "squaredErrorSum" : 171080977
+      },
+      "pixelRGBSHA256" : "3ba19a73078a0bd40962218f8226b4d14d3f297282b1501f0ede93ced6c8de40",
+      "sourceByteCount" : 38912
+    },
+    {
+      "encodedByteFractionPPM" : 166717,
+      "generation" : 2,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 891072,
+        "absoluteErrorAtMost32PPM" : 979261,
+        "absoluteErrorAtMost64PPM" : 998307,
+        "absoluteErrorAtMost8PPM" : 710632,
+        "absoluteErrorSum" : 3819852,
+        "channelCount" : 525312,
+        "differentChannelCount" : 485617,
+        "maximumAbsoluteError" : 120,
+        "meanAbsoluteErrorMicrounits" : 7271587,
+        "meanSquaredErrorMicrounits" : 126772695,
+        "psnrMicrodecibels" : 27100546,
+        "squaredErrorSum" : 66595218
+      },
+      "pixelRGBSHA256" : "4a9092198a7a11b457abd556a01d09f966e5fbda7a63a959c4faf1e89050ad54",
+      "sourceByteCount" : 112640
+    },
+    {
+      "encodedByteFractionPPM" : 212186,
+      "generation" : 3,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 976396,
+        "absoluteErrorAtMost32PPM" : 999699,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 847759,
+        "absoluteErrorSum" : 2363153,
+        "channelCount" : 525312,
+        "differentChannelCount" : 475429,
+        "maximumAbsoluteError" : 47,
+        "meanAbsoluteErrorMicrounits" : 4498570,
+        "meanSquaredErrorMicrounits" : 39343001,
+        "psnrMicrodecibels" : 32182129,
+        "squaredErrorSum" : 20667351
+      },
+      "pixelRGBSHA256" : "a2377f409d2343500b31e2ce74a1a1429dc774cb82ec06c5f38e57fe93a07f4c",
+      "sourceByteCount" : 143360
+    },
+    {
+      "encodedByteFractionPPM" : 583512,
+      "generation" : 4,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 993179,
+        "absoluteErrorAtMost32PPM" : 999887,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 954604,
+        "absoluteErrorSum" : 1122246,
+        "channelCount" : 525312,
+        "differentChannelCount" : 394428,
+        "maximumAbsoluteError" : 48,
+        "meanAbsoluteErrorMicrounits" : 2136341,
+        "meanSquaredErrorMicrounits" : 13617655,
+        "psnrMicrodecibels" : 36789780,
+        "squaredErrorSum" : 7153518
+      },
+      "pixelRGBSHA256" : "535444bb6074baf9e03181b213175af3eb128c271ed62e5746132e61694d162c",
+      "sourceByteCount" : 394240
+    }
+  ],
+  "manifestSHA256" : "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46",
+  "outputPixelHeight" : 342,
+  "outputPixelWidth" : 512,
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "scanCount" : 10,
+  "scanScriptID" : "default-successive-v1",
+  "schemaVersion" : 1,
+  "sourceDescription" : "Sunflowers beside Lake Mary in Coconino National Forest, Arizona.",
+  "sourceID" : "landscape-coconino-sunflowers",
+  "sourcePixelHeight" : 1285,
+  "sourcePixelWidth" : 1920
+}

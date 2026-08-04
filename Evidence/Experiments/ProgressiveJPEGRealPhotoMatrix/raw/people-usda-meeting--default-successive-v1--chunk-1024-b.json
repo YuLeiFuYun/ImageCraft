@@ -1,0 +1,126 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "people-usda-meeting--default-successive-v1--chunk-1024",
+  "chunkCount" : 362,
+  "chunkSizeBytes" : 1024,
+  "contentClass" : "people-indoor",
+  "corpusVersion" : "progressive-real-photo-v1",
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "encodedByteCount" : 370199,
+  "encodedSHA256" : "494941339b490cededbb482a47ff7e1352761a4dcc93c82527775ae46c573a87",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "evidenceVersion" : "imagecraft-progressive-photo-corpus-v1",
+  "finalPixelRGBSHA256" : "41e75f12903de7cb4c34d619dcf127d0eee60ef5c0a845db05fe8cc767cb3f16",
+  "generations" : [
+    {
+      "encodedByteFractionPPM" : 77450,
+      "generation" : 1,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 926915,
+        "absoluteErrorAtMost32PPM" : 983248,
+        "absoluteErrorAtMost64PPM" : 999095,
+        "absoluteErrorAtMost8PPM" : 826700,
+        "absoluteErrorSum" : 2658539,
+        "channelCount" : 523776,
+        "differentChannelCount" : 447458,
+        "maximumAbsoluteError" : 114,
+        "meanAbsoluteErrorMicrounits" : 5075717,
+        "meanSquaredErrorMicrounits" : 85615872,
+        "psnrMicrodecibels" : 28805261,
+        "squaredErrorSum" : 44843539
+      },
+      "pixelRGBSHA256" : "baa4b68d54a3401b48ebb3590e5b5dc2e29f9362fedd4f7bdd2c8ba92ba0d28c",
+      "sourceByteCount" : 28672
+    },
+    {
+      "encodedByteFractionPPM" : 165964,
+      "generation" : 2,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 993203,
+        "absoluteErrorAtMost32PPM" : 999553,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 959828,
+        "absoluteErrorSum" : 1262666,
+        "channelCount" : 523776,
+        "differentChannelCount" : 428158,
+        "maximumAbsoluteError" : 64,
+        "meanAbsoluteErrorMicrounits" : 2410698,
+        "meanSquaredErrorMicrounits" : 14690413,
+        "psnrMicrodecibels" : 36460463,
+        "squaredErrorSum" : 7694486
+      },
+      "pixelRGBSHA256" : "f26785b181e2bbf329510bad27571d47152dc961be3a71f1ad190e8f59875055",
+      "sourceByteCount" : 61440
+    },
+    {
+      "encodedByteFractionPPM" : 179795,
+      "generation" : 3,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 998602,
+        "absoluteErrorAtMost32PPM" : 999988,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 981933,
+        "absoluteErrorSum" : 1074892,
+        "channelCount" : 523776,
+        "differentChannelCount" : 424212,
+        "maximumAbsoluteError" : 40,
+        "meanAbsoluteErrorMicrounits" : 2052197,
+        "meanSquaredErrorMicrounits" : 8850554,
+        "psnrMicrodecibels" : 38661099,
+        "squaredErrorSum" : 4635708
+      },
+      "pixelRGBSHA256" : "96ae90bac6eccc24d153eff40fa882cf7f5d45adc03005be7c1dde99b02f2dc8",
+      "sourceByteCount" : 66560
+    },
+    {
+      "encodedByteFractionPPM" : 431508,
+      "generation" : 4,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 999944,
+        "absoluteErrorAtMost32PPM" : 1000000,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 997666,
+        "absoluteErrorSum" : 510567,
+        "channelCount" : 523776,
+        "differentChannelCount" : 320628,
+        "maximumAbsoluteError" : 31,
+        "meanAbsoluteErrorMicrounits" : 974781,
+        "meanSquaredErrorMicrounits" : 2480031,
+        "psnrMicrodecibels" : 44186232,
+        "squaredErrorSum" : 1298981
+      },
+      "pixelRGBSHA256" : "4982dc40c6006dc30d03009f33f4b5bfa5d08c9397ff43a7d47581dbbe63500b",
+      "sourceByteCount" : 159744
+    }
+  ],
+  "manifestSHA256" : "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46",
+  "outputPixelHeight" : 341,
+  "outputPixelWidth" : 512,
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "scanCount" : 10,
+  "scanScriptID" : "default-successive-v1",
+  "schemaVersion" : 1,
+  "sourceDescription" : "USDA food-safety officials meeting with the Iowa Cattlemen’s Association.",
+  "sourceID" : "people-usda-meeting",
+  "sourcePixelHeight" : 1280,
+  "sourcePixelWidth" : 1920
+}

@@ -1,0 +1,106 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "animal-usda-cow-sunset--default-successive-v1--chunk-32768",
+  "chunkCount" : 8,
+  "chunkSizeBytes" : 32768,
+  "contentClass" : "animal-sunset",
+  "corpusVersion" : "progressive-real-photo-v1",
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "encodedByteCount" : 248686,
+  "encodedSHA256" : "3c8c249b8a8554a0c6cb2cf936e3f9af091fcdee5ed259b7746e153b24629c6b",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "evidenceVersion" : "imagecraft-progressive-photo-corpus-v1",
+  "finalPixelRGBSHA256" : "259e4e86aa63c3138fe70b4b12d9fea48c097fec3b1448f2be011c45017ab34a",
+  "generations" : [
+    {
+      "encodedByteFractionPPM" : 131764,
+      "generation" : 1,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 981724,
+        "absoluteErrorAtMost32PPM" : 995768,
+        "absoluteErrorAtMost64PPM" : 999574,
+        "absoluteErrorAtMost8PPM" : 930759,
+        "absoluteErrorSum" : 1467099,
+        "channelCount" : 522240,
+        "differentChannelCount" : 408217,
+        "maximumAbsoluteError" : 129,
+        "meanAbsoluteErrorMicrounits" : 2809242,
+        "meanSquaredErrorMicrounits" : 30329130,
+        "psnrMicrodecibels" : 33312204,
+        "squaredErrorSum" : 15839085
+      },
+      "pixelRGBSHA256" : "dc5d7fe2ffe8623ee68fb7a327ee79e3a95682a676913f6568ca6f2cac332763",
+      "sourceByteCount" : 32768
+    },
+    {
+      "encodedByteFractionPPM" : 263529,
+      "generation" : 2,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 998674,
+        "absoluteErrorAtMost32PPM" : 999975,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 988687,
+        "absoluteErrorSum" : 904220,
+        "channelCount" : 522240,
+        "differentChannelCount" : 397066,
+        "maximumAbsoluteError" : 42,
+        "meanAbsoluteErrorMicrounits" : 1731426,
+        "meanSquaredErrorMicrounits" : 6860650,
+        "psnrMicrodecibels" : 39767151,
+        "squaredErrorSum" : 3582906
+      },
+      "pixelRGBSHA256" : "15c972e1de825478b5b75c992068afb4baeba772af3b469304aafc857909ed19",
+      "sourceByteCount" : 65536
+    },
+    {
+      "encodedByteFractionPPM" : 527058,
+      "generation" : 3,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 999831,
+        "absoluteErrorAtMost32PPM" : 999996,
+        "absoluteErrorAtMost64PPM" : 1000000,
+        "absoluteErrorAtMost8PPM" : 998602,
+        "absoluteErrorSum" : 310276,
+        "channelCount" : 522240,
+        "differentChannelCount" : 192840,
+        "maximumAbsoluteError" : 38,
+        "meanAbsoluteErrorMicrounits" : 594125,
+        "meanSquaredErrorMicrounits" : 1544983,
+        "psnrMicrodecibels" : 46241566,
+        "squaredErrorSum" : 806852
+      },
+      "pixelRGBSHA256" : "8a3202a2ad48c1ce840ea26d07a8ea9244f3aee0f3659b87993a8d1aba6afa69",
+      "sourceByteCount" : 131072
+    }
+  ],
+  "manifestSHA256" : "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46",
+  "outputPixelHeight" : 340,
+  "outputPixelWidth" : 512,
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "scanCount" : 10,
+  "scanScriptID" : "default-successive-v1",
+  "schemaVersion" : 1,
+  "sourceDescription" : "Cow grazing at sunset in Arcata, California.",
+  "sourceID" : "animal-usda-cow-sunset",
+  "sourcePixelHeight" : 1277,
+  "sourcePixelWidth" : 1920
+}

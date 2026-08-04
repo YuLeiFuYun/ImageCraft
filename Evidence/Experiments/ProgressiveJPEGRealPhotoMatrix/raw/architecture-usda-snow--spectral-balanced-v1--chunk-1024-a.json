@@ -1,0 +1,106 @@
+{
+  "buildConfiguration" : "release",
+  "caseID" : "architecture-usda-snow--spectral-balanced-v1--chunk-1024",
+  "chunkCount" : 375,
+  "chunkSizeBytes" : 1024,
+  "contentClass" : "architecture-snow",
+  "corpusVersion" : "progressive-real-photo-v1",
+  "decoderFingerprint" : "dev.fovea.imageio#impl=2#contract=2",
+  "encodedByteCount" : 383893,
+  "encodedSHA256" : "9d6d9f1685699b50d8570d5974e8f0d0129f8a202fc89a7f22e2db6dcefa6837",
+  "environment" : {
+    "activeProcessorCount" : 8,
+    "hardwareModel" : "MacBookPro18,3",
+    "lowPowerModeEnabled" : false,
+    "physicalMemoryBytes" : 17179869184,
+    "thermalState" : "nominal"
+  },
+  "evidenceVersion" : "imagecraft-progressive-photo-corpus-v1",
+  "finalPixelRGBSHA256" : "bdf35126d8b7bc9f7101072e9709d5f3d7b5664605ee6fdb806d6ae87f43b46f",
+  "generations" : [
+    {
+      "encodedByteFractionPPM" : 90691,
+      "generation" : 1,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 931665,
+        "absoluteErrorAtMost32PPM" : 986182,
+        "absoluteErrorAtMost64PPM" : 998870,
+        "absoluteErrorAtMost8PPM" : 813943,
+        "absoluteErrorSum" : 2720287,
+        "channelCount" : 522240,
+        "differentChannelCount" : 424839,
+        "maximumAbsoluteError" : 142,
+        "meanAbsoluteErrorMicrounits" : 5208882,
+        "meanSquaredErrorMicrounits" : 84691174,
+        "psnrMicrodecibels" : 28852422,
+        "squaredErrorSum" : 44229119
+      },
+      "pixelRGBSHA256" : "4c9b996a5f03ad63ac5d40bf4f9602a08b5b48de6230ecdd9e0130f207130dd4",
+      "sourceByteCount" : 34816
+    },
+    {
+      "encodedByteFractionPPM" : 202723,
+      "generation" : 2,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 988319,
+        "absoluteErrorAtMost32PPM" : 998820,
+        "absoluteErrorAtMost64PPM" : 999944,
+        "absoluteErrorAtMost8PPM" : 936812,
+        "absoluteErrorSum" : 1393917,
+        "channelCount" : 522240,
+        "differentChannelCount" : 383590,
+        "maximumAbsoluteError" : 119,
+        "meanAbsoluteErrorMicrounits" : 2669111,
+        "meanSquaredErrorMicrounits" : 21239772,
+        "psnrMicrodecibels" : 34859305,
+        "squaredErrorSum" : 11092259
+      },
+      "pixelRGBSHA256" : "d437416938848dd25f2800c90fac36c464a2e2c48e74da12cb5bb1c1abf37434",
+      "sourceByteCount" : 77824
+    },
+    {
+      "encodedByteFractionPPM" : 357432,
+      "generation" : 3,
+      "metricsAgainstFinal" : {
+        "absoluteErrorAtMost16PPM" : 998682,
+        "absoluteErrorAtMost32PPM" : 999685,
+        "absoluteErrorAtMost64PPM" : 999952,
+        "absoluteErrorAtMost8PPM" : 992202,
+        "absoluteErrorSum" : 607294,
+        "channelCount" : 522240,
+        "differentChannelCount" : 304031,
+        "maximumAbsoluteError" : 126,
+        "meanAbsoluteErrorMicrounits" : 1162863,
+        "meanSquaredErrorMicrounits" : 5015062,
+        "psnrMicrodecibels" : 41128041,
+        "squaredErrorSum" : 2619066
+      },
+      "pixelRGBSHA256" : "795ab68995143009732945103dedc982f8eb84300d04012efaa98df49d27a1dc",
+      "sourceByteCount" : 137216
+    }
+  ],
+  "manifestSHA256" : "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46",
+  "outputPixelHeight" : 340,
+  "outputPixelWidth" : 512,
+  "runtime" : {
+    "architecture" : "arm64",
+    "coreGraphicsBundleVersion" : "2047",
+    "imageIOBundleShortVersion" : "3.3.0",
+    "imageIOBundleVersion" : "2847",
+    "operatingSystemBuild" : "26A5388g",
+    "operatingSystemVersion" : {
+      "majorVersion" : 27,
+      "minorVersion" : 0,
+      "patchVersion" : 0
+    },
+    "platform" : "macOS",
+    "schemaVersion" : 1
+  },
+  "scanCount" : 7,
+  "scanScriptID" : "spectral-balanced-v1",
+  "schemaVersion" : 1,
+  "sourceDescription" : "USDA Whitten Building facade and Washington Monument after snow.",
+  "sourceID" : "architecture-usda-snow",
+  "sourcePixelHeight" : 1275,
+  "sourcePixelWidth" : 1920
+}

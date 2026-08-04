@@ -110,3 +110,8 @@ scripts/verify-imageio-evidence.sh Evidence/Baselines/macos-27.0-26A5388g-arm64.
 `Evidence/Experiments/progressive-jpeg-generation-quality-2026-08-04.json` 量化四个 bounded generation 相对同一 JPEG 最终完整解码的像素误差。证据绑定 clean 提交 `085ba9b6a53f56c6fb5f41df9048401a43dc5b48`、Git tree、source identity v2，以及每个 chunk schedule 两份逐字节相同的原始报告。
 
 `Tools/Performance/validate_progressive_quality_experiment.py` 会重算原始报告、固定点 MAE/MSE 与 PSNR，验证像素 SHA-256、环境和源码身份，并检查观测后声明的分类边界。固定输入中 G1/G2 低于 20 dB PSNR，G3 在约 36% 字节处跃升至 46.275 dB 且全部通道误差不超过 8。该证据描述的是相对最终解码的像素收敛，不是原始图像质量、感知效用或用户可用性证明。
+## 渐进 JPEG 真实照片矩阵证据
+
+`Evidence/Experiments/progressive-jpeg-real-photo-scan-matrix-2026-08-04.json` 将内容、scan script 与 chunk schedule 拆成 4 × 3 × 2 的正交矩阵。证据绑定 clean 提交 `75acd9279304077ba4ba44fe42af1b03aa8009fe`、Git tree、149 文件 source identity、48 份成对原始报告和可逐字节再生的公共领域照片 corpus。
+
+`Tools/Performance/validate_progressive_photo_matrix_experiment.py` 会验证 manifest 与每份原始报告哈希、成对确定性、固定点 MAE/MSE 与 PSNR、自原始报告重建聚合、最终像素跨 scan script 一致性，以及 measured commit 的逐文件内容与可执行位。矩阵表明 generation 数量和同序号质量会随 chunk schedule 改变，且 luma-frontloaded 脚本可在接近流尾时仍明显偏离最终解码。因此 generation 只能表示单会话顺序；该记录不授予跨会话质量等级，也不把 PSNR 当作感知可用性证明。

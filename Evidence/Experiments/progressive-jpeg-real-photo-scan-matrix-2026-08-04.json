@@ -1,0 +1,845 @@
+{
+  "artifacts": {
+    "aggregate": {
+      "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/aggregate-clean-75acd92.json",
+      "sha256": "5c8066332556ad35cdb51eb5a18ca6c7e65cf7cc5a6e6c82d99a0d8089f06e5b"
+    },
+    "manifest": {
+      "path": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/manifest.json",
+      "sha256": "25fec069e634495cbc865b8e8f6cc26239ed33eca3d5fa1078c9e704998d4e46"
+    },
+    "rawReports": {
+      "animal-usda-cow-sunset--default-successive-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-1024-a.json",
+        "sha256": "54e00f5ef91589e9d31be98e11e2cb6bc9fcf976fec162134ff935c354928af8"
+      },
+      "animal-usda-cow-sunset--default-successive-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-1024-b.json",
+        "sha256": "54e00f5ef91589e9d31be98e11e2cb6bc9fcf976fec162134ff935c354928af8"
+      },
+      "animal-usda-cow-sunset--default-successive-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-32768-a.json",
+        "sha256": "f038769bbede1134b93aa1a69639975dc3dc25eb7bfebaff6dfddf5a75de480a"
+      },
+      "animal-usda-cow-sunset--default-successive-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--default-successive-v1--chunk-32768-b.json",
+        "sha256": "f038769bbede1134b93aa1a69639975dc3dc25eb7bfebaff6dfddf5a75de480a"
+      },
+      "animal-usda-cow-sunset--luma-frontloaded-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-1024-a.json",
+        "sha256": "675ff582ead700d25bce0e3b4ad2f2c573a4d7117f4869222f6ec2ba1fdd270b"
+      },
+      "animal-usda-cow-sunset--luma-frontloaded-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-1024-b.json",
+        "sha256": "675ff582ead700d25bce0e3b4ad2f2c573a4d7117f4869222f6ec2ba1fdd270b"
+      },
+      "animal-usda-cow-sunset--luma-frontloaded-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-32768-a.json",
+        "sha256": "8353a64a1fb375d1334d94bd2dcf87be2c9349d2d2a9be4789b11bdf062ceb3e"
+      },
+      "animal-usda-cow-sunset--luma-frontloaded-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--luma-frontloaded-v1--chunk-32768-b.json",
+        "sha256": "8353a64a1fb375d1334d94bd2dcf87be2c9349d2d2a9be4789b11bdf062ceb3e"
+      },
+      "animal-usda-cow-sunset--spectral-balanced-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-1024-a.json",
+        "sha256": "1b0c192437914de283c02fc6b925feb8279ba4e57015b507ff393742e4907b18"
+      },
+      "animal-usda-cow-sunset--spectral-balanced-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-1024-b.json",
+        "sha256": "1b0c192437914de283c02fc6b925feb8279ba4e57015b507ff393742e4907b18"
+      },
+      "animal-usda-cow-sunset--spectral-balanced-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-32768-a.json",
+        "sha256": "af578122cf0996f7f59d4bdf57fb5d0cbb4dc169299869d003ed4e2a57b332ee"
+      },
+      "animal-usda-cow-sunset--spectral-balanced-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/animal-usda-cow-sunset--spectral-balanced-v1--chunk-32768-b.json",
+        "sha256": "af578122cf0996f7f59d4bdf57fb5d0cbb4dc169299869d003ed4e2a57b332ee"
+      },
+      "architecture-usda-snow--default-successive-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-1024-a.json",
+        "sha256": "540ae4066fa30645bf9cc8700d9209e6da19a012c6ff431ca1be9b4fd78009d0"
+      },
+      "architecture-usda-snow--default-successive-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-1024-b.json",
+        "sha256": "540ae4066fa30645bf9cc8700d9209e6da19a012c6ff431ca1be9b4fd78009d0"
+      },
+      "architecture-usda-snow--default-successive-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-32768-a.json",
+        "sha256": "0c2b4e7640dc78af46b13738ac7e327b52b99444814cf4874705ae07d37bd7f8"
+      },
+      "architecture-usda-snow--default-successive-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--default-successive-v1--chunk-32768-b.json",
+        "sha256": "0c2b4e7640dc78af46b13738ac7e327b52b99444814cf4874705ae07d37bd7f8"
+      },
+      "architecture-usda-snow--luma-frontloaded-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-1024-a.json",
+        "sha256": "81334d33bb2e078675f206c698f1db7067b0fbfd1c6bbbc2a62c6cff1bb6a1ef"
+      },
+      "architecture-usda-snow--luma-frontloaded-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-1024-b.json",
+        "sha256": "81334d33bb2e078675f206c698f1db7067b0fbfd1c6bbbc2a62c6cff1bb6a1ef"
+      },
+      "architecture-usda-snow--luma-frontloaded-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-32768-a.json",
+        "sha256": "4c530fa94b313eaa61e5b74818f699242f62651a4fd48d2c25c9f24d47bcd395"
+      },
+      "architecture-usda-snow--luma-frontloaded-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--luma-frontloaded-v1--chunk-32768-b.json",
+        "sha256": "4c530fa94b313eaa61e5b74818f699242f62651a4fd48d2c25c9f24d47bcd395"
+      },
+      "architecture-usda-snow--spectral-balanced-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-1024-a.json",
+        "sha256": "c032f8ec02321c5f017d7288a73d6668876e427a4752b9bf374cada8fa9303e2"
+      },
+      "architecture-usda-snow--spectral-balanced-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-1024-b.json",
+        "sha256": "c032f8ec02321c5f017d7288a73d6668876e427a4752b9bf374cada8fa9303e2"
+      },
+      "architecture-usda-snow--spectral-balanced-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-32768-a.json",
+        "sha256": "fa0620360fada949abc76f1814b6a03e2402248fa2cdcb5c1d2932d0603d8158"
+      },
+      "architecture-usda-snow--spectral-balanced-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/architecture-usda-snow--spectral-balanced-v1--chunk-32768-b.json",
+        "sha256": "fa0620360fada949abc76f1814b6a03e2402248fa2cdcb5c1d2932d0603d8158"
+      },
+      "landscape-coconino-sunflowers--default-successive-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-1024-a.json",
+        "sha256": "a3082d4f9069320a3fa5168576d7380b51fc3323655fd3fd02a4d7df5c4cc875"
+      },
+      "landscape-coconino-sunflowers--default-successive-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-1024-b.json",
+        "sha256": "a3082d4f9069320a3fa5168576d7380b51fc3323655fd3fd02a4d7df5c4cc875"
+      },
+      "landscape-coconino-sunflowers--default-successive-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-32768-a.json",
+        "sha256": "69d255fb265d82da020e475593d12c4a4ebcbe85d5e931b3ca3d8bb8f323ec4a"
+      },
+      "landscape-coconino-sunflowers--default-successive-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--default-successive-v1--chunk-32768-b.json",
+        "sha256": "69d255fb265d82da020e475593d12c4a4ebcbe85d5e931b3ca3d8bb8f323ec4a"
+      },
+      "landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024-a.json",
+        "sha256": "91ef8ee4a270695b3261d4bed211663b7483f408566b37a41017304bc1988e00"
+      },
+      "landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024-b.json",
+        "sha256": "91ef8ee4a270695b3261d4bed211663b7483f408566b37a41017304bc1988e00"
+      },
+      "landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-32768-a.json",
+        "sha256": "463ed41eca9af553e46a66dbf967465260913fdac5f5926800fb091eecfe0ee7"
+      },
+      "landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-32768-b.json",
+        "sha256": "463ed41eca9af553e46a66dbf967465260913fdac5f5926800fb091eecfe0ee7"
+      },
+      "landscape-coconino-sunflowers--spectral-balanced-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-1024-a.json",
+        "sha256": "a290f581212d9133ed40d1189016fdecb1d855aff0c065316eff53e194e4066f"
+      },
+      "landscape-coconino-sunflowers--spectral-balanced-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-1024-b.json",
+        "sha256": "a290f581212d9133ed40d1189016fdecb1d855aff0c065316eff53e194e4066f"
+      },
+      "landscape-coconino-sunflowers--spectral-balanced-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-32768-a.json",
+        "sha256": "afb6f73d0316689132348e9038d26331a7823ec8c308c0d9bd5ceef7150c9169"
+      },
+      "landscape-coconino-sunflowers--spectral-balanced-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/landscape-coconino-sunflowers--spectral-balanced-v1--chunk-32768-b.json",
+        "sha256": "afb6f73d0316689132348e9038d26331a7823ec8c308c0d9bd5ceef7150c9169"
+      },
+      "people-usda-meeting--default-successive-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-1024-a.json",
+        "sha256": "b187ba868ee026c18a5f5adb4157c69e2ce4c8bb7f17d46153e18b0bc157f199"
+      },
+      "people-usda-meeting--default-successive-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-1024-b.json",
+        "sha256": "b187ba868ee026c18a5f5adb4157c69e2ce4c8bb7f17d46153e18b0bc157f199"
+      },
+      "people-usda-meeting--default-successive-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-32768-a.json",
+        "sha256": "15e0b9f25e4fa7887fe6ef568e36c9737f4fc764372009a9da6f56315ce16110"
+      },
+      "people-usda-meeting--default-successive-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--default-successive-v1--chunk-32768-b.json",
+        "sha256": "15e0b9f25e4fa7887fe6ef568e36c9737f4fc764372009a9da6f56315ce16110"
+      },
+      "people-usda-meeting--luma-frontloaded-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-1024-a.json",
+        "sha256": "cd94e17ce12310d2c08073eaaf19c77b230f3d38d2de4e503facabb7064269b2"
+      },
+      "people-usda-meeting--luma-frontloaded-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-1024-b.json",
+        "sha256": "cd94e17ce12310d2c08073eaaf19c77b230f3d38d2de4e503facabb7064269b2"
+      },
+      "people-usda-meeting--luma-frontloaded-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-32768-a.json",
+        "sha256": "a526b99a8e289eedfa5cdd6cd56de6dadd76ce979f8b4d90da0ffc39a64c6225"
+      },
+      "people-usda-meeting--luma-frontloaded-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--luma-frontloaded-v1--chunk-32768-b.json",
+        "sha256": "a526b99a8e289eedfa5cdd6cd56de6dadd76ce979f8b4d90da0ffc39a64c6225"
+      },
+      "people-usda-meeting--spectral-balanced-v1--chunk-1024-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-1024-a.json",
+        "sha256": "34d17d2ad9a0d43c42ed66c6d14abfbe6432539ee9fe5922e9cbd6d65f6a04bc"
+      },
+      "people-usda-meeting--spectral-balanced-v1--chunk-1024-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-1024-b.json",
+        "sha256": "34d17d2ad9a0d43c42ed66c6d14abfbe6432539ee9fe5922e9cbd6d65f6a04bc"
+      },
+      "people-usda-meeting--spectral-balanced-v1--chunk-32768-a.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-32768-a.json",
+        "sha256": "3504e363b52d1473c598c04fdd279a5689813b5c19e6ddf0e66348e404767f75"
+      },
+      "people-usda-meeting--spectral-balanced-v1--chunk-32768-b.json": {
+        "path": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/raw/people-usda-meeting--spectral-balanced-v1--chunk-32768-b.json",
+        "sha256": "3504e363b52d1473c598c04fdd279a5689813b5c19e6ddf0e66348e404767f75"
+      }
+    }
+  },
+  "capturedAt": "2026-08-04",
+  "decision": {
+    "passed": true,
+    "qualification": "evidence matrix is reproducible; no scan policy is universally qualified",
+    "supportedClaims": [
+      "For each fixed source and encoder settings, all three scan scripts decode to identical final pixels in the retained matrix.",
+      "Observed generation count and per-generation quality depend on transport chunk boundaries as well as JPEG scan ordering.",
+      "Generation ordinal is only an in-session ordering token and cannot be compared as a quality level across sessions.",
+      "The luma-frontloaded scan script is not uniformly superior and can leave a late preview materially different from the final decode."
+    ],
+    "unsupportedClaims": [
+      "Any scan script is optimal for arbitrary photographs, devices, networks, or user tasks.",
+      "PSNR, MAE, or channel-error coverage proves subjective usefulness or recognizability.",
+      "The four-source corpus represents production image distributions.",
+      "The matrix establishes network-to-screen latency, energy use, or iOS-device performance."
+    ]
+  },
+  "environment": {
+    "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+    "environment": {
+      "activeProcessorCount": 8,
+      "hardwareModel": "MacBookPro18,3",
+      "lowPowerModeEnabled": false,
+      "physicalMemoryBytes": 17179869184,
+      "thermalState": "nominal"
+    },
+    "runtime": {
+      "architecture": "arm64",
+      "coreGraphicsBundleVersion": "2047",
+      "imageIOBundleShortVersion": "3.3.0",
+      "imageIOBundleVersion": "2847",
+      "operatingSystemBuild": "26A5388g",
+      "operatingSystemVersion": {
+        "majorVersion": 27,
+        "minorVersion": 0,
+        "patchVersion": 0
+      },
+      "platform": "macOS",
+      "schemaVersion": 1
+    }
+  },
+  "experimentID": "progressive-jpeg-real-photo-scan-matrix-v1",
+  "findings": {
+    "chunkScheduleComparisons": [
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": false,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 45294,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 623853,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 2512433
+          },
+          {
+            "encodedByteFractionDifferencePPM": 82353,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 495833,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4903989
+          },
+          {
+            "encodedByteFractionDifferencePPM": 329412,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 1281462,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 7465501
+          }
+        ],
+        "scanScriptID": "default-successive-v1",
+        "sourceID": "animal-usda-cow-sunset"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": false,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 24417,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 157420,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 569697
+          },
+          {
+            "encodedByteFractionDifferencePPM": 44764,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 189787,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 906670
+          },
+          {
+            "encodedByteFractionDifferencePPM": 48833,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 13115,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 51471
+          }
+        ],
+        "scanScriptID": "luma-frontloaded-v1",
+        "sourceID": "animal-usda-cow-sunset"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 3,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 24425,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 157420,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 569697
+          },
+          {
+            "encodedByteFractionDifferencePPM": 44779,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 189787,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 906670
+          },
+          {
+            "encodedByteFractionDifferencePPM": 12213,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 162150,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 2705586
+          }
+        ],
+        "scanScriptID": "spectral-balanced-v1",
+        "sourceID": "animal-usda-cow-sunset"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": false,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 10788,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 268348,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 255438
+          },
+          {
+            "encodedByteFractionDifferencePPM": 83611,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 371565,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 2202988
+          },
+          {
+            "encodedByteFractionDifferencePPM": 334443,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 1591402,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 10222567
+          }
+        ],
+        "scanScriptID": "default-successive-v1",
+        "sourceID": "architecture-usda-snow"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": false,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 79841,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 2113557,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4952733
+          },
+          {
+            "encodedByteFractionDifferencePPM": 53228,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 495965,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 1266712
+          },
+          {
+            "encodedByteFractionDifferencePPM": 37260,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 13444,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 22089
+          }
+        ],
+        "scanScriptID": "luma-frontloaded-v1",
+        "sourceID": "architecture-usda-snow"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 3,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 80023,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 2113557,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4952733
+          },
+          {
+            "encodedByteFractionDifferencePPM": 53348,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 495965,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 1266712
+          },
+          {
+            "encodedByteFractionDifferencePPM": 69353,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 490943,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4477419
+          }
+        ],
+        "scanScriptID": "spectral-balanced-v1",
+        "sourceID": "architecture-usda-snow"
+      },
+      {
+        "commonGenerationCount": 4,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 4,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 39406,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 1482573,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 730240
+          },
+          {
+            "encodedByteFractionDifferencePPM": 27281,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 1570912,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 1795671
+          },
+          {
+            "encodedByteFractionDifferencePPM": 30312,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 232850,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 415836
+          },
+          {
+            "encodedByteFractionDifferencePPM": 46984,
+            "generation": 4,
+            "meanAbsoluteErrorDifferenceMicrounits": 1422530,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 11316111
+          }
+        ],
+        "scanScriptID": "default-successive-v1",
+        "sourceID": "landscape-coconino-sunflowers"
+      },
+      {
+        "commonGenerationCount": 4,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 4,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 27689,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 795015,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 305225
+          },
+          {
+            "encodedByteFractionDifferencePPM": 40805,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 282139,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 111141
+          },
+          {
+            "encodedByteFractionDifferencePPM": 43719,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 12755,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 1494
+          },
+          {
+            "encodedByteFractionDifferencePPM": 40805,
+            "generation": 4,
+            "meanAbsoluteErrorDifferenceMicrounits": 2845336,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4875533
+          }
+        ],
+        "scanScriptID": "luma-frontloaded-v1",
+        "sourceID": "landscape-coconino-sunflowers"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 3,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 27547,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 795015,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 305225
+          },
+          {
+            "encodedByteFractionDifferencePPM": 40597,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 282139,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 111141
+          },
+          {
+            "encodedByteFractionDifferencePPM": 10149,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 519297,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 546293
+          }
+        ],
+        "scanScriptID": "spectral-balanced-v1",
+        "sourceID": "landscape-coconino-sunflowers"
+      },
+      {
+        "commonGenerationCount": 4,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 4,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 11064,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 321704,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 402274
+          },
+          {
+            "encodedByteFractionDifferencePPM": 11065,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 320179,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 1946333
+          },
+          {
+            "encodedByteFractionDifferencePPM": 85748,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 243510,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 1528421
+          },
+          {
+            "encodedByteFractionDifferencePPM": 11064,
+            "generation": 4,
+            "meanAbsoluteErrorDifferenceMicrounits": 218586,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 2490970
+          }
+        ],
+        "scanScriptID": "default-successive-v1",
+        "sourceID": "people-usda-meeting"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": false,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 76429,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 1758408,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4029818
+          },
+          {
+            "encodedByteFractionDifferencePPM": 55345,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 274048,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 857325
+          },
+          {
+            "encodedByteFractionDifferencePPM": 63252,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 32774,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 34254
+          }
+        ],
+        "scanScriptID": "luma-frontloaded-v1",
+        "sourceID": "people-usda-meeting"
+      },
+      {
+        "commonGenerationCount": 3,
+        "generationCountChunk1024": 3,
+        "generationCountChunk32768": 3,
+        "generationCountEqual": true,
+        "perGeneration": [
+          {
+            "encodedByteFractionDifferencePPM": 77115,
+            "generation": 1,
+            "meanAbsoluteErrorDifferenceMicrounits": 1758408,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 4029818
+          },
+          {
+            "encodedByteFractionDifferencePPM": 55842,
+            "generation": 2,
+            "meanAbsoluteErrorDifferenceMicrounits": 274048,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 857325
+          },
+          {
+            "encodedByteFractionDifferencePPM": 79774,
+            "generation": 3,
+            "meanAbsoluteErrorDifferenceMicrounits": 650641,
+            "pixelRGBExactMatch": false,
+            "psnrDifferenceMicrodecibels": 5409822
+          }
+        ],
+        "scanScriptID": "spectral-balanced-v1",
+        "sourceID": "people-usda-meeting"
+      }
+    ],
+    "counterexamples": {
+      "chunkScheduleCanChangeGenerationCount": {
+        "generationCountChunk1024": 4,
+        "generationCountChunk32768": 3,
+        "scanScriptID": "default-successive-v1",
+        "sourceID": "animal-usda-cow-sunset"
+      },
+      "lumaFrontloadedNearEndCanRemainFarFromFinal": {
+        "caseID": "landscape-coconino-sunflowers--luma-frontloaded-v1--chunk-1024",
+        "lastGeneration": {
+          "encodedByteFractionPPM": 938513,
+          "generation": 4,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 935733,
+            "absoluteErrorAtMost32PPM": 981641,
+            "absoluteErrorAtMost64PPM": 997808,
+            "absoluteErrorAtMost8PPM": 848592,
+            "absoluteErrorSum": 2222527,
+            "channelCount": 525312,
+            "differentChannelCount": 288707,
+            "maximumAbsoluteError": 130,
+            "meanAbsoluteErrorMicrounits": 4230870,
+            "meanSquaredErrorMicrounits": 87620166,
+            "psnrMicrodecibels": 28704763,
+            "squaredErrorSum": 46027925
+          },
+          "pixelRGBSHA256": "0812568d3046c005b3f0789250fb8eac93ae83f9540109ce17a489dec95dc766",
+          "sourceByteCount": 659456
+        }
+      },
+      "sameGenerationOrdinalCanChangeMateriallyWithChunkOvershoot": {
+        "chunk1024": {
+          "encodedByteFractionPPM": 583512,
+          "generation": 4,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 993179,
+            "absoluteErrorAtMost32PPM": 999887,
+            "absoluteErrorAtMost64PPM": 1000000,
+            "absoluteErrorAtMost8PPM": 954604,
+            "absoluteErrorSum": 1122246,
+            "channelCount": 525312,
+            "differentChannelCount": 394428,
+            "maximumAbsoluteError": 48,
+            "meanAbsoluteErrorMicrounits": 2136341,
+            "meanSquaredErrorMicrounits": 13617655,
+            "psnrMicrodecibels": 36789780,
+            "squaredErrorSum": 7153518
+          },
+          "pixelRGBSHA256": "535444bb6074baf9e03181b213175af3eb128c271ed62e5746132e61694d162c",
+          "sourceByteCount": 394240
+        },
+        "chunk32768": {
+          "encodedByteFractionPPM": 630496,
+          "generation": 4,
+          "metricsAgainstFinal": {
+            "absoluteErrorAtMost16PPM": 1000000,
+            "absoluteErrorAtMost32PPM": 1000000,
+            "absoluteErrorAtMost64PPM": 1000000,
+            "absoluteErrorAtMost8PPM": 1000000,
+            "absoluteErrorSum": 374974,
+            "channelCount": 525312,
+            "differentChannelCount": 304436,
+            "maximumAbsoluteError": 6,
+            "meanAbsoluteErrorMicrounits": 713811,
+            "meanSquaredErrorMicrounits": 1005752,
+            "psnrMicrodecibels": 48105891,
+            "squaredErrorSum": 528334
+          },
+          "pixelRGBSHA256": "d074a1d561b76daa2b66ff3a7f89c690ea0f11935f40434aab1e162cd92b6399",
+          "sourceByteCount": 425984
+        },
+        "generation": 4,
+        "psnrDifferenceMicrodecibels": 11316111,
+        "scanScriptID": "default-successive-v1",
+        "sourceID": "landscape-coconino-sunflowers"
+      }
+    },
+    "generationCountDistribution": {
+      "default-successive-v1": {
+        "1024": {
+          "4": 4
+        },
+        "32768": {
+          "3": 2,
+          "4": 2
+        }
+      },
+      "luma-frontloaded-v1": {
+        "1024": {
+          "4": 4
+        },
+        "32768": {
+          "3": 3,
+          "4": 1
+        }
+      },
+      "spectral-balanced-v1": {
+        "1024": {
+          "3": 4
+        },
+        "32768": {
+          "3": 4
+        }
+      }
+    },
+    "lastPreviewRangesByScanScript": {
+      "default-successive-v1": {
+        "encodedByteFractionPPM": {
+          "maximum": 630496,
+          "minimum": 431508
+        },
+        "maximumAbsoluteError": {
+          "maximum": 48,
+          "minimum": 4
+        },
+        "meanAbsoluteErrorMicrounits": {
+          "maximum": 2136341,
+          "minimum": 594125
+        },
+        "psnrMicrodecibels": {
+          "maximum": 48604263,
+          "minimum": 36789780
+        }
+      },
+      "luma-frontloaded-v1": {
+        "encodedByteFractionPPM": {
+          "maximum": 982043,
+          "minimum": 506014
+        },
+        "maximumAbsoluteError": {
+          "maximum": 130,
+          "minimum": 36
+        },
+        "meanAbsoluteErrorMicrounits": {
+          "maximum": 4230870,
+          "minimum": 652636
+        },
+        "psnrMicrodecibels": {
+          "maximum": 43296285,
+          "minimum": 28704763
+        }
+      },
+      "spectral-balanced-v1": {
+        "encodedByteFractionPPM": {
+          "maximum": 426785,
+          "minimum": 314621
+        },
+        "maximumAbsoluteError": {
+          "maximum": 126,
+          "minimum": 33
+        },
+        "meanAbsoluteErrorMicrounits": {
+          "maximum": 4146659,
+          "minimum": 596338
+        },
+        "psnrMicrodecibels": {
+          "maximum": 45611265,
+          "minimum": 31818351
+        }
+      }
+    }
+  },
+  "implementation": {
+    "cleanWorktreeAtCapture": true,
+    "commit": "75acd9279304077ba4ba44fe42af1b03aa8009fe",
+    "commitTree": "33d535515b11cd42eaae94648e556b6b6d7f35f5",
+    "sourceIdentityFileCount": 149,
+    "sourceIdentityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+    "sourceIdentityReportPath": "Evidence/Experiments/ProgressiveJPEGRealPhotoMatrix/source-identity-75acd92.json",
+    "sourceIdentityReportSHA256": "4834668eb2ca2722aa8c2a5796bef4c816f6b3b32780bbdfc4d1979de432bb84",
+    "sourceIdentitySHA256": "51434f8ae8a53b1cfdd45993d9154af505dde15a49c17ec472c5c8269dbfa73c",
+    "sourceIdentitySchemaVersion": 2
+  },
+  "interpretation": {
+    "generationOrdinalHasCrossSessionQualityMeaning": false,
+    "psnrIsPerceptualUsabilityProof": false,
+    "ruleTiming": "descriptive post-hoc analysis; no perceptual threshold or scan-policy winner was preregistered"
+  },
+  "methodology": {
+    "analysisSurface": "deterministic sRGB RGB8 channel metrics",
+    "buildConfiguration": "release",
+    "caseCount": 24,
+    "chunkSizesBytes": [
+      1024,
+      32768
+    ],
+    "evidenceVersion": "imagecraft-progressive-photo-corpus-v1",
+    "executionsPerCase": 2,
+    "matrixVersion": "imagecraft-progressive-photo-matrix-v1",
+    "reference": "complete ImageIO decode of the same encoded JPEG",
+    "scanScriptCount": 3,
+    "sourceCount": 4,
+    "timingMeasured": false
+  },
+  "remainingEvidence": [
+    "A larger stratified public-domain corpus with faces, text, line art, dark scenes, high-frequency foliage, and wide-gamut/HDR inputs.",
+    "Perceptual metrics and blinded task-based evaluation rather than pixel error alone.",
+    "A transport-to-presentation experiment with controlled bandwidth, chunking, cancellation, and UI frame timing.",
+    "A policy experiment that compares threshold retry, byte-fraction gating, time gating, and quality-aware host suppression without assigning cross-session meaning to generation numbers."
+  ],
+  "schemaVersion": 1
+}
