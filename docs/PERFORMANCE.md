@@ -164,7 +164,49 @@ python3 Tools/Performance/validate_progressive_experiment.py \
 scripts/capture-progressive-performance-evidence.sh output.json 7 3
 ```
 
-该实验记录不是跨机器回归预算。正式百分比主张仍需两个不可变可执行文件的交替配对进程实验；iOS 真机、低性能设备、首预览和能耗证据仍未完成。
+该实验记录不是跨机器回归预算。正式百分比主张仍需两个不可变可执行文件的交替配对进程实验；iOS 真机、低性能设备和能耗证据仍未完成。首预览的独立本地时间线见下一节。
+
+## 渐进 JPEG 首预览时间线
+
+总会话成本下降并不自动证明用户能更早看到图像；1/2/4/8 阈值也可能在减少光栅化次数的同时推迟首个预览。为单独检验这一机制，`imagecraft-progressive-timeline-v1` 从 progressive session 创建前开始计时，记录每个 generation 返回时的累计本地耗时和 `sourceByteCount`。fixture 编码和 chunk 数组构造位于计时区间之外，所有 chunk 已在内存中，因此该实验测量的是本地解析与光栅化时间线，不包含网络到达、主线程交付或 UI 显示。
+
+基础设施提交 `ffaef9fb45c633e26c4872805cfc18c7ecbb8f05` 在 clean 工作树上执行两轮独立 campaign。每轮对 1 KiB 与 32 KiB 两种 chunk schedule 各运行 3 个独立进程、每进程 7 次计时；每个场景合计 42 个正式样本。固定输入、目标尺寸、运行时和 decoder fingerprint 与前述渐进总成本实验一致。
+
+| 分片 | 首预览字节 | 流占比 | 首预览 pooled median | 首预览 pooled p90 | finish pooled median |
+|---|---:|---:|---:|---:|---:|
+| 1 KiB | 185,344 | 3.4022% | 6.759 ms | 7.038 ms | 145.738 ms |
+| 32 KiB | 196,608 | 3.6090% | 6.924 ms | 7.191 ms | 145.218 ms |
+
+两轮之间，首预览 median 比率为 0.995 和 1.005，p90 比率为 0.987 和 1.049；finish median 比率为 0.991 和 1.003。首预览本地 median 只占完整会话 median 的约 4.64%–4.77%。32 KiB 第一轮的 finish p90 被单个约 236 ms 的主机尾部样本拉高，第二轮未复现，因此 finish p90 仅报告，不进入稳定性资格判定。
+
+四个 generation 的 pooled median 时间线为：
+
+| 分片 | G1 | G2 | G3 | G4 |
+|---|---:|---:|---:|---:|
+| 1 KiB | 3.40% / 6.76 ms | 11.47% / 19.35 ms | 35.66% / 52.85 ms | 77.73% / 138.55 ms |
+| 32 KiB | 3.61% / 6.92 ms | 12.03% / 19.91 ms | 36.09% / 53.49 ms | 78.20% / 139.65 ms |
+
+每个百分比是 generation 返回时已接收字节占完整流的比例。两种 chunk schedule 的首预览边界区间相交后，可将该固定 JPEG 的首个完整 scan 结束位置约束为 **(184,320, 185,344] 字节**。这是从 chunk 量化边界得到的固定输入推断，不是任意 progressive JPEG 的格式常数。
+
+这组数据支持的结论是：对该绑定输入与实现，几何阈值策略没有把首预览推向流尾；首个 generation 在约 3.4%–3.6% 字节处产生，后续只保留四次有界光栅化。它不支持旧策略与新策略的首预览速度百分比比较，因为历史 per-scan 实现没有不可变可执行文件；也不支持网络 time-to-first-preview、实际 UI 呈现时间、感知质量、跨设备保证或能耗结论。
+
+版本化原始 campaign、source identity 和机器可读结论位于：
+
+```text
+Evidence/Experiments/progressive-jpeg-first-preview-timeline-2026-08-04.json
+Evidence/Experiments/ProgressiveJPEGFirstPreview/
+```
+
+验证与重新捕获命令：
+
+```sh
+python3 Tools/Performance/validate_progressive_timeline_experiment.py \
+  Evidence/Experiments/progressive-jpeg-first-preview-timeline-2026-08-04.json
+
+scripts/capture-progressive-timeline-evidence.sh output.json 7 3
+```
+
+资格门是在观测后声明的描述性证据规则，不是预注册假设检验：pooled 首预览不得晚于 10 ms、不得晚于 5% 编码字节，两轮首预览 median/p90 与 finish median 的比率必须落在 0.8–1.2。下一步仍需网络节奏回放、generation 到 UI presentation 的链路追踪、held-out scan 结构和 iOS 真机。
 
 ## JPEG 熵区 marker 扫描实验
 

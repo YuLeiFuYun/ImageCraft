@@ -98,3 +98,9 @@ scripts/verify-imageio-evidence.sh Evidence/Baselines/macos-27.0-26A5388g-arm64.
 - 验证 clean after 的 duration 在首次 after 的 0.8×–1.2×范围内重现。
 
 该 2×规则是历史结果已知后建立的证据资格线，不是预注册假设检验。历史 before/after 也不是交替配对实验，因此记录明确禁止统计显著性、跨设备速度保证、固定 RSS、能耗或用户可感知延迟主张。完整数值和后续缺口见 `docs/PERFORMANCE.md`。
+
+## 渐进 JPEG 首预览时间线证据
+
+`Evidence/Experiments/progressive-jpeg-first-preview-timeline-2026-08-04.json` 将首预览从总会话成本中分离。两轮 clean campaign 均绑定提交 `ffaef9fb45c633e26c4872805cfc18c7ecbb8f05`、对应 Git tree 和 source identity v2；原始文件保留 42 个样本/场景的每代累计耗时、source byte count、运行时、硬件和输入/输出身份。
+
+`Tools/Performance/validate_progressive_timeline_experiment.py` 会从原始样本重算两轮与 pooled 统计，逐文件核验 measured commit，验证 generation 序列和 byte boundary，重算两种 chunk schedule 的首个完整 scan 区间交集，并检查观测后声明的首预览资格线。当前固定输入的首预览在约 3.4%–3.6% 字节、6.76–6.92 ms pooled median 处产生；该结果只描述预构造 chunk 的本地会话时间线，不等于网络或 UI time-to-first-preview，也不提供相对历史实现的首预览加速百分比。

@@ -1,0 +1,611 @@
+{
+  "artifacts": {
+    "campaign1": {
+      "path": "Evidence/Experiments/ProgressiveJPEGFirstPreview/campaign-1.json",
+      "sha256": "0fca772f47853aa9de2efe48158e186f6c5b3478be07a55fa2d212f720071d99"
+    },
+    "campaign2": {
+      "path": "Evidence/Experiments/ProgressiveJPEGFirstPreview/campaign-2.json",
+      "sha256": "982ca5bfa1a3c3b5f7812f019164b208ebb19180e75e2a9e80a83e7cd17d8d4f"
+    }
+  },
+  "cases": {
+    "progressive-jpeg-timeline-fit-512-chunk-1024": {
+      "campaign1": {
+        "finishElapsed": {
+          "maximumNanoseconds": 156890917,
+          "meanNanoseconds": 147438627,
+          "medianNanoseconds": 146477084,
+          "minimumNanoseconds": 141509959,
+          "p90Nanoseconds": 151792209
+        },
+        "firstPreviewElapsed": {
+          "maximumNanoseconds": 9090333,
+          "meanNanoseconds": 6898543,
+          "medianNanoseconds": 6795000,
+          "minimumNanoseconds": 6402500,
+          "p90Nanoseconds": 7038042
+        },
+        "firstPreviewEncodedByteFractionPPM": 34022,
+        "firstPreviewSourceByteCount": 185344,
+        "generationCount": 4,
+        "generations": [
+          {
+            "elapsed": {
+              "maximumNanoseconds": 9090333,
+              "meanNanoseconds": 6898543,
+              "medianNanoseconds": 6795000,
+              "minimumNanoseconds": 6402500,
+              "p90Nanoseconds": 7038042
+            },
+            "encodedByteFractionPPM": 34022,
+            "generation": 1,
+            "sourceByteCount": 185344
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 23364000,
+              "meanNanoseconds": 19942333,
+              "medianNanoseconds": 19657667,
+              "minimumNanoseconds": 18569417,
+              "p90Nanoseconds": 21332208
+            },
+            "encodedByteFractionPPM": 114661,
+            "generation": 2,
+            "sourceByteCount": 624640
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 59194041,
+              "meanNanoseconds": 53947629,
+              "medianNanoseconds": 53406875,
+              "minimumNanoseconds": 51104917,
+              "p90Nanoseconds": 56472875
+            },
+            "encodedByteFractionPPM": 356579,
+            "generation": 3,
+            "sourceByteCount": 1942528
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 149898625,
+              "meanNanoseconds": 140826591,
+              "medianNanoseconds": 139917042,
+              "minimumNanoseconds": 135859375,
+              "p90Nanoseconds": 146001917
+            },
+            "encodedByteFractionPPM": 777257,
+            "generation": 4,
+            "sourceByteCount": 4234240
+          }
+        ],
+        "totalElapsed": {
+          "maximumNanoseconds": 156891209,
+          "meanNanoseconds": 147438801,
+          "medianNanoseconds": 146477125,
+          "minimumNanoseconds": 141510167,
+          "p90Nanoseconds": 151792417
+        }
+      },
+      "campaign2": {
+        "finishElapsed": {
+          "maximumNanoseconds": 152428083,
+          "meanNanoseconds": 145495039,
+          "medianNanoseconds": 145126125,
+          "minimumNanoseconds": 143168041,
+          "p90Nanoseconds": 147126542
+        },
+        "firstPreviewElapsed": {
+          "maximumNanoseconds": 8620166,
+          "meanNanoseconds": 6899095,
+          "medianNanoseconds": 6758917,
+          "minimumNanoseconds": 6507125,
+          "p90Nanoseconds": 6949125
+        },
+        "firstPreviewEncodedByteFractionPPM": 34022,
+        "firstPreviewSourceByteCount": 185344,
+        "generationCount": 4,
+        "generations": [
+          {
+            "elapsed": {
+              "maximumNanoseconds": 8620166,
+              "meanNanoseconds": 6899095,
+              "medianNanoseconds": 6758917,
+              "minimumNanoseconds": 6507125,
+              "p90Nanoseconds": 6949125
+            },
+            "encodedByteFractionPPM": 34022,
+            "generation": 1,
+            "sourceByteCount": 185344
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 21743709,
+              "meanNanoseconds": 19503011,
+              "medianNanoseconds": 19324833,
+              "minimumNanoseconds": 18926166,
+              "p90Nanoseconds": 19617917
+            },
+            "encodedByteFractionPPM": 114661,
+            "generation": 2,
+            "sourceByteCount": 624640
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 58047792,
+              "meanNanoseconds": 53074146,
+              "medianNanoseconds": 52709291,
+              "minimumNanoseconds": 52289792,
+              "p90Nanoseconds": 53196125
+            },
+            "encodedByteFractionPPM": 356579,
+            "generation": 3,
+            "sourceByteCount": 1942528
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 145672667,
+              "meanNanoseconds": 139118382,
+              "medianNanoseconds": 138115500,
+              "minimumNanoseconds": 137521833,
+              "p90Nanoseconds": 141453167
+            },
+            "encodedByteFractionPPM": 777257,
+            "generation": 4,
+            "sourceByteCount": 4234240
+          }
+        ],
+        "totalElapsed": {
+          "maximumNanoseconds": 152428541,
+          "meanNanoseconds": 145495365,
+          "medianNanoseconds": 145126458,
+          "minimumNanoseconds": 143168208,
+          "p90Nanoseconds": 147126542
+        }
+      },
+      "chunkCount": 5320,
+      "chunkSizeBytes": 1024,
+      "decision": {
+        "finishMedianReplicationPassed": true,
+        "finishP90Qualified": false,
+        "firstPreviewByteFractionPassed": true,
+        "firstPreviewLocalMedianPassed": true,
+        "firstPreviewReplicationPassed": true
+      },
+      "firstCompletedScanBoundaryIntervalBytes": {
+        "exclusiveLowerBound": 184320,
+        "inclusiveUpperBound": 185344
+      },
+      "pooled": {
+        "finishElapsed": {
+          "maximumNanoseconds": 156890917,
+          "meanNanoseconds": 146466833,
+          "medianNanoseconds": 145737792,
+          "minimumNanoseconds": 141509959,
+          "p90Nanoseconds": 151499250
+        },
+        "firstPreviewElapsed": {
+          "maximumNanoseconds": 9090333,
+          "meanNanoseconds": 6898819,
+          "medianNanoseconds": 6758917,
+          "minimumNanoseconds": 6402500,
+          "p90Nanoseconds": 7038042
+        },
+        "firstPreviewEncodedByteFractionPPM": 34022,
+        "firstPreviewSourceByteCount": 185344,
+        "generationCount": 4,
+        "generations": [
+          {
+            "elapsed": {
+              "maximumNanoseconds": 9090333,
+              "meanNanoseconds": 6898819,
+              "medianNanoseconds": 6758917,
+              "minimumNanoseconds": 6402500,
+              "p90Nanoseconds": 7038042
+            },
+            "encodedByteFractionPPM": 34022,
+            "generation": 1,
+            "sourceByteCount": 185344
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 23364000,
+              "meanNanoseconds": 19722672,
+              "medianNanoseconds": 19351500,
+              "minimumNanoseconds": 18569417,
+              "p90Nanoseconds": 21332208
+            },
+            "encodedByteFractionPPM": 114661,
+            "generation": 2,
+            "sourceByteCount": 624640
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 59194041,
+              "meanNanoseconds": 53510887,
+              "medianNanoseconds": 52846708,
+              "minimumNanoseconds": 51104917,
+              "p90Nanoseconds": 56193750
+            },
+            "encodedByteFractionPPM": 356579,
+            "generation": 3,
+            "sourceByteCount": 1942528
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 149898625,
+              "meanNanoseconds": 139972487,
+              "medianNanoseconds": 138547375,
+              "minimumNanoseconds": 135859375,
+              "p90Nanoseconds": 144783333
+            },
+            "encodedByteFractionPPM": 777257,
+            "generation": 4,
+            "sourceByteCount": 4234240
+          }
+        ],
+        "totalElapsed": {
+          "maximumNanoseconds": 156891209,
+          "meanNanoseconds": 146467083,
+          "medianNanoseconds": 145737959,
+          "minimumNanoseconds": 141510167,
+          "p90Nanoseconds": 151499459
+        }
+      },
+      "ratios": {
+        "campaign2ToCampaign1FinishMedian": 0.9907769941679069,
+        "campaign2ToCampaign1FinishP90": 0.9692628032048733,
+        "campaign2ToCampaign1FirstPreviewMedian": 0.9946897718910964,
+        "campaign2ToCampaign1FirstPreviewP90": 0.9873662305510539,
+        "pooledFirstPreviewToFinishMedian": 0.0463772430420793
+      }
+    },
+    "progressive-jpeg-timeline-fit-512-chunk-32768": {
+      "campaign1": {
+        "finishElapsed": {
+          "maximumNanoseconds": 235736375,
+          "meanNanoseconds": 154902107,
+          "medianNanoseconds": 145009083,
+          "minimumNanoseconds": 139566500,
+          "p90Nanoseconds": 199736959
+        },
+        "firstPreviewElapsed": {
+          "maximumNanoseconds": 9117583,
+          "meanNanoseconds": 6943623,
+          "medianNanoseconds": 6903917,
+          "minimumNanoseconds": 6490125,
+          "p90Nanoseconds": 7062834
+        },
+        "firstPreviewEncodedByteFractionPPM": 36090,
+        "firstPreviewSourceByteCount": 196608,
+        "generationCount": 4,
+        "generations": [
+          {
+            "elapsed": {
+              "maximumNanoseconds": 9117583,
+              "meanNanoseconds": 6943623,
+              "medianNanoseconds": 6903917,
+              "minimumNanoseconds": 6490125,
+              "p90Nanoseconds": 7062834
+            },
+            "encodedByteFractionPPM": 36090,
+            "generation": 1,
+            "sourceByteCount": 196608
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 29378875,
+              "meanNanoseconds": 20110539,
+              "medianNanoseconds": 19823500,
+              "minimumNanoseconds": 18814041,
+              "p90Nanoseconds": 20323584
+            },
+            "encodedByteFractionPPM": 120300,
+            "generation": 2,
+            "sourceByteCount": 655360
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 140364375,
+              "meanNanoseconds": 59134698,
+              "medianNanoseconds": 53381917,
+              "minimumNanoseconds": 51104500,
+              "p90Nanoseconds": 58954041
+            },
+            "encodedByteFractionPPM": 360902,
+            "generation": 3,
+            "sourceByteCount": 1966080
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 229194417,
+              "meanNanoseconds": 149135924,
+              "medianNanoseconds": 139040667,
+              "minimumNanoseconds": 134331459,
+              "p90Nanoseconds": 193946375
+            },
+            "encodedByteFractionPPM": 781956,
+            "generation": 4,
+            "sourceByteCount": 4259840
+          }
+        ],
+        "totalElapsed": {
+          "maximumNanoseconds": 235736375,
+          "meanNanoseconds": 154902214,
+          "medianNanoseconds": 145009208,
+          "minimumNanoseconds": 139566500,
+          "p90Nanoseconds": 199737125
+        }
+      },
+      "campaign2": {
+        "finishElapsed": {
+          "maximumNanoseconds": 160052125,
+          "meanNanoseconds": 147379053,
+          "medianNanoseconds": 145500667,
+          "minimumNanoseconds": 143746208,
+          "p90Nanoseconds": 152474792
+        },
+        "firstPreviewElapsed": {
+          "maximumNanoseconds": 9159125,
+          "meanNanoseconds": 7095486,
+          "medianNanoseconds": 6935625,
+          "minimumNanoseconds": 6701792,
+          "p90Nanoseconds": 7412084
+        },
+        "firstPreviewEncodedByteFractionPPM": 36090,
+        "firstPreviewSourceByteCount": 196608,
+        "generationCount": 4,
+        "generations": [
+          {
+            "elapsed": {
+              "maximumNanoseconds": 9159125,
+              "meanNanoseconds": 7095486,
+              "medianNanoseconds": 6935625,
+              "minimumNanoseconds": 6701792,
+              "p90Nanoseconds": 7412084
+            },
+            "encodedByteFractionPPM": 36090,
+            "generation": 1,
+            "sourceByteCount": 196608
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 24295375,
+              "meanNanoseconds": 20282841,
+              "medianNanoseconds": 19951667,
+              "minimumNanoseconds": 19466625,
+              "p90Nanoseconds": 20921875
+            },
+            "encodedByteFractionPPM": 120300,
+            "generation": 2,
+            "sourceByteCount": 655360
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 58706125,
+              "meanNanoseconds": 54145553,
+              "medianNanoseconds": 53766000,
+              "minimumNanoseconds": 52820458,
+              "p90Nanoseconds": 55238375
+            },
+            "encodedByteFractionPPM": 360902,
+            "generation": 3,
+            "sourceByteCount": 1966080
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 154598417,
+              "meanNanoseconds": 141201319,
+              "medianNanoseconds": 140075417,
+              "minimumNanoseconds": 138123875,
+              "p90Nanoseconds": 143962875
+            },
+            "encodedByteFractionPPM": 781956,
+            "generation": 4,
+            "sourceByteCount": 4259840
+          }
+        ],
+        "totalElapsed": {
+          "maximumNanoseconds": 160052167,
+          "meanNanoseconds": 147379325,
+          "medianNanoseconds": 145500750,
+          "minimumNanoseconds": 143746292,
+          "p90Nanoseconds": 152475084
+        }
+      },
+      "chunkCount": 167,
+      "chunkSizeBytes": 32768,
+      "decision": {
+        "finishMedianReplicationPassed": true,
+        "finishP90Qualified": false,
+        "firstPreviewByteFractionPassed": true,
+        "firstPreviewLocalMedianPassed": true,
+        "firstPreviewReplicationPassed": true
+      },
+      "firstCompletedScanBoundaryIntervalBytes": {
+        "exclusiveLowerBound": 163840,
+        "inclusiveUpperBound": 196608
+      },
+      "pooled": {
+        "finishElapsed": {
+          "maximumNanoseconds": 235736375,
+          "meanNanoseconds": 151140580,
+          "medianNanoseconds": 145217583,
+          "minimumNanoseconds": 139566500,
+          "p90Nanoseconds": 152717709
+        },
+        "firstPreviewElapsed": {
+          "maximumNanoseconds": 9159125,
+          "meanNanoseconds": 7019554,
+          "medianNanoseconds": 6923750,
+          "minimumNanoseconds": 6490125,
+          "p90Nanoseconds": 7191083
+        },
+        "firstPreviewEncodedByteFractionPPM": 36090,
+        "firstPreviewSourceByteCount": 196608,
+        "generationCount": 4,
+        "generations": [
+          {
+            "elapsed": {
+              "maximumNanoseconds": 9159125,
+              "meanNanoseconds": 7019554,
+              "medianNanoseconds": 6923750,
+              "minimumNanoseconds": 6490125,
+              "p90Nanoseconds": 7191083
+            },
+            "encodedByteFractionPPM": 36090,
+            "generation": 1,
+            "sourceByteCount": 196608
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 29378875,
+              "meanNanoseconds": 20196690,
+              "medianNanoseconds": 19912250,
+              "minimumNanoseconds": 18814041,
+              "p90Nanoseconds": 20729750
+            },
+            "encodedByteFractionPPM": 120300,
+            "generation": 2,
+            "sourceByteCount": 655360
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 140364375,
+              "meanNanoseconds": 56640126,
+              "medianNanoseconds": 53492750,
+              "minimumNanoseconds": 51104500,
+              "p90Nanoseconds": 56757000
+            },
+            "encodedByteFractionPPM": 360902,
+            "generation": 3,
+            "sourceByteCount": 1966080
+          },
+          {
+            "elapsed": {
+              "maximumNanoseconds": 229194417,
+              "meanNanoseconds": 145168622,
+              "medianNanoseconds": 139648792,
+              "minimumNanoseconds": 134331459,
+              "p90Nanoseconds": 146290709
+            },
+            "encodedByteFractionPPM": 781956,
+            "generation": 4,
+            "sourceByteCount": 4259840
+          }
+        ],
+        "totalElapsed": {
+          "maximumNanoseconds": 235736375,
+          "meanNanoseconds": 151140770,
+          "medianNanoseconds": 145217708,
+          "minimumNanoseconds": 139566500,
+          "p90Nanoseconds": 152718084
+        }
+      },
+      "ratios": {
+        "campaign2ToCampaign1FinishMedian": 1.0033900221270966,
+        "campaign2ToCampaign1FinishP90": 0.7633779585079195,
+        "campaign2ToCampaign1FirstPreviewMedian": 1.0045927550983014,
+        "campaign2ToCampaign1FirstPreviewP90": 1.0494489888902954,
+        "pooledFirstPreviewToFinishMedian": 0.04767845502565622
+      }
+    }
+  },
+  "date": "2026-08-04",
+  "decision": {
+    "passed": true,
+    "supportedClaims": [
+      "For the bound generated progressive JPEG and clean implementation, generation 1 appears after 185344 bytes with 1 KiB chunks and 196608 bytes with 32 KiB chunks, equal to 3.4022% and 3.6090% of the stream.",
+      "Across two clean 3x7 campaigns, first-preview local medians remain approximately 6.76 to 6.94 ms and p90 values approximately 6.95 to 7.41 ms.",
+      "The bounded policy emits four preview generations for this fixture, with the last preview near 78% of encoded bytes rather than rasterizing every later scan.",
+      "The current fixed-fixture evidence does not show a shift of first preview toward end-of-stream."
+    ],
+    "unsupportedClaims": [
+      "A direct first-preview speedup or non-regression percentage versus the historical per-scan implementation; no immutable before executable exists.",
+      "Network time-to-first-preview, application display latency or perceived preview quality.",
+      "Cross-device, cross-OS, cross-ImageIO or all-progressive-JPEG guarantees.",
+      "A stable finish p90, energy improvement, thermal improvement or exact production latency budget."
+    ]
+  },
+  "decisionRules": {
+    "campaign2ToCampaign1FinishMedianRatioRange": [
+      0.8,
+      1.2
+    ],
+    "campaign2ToCampaign1FirstPreviewRatioRange": [
+      0.8,
+      1.2
+    ],
+    "finishP90Policy": "reported descriptively but not qualified because campaign 1 contains a host-tail outlier for the 32 KiB schedule",
+    "maximumPooledFirstPreviewEncodedByteFractionPPM": 50000,
+    "maximumPooledFirstPreviewMedianNanoseconds": 10000000,
+    "ruleTiming": "post-hoc descriptive qualification; not a preregistered hypothesis test"
+  },
+  "environment": {
+    "decoderFingerprint": "dev.fovea.imageio#impl=2#contract=2",
+    "hardware": {
+      "activeProcessorCount": 8,
+      "hardwareModel": "MacBookPro18,3",
+      "physicalMemoryBytes": 17179869184
+    },
+    "runtime": {
+      "architecture": "arm64",
+      "coreGraphicsBundleVersion": "2047",
+      "imageIOBundleShortVersion": "3.3.0",
+      "imageIOBundleVersion": "2847",
+      "operatingSystemBuild": "26A5388g",
+      "operatingSystemVersion": {
+        "majorVersion": 27,
+        "minorVersion": 0,
+        "patchVersion": 0
+      },
+      "platform": "macOS",
+      "schemaVersion": 1
+    },
+    "swiftVersion": "Apple Swift version 6.4 (swiftlang-6.4.0.27.1 clang-2100.3.27.1) Target: arm64-apple-macosx27.0.0"
+  },
+  "experimentID": "progressive-jpeg-first-preview-timeline-v1",
+  "implementation": {
+    "cleanWorktreeAtCapture": true,
+    "commit": "ffaef9fb45c633e26c4872805cfc18c7ecbb8f05",
+    "commitTree": "0160bffe65815fff3ca04210ebefb3c67fcecb74",
+    "policy": "attempt preview rasterization at completed scan thresholds 1, 2, 4 and 8",
+    "sourceIdentityFileCount": 105,
+    "sourceIdentityID": "IMAGECRAFT-SOURCE-IDENTITY-V2",
+    "sourceIdentityReportPath": "Evidence/Experiments/ProgressiveJPEGFirstPreview/source-identity-ffaef9f.json",
+    "sourceIdentityReportSHA256": "66775fbd919086d5658e67686cc942a04014a0116da9f23ca8182c8136bafdf4",
+    "sourceIdentitySHA256": "ac7b5ea6d2d7aae57027b920e83dec89d32fc1901c4f34ed94146179355c959a",
+    "sourceIdentitySchemaVersion": 2
+  },
+  "inference": {
+    "fixedFixtureFirstCompletedScanBoundaryBytes": {
+      "derivation": "intersection of (firstPreviewSourceByteCount - chunkSizeBytes, firstPreviewSourceByteCount] across both chunk schedules",
+      "exclusiveLowerBound": 184320,
+      "inclusiveUpperBound": 185344
+    }
+  },
+  "methodology": {
+    "benchmarkVersion": "imagecraft-progressive-timeline-v1",
+    "buildConfiguration": "release",
+    "campaigns": 2,
+    "comparisonDesign": "two clean exact-source descriptive replication campaigns; no historical before executable and no inferential comparison",
+    "finishBoundary": "after all preconstructed chunks are appended and session.finish returns",
+    "firstPreviewBoundary": "after append returns generation 1, including session creation, preceding appends and first preview rasterization",
+    "fixtureAndChunkConstructionExcluded": true,
+    "networkArrivalExcluded": true,
+    "processRepetitionsPerCasePerCampaign": 3,
+    "timedIterationsPerProcess": 7,
+    "timingStart": "immediately before progressive session creation",
+    "totalTimedIterationsPerCase": 42,
+    "warmupIterationsPerProcess": 2
+  },
+  "purpose": "Determine whether bounded 1/2/4/8 progressive JPEG preview thresholds preserve an early first usable preview while limiting total rasterization work.",
+  "remainingEvidence": [
+    "network-paced replay with controlled bandwidth and latency",
+    "time from generation emission to actual UI presentation",
+    "held-out progressive JPEG scan structures and chunk schedules",
+    "physical iOS devices and lower-performance hardware",
+    "immutable historical before implementation if a comparative first-preview claim is required"
+  ],
+  "schemaVersion": 1
+}
