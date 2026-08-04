@@ -810,7 +810,7 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
     }
 
     private final class ImageIOProgressiveSession: ProgressiveImageFinalizingSession,
-        @unchecked Sendable
+        ProgressiveImagePreparingSession, @unchecked Sendable
     {
         private enum FrameKind {
             case unknown
@@ -1025,6 +1025,43 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
             lock.lock()
             defer { lock.unlock() }
             _ = try completeSourceLocked()
+        }
+
+        func finishWithPreparation() throws -> ImageProgressiveDecodePreparationFinalization {
+            lock.lock()
+            defer { lock.unlock() }
+            let source = try completeSourceLocked(retainingBytes: true)
+            defer {
+                self.source = nil
+                data.removeAll(keepingCapacity: false)
+            }
+            let container = try decoder.inspectContainer(data: data, limits: limits)
+            guard container.format == .jpeg else { throw ImageCraftError.formatMismatch }
+            let metadata = try decoder.inspectImageSource(
+                source: source,
+                expectedFormat: .jpeg,
+                limits: limits
+            )
+            let inspection = try decoder.makeInspection(
+                container: container,
+                metadata: metadata,
+                limits: limits
+            )
+            let preparation = ImageDecodePreparation(probe: inspection.probe)
+            guard decoder.preparations.insert(
+                identifier: preparation.identifier,
+                data: data,
+                source: source,
+                probe: inspection.probe,
+                sourceColorSpace: inspection.sourceColorSpace,
+                limits: limits
+            ) else {
+                throw ImageCraftError.decodeFailed
+            }
+            return ImageProgressiveDecodePreparationFinalization(
+                preparation: preparation,
+                sourceByteCount: totalReceivedBytes
+            )
         }
 
         func finishWithFinalImage() throws -> ImageProgressiveDecodeFinalization {

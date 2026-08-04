@@ -1325,6 +1325,16 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageProgressiveDecodePreparationFinalization",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodePreparationFinalization",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageProgressiveDecodeSession",
           "target": "Swift.Sendable"
         },
@@ -1381,6 +1391,21 @@
         {
           "kind": "conformsTo",
           "source": "ProgressiveImageFinalizingSession",
+          "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparingSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparingSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparingSession",
           "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
         },
         {
@@ -1449,7 +1474,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 334,
+      "symbolCount": 340,
       "symbols": [
         {
           "declaration": "struct DecodeLimits",
@@ -3294,6 +3319,30 @@
           "preciseIdentifier": "s:14ImageCraftCore0A27ProgressiveDecodeGenerationV15sourceByteCountSivp"
         },
         {
+          "declaration": "struct ImageProgressiveDecodePreparationFinalization",
+          "kind": "swift.struct",
+          "path": "ImageProgressiveDecodePreparationFinalization",
+          "preciseIdentifier": "s:14ImageCraftCore0A40ProgressiveDecodePreparationFinalizationV"
+        },
+        {
+          "declaration": "init(preparation: ImageDecodePreparation, sourceByteCount: Int)",
+          "kind": "swift.init",
+          "path": "ImageProgressiveDecodePreparationFinalization.init(preparation:sourceByteCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A40ProgressiveDecodePreparationFinalizationV11preparation15sourceByteCountAcA0aeF0V_Sitcfc"
+        },
+        {
+          "declaration": "let preparation: ImageDecodePreparation",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodePreparationFinalization.preparation",
+          "preciseIdentifier": "s:14ImageCraftCore0A40ProgressiveDecodePreparationFinalizationV11preparationAA0aeF0Vvp"
+        },
+        {
+          "declaration": "let sourceByteCount: Int",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodePreparationFinalization.sourceByteCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A40ProgressiveDecodePreparationFinalizationV15sourceByteCountSivp"
+        },
+        {
           "declaration": "protocol ImageProgressiveDecodeSession : AnyObject, Sendable",
           "kind": "swift.protocol",
           "path": "ImageProgressiveDecodeSession",
@@ -3370,6 +3419,18 @@
           "kind": "swift.method",
           "path": "ProgressiveImageFinalizingSession.finishWithFinalImage()",
           "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA17FinalizingSessionP015finishWithFinalA0AA0aD18DecodeFinalizationVyKF"
+        },
+        {
+          "declaration": "protocol ProgressiveImagePreparingSession : ImageProgressiveDecodeSession",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImagePreparingSession",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA16PreparingSessionP"
+        },
+        {
+          "declaration": "func finishWithPreparation() throws -> ImageProgressiveDecodePreparationFinalization",
+          "kind": "swift.method",
+          "path": "ProgressiveImagePreparingSession.finishWithPreparation()",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA16PreparingSessionP21finishWithPreparationAA0ad6DecodeI12FinalizationVyKF"
         },
         {
           "declaration": "enum SourceColorProfile",

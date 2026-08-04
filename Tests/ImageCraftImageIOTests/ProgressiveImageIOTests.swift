@@ -77,6 +77,33 @@ final class ProgressiveImageIOTests: XCTestCase {
     XCTAssertNoThrow(try session.finish())
   }
 
+  func testPreparingSessionMatchesStandardPreparedDecode() throws {
+    let decoder = ImageIOImageDecoder()
+    let data = try fixture(named: "jpeg-progressive-420.jpg")
+    let request = ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32))
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: request,
+      limits: .coreV1
+    )
+    for chunk in chunks(data, maximumSize: 32) {
+      _ = try session.append(chunk)
+    }
+
+    let preparing = try XCTUnwrap(session as? any ProgressiveImagePreparingSession)
+    let candidate = try preparing.finishWithPreparation()
+    let prepared = try decoder.decode(
+      preparation: candidate.preparation,
+      request: request,
+      limits: .coreV1
+    )
+    let direct = try decoder.decode(data: data, request: request, limits: .coreV1)
+
+    XCTAssertEqual(candidate.sourceByteCount, data.count)
+    XCTAssertEqual(candidate.preparation.probe, try decoder.probe(data: data, limits: .coreV1))
+    XCTAssertEqual(try rgbaBytes(prepared.cgImage), try rgbaBytes(direct.cgImage))
+  }
+
   func testFinalizingSessionMatchesStandardCompleteDecode() throws {
     let decoder = ImageIOImageDecoder()
     let data = try fixture(named: "jpeg-progressive-420.jpg")

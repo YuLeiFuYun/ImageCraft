@@ -374,6 +374,25 @@ public struct ImageProgressiveDecodeFinalization: Sendable {
     }
 }
 
+/// 完整增量会话在同一已完成 source 上创建的一次性解码 preparation。
+///
+/// 宿主仍需通过常规 decode working-set 准入和 `PreparedImageDecoding.decode` 消费该
+/// preparation；`sourceByteCount` 只用于与宿主独立验证的完整正文绑定。
+public struct ImageProgressiveDecodePreparationFinalization: Sendable {
+    public let preparation: ImageDecodePreparation
+    public let sourceByteCount: Int
+
+    public init(preparation: ImageDecodePreparation, sourceByteCount: Int) {
+        self.preparation = preparation
+        self.sourceByteCount = sourceByteCount
+    }
+}
+
+/// 可复用已完成增量 source 创建一次性 prepared-decode 令牌的可选会话能力。
+public protocol ProgressiveImagePreparingSession: ImageProgressiveDecodeSession {
+    func finishWithPreparation() throws -> ImageProgressiveDecodePreparationFinalization
+}
+
 /// 可在完成时复用增量 source 产生最终像素的可选会话能力。
 ///
 /// 基础 `ImageProgressiveDecodeSession` 保持兼容；不支持该能力的 codec 继续调用
