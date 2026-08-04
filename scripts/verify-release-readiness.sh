@@ -9,6 +9,7 @@ scripts/verify-consumer-package.sh
 scripts/verify-platform-matrix.sh
 scripts/verify-independent-oracles.sh
 scripts/verify-retained-corpus-reproducibility.sh
+scripts/verify-progressive-photo-corpus-reproducibility.sh
 
 if [ "${IMAGECRAFT_VERIFY_PERFORMANCE:-0}" = "1" ]; then
     scripts/verify-performance-baseline.sh \

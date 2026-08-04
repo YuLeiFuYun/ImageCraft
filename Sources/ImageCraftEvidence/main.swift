@@ -51,6 +51,7 @@ enum EvidenceCommand {
   case benchmark(caseID: String, iterations: Int)
   case progressiveTimeline(caseID: String, iterations: Int)
   case progressiveQuality(caseID: String)
+  case progressivePhotoCorpus(manifest: URL, variantID: String, chunkSize: Int)
 }
 
 enum EvidenceError: Error {
@@ -95,6 +96,16 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
   if parameters.count == 2, parameters[0] == "--progressive-quality-case" {
     return .progressiveQuality(caseID: parameters[1])
   }
+  if parameters.count == 4,
+    parameters[0] == "--progressive-photo-case",
+    let chunkSize = Int(parameters[3])
+  {
+    return .progressivePhotoCorpus(
+      manifest: URL(fileURLWithPath: parameters[1]),
+      variantID: parameters[2],
+      chunkSize: chunkSize
+    )
+  }
   throw EvidenceError.invalidArguments
 }
 
@@ -110,6 +121,12 @@ func run(command: EvidenceCommand) throws {
     try writeProgressiveTimelineBenchmark(caseID: caseID, iterations: iterations)
   case .progressiveQuality(let caseID):
     try writeProgressiveQualityEvidence(caseID: caseID)
+  case .progressivePhotoCorpus(let manifest, let variantID, let chunkSize):
+    try writeProgressivePhotoCorpusEvidence(
+      manifestURL: manifest,
+      variantID: variantID,
+      chunkSize: chunkSize
+    )
   }
 }
 
