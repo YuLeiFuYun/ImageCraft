@@ -12,7 +12,7 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     /// GIF 多帧容器可以被安全探测，但该适配器尚未公开动画时间轴语义。
     public let codecDescriptor = ImageCodecDescriptor(
         identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio"),
-        implementationVersion: 3,
+        implementationVersion: 4,
         capabilities: ImageCodecCapabilities(
             formats: [.png, .jpeg, .gif],
             deliveryModes: [.completeFrame, .progressiveGenerations],
@@ -997,6 +997,11 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
             data.append(chunk)
             totalReceivedBytes = nextCount.partialValue
 
+            guard let source else { throw ImageCraftError.progressiveSessionCancelled }
+            // Incremental ImageIO parsing advances on every bounded transport chunk. Pixel
+            // creation remains scan-threshold gated, so this removes the final parse burst
+            // without multiplying preview decode work.
+            CGImageSourceUpdateData(source, data as CFData, false)
             try jpegState.consume(data)
             guard jpegState.frameKind != .baseline else {
                 throw ImageCraftError.progressiveDecodingUnsupported
@@ -1006,8 +1011,6 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
                 shouldAttemptPreview(completedScanCount: jpegState.completedScanCount)
             else { return nil }
 
-            guard let source else { throw ImageCraftError.progressiveSessionCancelled }
-            CGImageSourceUpdateData(source, data as CFData, false)
             guard let image = try makePreview(source: source) else { return nil }
 
             let generation = nextGeneration
