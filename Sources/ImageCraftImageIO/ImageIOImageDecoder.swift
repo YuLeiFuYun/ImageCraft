@@ -46,7 +46,7 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     /// GIF 多帧容器可以被安全探测，但该适配器尚未公开动画时间轴语义。
     public let codecDescriptor = ImageCodecDescriptor(
         identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio"),
-        implementationVersion: 5,
+        implementationVersion: 6,
         capabilities: ImageCodecCapabilities(
             formats: [.png, .jpeg, .gif],
             deliveryModes: [.completeFrame, .progressiveGenerations],
@@ -163,10 +163,12 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         guard data.count <= limits.maximumEncodedBytes else {
             throw ImageCraftError.encodedBytesExceeded
         }
+        // 先完成无状态容器分类，再占用 prepared-store 预算。这样无效输入的稳定错误分类
+        // 不会被资源账本的内部 reservation 先行覆盖。
+        let securityInspection = try inspectContainer(data: data, limits: limits)
         let identifier = UUID()
         try preparations.reserve(identifier: identifier, knownByteCharge: data.count)
         do {
-            let securityInspection = try inspectContainer(data: data, limits: limits)
             try extendPreparedReservation(
                 identifier: identifier,
                 securityInspection: securityInspection
@@ -209,12 +211,12 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         guard data.count <= limits.maximumEncodedBytes else {
             throw ImageCraftError.encodedBytesExceeded
         }
+        let containerStarted = DispatchTime.now().uptimeNanoseconds
+        let securityInspection = try inspectContainer(data: data, limits: limits)
+        let containerDuration = DispatchTime.now().uptimeNanoseconds &- containerStarted
         let identifier = UUID()
         try preparations.reserve(identifier: identifier, knownByteCharge: data.count)
         do {
-            let containerStarted = DispatchTime.now().uptimeNanoseconds
-            let securityInspection = try inspectContainer(data: data, limits: limits)
-            let containerDuration = DispatchTime.now().uptimeNanoseconds &- containerStarted
             try extendPreparedReservation(
                 identifier: identifier,
                 securityInspection: securityInspection

@@ -354,6 +354,27 @@ final class ImageDecoderTests: XCTestCase {
         decoder.discard(preparation)
     }
 
+    func testStaticPreparationClassifiesEmptyInputBeforePreparedStoreAdmission() throws {
+        let decoder = ImageIOImageDecoder(
+            preparationLimits: ImageDecodePreparationLimits(
+                maximumEntryCount: 1,
+                maximumRetainedByteCharge: 1
+            )
+        )
+        let before = decoder.preparationStoreQualificationSnapshot()
+
+        XCTAssertThrowsError(try decoder.probe(data: Data(), limits: .coreV1)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedFormat)
+        }
+        XCTAssertThrowsError(try decoder.prepare(data: Data(), limits: .coreV1)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedFormat)
+        }
+        XCTAssertThrowsError(try decoder.prepareWithDiagnostics(data: Data(), limits: .coreV1)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedFormat)
+        }
+        XCTAssertEqual(decoder.preparationStoreQualificationSnapshot(), before)
+    }
+
     func testPreparedReservationRollsBackOnContainerAndICCAdmissionFailure() throws {
         let valid = try makeOrientedJPEG(width: 64, height: 32, orientation: 1)
         var corrupt = valid
@@ -5833,7 +5854,7 @@ extension ImageDecoderTests {
     func testImageIOCodecDescriptorAdvertisesOnlyCurrentSemantics() {
         let descriptor = ImageIOImageDecoder().codecDescriptor
         XCTAssertEqual(descriptor.identifier.rawValue, "dev.fovea.imageio")
-        XCTAssertEqual(descriptor.implementationVersion, 5)
+        XCTAssertEqual(descriptor.implementationVersion, 6)
         XCTAssertEqual(descriptor.capabilities.formats, [.png, .jpeg, .gif])
         XCTAssertEqual(
             descriptor.capabilities.deliveryModes,
