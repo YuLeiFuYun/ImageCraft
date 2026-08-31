@@ -187,6 +187,67 @@ public struct DecodeLimits: Hashable, Sendable, Codable {
     }
 }
 
+/// 同一 decoder 实例可同时保留的 prepared-state 资源准入上限。
+///
+/// `maximumRetainedByteCharge` 是显式保留 payload 的 admission charge，不等同于进程 RSS、
+/// allocator metadata 或框架执行期私有分配。它与单次输入的 ``DecodeLimits`` 独立：调用方
+/// 不能通过放宽某一输入的 `maximumEncodedBytes` 隐式放宽整个 decoder 的 prepared store。
+public struct ImageDecodePreparationLimits: Codable, Hashable, Sendable {
+    private static let maximumSupportedEntryCount = 4_096
+    private static let maximumSupportedRetainedByteCharge = 4 * 1_024 * 1_024 * 1_024
+
+    public let maximumEntryCount: Int
+    public let maximumRetainedByteCharge: Int
+
+    public init(
+        maximumEntryCount: Int = 1_024,
+        maximumRetainedByteCharge: Int = 64 * 1_024 * 1_024
+    ) {
+        self.maximumEntryCount = min(
+            Self.maximumSupportedEntryCount,
+            max(1, maximumEntryCount)
+        )
+        self.maximumRetainedByteCharge = min(
+            Self.maximumSupportedRetainedByteCharge,
+            max(1, maximumRetainedByteCharge)
+        )
+    }
+
+    /// 默认 prepared store 的独立聚合资源 envelope。
+    public static let coreV1 = ImageDecodePreparationLimits()
+
+    private enum CodingKeys: String, CodingKey {
+        case maximumEntryCount
+        case maximumRetainedByteCharge
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let maximumEntryCount = try values.decode(Int.self, forKey: .maximumEntryCount)
+        let maximumRetainedByteCharge = try values.decode(
+            Int.self,
+            forKey: .maximumRetainedByteCharge
+        )
+        guard (1...Self.maximumSupportedEntryCount).contains(maximumEntryCount),
+            (1...Self.maximumSupportedRetainedByteCharge).contains(maximumRetainedByteCharge)
+        else {
+            throw DecodingError.dataCorruptedError(
+                forKey: .maximumRetainedByteCharge,
+                in: values,
+                debugDescription: "Prepared-state limits contain an unsupported hard limit."
+            )
+        }
+        self.maximumEntryCount = maximumEntryCount
+        self.maximumRetainedByteCharge = maximumRetainedByteCharge
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(maximumEntryCount, forKey: .maximumEntryCount)
+        try values.encode(maximumRetainedByteCharge, forKey: .maximumRetainedByteCharge)
+    }
+}
+
 /// 控制解码时保留色彩配置还是执行转换。
 
 public enum ImageColorPolicy: String, Codable, Hashable, Sendable {
@@ -261,7 +322,7 @@ public struct ImageDecodePreparation: Sendable {
     }
 }
 
-/// 可在安全探测后复用底层解码状态的高性能插件能力。
+/// 可在安全探测后复用已验证 prepared state 的高性能插件能力。
 ///
 /// 实现必须保证令牌一次性消费；取消、准入失败或不再需要解码时，调用方会通过
 /// ``discard(_:)`` 释放准备状态。无法提供这一能力的自定义解码器继续走标准
@@ -321,6 +382,10 @@ package struct InstrumentedImageDecodePreparation: Sendable {
 
 /// 仅供详细诊断使用的 prepared decode 阶段分解。
 package struct ImageDecodeExecutionDiagnostics: Sendable {
+    /// Non-nil only when decode had to recreate and revalidate source state that was intentionally
+    /// not retained by preparation. This keeps reprepare cost explicit instead of folding it into
+    /// raster creation.
+    package let repeatedPreparationDiagnostics: ImageDecodePreparationDiagnostics?
     package let sourceCreationNanoseconds: UInt64
     package let sourceTypeNanoseconds: UInt64
     package let frameCountNanoseconds: UInt64
@@ -328,12 +393,14 @@ package struct ImageDecodeExecutionDiagnostics: Sendable {
     package let postProcessingNanoseconds: UInt64
 
     package init(
+        repeatedPreparationDiagnostics: ImageDecodePreparationDiagnostics? = nil,
         sourceCreationNanoseconds: UInt64,
         sourceTypeNanoseconds: UInt64,
         frameCountNanoseconds: UInt64,
         rasterCreationNanoseconds: UInt64,
         postProcessingNanoseconds: UInt64
     ) {
+        self.repeatedPreparationDiagnostics = repeatedPreparationDiagnostics
         self.sourceCreationNanoseconds = sourceCreationNanoseconds
         self.sourceTypeNanoseconds = sourceTypeNanoseconds
         self.frameCountNanoseconds = frameCountNanoseconds
@@ -383,6 +450,13 @@ public enum ImageCraftError: Error, Equatable, Sendable {
     case progressiveDecodingUnsupported
     case progressiveSessionFinished
     case progressiveSessionCancelled
+    case animationUnsupported
+    case animationTimelineInvalid
+    case animationFrameRectInvalid
+    case animationFrameIndexOutOfRange
+    case animationDecodeWindowExceeded
+    case animationSessionCancelled
+    case preparedStateBudgetExceeded
     case decodeFailed
 }
 

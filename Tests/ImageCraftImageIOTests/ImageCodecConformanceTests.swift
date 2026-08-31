@@ -59,7 +59,7 @@ final class ImageCodecConformanceTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(checked, 2_304)
+        XCTAssertEqual(checked, 3_072)
     }
 
     func testFailurePrecedenceIsStableWhenSeveralCapabilitiesAreMissing() {
@@ -274,6 +274,15 @@ final class ImageCodecConformanceTests: XCTestCase {
                 )
             ),
             .outputRepresentation(.planarPixels)
+        )
+        XCTAssertEqual(
+            descriptor.supportFailure(
+                for: ImageDecodeCapabilityRequest(
+                    format: .png,
+                    outputRepresentation: .packedRGBA8
+                )
+            ),
+            .outputRepresentation(.packedRGBA8)
         )
     }
 

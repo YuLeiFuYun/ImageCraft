@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "profileID": "imagecraft-axiom-packed-jpeg-v1",
+  "purpose": "Separate exact packed-RGBA representation conformance from lossy JPEG reconstruction differences using a real independent NativeScalar backend and independent source/oracle observations.",
+  "imageCraftContract": {
+    "id": "rgba8-premultiplied-top-to-bottom-tight-v1",
+    "channelOrder": "RGBA",
+    "bitsPerChannel": 8,
+    "alphaMode": "premultiplied",
+    "rowOrder": "top-to-bottom",
+    "colorEncoding": "sRGB",
+    "jpegAlphaRequirement": "all-opaque"
+  },
+  "externalInputs": {
+    "axiomRasterCodecJPEG": {
+      "relativePath": "../AxiomRasterCodecJPEG",
+      "revision": "0bad922924ee97c3ccb9e7b6580106e3d3bbafe8",
+      "tree": "6ebc4a42e2324fbb41897be7d87e246ec6872c84",
+      "cleanRequired": true,
+      "fixtureManifest": "tests/fixtures/conformance/manifest.json",
+      "fixtureManifestSHA256": "8ea9a773f1fd5af17756e261810205cbe0f3ae26df8e23369ba5f2cda5e52255"
+    },
+    "axiomRaster": {
+      "relativePath": "../AxiomRaster",
+      "revision": "d8a7a8c7f0f9520a85e97daf0642b139ecbb837d",
+      "cleanRequired": true
+    },
+    "libjpegTurbo": {
+      "executable": "djpeg",
+      "version": "libjpeg-turbo version 3.2.0 (build 20260630)",
+      "mode": "-strict -rgb -pnm"
+    }
+  },
+  "legacyT68PixelGate": {
+    "maximumAbsoluteChannelError": 2,
+    "maximumMeanAbsoluteChannelError": 1.0,
+    "authority": "CodecExecutionBoundaryLab T68 frozen profile; retained only as a negative-qualification witness and never widened from these observations."
+  },
+  "fixtures": [
+    {
+      "id": "GRAY-Q100-9x9",
+      "relativePath": "tests/fixtures/conformance/native-gray-q100-opt-9x9.jpg",
+      "sha256": "577f92c5d81824248db29826b0a8d5580b1e20ad475f2d050174561812c13e3e",
+      "width": 9,
+      "height": 9,
+      "sampling": "4:0:0",
+      "sourcePattern": "formula-v1-gray",
+      "expectedAxiomBackend": "NativeScalar"
+    },
+    {
+      "id": "RGB-444-31x33",
+      "relativePath": "tests/fixtures/conformance/native-rgb-444-opt-31x33.jpg",
+      "sha256": "bda2f23845890a3b2a1a06d0a9ff3924d9c6e05fdca98951237364d79687d7ba",
+      "width": 31,
+      "height": 33,
+      "sampling": "4:4:4",
+      "sourcePattern": "formula-v1-rgb",
+      "expectedAxiomBackend": "NativeScalar"
+    },
+    {
+      "id": "RGB-422-15x17",
+      "relativePath": "tests/fixtures/conformance/native-rgb-422-15x17.jpg",
+      "sha256": "200c3a20a443af2c6e10909324ad75d5876842ffdca47cd407c3c75ecb9e71b7",
+      "width": 15,
+      "height": 17,
+      "sampling": "4:2:2",
+      "sourcePattern": "formula-v1-rgb",
+      "expectedAxiomBackend": "NativeScalar"
+    },
+    {
+      "id": "RGB-420-17x15",
+      "relativePath": "tests/fixtures/conformance/native-rgb-420-restart-row-17x15.jpg",
+      "sha256": "47b1cbd0c75280b8bd4e17c2bc137cc08fa0afe34b3147af37bbf0fb2550ef88",
+      "width": 17,
+      "height": 15,
+      "sampling": "4:2:0",
+      "sourcePattern": "formula-v1-rgb",
+      "expectedAxiomBackend": "NativeScalar"
+    },
+    {
+      "id": "RGB-TRANSFORM0-9x9",
+      "relativePath": "tests/fixtures/conformance/native-rgb-rgb-colorspace-9x9.jpg",
+      "sha256": "0dcc546e869a106f07cf826df253b07369408be2255197f95ad9479351a742d0",
+      "width": 9,
+      "height": 9,
+      "sampling": "RGB-1:1:1",
+      "sourcePattern": "formula-v1-rgb",
+      "expectedAxiomBackend": "NativeScalar"
+    }
+  ],
+  "qualificationBoundary": {
+    "representationContractMayPass": true,
+    "productionSecondBackendMayQualify": false,
+    "reason": "This profile intentionally does not introduce a new lossy-pixel tolerance. Production qualification remains blocked until an independently justified pixel-quality policy is preregistered before comparator execution."
+  }
+}

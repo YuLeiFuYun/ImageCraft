@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V1",
+  "implementationScope": "package-only backend-neutral progressive packed RGB8 finalization below the DecodedImage/CoreGraphics boundary",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-arbitrary-chunk-packed-rgb8",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861"
+  },
+  "requiredInvariants": [
+    "The capability is discoverable from any ImageProgressiveDecodeSession value without downcasting to the JPEG kernel type.",
+    "The finalization sourceByteCount equals the complete validated encoded body and is produced only from finalReady.",
+    "The transferred value is tight uint8 RGB with no synthesized alpha, bytesPerRow == width*3, colorEncoding sRGB and sourceColorProfile absent.",
+    "For profile-absent JFIF, output sRGB fallback is distinct from source-profile classification; the source is not mislabeled standardSRGB.",
+    "The packed value byte/hash equals the independent kernel RGB and its transfer charge equals the pre-finish codecOwnedRGB8 ledger transfer bound.",
+    "Wrapping the kernel Data in ImagePackedRGB8 reuses the same pixel backing; this seam does not create a second RGB payload or traverse CoreGraphics.",
+    "maximumTightRGBABytes remains zero because this capability qualifies RGB8, not an alpha-expanded RGBA transfer.",
+    "After packed finalization the session is terminal and its resource ledger is fully reclaimed."
+  ]
+}

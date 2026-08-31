@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 16,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V16",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, canonical monotone scan progression, dynamic table ownership, actual-only coefficient planes, exact current Huffman payloads, render-only quantization widening, packed four-bit progression state, live-strip fancy vertical boundary reconstruction, fused centered-H2V2 chroma reconstruction into RGB and validated-EOI final-ready compaction",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2432,
+    "initialRetainedByteCharge": 2846,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "progressionStateByteCount": 96,
+    "persistentBaseFixedStateByteCount": 288,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2464,
+    "renderFixedScratchByteCount": 512,
+    "frameQuantizationSourceByteCount": 256
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-fused-chroma",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "single-strip control proves two full-width reconstructed chroma staging rows are absent while all ten previews remain byte-identical"
+    },
+    {
+      "id": "noise576-fused-chroma",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "576-wide multi-iMCU source removes exactly 1152 render bytes; frozen RGB SHA independently guards fused reconstruction and render-order correctness"
+    },
+    {
+      "id": "restart64-fused-chroma",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "restart-heavy source proves fused chroma-to-RGB staging removal is orthogonal to entropy rollback and split restart-marker suspension"
+    }
+  ],
+  "requiredInvariants": [
+    "All v15 transport, dynamic table ownership, SOF DQT transfer, first-SOS release, actual coefficient geometry, dynamic Huffman, render-only quantization widening, packed progression, restart, preview, live-Y boundary and EOI-compaction invariants remain unchanged.",
+    "Canonical progression is monotone: Ah=0 may touch only unseen coefficients; once an entry is established, only refinement with Ah equal to the previous Al may touch it, and progression value 0 is terminal. Duplicate first scans fail closed in one-shot and incremental paths.",
+    "For every qualified 4:2:0 render arena, rowStateBytes equals exactly 16*yRowStrideBytes + 18*chromaRowStrideBytes: 16 Y strip rows, 8 Cb rows, 8 Cr rows and prior Cb/Cr rows. Neither a deferred Y row nor full-width reconstructed Cb/Cr staging rows are allocated.",
+    "Centered H2V2 and box chroma reconstruction are fused directly into the existing integer YCbCr-to-RGB conversion. Unit evidence must match the historical staged reconstruction plus planar RGB path byte-for-byte.",
+    "The 576x576 multi-iMCU source must retain the frozen RGB SHA256 5b1738e18c84104586fbe59f37348d8bf1fd9af2cd7036874f156625549bafbb; incremental-versus-complete self-agreement is not sufficient because both paths share the renderer.",
+    "Persistent state and maximum retained authority are unchanged from v15. Render scratch decreases by exactly two yRowStrideBytes per source: 128 bytes for tiny/restart64 and 1152 bytes for noise576.",
+    "The tiny source has rowStateBytes 2176, renderScratchBytes 2688, totalStateBytes 6432, final-ready retained 897 bytes, maximum retained authority 5055 bytes and operation peak 7743 bytes.",
+    "The 576x576 source has rowStateBytes 14976, renderScratchBytes 15488, totalStateBytes 1013280, final-ready retained 995328 bytes, maximum retained authority 998206 bytes and operation peak 2009022 bytes.",
+    "The restart64 source has rowStateBytes 2176, renderScratchBytes 2688, totalStateBytes 17440, final-ready retained 12288 bytes, maximum retained authority 15166 bytes and operation peak 30142 bytes.",
+    "Pre-frame/frame-q/Huffman high-water, transport, entropy rollback, source hashes and final RGB values remain identical to v15. This version removes render staging and tightens canonical progression without widening the qualified source domain.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object/pointer fields, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

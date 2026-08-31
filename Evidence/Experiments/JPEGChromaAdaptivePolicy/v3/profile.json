@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "profileID": "IMAGECRAFT-JPEG-CHROMA-ADAPTIVE-POLICY-V3",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "outputIMCURowCount": 16,
+  "generatedCases": [
+    {"id":"quadratic-baseline-440","signal":"quadratic","codingMode":"baseline","sampling":"440","adaptiveExpectation":"matchesGlobal"},
+    {"id":"quadratic-baseline-420","signal":"quadratic","codingMode":"baseline","sampling":"420","adaptiveExpectation":"matchesGlobal"},
+    {"id":"quadratic-progressive-440","signal":"quadratic","codingMode":"progressive","sampling":"440","adaptiveExpectation":"matchesGlobal"},
+    {"id":"quadratic-progressive-420","signal":"quadratic","codingMode":"progressive","sampling":"420","adaptiveExpectation":"matchesGlobal"},
+
+    {"id":"kink-baseline-440","signal":"kink","codingMode":"baseline","sampling":"440","adaptiveExpectation":"matchesGlobal"},
+    {"id":"kink-baseline-420","signal":"kink","codingMode":"baseline","sampling":"420","adaptiveExpectation":"matchesGlobal"},
+    {"id":"kink-progressive-440","signal":"kink","codingMode":"progressive","sampling":"440","adaptiveExpectation":"matchesGlobal"},
+    {"id":"kink-progressive-420","signal":"kink","codingMode":"progressive","sampling":"420","adaptiveExpectation":"matchesGlobal"},
+
+    {"id":"step-off24-baseline-440","signal":"step-off24","codingMode":"baseline","sampling":"440","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"step-off24-baseline-420","signal":"step-off24","codingMode":"baseline","sampling":"420","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"step-off24-progressive-440","signal":"step-off24","codingMode":"progressive","sampling":"440","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"step-off24-progressive-420","signal":"step-off24","codingMode":"progressive","sampling":"420","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+
+    {"id":"step-small-baseline-440","signal":"step-small","codingMode":"baseline","sampling":"440","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"step-small-baseline-420","signal":"step-small","codingMode":"baseline","sampling":"420","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"step-small-progressive-440","signal":"step-small","codingMode":"progressive","sampling":"440","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"step-small-progressive-420","signal":"step-small","codingMode":"progressive","sampling":"420","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+
+    {"id":"ramp-step-baseline-440","signal":"ramp-step","codingMode":"baseline","sampling":"440","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"ramp-step-baseline-420","signal":"ramp-step","codingMode":"baseline","sampling":"420","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"ramp-step-progressive-440","signal":"ramp-step","codingMode":"progressive","sampling":"440","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+    {"id":"ramp-step-progressive-420","signal":"ramp-step","codingMode":"progressive","sampling":"420","adaptiveExpectation":"strictlyBetterThanGlobalAndNotWorseThanClamp"},
+
+    {"id":"impulse31-baseline-440","signal":"impulse31","codingMode":"baseline","sampling":"440","adaptiveExpectation":"notWorseThanGlobal"},
+    {"id":"impulse31-baseline-420","signal":"impulse31","codingMode":"baseline","sampling":"420","adaptiveExpectation":"notWorseThanGlobal"},
+    {"id":"impulse31-progressive-440","signal":"impulse31","codingMode":"progressive","sampling":"440","adaptiveExpectation":"notWorseThanGlobal"},
+    {"id":"impulse31-progressive-420","signal":"impulse31","codingMode":"progressive","sampling":"420","adaptiveExpectation":"notWorseThanGlobal"}
+  ],
+  "claimBoundary": [
+    "This held-out matrix evaluates a fixed local adaptive chroma rule selected before these JPEG encodes: for every low-resolution chroma interval, use nearest/current only when the interval gradient is strictly greater than twice the larger neighboring same-side gradient; otherwise retain the existing centered 3/4-current + 1/4-adjacent reconstruction. The rule does not inspect source truth, output RGB, coding mode, sampling mode or iMCU position.",
+    "quadratic and kink are smooth but non-constant-slope controls and require the adaptive row codes to equal global centered reconstruction exactly. step-off24 places a large discontinuity away from an iMCU boundary, step-small places an 8-code discontinuity at the internal boundary, and ramp-step superposes a discontinuity on a nonzero slope; each requires strictly lower all-row RMSE and MAE than global reconstruction and no larger RMSE/MAE/maximum error than iMCU clamping. impulse31 is a deliberately underdetermined one-row feature and requires only no degradation relative to global reconstruction.",
+    "Every signal is evaluated independently in baseline/progressive and 4:4:0/4:2:0 cells after real quality-100 JPEG encode and libjpeg-turbo raw post-IDCT decode. Failure of any pre-registered expectation rejects the rule rather than retuning the 2x threshold post hoc.",
+    "This experiment is a reconstruction-policy mechanism probe only. Passing does not qualify a production backend, does not make source-truth error a JPEG normative requirement, and does not replace broader natural-image/perceptual evaluation."
+  ]
+}

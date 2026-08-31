@@ -23,14 +23,15 @@ ImageCraft 是独立于网络加载、缓存、UI 与持久化系统的 Apple �
 
 - 有界 PNG/JPEG/GIF 探测与静态主帧解码；
 - JPEG 渐进扫描的有界增量会话、严格递增的非最终像素代次与取消封锁；
-- 目标尺寸缩放、方向、ICC/颜色策略、metadata 预算和 prepared source 复用；
+- GIF/APNG 精确时间轴与预分帧 JPEG sequence，支持按需单帧、有界连续帧窗口、loop/disposal/blend 元数据和整体取消；
+- 目标尺寸缩放、方向、ICC/颜色策略、metadata 预算和有聚合 retained-byte authority 的 bounded prepared state；
 - 静态 PNG 无损编码与 JPEG 有损编码；
 - 显式质量、色彩策略、方向、alpha preserve/reject/flatten 和写入期输出字节硬上限；
 - 解码与编码各自独立的 capability descriptor、稳定失败分类和版本 fingerprint。
 
-它明确不声明 baseline JPEG、PNG 或 GIF 的渐进代次，也不声明动画时间轴、HDR 输出、planar/pixel-buffer 输出、ImageIO 操作中途可中断取消、任意 EXIF/XMP 透传或跨 OS 字节确定性。渐进会话只产生预览；完整正文仍须经过常规 probe/decode 路径生成最终像素。
+它明确不声明 baseline JPEG、PNG 或 GIF 的渐进代次，也不提供网络 MJPEG multipart 分帧、display-link 播放时钟、UI 帧缓存、掉帧、后台可见性或 Reduce Motion 策略；同时不声明 HDR 输出、planar/pixel-buffer 输出、ImageIO 操作中途可中断取消、任意 EXIF/XMP 透传或跨 OS 字节确定性。渐进会话只产生预览；完整正文仍须经过常规 probe/decode 路径生成最终像素。
 
-仓库不依赖 Fovea、HTTP、URLSession、缓存、安全 namespace、UI 或 AxiomRaster。Fovea 中的宿主集成与 DecodeKey/RenderKey 身份测试仍应留在 Fovea。
+两个 Swift 库产品与运行时不依赖 Fovea、HTTP、URLSession、缓存、安全 namespace、UI 或 AxiomRaster。`Tools/Quality/AxiomPackedProbe` 仅是可选的 cross-backend research probe，会读取 pinned sibling AxiomRaster 仓库；它不进入库产品。Fovea 中的宿主集成与 DecodeKey/RenderKey 身份测试仍应留在 Fovea。
 
 ## SwiftPM 使用
 
@@ -69,6 +70,23 @@ let result = try encoder.encode(
 ```
 
 JPEG 不会静默丢弃 alpha。带 alpha 的源必须显式拒绝或指定 flatten 背景。
+
+## 动画解码示例
+
+```swift
+let decoder = ImageIOAnimatedImageDecoder()
+let asset = try await decoder.prepareAnimation(
+    source: .encoded(gifOrAPNGData),
+    limits: ImageAnimationDecodeLimits(maximumFrameDecodeWindow: 8)
+)
+let target = try TargetPixels(width: 512, height: 512)
+let frames = try await asset.frames(
+    in: 0..<min(8, asset.metadata.frameCount),
+    request: ImageDecodeRequest(target: target, colorPolicy: .convertToSRGB)
+)
+```
+
+`ImageAnimationFrameDuration` 保留容器的精确有理数秒值。公开 duration、loop、frame rect 与 frame descriptor 在 `Codable` 反序列化时重新执行构造器不变量；缺失 loop 字段不会静默变成无限循环。宿主负责播放时钟、窗口预取、掉帧与可见性；ImageCraft 不把这些 UI 策略塞入 codec。动画入口严格执行 `DecodeLimits.allowedFormats`；APNG 在交给 ImageIO 前验证每个 chunk 的 CRC、critical/reserved type、`IDAT` 连续性、控制序列和早期帧数上限；GIF user-input control 与 Plain Text graphic block 因当前播放合同不建模交互或文本渲染而显式拒绝；JPEG sequence 对整条序列累计元数据预算。`maximumTimelineDecodedBytes` 先按逻辑 RGBA 轨道做 admission，再在实际帧 publication 前按 `CGImage.bytesPerRow × height × frameCount` 复核。JPEG 动画当前只接受上层已分帧的完整 JPEG 数组，尚不解析网络 `multipart/x-mixed-replace`。
 
 ## 渐进 JPEG 示例
 

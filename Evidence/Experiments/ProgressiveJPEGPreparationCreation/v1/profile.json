@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-PROGRESSIVE-JPEG-PREPARATION-CREATION-V1",
+  "implementationScope": "public state-transition preparation-creation authority plus early atomic ImageIO prepared-store admission; default ImageIO decode backend and independent JPEG backend selection remain unchanged",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jpeg-progressive-preparation-creation-data-only",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "preparation-creation.json",
+    "expectedEmbeddedICCProfileByteCount": 0
+  },
+  "requiredInvariants": [
+    "At finalReady, non-consuming preparation-creation preflight preserves the session snapshot and publishes call-boundary source retention separately from resulting decoder-retained preparation state.",
+    "The creation operation keeps operationPeak = unknown(frameworkPrivateOperationAllocation); this work does not claim ImageIO creation is bounded.",
+    "For the retained profile-absent source, resulting preparation retainedKnownBytes and retainedBetweenCalls equal the complete 787-byte encoded source.",
+    "Decoder-retained preparation state is not mislabeled as transferredOutput: preparation creation transfer remains zero and output layout authority remains none.",
+    "After successful creation, the prepared-token retained authority exactly matches the preflight resulting-state authority; the progressive session is terminal and discarding the token removes its ledger.",
+    "Aggregate prepared-store admission is separately executable-gated: a store-full rejection happens before framework creation work, leaves the final-ready session retryable, and the same session succeeds after another token is discarded."
+  ]
+}

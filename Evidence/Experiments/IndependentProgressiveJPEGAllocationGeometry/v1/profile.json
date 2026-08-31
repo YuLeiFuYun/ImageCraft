@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-ALLOCATION-GEOMETRY-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "maximumScanCount": 500,
+  "geometry": {
+    "height": 129,
+    "widths": [1, 4, 5, 63, 64, 65, 1919, 1920, 1921, 8191, 8192, 8193],
+    "pixelGenerator": "rgb-affine-v1"
+  },
+  "encode": {
+    "quality": 75,
+    "optimizeHuffman": true,
+    "progressive": true
+  },
+  "variants": [
+    {"id": "gray", "mode": "grayscale"},
+    {"id": "444", "mode": "sampling", "sampling": "1x1,1x1,1x1"},
+    {"id": "422", "mode": "sampling", "sampling": "2x1,1x1,1x1"},
+    {"id": "420", "mode": "sampling", "sampling": "2x2,1x1,1x1"}
+  ],
+  "claimBoundary": [
+    "This source-generated geometry matrix is a package-only falsifier for the pinned libjpeg-turbo 3.2.0 private jmemmgr model on the current arm64 SIMD build. It is not a production backend qualification or cross-architecture memory promise.",
+    "The tested widths deliberately straddle h2v2 fancy-context activation at width 5, 64-byte alloc_sarray row-alignment boundaries, common 1920-wide media, and larger 8192-wide media. Height 129 keeps progressive coefficient arrays nontrivial while the pre-realize row-workspace mechanism remains width/sampling driven.",
+    "Expected allocSArray request shapes come from the JPEG sampling geometry model. Expected large-pool growth comes from the pinned source rules: rows are rounded to 2*ALIGN_SIZE, each large allocation is rounded to ALIGN_SIZE, and each chunk pays one large_pool_hdr plus ALIGN_SIZE-1. The capture must also prove that small/control allocations add zero pool growth for this qualified standard-component matrix; if that ceases to hold, the model fails rather than absorbing the delta into a fitted constant.",
+    "All generated JPEGs must remain progressive, decode without warnings, and the suspending probe final RGB must exactly match one-shot djpeg for the same pinned installation."
+  ]
+}

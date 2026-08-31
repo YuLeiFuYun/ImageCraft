@@ -57,6 +57,8 @@ public enum ImageDecodeOutputRepresentation: String, Codable, CaseIterable, Hash
     case pixelBuffer
     /// 以 codec 定义、contract 约束的平面像素交付。
     case planarPixels
+    /// 以紧密、premultiplied RGBA8 codec-owned value 交付。
+    case packedRGBA8
 }
 
 /// 同步后端的取消保证。枚举顺序表示从弱到强的保证。
@@ -277,7 +279,10 @@ public struct ImageCodecDescriptor: Codable, Hashable, Sendable {
     }
 }
 
-/// 解码阶段用于内存准入的保守估计。
+/// 解码阶段用于宿主准入的 modeled working-set charge。
+///
+/// 该值不是完整进程 RSS 或 framework-private allocation 上界。需要硬资源资格的内部
+/// adapter 必须另外使用 phase-aware resource ledger；未知 phase 不得由本值补齐。
 public struct ImageDecodeResourceEstimate: Codable, Hashable, Sendable {
     public let workingSetBytes: Int
 
@@ -307,6 +312,30 @@ public protocol ImageCodec: ImageDecoding {
         probe: ImageProbe,
         request: ImageDecodeRequest
     ) throws -> ImageDecodeResourceEstimate
+}
+
+/// One-shot codec capability that transfers a codec-owned, tightly packed premultiplied RGBA8
+/// value instead of forcing the result through a framework image wrapper.
+///
+/// The resource ledger is part of the capability rather than an optional diagnostic: hosts that
+/// require a bounded operation must inspect it before calling `decodePackedRGBA8`. The encoded
+/// source remains caller-owned and is therefore not included in codec-owned ledger terms.
+public protocol ImagePackedRGBA8Decoding: Sendable {
+    var codecDescriptor: ImageCodecDescriptor { get }
+
+    func probe(data: Data, limits: DecodeLimits) throws -> ImageProbe
+
+    func packedRGBA8ResourceLedger(
+        data: Data,
+        request: ImageDecodeRequest,
+        limits: DecodeLimits
+    ) throws -> ImageDecodeResourceLedgerSnapshot
+
+    func decodePackedRGBA8(
+        data: Data,
+        request: ImageDecodeRequest,
+        limits: DecodeLimits
+    ) throws -> ImagePackedRGBA8
 }
 
 extension ImageCodec {
@@ -357,6 +386,88 @@ public protocol ImageProgressiveDecodeSession: AnyObject, Sendable {
     func cancel()
 }
 
+/// DecodeSession qualification only; package clients must not treat this as public codec API.
+package enum ImageProgressiveInputProfile: String, Sendable {
+    case arbitraryChunk
+    case scanAtomic
+    case completeInput
+}
+
+package enum ImageProgressiveQualificationProgress: String, Sendable {
+    case needMoreInput
+    case madeProgress
+    case finalReady
+    case terminal
+}
+
+package enum ImageProgressiveSemanticFact: String, CaseIterable, Hashable, Sendable {
+    case dimensions
+    case orientation
+    case sourceColor
+    case frameCount
+}
+
+package enum ImageProgressivePreviewSemanticState: String, Sendable {
+    case none
+    case provisionalNoncacheable
+    case finalStable
+}
+
+package struct ImageProgressiveQualificationSnapshot: Equatable, Sendable {
+    package let inputProfile: ImageProgressiveInputProfile?
+    package let progress: ImageProgressiveQualificationProgress
+    package let receivedByteCount: Int
+    package let consumedThrough: Int
+    package let retainFrom: Int
+    package let retainedEncodedBytes: Int
+    package let maximumRetainedEncodedBytes: Int
+    /// Tight-RGBA + retained-input model only; not a complete ImageIO operation upper bound.
+    package let modeledOwnedOperationBytes: Int
+    /// Tight RGBA bytes only; not a `CGImage.bytesPerRow` upper bound.
+    package let maximumTightRGBABytes: Int
+    package let retainsOpaqueFrameworkStateBetweenCalls: Bool
+    package let resourceLedger: ImageDecodeResourceLedgerSnapshot
+    package let stableFacts: Set<ImageProgressiveSemanticFact>
+    package let tentativeFacts: Set<ImageProgressiveSemanticFact>
+    package let previewSemanticState: ImageProgressivePreviewSemanticState
+
+    package init(
+        inputProfile: ImageProgressiveInputProfile?,
+        progress: ImageProgressiveQualificationProgress,
+        receivedByteCount: Int,
+        consumedThrough: Int,
+        retainFrom: Int,
+        retainedEncodedBytes: Int,
+        maximumRetainedEncodedBytes: Int,
+        modeledOwnedOperationBytes: Int,
+        maximumTightRGBABytes: Int,
+        retainsOpaqueFrameworkStateBetweenCalls: Bool,
+        resourceLedger: ImageDecodeResourceLedgerSnapshot,
+        stableFacts: Set<ImageProgressiveSemanticFact>,
+        tentativeFacts: Set<ImageProgressiveSemanticFact>,
+        previewSemanticState: ImageProgressivePreviewSemanticState
+    ) {
+        self.inputProfile = inputProfile
+        self.progress = progress
+        self.receivedByteCount = receivedByteCount
+        self.consumedThrough = consumedThrough
+        self.retainFrom = retainFrom
+        self.retainedEncodedBytes = retainedEncodedBytes
+        self.maximumRetainedEncodedBytes = maximumRetainedEncodedBytes
+        self.modeledOwnedOperationBytes = modeledOwnedOperationBytes
+        self.maximumTightRGBABytes = maximumTightRGBABytes
+        self.retainsOpaqueFrameworkStateBetweenCalls = retainsOpaqueFrameworkStateBetweenCalls
+        self.resourceLedger = resourceLedger
+        self.stableFacts = stableFacts
+        self.tentativeFacts = tentativeFacts
+        self.previewSemanticState = previewSemanticState
+    }
+}
+
+package protocol ImageProgressiveSessionQualifying: ImageProgressiveDecodeSession {
+    var qualificationSnapshot: ImageProgressiveQualificationSnapshot { get }
+}
+
 /// 完整增量会话在同一已完成 source 上产生的最终像素候选。
 ///
 /// 该值证明 codec 已按创建会话时的 request 与 limits 对完整编码体重新执行容器、
@@ -372,6 +483,73 @@ public struct ImageProgressiveDecodeFinalization: Sendable {
         self.probe = probe
         self.sourceByteCount = sourceByteCount
     }
+}
+
+/// Qualification-only finalization for a codec-owned tightly packed RGB8 value.
+///
+/// This seam deliberately stays below `DecodedImage`: it carries exact pixel/color value authority
+/// without claiming Core Graphics wrapper allocation, row-stride choice, or public rasterization
+/// semantics. `sourceByteCount` has the same transport-binding role as the public finalization
+/// values and must be checked by the host against its independently validated complete body.
+package struct ImageProgressivePackedRGB8Finalization: Sendable {
+    package let image: ImagePackedRGB8
+    package let sourceByteCount: Int
+
+    package init(image: ImagePackedRGB8, sourceByteCount: Int) {
+        self.image = image
+        self.sourceByteCount = sourceByteCount
+    }
+}
+
+/// Package-only capability for progressive codecs that can transfer an exact packed RGB8 value
+/// without crossing the public `DecodedImage` / Core Graphics representation boundary.
+package protocol ProgressiveImagePackedRGB8FinalizingSession: ImageProgressiveDecodeSession {
+    func finishWithPackedRGB8() throws -> ImageProgressivePackedRGB8Finalization
+}
+
+/// `DecodedImage` finalization with explicit whole-operation resource authority. The ledger covers
+/// all codec-owned state that remains live when finalization starts plus the materialization phase;
+/// it is not a helper-local allocation summary. This is intentionally separate from the public
+/// `ProgressiveImageFinalizingSession`: a backend may be able to construct the public value while
+/// still carrying an unknown framework wrapper operation peak that a bounded host must not lose.
+public struct ImageProgressiveDecodedImageResourceFinalization: Sendable {
+    public let image: DecodedImage
+    public let probe: ImageProbe
+    public let sourceByteCount: Int
+    public let materializationResourceLedger: ImageDecodeResourceLedgerSnapshot
+
+    public init(
+        image: DecodedImage,
+        probe: ImageProbe,
+        sourceByteCount: Int,
+        materializationResourceLedger: ImageDecodeResourceLedgerSnapshot
+    ) {
+        self.image = image
+        self.probe = probe
+        self.sourceByteCount = sourceByteCount
+        self.materializationResourceLedger = materializationResourceLedger
+    }
+}
+
+/// Resource-aware public capability that keeps whole-finalization `DecodedImage` authority visible.
+/// Hosts should prefer this over `ProgressiveImageFinalizingSession` when a session exposes both;
+/// an unknown finalization peak remains an explicit admission fact rather than disappearing in a
+/// value-only finalization shape.
+public protocol ProgressiveImageDecodedImageResourceFinalizingSession:
+    ImageProgressiveDecodeSession
+{
+    /// Returns the whole-operation resource authority that would apply to `DecodedImage`
+    /// finalization without consuming or closing the session. The ledger includes codec-owned state
+    /// already retained by the session at the call boundary; callers must not add or discard that
+    /// state by treating this as a helper-local materializer ledger. `nil` means the complete source
+    /// is not final-ready yet. Hosts that require a bounded operation must inspect this value before
+    /// calling the consuming finalizer; a returned `.unknown` operation peak must not be
+    /// reinterpreted as bounded.
+    func decodedImageFinalizationResourceLedger() throws
+        -> ImageDecodeResourceLedgerSnapshot?
+
+    func finishWithDecodedImageResourceAuthority() throws
+        -> ImageProgressiveDecodedImageResourceFinalization
 }
 
 /// 完整增量会话在同一已完成 source 上创建的一次性解码 preparation。
@@ -391,6 +569,80 @@ public struct ImageProgressiveDecodePreparationFinalization: Sendable {
 /// 可复用已完成增量 source 创建一次性 prepared-decode 令牌的可选会话能力。
 public protocol ProgressiveImagePreparingSession: ImageProgressiveDecodeSession {
     func finishWithPreparation() throws -> ImageProgressiveDecodePreparationFinalization
+}
+
+/// Optional pre-consume resource authority for creating a preparation from a completed progressive
+/// session. The returned ledger covers codec-owned state live at the call boundary plus the next
+/// preparation-creation operation. It does not describe the resulting decoder-retained preparation
+/// state; hosts must inspect that separately through `PreparedImageResourceInspecting` after a token
+/// is created. `nil` means the source is not final-ready yet. Reading this ledger must not consume or
+/// close the session.
+public protocol ProgressiveImagePreparationResourceInspectingSession:
+    ProgressiveImagePreparingSession
+{
+    func preparationFinalizationResourceLedger() throws
+        -> ImageDecodeResourceLedgerSnapshot?
+}
+
+/// Whole state-transition authority for creating a prepared-decode token from a completed
+/// progressive session. `operationResourceLedger` describes the next creation call, including
+/// codec-owned state already live at the call boundary. The resulting fields describe the
+/// decoder-retained preparation after that call succeeds; they are deliberately separate because
+/// preparation storage is not caller-transferred output and must not be hidden in
+/// `transferredOutput`.
+public struct ImageProgressivePreparationCreationResourceAuthority:
+    Codable, Equatable, Sendable
+{
+    public let operationResourceLedger: ImageDecodeResourceLedgerSnapshot
+    public let resultingPreparationRetainedKnownBytes: Int
+    public let resultingPreparationRetainedBetweenCalls: ImageDecodeResourceBound
+
+    public init?(
+        operationResourceLedger: ImageDecodeResourceLedgerSnapshot,
+        resultingPreparationRetainedKnownBytes: Int,
+        resultingPreparationRetainedBetweenCalls: ImageDecodeResourceBound
+    ) {
+        guard resultingPreparationRetainedKnownBytes >= 0 else { return nil }
+        if case .bounded(let bytes) = resultingPreparationRetainedBetweenCalls {
+            guard bytes >= resultingPreparationRetainedKnownBytes else { return nil }
+        }
+        self.operationResourceLedger = operationResourceLedger
+        self.resultingPreparationRetainedKnownBytes = resultingPreparationRetainedKnownBytes
+        self.resultingPreparationRetainedBetweenCalls = resultingPreparationRetainedBetweenCalls
+    }
+}
+
+/// Backend-neutral name for the same preparation-creation state transition. The original
+/// progressive name remains source-compatible because progressive finalization was the first
+/// caller that needed this vocabulary; static `PreparedImageDecoding.prepare(data:limits:)`
+/// preflight uses the generic spelling.
+public typealias ImageDecodePreparationCreationResourceAuthority =
+    ImageProgressivePreparationCreationResourceAuthority
+
+/// Optional non-consuming resource preflight for static preparation creation. The authority is
+/// conditional on a later successful `prepare(data:limits:)`; it is not a source-validity claim.
+/// Caller-owned encoded input is therefore not charged as codec-retained state at the operation
+/// boundary. A backend may perform bounded pure-value inspection to tighten the resulting retained
+/// bound, but must keep framework-private creation work explicitly unknown when it cannot prove it.
+public protocol PreparedImageCreationResourceInspecting: PreparedImageDecoding {
+    func preparationCreationResourceAuthority(
+        data: Data,
+        limits: DecodeLimits
+    ) throws -> ImageDecodePreparationCreationResourceAuthority
+}
+
+/// Stronger optional preparation-creation capability. Unlike
+/// `ProgressiveImagePreparationResourceInspectingSession`, this exposes both the next operation and
+/// the decoder-retained state that will exist after a preparation is committed. Reading the
+/// authority must not consume the session. A decoder may still fail the later consuming call if a
+/// concurrent preparation wins its internal aggregate-store admission first; the consuming
+/// implementation must therefore perform its own atomic reservation before expensive decode or
+/// framework work.
+public protocol ProgressiveImagePreparationCreationResourceInspectingSession:
+    ProgressiveImagePreparationResourceInspectingSession
+{
+    func preparationCreationResourceAuthority() throws
+        -> ImageProgressivePreparationCreationResourceAuthority?
 }
 
 /// 可在完整容器前缀到达时提前创建一次性 prepared-decode 令牌的可选能力。

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-CENTERED-CHROMA-RECONSTRUCTION-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "cases": [
+    {"id": "baseline-440", "codingMode": "baseline", "sampling": "440", "mode": "h1v2"},
+    {"id": "baseline-420", "codingMode": "baseline", "sampling": "420", "mode": "h2v2"},
+    {"id": "progressive-440", "codingMode": "progressive", "sampling": "440", "mode": "h1v2"},
+    {"id": "progressive-420", "codingMode": "progressive", "sampling": "420", "mode": "h2v2"}
+  ],
+  "claimBoundary": [
+    "The experiment reuses the JFIF-tagged source-ground-truth generator, then obtains the actual low-resolution post-IDCT Cb plane with libjpeg raw_data_out. That plane, not the generator's ideal pre-compression values, is the common reconstruction input.",
+    "Pinned libjpeg-turbo independently decodes the same JPEG to full-resolution JCS_YCbCr with fancy upsampling enabled. ImageCraft receives only the post-IDCT Cb bytes plus explicit geometry and writes into a caller-owned destination using its package-scoped centered reconstruction primitive.",
+    "For 4:4:0 h1v2 and 4:2:0 h2v2, baseline and progressive outputs must match the pinned libjpeg full-resolution Cb plane byte-for-byte. No tolerance, RGB conversion or ImageIO output participates in this conformance gate.",
+    "Passing establishes exact arithmetic and cross-iMCU context conformance for this generated 8-bit domain. It does not qualify entropy decode, IDCT, arbitrary sampling factors, a public backend, or cross-version libjpeg behavior."
+  ]
+}

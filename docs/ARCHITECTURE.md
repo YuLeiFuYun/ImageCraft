@@ -83,7 +83,11 @@ corpus 版本只追加、不原地改变语义。工具升级、位流变化或�
 
 ImageCraft 公开 codec 请求、限制、结果、descriptor、JPEG 渐进会话和 ImageIO adapter；UI 几何分桶、render-cache admission、transform pipeline、预览替换策略与 frame timing 值模型属于宿主或未来模块，不进入当前公共面。运行时 fingerprint 和详细诊断只服务本仓库证据，保持 package-only。
 
-渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在预览尝试或 finish 时更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 达到时尝试预览，将昂贵光栅化限制为常数上界；一次 append 最多返回一个代次，并可合并同一 chunk 跨过的多个阈值。真实照片矩阵已证明 chunk overshoot 会改变代次数量与同序号像素，因此 generation 只有单会话顺序语义，`sourceByteCount` 只有累计 append 边界语义。完整正文若一次到达可以零预览完成。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
+渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在预览尝试或 finish 时更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 达到时尝试预览，将昂贵光栅化限制为常数上界；一次 append 最多返回一个代次，并可合并同一 chunk 跨过的多个阈值。预览次数上界并不能防御“极多 progressive scans + 稀疏 EOB runs”的最终解码 CPU 放大，因此 parser 与完整 JPEG container scanner 另共享 500-SOS package-internal ceiling；501st scan 在后续 ImageIO work 前失败关闭并走 terminal reclaim。真实照片矩阵已证明 chunk overshoot 会改变代次数量与同序号像素，因此 generation 只有单会话顺序语义，`sourceByteCount` 只有累计 append 边界语义。完整正文若一次到达可以零预览完成，但仍必须通过同一 scan-count security gate。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
+
+package-only libjpeg-turbo research seam验证了另一种 progressive architecture，而没有改变上述公开会话：suspending source manager只在 library 返回 `JPEG_SUSPENDED` 后保留 rollback tail并接入新字节，libjpeg buffered-image coefficient arrays则成为真正跨 append 持久的 entropy/scan state。这样已经消费的 prefix不需要在每次预览重新创建 decoder并重放；5个case、21种1-byte到full-file partition产生相同 scan-completion状态和final RGB。resource research已经进一步越过“按 pixel/coefficient 粗估”的阶段：对 pinned 3.2.0 arm64 SIMD 的8-bit full-scale grayscale/4:4:4/4:2:2/4:2:0域，header-visible sampling/width精确推导 upsampler/main-controller row arrays，pinned allocator规则再推导 row/coefficient pool growth；48个宽度/sampling edge cases与5个 retained held-out cases都逐字节重建 `jpeg_start_decompress` 完成后的 allocator pool，且没有拟合 residual。
+
+该机制当前仍只是 research probe，因为 production seam现在缺的是更窄但更实质的三件事：**ImageCraft-owned allocator/control-state authority**（而不是 private `jmemmgr` ABI）、与 ImageCraft packed/color contract 对齐的输出实现，以及对4:2:0垂直 chroma reconstruction差异的质量政策。尤其不能因为研究模型已经精确预测 pinned allocator 就把其 private layout 暴露为公共 API；生产 backend 必须把已证明的 geometry-dependent variable term 与自己拥有的固定 control-state资源组成一个真正可执行的 admission contract。
 
 宿主在取消、view identity 变化或请求替换时，必须先关闭该请求的像素发布权限，再调用并等待 `session.cancel()`；ImageIO 操作本身不能中途抢占，取消可能阻塞在当前 append 的会话锁之后。frame cadence 合并、latest-wins、MainActor 调度和最终像素替换同样属于宿主/UI 边界，不得反向进入 codec generation 语义。
 

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 14,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V14",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, dynamic pre-SOF table ownership, SOF DQT ownership transfer, first-SOS DQT release, actual-only coefficient planes, exact current Huffman payloads, render-only quantization widening, packed four-bit progression state and validated-EOI final-ready compaction",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2432,
+    "initialRetainedByteCharge": 2846,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "progressionStateByteCount": 96,
+    "persistentBaseFixedStateByteCount": 288,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2464,
+    "renderFixedScratchByteCount": 512,
+    "frameQuantizationSourceByteCount": 256
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-packed-progression",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "all ten scan previews exercise validation, update, smoothing and final progression reads through packed four-bit accessors while single-byte suspension crosses every scan boundary"
+    },
+    {
+      "id": "noise576-packed-progression",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "large final-only decode proves the 96-byte progression reduction remains live across all scans and composes with the existing EOI final-ready compaction"
+    },
+    {
+      "id": "restart64-packed-progression",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "restart-heavy entropy suspension proves packed progression is orthogonal to MCU rollback and restart-marker splitting"
+    }
+  ],
+  "requiredInvariants": [
+    "All v13 transport, dynamic pre-frame ownership, SOF DQT transfer, source semantics, actual coefficient geometry, dynamic Huffman, render-only quantization widening, preview backing, restart and EOI-compaction invariants remain unchanged.",
+    "The qualified scan domain permits successive-low values only from 0 through 13. Together with the unseen state this is exactly 15 progression states, so every entry fits in four bits; nibble 0xE remains invalid and 0xF encodes unseen.",
+    "Three components times 64 progression entries occupy exactly 96 bytes. Persistent base fixed state is exactly 288 bytes: 192 bytes of bound UInt8 quantization plus 96 bytes of packed progression.",
+    "Progression validation, scan completion update, block-smoothing usefulness, smoothing coefficient estimation and final EOI progression validation all use the packed accessor rather than a raw Int8 buffer.",
+    "The package-only progression codec round-trips unseen and all values 0 through 13, rejects value 14 and rejects reserved nibble 0xE. The retained fixture itself reaches successive-low 2, so the explicit codec gate covers the otherwise unobserved high semantic states.",
+    "Compared with v13, persistent state decreases by exactly 96 bytes and render scratch is unchanged. Therefore maximum retained authority and every current decoder-active retained charge decrease by 96 bytes, and all three current render-dominated operation peaks also decrease by exactly 96 bytes.",
+    "The tiny source has persistentBaseStateBytes 1568, maximum persistentStateBytes 3744, renderScratchBytes 2880 and totalStateBytes 6624. Its final-ready retained value remains 897 bytes, maximum retained authority is 5055 bytes and operation peak is 7935 bytes.",
+    "The 576x576 source has maximum retained authority 998206 bytes, final-ready retained 995328 bytes and operation peak 2010750 bytes.",
+    "The restart64 source has maximum retained authority 15166 bytes, final-ready retained 12288 bytes and operation peak 30334 bytes.",
+    "Pre-frame and frame-q high-water remain 128 bytes for all retained sources; final/high-water DHT values remain 90/95, 98/169 and 89/135 bytes. Progression packing must not perturb table authority, entropy rollback, pixels or output lifetime.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object/pointer fields, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

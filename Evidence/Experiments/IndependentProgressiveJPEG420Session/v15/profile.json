@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 15,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V15",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, dynamic pre-SOF table ownership, SOF DQT ownership transfer, first-SOS DQT release, actual-only coefficient planes, exact current Huffman payloads, render-only quantization widening, packed four-bit progression state, live-strip fancy vertical boundary reconstruction and validated-EOI final-ready compaction",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2432,
+    "initialRetainedByteCharge": 2846,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "progressionStateByteCount": 96,
+    "persistentBaseFixedStateByteCount": 288,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2464,
+    "renderFixedScratchByteCount": 512,
+    "frameQuantizationSourceByteCount": 256
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-live-y-boundary",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "single-strip control proves removing deferred-Y capacity changes only width-proportional render scratch while all ten previews and source semantics remain unchanged"
+    },
+    {
+      "id": "noise576-live-y-boundary",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "36 iMCU rows repeatedly reconstruct row 15 from the still-live prior Y strip after new chroma is rendered; frozen v14 RGB SHA256 independently guards render-order correctness"
+    },
+    {
+      "id": "restart64-live-y-boundary",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "four iMCU rows combine live-strip fancy boundary reconstruction with restart-heavy entropy suspension, proving render-order scratch removal is orthogonal to rollback"
+    }
+  ],
+  "requiredInvariants": [
+    "All v14 transport, dynamic table ownership, SOF DQT transfer, first-SOS release, source semantics, actual coefficient geometry, dynamic Huffman, render-only quantization widening, packed progression, restart, preview and EOI-compaction invariants remain unchanged.",
+    "For every qualified 4:2:0 render arena, rowStateBytes equals exactly 18*yRowStrideBytes + 18*chromaRowStrideBytes: 16 Y strip rows, 8 Cb rows, 8 Cr rows, prior Cb/Cr rows and reconstructed full-width Cb/Cr rows. No deferred Y row is allocated.",
+    "At an internal fancy vertical boundary, the next strip's chroma is rendered first; the previous strip's yStrip row 15 remains live and is combined with saved previous Cb/Cr row 7 plus current chroma row 0. Only after that boundary row is written may the next Y strip overwrite yStrip.",
+    "The 576x576 multi-iMCU source must retain the frozen v14 RGB SHA256 5b1738e18c84104586fbe59f37348d8bf1fd9af2cd7036874f156625549bafbb; incremental-versus-complete self-agreement is not sufficient evidence because both paths share the renderer.",
+    "Persistent state and maximum retained authority are unchanged from v14. Render scratch decreases by exactly one yRowStrideBytes per source: 64 bytes for tiny/restart64 and 576 bytes for noise576.",
+    "The tiny source has rowStateBytes 2304, renderScratchBytes 2816, totalStateBytes 6560, final-ready retained 897 bytes, maximum retained authority 5055 bytes and operation peak 7871 bytes.",
+    "The 576x576 source has rowStateBytes 16128, renderScratchBytes 16640, totalStateBytes 1014432, final-ready retained 995328 bytes, maximum retained authority 998206 bytes and operation peak 2010174 bytes.",
+    "The restart64 source has rowStateBytes 2304, renderScratchBytes 2816, totalStateBytes 17568, final-ready retained 12288 bytes, maximum retained authority 15166 bytes and operation peak 30270 bytes.",
+    "Pre-frame/frame-q/Huffman high-water, entropy rollback, source hashes and final RGB values remain identical to v14. This version removes only a render-order copy and does not widen the qualified source domain.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object/pointer fields, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 6,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V6",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit marker streaming, exact-MCU transport, cadence-aware output lifetime and render-only arena separation",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 2874,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "persistentFixedStateByteCount": 3072,
+    "renderFixedScratchByteCount": 384
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-every-preview",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "mechanismPressure": "every byte boundary and every completed-scan render; RGB persists between scans but IDCT/smoothing/row scratch must exist only during each render"
+    },
+    {
+      "id": "noise576-final-only-render-arena",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "mechanismPressure": "995328-byte RGB and 17088-byte renderer arena are absent between scans; finish-only render recomposes persistent state, output and render scratch without MCU rollback coexistence"
+    },
+    {
+      "id": "restart64-final-only-render-arena",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "mechanismPressure": "transactional restart suspension retains only persistent coefficient/control state; output and renderer arena appear only at finish"
+    }
+  ],
+  "requiredInvariants": [
+    "All v5 transport, marker-streaming, source-authority, output-cadence and transactional-MCU invariants remain unchanged.",
+    "The historical StatePlan total is decomposed without changing one-shot output semantics: persistentStateBytes = coefficientStateBytes + 3072 aligned persistent control bytes; renderScratchBytes = rowStateBytes + 384 fixed IDCT/smoothing bytes; their sum equals totalStateBytes exactly.",
+    "Persistent StateArena owns coefficients, bound component quantization, progression state, Huffman state and raw quantization-source state only. It does not own IDCT workspace, smoothing coefficients or reconstruction row/context strips.",
+    "RenderArena is allocated only while one preview/final render executes and contains exactly the 384-byte fixed render scratch plus the source-derived rowStateBytes. It is released before returning to suspended entropy state.",
+    "For every-completed-scan cadence, retainedBetweenCalls is transport + persistent state + one reusable RGB backing. operationPeak is max(SOF2 transition, retained+rollback scratch, retained+render scratch).",
+    "For final-only cadence, retainedBetweenCalls is transport + persistent state only. operationPeak is max(SOF2 transition, retained+rollback scratch, retained+final RGB+render scratch). RGB and render scratch never coexist with MCU rollback.",
+    "The 576x576 retained source must report persistentStateByteCount 998400 and renderScratchByteCount 17088, so pre-finish final-only retained state is 998814 bytes while final render peak remains 2011230 bytes.",
+    "The 23x13 source must report persistentStateByteCount 4608 and renderScratchByteCount 2752; every-preview retained state and peak are lower than v5 while final pixels and preview backing identity remain unchanged.",
+    "Terminal finish/cancel/fatal failure still publishes zero codec-owned retained/operation/output state.",
+    "This profile does not qualify public DecodedImage color representation, non-JFIF semantics, embedded ICC, other sampling modes, physical RSS, allocator headers or perceptual reconstruction quality."
+  ]
+}

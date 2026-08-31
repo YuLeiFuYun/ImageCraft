@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-PROGRESSIVE-JPEG-CHROMA-RECONSTRUCTION-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "source": {
+    "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+    "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6"
+  },
+  "mechanismReference": {
+    "project": "google/jpegli",
+    "commit": "031a0077f5799a6041004267fc12b956c1f52a20",
+    "files": [
+      {"path": "lib/jpegli/upsample.cc", "sha256": "c720e6e4b7adb2a7444e755b025b9f55411494119a3084e3d13ffd682f556ec2"},
+      {"path": "lib/jpegli/color_transform.cc", "sha256": "da302f1ec73ab42519969b02ccb7c096c4f9ced08bfa19d05750bd81bd430adc"},
+      {"path": "lib/jpegli/render.cc", "sha256": "1cd9e3ea21857e1c1579af0339641c83a3590349ec094d8d91488872fde3f4eb"}
+    ],
+    "note": "Reference-only source audit for the float-triangle projection; formal execution does not claim or require a jpegli binary."
+  },
+  "candidates": [
+    {"id": "fancy-h-fancy-v", "horizontal": "fancy", "vertical": "fancy"},
+    {"id": "float-triangle-quantized-idct", "horizontal": "float-triangle", "vertical": "float-triangle"},
+    {"id": "fancy-h-nearest-v", "horizontal": "fancy", "vertical": "nearest"},
+    {"id": "nearest-h-fancy-v", "horizontal": "nearest", "vertical": "fancy"},
+    {"id": "nearest-h-nearest-v", "horizontal": "nearest", "vertical": "nearest"}
+  ],
+  "claimBoundary": [
+    "The raw-plane probe uses libjpeg's public raw_data_out path with accurate integer IDCT and writes tight post-IDCT Y/Cb/Cr planes before chroma upsampling and YCbCr-to-RGB conversion. This intentionally holds entropy decode and IDCT constant for all reconstruction candidates.",
+    "The independent oracle implements the pinned libjpeg-turbo 3.2.0 integer h2v2 fancy interpolation and YCbCr-to-RGB tables outside libjpeg. fancy-h-fancy-v must reproduce one-shot djpeg RGB byte-for-byte; failure is fatal and no tolerance is introduced.",
+    "The float-triangle-quantized-idct candidate is a deliberately narrower projection inspired by jpegli's floating-point 3/4-1/4 upsampling and floating-point BT.601 conversion: it starts from the same already-quantized libjpeg raw post-IDCT planes and removes only subsequent intermediate integer rounding. It is not a jpegli decode, does not model jpegli float dequantization/IDCT or dequantization bias, and can only falsify the hypothesis that post-IDCT reconstruction rounding alone explains the cross-backend residual.",
+    "The mixed-axis candidates replace exactly one reconstruction axis with nearest replication while preserving the same raw planes and integer YCbCr conversion. Their distance to ImageCraft/ImageIO is an attribution observation, not a production tolerance or proof of perceptual superiority.",
+    "This experiment is source-bound mechanism evidence. It does not claim that ImageIO exposes or internally uses any named filter merely because one candidate is numerically closer."
+  ]
+}

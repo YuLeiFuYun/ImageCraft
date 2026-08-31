@@ -1,0 +1,185 @@
+{
+  "capabilityDiscoverable" : true,
+  "chunkByteCount" : 17,
+  "chunkCount" : 47,
+  "decoded" : {
+    "alphaInfo" : "none",
+    "bitsPerComponent" : 8,
+    "bitsPerPixel" : 24,
+    "bytesPerRow" : 69,
+    "colorSpaceModel" : "rgb",
+    "copiedPixelPayloadByteCount" : 0,
+    "knownPixelPayloadOperationBytes" : 897,
+    "pixelHeight" : 13,
+    "pixelWidth" : 23,
+    "providerBackingWasShared" : true,
+    "providerByteCount" : 897,
+    "providerSHA256" : "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "resourceLedger" : {
+      "isTerminal" : false,
+      "operationPeak" : {
+        "unknown" : {
+          "_0" : "frameworkPrivateOperationAllocation"
+        }
+      },
+      "outputLayoutAuthority" : "codecOwnedRGB8",
+      "retainedBetweenCalls" : {
+        "bounded" : {
+          "_0" : 0
+        }
+      },
+      "retainedKnownBytes" : 0,
+      "transferredOutput" : {
+        "bounded" : {
+          "_0" : 897
+        }
+      }
+    },
+    "sourceColorProfile" : "absent"
+  },
+  "decodedResourceFinalizationCapabilityDiscoverable" : true,
+  "decodedResourceFinalizationLedger" : {
+    "isTerminal" : false,
+    "operationPeak" : {
+      "unknown" : {
+        "_0" : "frameworkPrivateOperationAllocation"
+      }
+    },
+    "outputLayoutAuthority" : "codecOwnedRGB8",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "retainedKnownBytes" : 0,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 897
+      }
+    }
+  },
+  "decodedResourceFinalizationPreflightLedger" : {
+    "isTerminal" : false,
+    "operationPeak" : {
+      "unknown" : {
+        "_0" : "frameworkPrivateOperationAllocation"
+      }
+    },
+    "outputLayoutAuthority" : "codecOwnedRGB8",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "retainedKnownBytes" : 0,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 897
+      }
+    }
+  },
+  "decodedResourceFinalizationPreflightProgress" : "finalReady",
+  "decodedResourceFinalizationPreflightWasNonConsuming" : true,
+  "decodedResourceFinalizationProbe" : {
+    "auxiliaryAttachmentCount" : 0,
+    "format" : "jpeg",
+    "frameCount" : 1,
+    "metadataByteCount" : 14,
+    "orientation" : 1,
+    "pixelHeight" : 13,
+    "pixelWidth" : 23,
+    "sourceColorProfile" : "absent"
+  },
+  "decodedResourceFinalizationProviderSHA256" : "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+  "decodedResourceFinalizationSourceByteCount" : 787,
+  "decodedResourceFinalizationTerminalLedger" : {
+    "isTerminal" : true,
+    "operationPeak" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "outputLayoutAuthority" : "none",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "retainedKnownBytes" : 0,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    }
+  },
+  "evidenceVersion" : "imagecraft-independent-progressive-jpeg-420-packed-finalization-v7",
+  "finalizationSourceByteCount" : 787,
+  "inputProfile" : "arbitraryChunk",
+  "maximumTightRGBABytes" : 0,
+  "packed" : {
+    "alphaAssociation" : "none",
+    "byteCount" : 897,
+    "bytesPerRow" : 69,
+    "channelLayout" : "rgb",
+    "colorEncoding" : "sRGB",
+    "pixelByteCharge" : 897,
+    "pixelHeight" : 13,
+    "pixelWidth" : 23,
+    "sampleStorage" : "uint8",
+    "sha256" : "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "sourceColorProfile" : "absent",
+    "transferredByteCharge" : 897
+  },
+  "packedMatchesKernelRGB" : true,
+  "preFinishProgress" : "finalReady",
+  "preFinishResourceLedger" : {
+    "isTerminal" : false,
+    "operationPeak" : {
+      "bounded" : {
+        "_0" : 6590
+      }
+    },
+    "outputLayoutAuthority" : "codecOwnedRGB8",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 897
+      }
+    },
+    "retainedKnownBytes" : 897,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 897
+      }
+    }
+  },
+  "publicDecodedFinalizationCapabilityAdvertised" : false,
+  "publicResourceAwareDecodedFinalizationCapabilityAdvertised" : true,
+  "retainsOpaqueFrameworkStateBetweenCalls" : false,
+  "schemaVersion" : 7,
+  "source" : {
+    "byteCount" : 787,
+    "sha256" : "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966"
+  },
+  "terminalProgress" : "terminal",
+  "terminalResourceLedger" : {
+    "isTerminal" : true,
+    "operationPeak" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "outputLayoutAuthority" : "none",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "retainedKnownBytes" : 0,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    }
+  },
+  "wrapperBackingWasShared" : true
+}

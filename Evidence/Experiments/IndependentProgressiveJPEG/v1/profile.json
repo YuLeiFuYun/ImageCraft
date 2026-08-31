@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-SUSPENSION-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "maximumScanCount": 500,
+  "cases": [
+    {
+      "id": "PJ-SUSP-001",
+      "file": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "sha256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "width": 23,
+      "height": 13,
+      "scanCount": 10,
+      "chunkSizes": [1, 17, 128, 512, "full"]
+    },
+    {
+      "id": "PJ-SUSP-002",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+      "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6",
+      "width": 1920,
+      "height": 1285,
+      "scanCount": 10,
+      "chunkSizes": [1024, 16384, 32768, "full"]
+    },
+    {
+      "id": "PJ-SUSP-003",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/people-usda-meeting--spectral-balanced-v1.jpg",
+      "sha256": "4a4879eec680d13b40fe7835f9cae6e58bc7ccfb8a42d598993c925d9a50ac39",
+      "width": 1920,
+      "height": 1280,
+      "scanCount": 7,
+      "chunkSizes": [1024, 16384, 32768, "full"]
+    },
+    {
+      "id": "PJ-SUSP-004",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/architecture-usda-snow--luma-frontloaded-v1.jpg",
+      "sha256": "7cfe7f7b2e4757b6015a456160c6b273e6240e0ee0440f6befe6f42cc773eafa",
+      "width": 1920,
+      "height": 1275,
+      "scanCount": 9,
+      "chunkSizes": [1024, 16384, 32768, "full"]
+    },
+    {
+      "id": "PJ-SUSP-005",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/animal-usda-cow-sunset--default-successive-v1.jpg",
+      "sha256": "3c8c249b8a8554a0c6cb2cf936e3f9af091fcdee5ed259b7746e153b24629c6b",
+      "width": 1920,
+      "height": 1277,
+      "scanCount": 10,
+      "chunkSizes": [1024, 16384, 32768, "full"]
+    }
+  ],
+  "claimBoundary": [
+    "This profile qualifies libjpeg-turbo classic-API input-suspension state handling as an independent progressive-JPEG mechanism probe. It does not qualify a production ImageCraft backend or make libjpeg-turbo a package dependency.",
+    "For every case, all chunk schedules must produce the same final RGB bytes, the same final scan count, the same scan-completed event sequence and the same implementation-observed consumed offsets; final RGB must also exactly match a one-shot djpeg decode using the same pinned libjpeg-turbo installation.",
+    "A separate marker parser independently establishes the structural SOS count. libjpeg scan-completion consumed offsets are retained as implementation observations and are not promoted to JPEG-format normative offsets.",
+    "The source work buffer is explicitly bounded. For the pinned libjpeg-turbo 3.2.0 ABI only, the probe also observes jmemmgr total_space_allocated at lifecycle checkpoints and combines the EOI/final-render pool bytes with probe-owned source/output storage. These are source-bound allocator live-byte observations, not a stable libjpeg public API, cross-version promise or physical-RSS bound.",
+    "For the pinned 3.2.0 no-backing-store memory manager, the probe additionally models the virtual-array decision from pre-realize pool bytes, full coefficient-array maximum space, per-minheight access space and required minheight count. When more than one minheight is required, pre-realize pool plus full coefficient payload is a sharp falsifiable hinge: threshold-1 must fail with Memory limit exceeded before coefficient payload allocation, while the exact threshold must complete with identical RGB. When every array fits in the mandatory one-minheight fallback, the same 1-byte boundary is intentionally not claimed and a 1-byte configured limit must still complete exactly. Neither case makes max_memory_to_use a total-memory cap: row-pointer arrays, allocator headers/alignment and later allocations may raise total_space_allocated above the configured value after the virtual-array decision."
+  ]
+}

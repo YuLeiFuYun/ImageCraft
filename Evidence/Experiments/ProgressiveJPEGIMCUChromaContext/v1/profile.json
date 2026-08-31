@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-PROGRESSIVE-JPEG-IMCU-CHROMA-CONTEXT-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "generatedCases": [
+    {"id": "raw-440", "sampling": "440", "expectedFactors": [[1,2],[1,1],[1,1]]},
+    {"id": "raw-420", "sampling": "420", "expectedFactors": [[2,2],[1,1],[1,1]]}
+  ],
+  "retainedNaturalCase": {
+    "id": "landscape-420",
+    "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+    "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6",
+    "width": 1920,
+    "height": 1285
+  },
+  "model": {
+    "verticalCurrentWeight": 0.75,
+    "verticalAdjacentWeight": 0.25,
+    "outputIMCURowCount": 16,
+    "boundaryPhases": [0,15],
+    "blueCoefficient": 1.772,
+    "neutralLumaCode": 128,
+    "neutralCrCode": 128,
+    "imageCraftColorMapFitDomain": "non-boundary output rows only"
+  },
+  "claimBoundary": [
+    "The source-generated cases bypass RGB-to-YCbCr conversion and encoder chroma downsampling by using libjpeg raw_data_in. Y is constant 128, Cr is constant 128, and Cb varies only by low-resolution row; the actual post-IDCT planes are then re-observed through libjpeg raw_data_out before any reconstruction analysis.",
+    "For both 4:4:0 and 4:2:0, the global-context model is the libjpeg 3/4-current + 1/4-adjacent vertical fancy rule across every row boundary. The iMCU-clamped model uses the same weights everywhere except that the last high-resolution row of each 16-row iMCU group may not read the next low-resolution row and the first row of the next group may not read the previous one.",
+    "Context topology is tested symmetrically and independently of backend-specific color rounding. For each backend, one affine blue-versus-reconstructed-Cb map is fit only from non-boundary output rows, where the two context models are identical. That frozen map is then evaluated on held-out phase-0/15 rows. libjpeg must prefer global context on those rows, while ImageCraft/ImageIO must prefer iMCU-clamped context, for both generated sampling modes. This is observational equivalence and does not assert knowledge of Apple's internal implementation.",
+    "The retained real-photo check does not fit a model. It only tests whether ImageIO-versus-libjpeg residuals are phase-localized at y mod 16 equal to 0 or 15, as independently predicted by the source-generated mechanism. No observed pixel delta is promoted into a production tolerance or perceptual-quality claim."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-IMCU-CHROMA-CONTEXT-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "generatedCases": [
+    {"id": "baseline-440", "codingMode": "baseline", "sampling": "440", "expectedFactors": [[1,2],[1,1],[1,1]]},
+    {"id": "baseline-420", "codingMode": "baseline", "sampling": "420", "expectedFactors": [[2,2],[1,1],[1,1]]},
+    {"id": "progressive-440", "codingMode": "progressive", "sampling": "440", "expectedFactors": [[1,2],[1,1],[1,1]]},
+    {"id": "progressive-420", "codingMode": "progressive", "sampling": "420", "expectedFactors": [[2,2],[1,1],[1,1]]}
+  ],
+  "retainedNaturalProgressiveCase": {
+    "id": "landscape-progressive-420",
+    "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+    "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6",
+    "width": 1920,
+    "height": 1285
+  },
+  "model": {
+    "verticalCurrentWeight": 0.75,
+    "verticalAdjacentWeight": 0.25,
+    "outputIMCURowCount": 16,
+    "boundaryPhases": [0,15],
+    "imageCraftColorMapFitDomain": "non-boundary output rows only"
+  },
+  "claimBoundary": [
+    "The source-generated matrix crosses coding mode (baseline/progressive) with vertical-only 4:4:0 and two-axis 4:2:0 sampling. It bypasses RGB-to-YCbCr conversion and encoder chroma downsampling via libjpeg raw_data_in; Y is constant 128, Cr is constant 128, and Cb varies only by low-resolution row. The actual post-IDCT planes are re-observed with raw_data_out before model evaluation.",
+    "For each generated JPEG and backend independently, one affine blue-versus-reconstructed-Cb map is fit only on non-boundary output rows, where global and iMCU-clamped context models are identical. The frozen map is then evaluated on held-out phase-0/15 rows. libjpeg must prefer global 3/4-current + 1/4-adjacent context, while ImageCraft/ImageIO must prefer the same kernel with context clamped at 16-output-row iMCU boundaries.",
+    "If the opposite model preference appears for any coding-mode/sampling cell, the matrix fails rather than widening a tolerance. Passing both baseline and progressive cells means the observed ImageIO context behavior is not progressive-specific in this generated domain; it still does not assert knowledge of Apple's internal implementation.",
+    "The retained real-photo progressive case is an external phase-localization check only. No pixel delta, MAE, RMSE or source-generated fit becomes a public conformance tolerance or a perceptual-quality claim."
+  ]
+}

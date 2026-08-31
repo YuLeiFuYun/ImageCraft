@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V2",
+  "implementationScope": "package-only progressive packed RGB8 finalization plus explicit 24-bit CoreGraphics materialization with codec-owned pixel payload authority and framework-private operation allocation left unknown",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-arbitrary-chunk-rgb8-decoded-image",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 897,
+    "knownPixelPayloadOperationBytes": 1794
+  },
+  "requiredInvariants": [
+    "All v1 packed-finalization transport binding, RGB8 layout, color classification, transfer charge, backing reuse and terminal reclaim invariants remain unchanged.",
+    "DecodedImage materialization creates one explicit tight 24-bit malloc-owned RGB payload with bytesPerRow == width*3, alphaInfo none and an sRGB CoreGraphics color space.",
+    "The custom CGDataProvider exposes bytes identical to the packed RGB8 value and the DecodedImage preserves sourceColorProfile absent.",
+    "The known pixel-payload coexistence during materialization is exactly packed RGB8 bytes plus one provider copy: 897 + 897 = 1794 bytes for the retained source.",
+    "The materializer resource ledger retains zero codec-owned bytes after transfer and keeps transferredOutput exactly 897 bytes with codecOwnedRGB8 layout authority.",
+    "Core Graphics CGDataProvider/CGImage wrapper allocation is not controlled by ImageCraft; operationPeak must be unknown(frameworkPrivateOperationAllocation), never a bounded zero or payload-only value.",
+    "This evidence proves a package-internal DecodedImage representation seam, not a fully bounded public independent decoder backend."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V1",
+  "schemaVersion": 1,
+  "validatedCases": [
+    {
+      "codecOwnedByteCharge": 144449,
+      "finalRGBSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+      "id": "tiny-single-byte-every-preview",
+      "maximumEntropyScanByteCount": 55,
+      "maximumObservedTransportBytes": 69,
+      "restartMarkerCount": 0,
+      "sourceByteCount": 787
+    },
+    {
+      "codecOwnedByteCharge": 2147008,
+      "finalRGBSHA256": "5b1738e18c84104586fbe59f37348d8bf1fd9af2cd7036874f156625549bafbb",
+      "id": "noise576-scan-larger-than-transport",
+      "maximumEntropyScanByteCount": 132270,
+      "maximumObservedTransportBytes": 32801,
+      "restartMarkerCount": 0,
+      "sourceByteCount": 337012
+    },
+    {
+      "codecOwnedByteCharge": 166592,
+      "finalRGBSHA256": "918df5cc650903a2b8493fa95364fb3936e59d5bfd877c49f903a3b2d5727ddf",
+      "id": "restart64-split-every-rst-marker",
+      "maximumEntropyScanByteCount": 1078,
+      "maximumObservedTransportBytes": 254,
+      "restartMarkerCount": 342,
+      "sourceByteCount": 4723
+    }
+  ]
+}

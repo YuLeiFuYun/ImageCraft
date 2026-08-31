@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 3,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V3",
+  "implementationScope": "package-only progressive packed RGB8 finalization plus 24-bit CoreGraphics materialization that retains the standard packed CFData backing without a second pixel payload while leaving framework-private wrapper allocation unknown",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-arbitrary-chunk-shared-rgb8-decoded-image",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 0,
+    "knownPixelPayloadOperationBytes": 897
+  },
+  "requiredInvariants": [
+    "All v1 packed finalization and v2 DecodedImage geometry/color/resource facts remain unchanged.",
+    "CGDataProvider(data: CFData) must retain the same packed RGB byte backing on the qualified runtime; providerBackingWasShared is true and copiedPixelPayloadByteCount is zero.",
+    "The provider remains valid after the ImagePackedRGB8 value and progressive session leave scope, proving the Core Graphics provider retained the bridged CFData lifetime rather than borrowing a transient pointer.",
+    "Known pixel-payload coexistence falls from v2 1794 bytes to exactly one 897-byte packed/provider backing; provider byte count and SHA remain unchanged.",
+    "DecodedImage remains 23x13, bytesPerRow 69, 8 bits/component, 24 bits/pixel, alpha none, RGB color-space model and source profile absent.",
+    "The materializer still transfers exactly 897 codec-owned RGB8 bytes and retains zero codec-owned bytes after transfer.",
+    "Core Graphics wrapper allocation is still framework-private: operationPeak remains unknown(frameworkPrivateOperationAllocation). Removing a known pixel copy must not be misrepresented as closing wrapper allocation authority."
+  ]
+}

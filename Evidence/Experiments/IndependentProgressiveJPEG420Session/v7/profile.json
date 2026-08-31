@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 7,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V7",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit marker streaming, exact-MCU transport, cadence-aware output/render lifetime and first-SOS quantization-source release",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 2874,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "persistentFixedStateByteCount": 2776,
+    "renderFixedScratchByteCount": 384,
+    "frameQuantizationSourceByteCount": 260
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-first-sos-quant-release",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "mechanismPressure": "single-byte scheduling observes a real 260-byte frame quantization-source high-water and proves it is absent after the first completed scan while every preview remains pixel-identical"
+    },
+    {
+      "id": "noise576-final-only-quant-release",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "mechanismPressure": "large coefficient state proves raw DQT source slots do not remain hidden inside the persistent arena; final render still dominates operation peak"
+    },
+    {
+      "id": "restart64-final-only-quant-release",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "mechanismPressure": "restart-heavy suspension verifies first-SOS quantization release composes with transactional MCU rollback and marker splitting"
+    }
+  ],
+  "requiredInvariants": [
+    "All v6 transport, marker streaming, source authority, output cadence, RenderArena and transactional-MCU invariants remain unchanged.",
+    "Pre-frame DQT/DHT state remains normalized to four quantization slots and eight Huffman slots; SOF2 transitions those authorities into separate lifetimes rather than retaining one combined table arena.",
+    "FrameQuantizationSourceState is exactly 260 bytes: four 64-byte raw 8-bit DQT slots plus four presence bytes. It can be redefined after SOF2 but only before the first SOS.",
+    "The first SOS expands the frame-selected source quantizers into three persistent 64-entry UInt16 dequantization tables, then releases FrameQuantizationSourceState before entropy suspension can persist.",
+    "DQT after the first SOS remains fail-closed, while a byte-identical DQT redefinition between SOF2 and the first SOS is accepted by both complete and incremental decoders.",
+    "Persistent fixed state after the first SOS is exactly 2776 bytes: 384 bound-quantization bytes + 192 progression bytes + 128 Huffman-count bytes + 2048 Huffman-symbol bytes + 16 Huffman-symbol-count bytes + 8 Huffman-presence bytes. No alignment tail is charged as semantic state.",
+    "SOF2 transition peak includes initial pre-frame state, the new persistent state and the 260-byte frame quantization source because those allocations coexist until pre-frame authority is released.",
+    "After the first SOS, retainedBetweenCalls excludes all raw quantization-source bytes. For every-preview cadence it is transport + persistent state + reusable RGB; for final-only it is transport + persistent state only.",
+    "Every report must publish maximumObservedFrameQuantizationSourceBytes = 260 and retainedFrameQuantizationSourceBytesBeforeFinish = 0.",
+    "The 23x13 source has persistentStateByteCount 4312, renderScratchByteCount 2752 and totalStateBytes 7064; after first-SOS latch final-only retained state would be 4726 bytes before any output.",
+    "The 576x576 source has persistentStateByteCount 998104 and renderScratchByteCount 17088; final-only pre-finish retained state is 998518 bytes and final render peak is 2010934 bytes.",
+    "The restart64 source has persistentStateByteCount 15064 and renderScratchByteCount 2752; final-only pre-finish retained state is 15478 bytes and operation peak is 30518 bytes.",
+    "Terminal finish/cancel/fatal failure still publishes zero codec-owned retained/operation/output state.",
+    "This profile does not qualify public DecodedImage color representation, non-JFIF semantics, embedded ICC, other sampling modes, physical RSS, allocator headers or perceptual reconstruction quality."
+  ]
+}

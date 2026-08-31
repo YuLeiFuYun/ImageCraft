@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 13,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V13",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, dynamic pre-SOF table ownership, SOF DQT ownership transfer, first-SOS DQT release, actual-only coefficient planes, exact current Huffman payloads, render-only quantization widening and validated-EOI final-ready compaction",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2432,
+    "initialRetainedByteCharge": 2846,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "persistentBaseFixedStateByteCount": 384,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2560,
+    "renderFixedScratchByteCount": 512,
+    "frameQuantizationSourceByteCount": 256
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-render-quant-widening",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "all ten scan previews exercise smoothing and ISLOW IDCT after persistent bound quantization storage is narrowed to UInt8; one render-only UInt16[64] scratch is reused for per-block widening"
+    },
+    {
+      "id": "noise576-render-quant-widening",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "large final-only raster proves 192 bytes of persistent quantization width are removed while the additional 128-byte render widening table composes with row, IDCT and smoothing scratch"
+    },
+    {
+      "id": "restart64-render-quant-widening",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "restart-heavy entropy suspension remains unchanged while final raster uses the render-only widening table and releases it at EOI compaction"
+    }
+  ],
+  "requiredInvariants": [
+    "All v12 transport, dynamic pre-frame ownership, SOF DQT transfer, source semantics, actual coefficient geometry, dynamic Huffman, preview backing, restart and EOI-compaction invariants remain unchanged.",
+    "Progressive DQT parsing accepts only precision zero and nonzero 8-bit values, so a bound component quantization value is exactly representable in one byte throughout its cross-scan lifetime.",
+    "Persistent base fixed state is exactly 384 bytes: three 64-byte natural-order bound quantization tables plus three 64-byte progression arrays.",
+    "Render fixed scratch is exactly 512 bytes: 256-byte ISLOW workspace, 128-byte smoothing coefficient scratch and one 128-byte UInt16 quantization widening table.",
+    "Before each block IDCT, the selected persistent UInt8 quantization table is widened into the single render-only UInt16[64] table. The shared JPEGISlowIDCT API and arithmetic contract are unchanged.",
+    "Block smoothing reads the same persistent UInt8 quantization values as integers. Because all accepted values are 1 through 255, this changes storage width only, not smoothing arithmetic or source semantics.",
+    "Compared with v12, persistent state decreases by 192 bytes and render scratch increases by 128 bytes. A render-dominated operation peak therefore decreases by exactly 64 bytes; entropy-only phases gain the full 192-byte persistent reduction.",
+    "The tiny source has persistentBaseStateBytes 1664, maximum persistentStateBytes 3840, renderScratchBytes 2880 and totalStateBytes 6720. Its final-ready retained value remains 897 bytes, maximum retained authority is 5151 bytes and operation peak is 8031 bytes.",
+    "The 576x576 source has maximum retained authority 998302 bytes, final-ready retained 995328 bytes and operation peak 2010846 bytes.",
+    "The restart64 source has maximum retained authority 15262 bytes, final-ready retained 12288 bytes and operation peak 30430 bytes.",
+    "Pre-frame and frame-q high-water remain 128 bytes for all retained sources; final/high-water DHT values remain 90/95, 98/169 and 89/135 bytes. The quantization-width change must not perturb any earlier authority or entropy state.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object/pointer fields, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

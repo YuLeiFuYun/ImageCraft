@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 3,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V3",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with syntax-derived transport, phase-separated retained state and operation scratch authority",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 65537,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumEntropyTransactionEncodedBytes": 412,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 67997,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-every-preview",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "mechanismPressure": "every encoded byte boundary plus every completed-scan preview; all previews must alias one session-owned RGB backing"
+    },
+    {
+      "id": "noise576-scan-larger-than-transport",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "mechanismPressure": "one entropy scan is more than twice the syntax-derived 65537-byte transport capacity while committed MCU prefixes are reclaimed"
+    },
+    {
+      "id": "restart64-split-every-rst-marker",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "mechanismPressure": "every RST marker is split after its 0xFF byte, forcing transactional MCU rollback across marker boundaries"
+    }
+  ],
+  "requiredInvariants": [
+    "Transport capacity is derived from the qualified JPEG syntax rather than inherited from the libjpeg research source buffer: one retained 0xFF prefix plus one marker code plus the maximum 16-bit marker length is 65537 bytes, while the conservative single-MCU entropy transaction bound is only 412 bytes.",
+    "Legal repeated 0xFF fill before ordinary and restart markers is normalized to one unresolved marker prefix and reclaimed incrementally, so fill cardinality cannot widen transport residency. Unit gates inject more than two transport windows of fill in both contexts.",
+    "A maximum-length COM marker of exactly 65537 encoded bytes is accepted at the transport threshold and reaches exactly the configured occupancy ceiling.",
+    "Entropy data accepts exactly FF 00 for one stuffed FF byte. The non-standard FF FF ... 00 compatibility pattern is fail-closed, preventing an unbounded non-marker FF run from entering one MCU transaction.",
+    "Pre-frame DQT/DHT state is normalized into four quantization slots and eight Huffman slots; repeated marker definitions overwrite finite semantic state instead of growing raw retained history.",
+    "The pre-frame table arena is released after SOF2 state transfer. The 768-byte six-block rollback buffer is operation-only scratch and is not charged to retainedBetweenCalls.",
+    "Every MCU is transactional: suspension restores coefficient blocks, DC predictors, EOBRUN, restart index and entropy bit state to the pre-MCU checkpoint.",
+    "Caller-owned append Data is borrowed only for the call. Cross-call encoded retention is limited to the syntax-derived transport buffer, and committed entropy prefixes are reclaimable.",
+    "The large-scan case must complete with maximum observed transport occupancy below 65537 bytes even though one entropy scan is 132270 bytes.",
+    "Every report requires final RGB bytes to equal the complete-input independent decoder byte-for-byte and completed scan numbers to be contiguous from 1 through the final scan.",
+    "Every-completed-scan preview evidence must observe exactly one preview per scan and one stable session-owned RGB backing across all previews.",
+    "Before finish, retainedBetweenCalls equals transport plus ImageCraft-owned state plus one RGB output; operationPeak is the maximum of the SOF2 transition coexistence and steady retained bytes plus transactional rollback scratch. After finish, the ledger is terminal zero state.",
+    "This profile does not qualify non-JFIF color authority, embedded ICC, other sampling modes, public DecodedImage representation, physical RSS, allocator bookkeeping, or perceptual reconstruction quality."
+  ]
+}

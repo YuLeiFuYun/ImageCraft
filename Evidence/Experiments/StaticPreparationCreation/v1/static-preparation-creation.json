@@ -1,0 +1,69 @@
+{
+  "authority" : {
+    "operationResourceLedger" : {
+      "isTerminal" : false,
+      "operationPeak" : {
+        "unknown" : {
+          "_0" : "frameworkPrivateOperationAllocation"
+        }
+      },
+      "outputLayoutAuthority" : "none",
+      "retainedBetweenCalls" : {
+        "bounded" : {
+          "_0" : 0
+        }
+      },
+      "retainedKnownBytes" : 0,
+      "transferredOutput" : {
+        "bounded" : {
+          "_0" : 0
+        }
+      }
+    },
+    "resultingPreparationRetainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 787
+      }
+    },
+    "resultingPreparationRetainedKnownBytes" : 787
+  },
+  "evidenceVersion" : "imagecraft-static-preparation-creation-v1",
+  "postDiscardPreparationLedgerAbsent" : true,
+  "postTokenResourceLedger" : {
+    "isTerminal" : false,
+    "operationPeak" : {
+      "unknown" : {
+        "_0" : "frameworkPrivateOperationAllocation"
+      }
+    },
+    "outputLayoutAuthority" : "frameworkChosen",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 787
+      }
+    },
+    "retainedKnownBytes" : 787,
+    "transferredOutput" : {
+      "unknown" : {
+        "_0" : "frameworkChosenOutputLayout"
+      }
+    }
+  },
+  "postTokenRetainedMatchesPreflightResult" : true,
+  "preflightStoreUnchanged" : true,
+  "preparedProbe" : {
+    "auxiliaryAttachmentCount" : 0,
+    "format" : "jpeg",
+    "frameCount" : 1,
+    "metadataByteCount" : 240,
+    "orientation" : 1,
+    "pixelHeight" : 13,
+    "pixelWidth" : 23,
+    "sourceColorProfile" : "absent"
+  },
+  "schemaVersion" : 1,
+  "source" : {
+    "byteCount" : 787,
+    "sha256" : "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 12,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V12",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, dynamic pre-SOF table ownership, SOF ownership-transfer into dynamic frame quantization slots, first-SOS DQT release, actual-only coefficient planes, exact current post-SOF Huffman payloads and validated-EOI final-ready compaction",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2432,
+    "initialRetainedByteCharge": 2846,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "persistentBaseFixedStateByteCount": 576,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2752,
+    "renderFixedScratchByteCount": 384,
+    "frameQuantizationSourceByteCount": 256
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-qsource-transfer",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "two 64-byte DQT payloads are allocated before SOF2, transferred by pointer ownership into the frame quantization store, survive pre-SOS redefinition authority, and are released at first SOS without ever materializing a four-slot fixed frame arena"
+    },
+    {
+      "id": "noise576-qsource-transfer",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "large coefficient/render phases stay unchanged while the two actual DQT payloads move across SOF2 without copy coexistence; the 256-byte future frame-q authority remains admission-only"
+    },
+    {
+      "id": "restart64-qsource-transfer",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "maximumObservedPreFrameTableBytes": 128,
+      "maximumObservedFrameQuantizationSourceBytes": 128,
+      "mechanismPressure": "DQT ownership transfer composes with later restart-heavy MCU rollback and split marker suspension without changing final RGB or transaction scratch"
+    }
+  ],
+  "requiredInvariants": [
+    "All v11 transport, pre-frame table ownership, source semantics, first-SOS quantization latch, actual coefficient geometry, dynamic Huffman, preview backing, restart and EOI-compaction invariants remain unchanged.",
+    "FrameQuantizationSourceState no longer allocates one fixed four-slot arena. Each frame DQT selector owns one 64-byte payload only while present; the maximum future frame-q authority is exactly 256 bytes.",
+    "At SOF2, pre-frame DQT payload pointers are transferred into FrameQuantizationSourceState rather than copied. The same physical semantic payload therefore changes authority/lifetime without a duplicate 64-byte allocation.",
+    "Pre-frame DHT definitions, if present, are still installed into the post-SOF dynamic Huffman store because their representation/lifetime differs. Only DQT ownership is transferred directly.",
+    "All three retained sources own exactly DQT0 and DQT1 before SOF2. Their pre-frame table high-water and frame-q high-water are both exactly 128 bytes; neither stage materializes absent DQT2/DQT3 capacity.",
+    "DQT redefinition remains legal between SOF2 and first SOS. A newly introduced selector during that phase may grow frame-q current ownership up to the 256-byte maximum. DQT after first SOS remains fail closed.",
+    "First SOS still binds the selected source quantizers into three component dequantization tables and releases all frame-q payloads. Final-ready retainedFrameQuantizationSourceBytes is exactly zero.",
+    "Because DQT ownership is transferred rather than copied, the SOF transition maximum does not add a separate frameQuantizationSourceByteCount term on top of initial maximum pre-frame authority and persistent maximum state. Schemas 7 through 11 retain their historical coexistence formula; schema12 deliberately changes it.",
+    "The post-SOF/pre-DHT tiny witness at byte prefix 177 retains exactly 2398 bytes: 414 transport + 1856 persistent base state + 128 transferred DQT payloads. Pre-frame current ownership is zero at that point.",
+    "The maximum pre-frame authority remains 2432 bytes and actual initial retained state remains 414 bytes; the maximum frame-q authority remains 256 bytes. Corpus high-water values must not narrow those admission bounds.",
+    "Final-ready retained values remain RGB-only as in v10/v11: tiny 897 bytes, noise576 995328 bytes, restart64 12288 bytes. Operation peaks remain 8095, 2010910 and 30494 bytes because render phases dominate the slightly lower SOF-transition term.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object/pointer fields, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

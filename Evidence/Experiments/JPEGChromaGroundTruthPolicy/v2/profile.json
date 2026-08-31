@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 2,
+  "profileID": "IMAGECRAFT-JPEG-CHROMA-GROUND-TRUTH-POLICY-V2",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "outputIMCURowCount": 16,
+  "generatedCases": [
+    {"id": "up-baseline-440", "signal": "ramp2-up", "codingMode": "baseline", "sampling": "440", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "up-baseline-420", "signal": "ramp2-up", "codingMode": "baseline", "sampling": "420", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "up-progressive-440", "signal": "ramp2-up", "codingMode": "progressive", "sampling": "440", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "up-progressive-420", "signal": "ramp2-up", "codingMode": "progressive", "sampling": "420", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+
+    {"id": "down-baseline-440", "signal": "ramp2-down", "codingMode": "baseline", "sampling": "440", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "down-baseline-420", "signal": "ramp2-down", "codingMode": "baseline", "sampling": "420", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "down-progressive-440", "signal": "ramp2-down", "codingMode": "progressive", "sampling": "440", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "down-progressive-420", "signal": "ramp2-down", "codingMode": "progressive", "sampling": "420", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+
+    {"id": "zigzag-baseline-440", "signal": "zigzag2", "codingMode": "baseline", "sampling": "440", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "zigzag-baseline-420", "signal": "zigzag2", "codingMode": "baseline", "sampling": "420", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "zigzag-progressive-440", "signal": "zigzag2", "codingMode": "progressive", "sampling": "440", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+    {"id": "zigzag-progressive-420", "signal": "zigzag2", "codingMode": "progressive", "sampling": "420", "expectedModelBoundaryWinner": "globalCenteredLinear", "expectedBackendBoundaryWinner": "libjpeg"},
+
+    {"id": "step-imcu-baseline-440", "signal": "step-imcu", "codingMode": "baseline", "sampling": "440", "expectedModelBoundaryWinner": "imcuClampedCenteredLinear", "expectedBackendBoundaryWinner": "imageCraftImageIO"},
+    {"id": "step-imcu-baseline-420", "signal": "step-imcu", "codingMode": "baseline", "sampling": "420", "expectedModelBoundaryWinner": "imcuClampedCenteredLinear", "expectedBackendBoundaryWinner": "imageCraftImageIO"},
+    {"id": "step-imcu-progressive-440", "signal": "step-imcu", "codingMode": "progressive", "sampling": "440", "expectedModelBoundaryWinner": "imcuClampedCenteredLinear", "expectedBackendBoundaryWinner": "imageCraftImageIO"},
+    {"id": "step-imcu-progressive-420", "signal": "step-imcu", "codingMode": "progressive", "sampling": "420", "expectedModelBoundaryWinner": "imcuClampedCenteredLinear", "expectedBackendBoundaryWinner": "imageCraftImageIO"}
+  ],
+  "claimBoundary": [
+    "This policy matrix preserves the v1 smooth-signal controls and adds a pre-registered discontinuity counterexample. ramp2-up, ramp2-down and zigzag2 remain continuous across the internal iMCU boundaries and must prefer global centered context; step-imcu is exactly 80 for source rows 0...31 and 176 for rows 32...63, so the full-resolution source has a real edge exactly at output row 32 and must prefer iMCU-clamped context at held-out internal boundary rows.",
+    "All low-resolution Cb inputs are derived from the full-resolution source truth with the same integer two-row average before raw_data_in encoding. The experiment therefore changes source structure, not the subsampling rule, JPEG quality, neutral Y/Cr planes, sampling geometry or backend color-map fitting procedure.",
+    "The model winner and backend winner are pre-registered per case. Smooth cells require globalCenteredLinear and libjpeg; step-imcu cells require imcuClampedCenteredLinear and ImageCraft/ImageIO. Every baseline/progressive x 4:4:0/4:2:0 cell must satisfy its declared winner independently; no averaging across signal families can hide a reversal.",
+    "A successful winner reversal falsifies any claim that either cross-iMCU global context or iMCU clamping is universally more source-faithful. It supports an edge-aware/content-adaptive reconstruction frontier, not a JPEG normative filter rule, perceptual tolerance or production backend change."
+  ]
+}

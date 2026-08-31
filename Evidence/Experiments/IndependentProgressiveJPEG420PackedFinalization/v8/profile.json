@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 8,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V8",
+  "implementationScope": "resource-aware DecodedImage preflight now models the whole finalization operation, including final-ready session-owned packed RGB retained at the call boundary; helper-local materializer authority remains separately verified",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-whole-finalization-resource-preflight",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 0,
+    "knownPixelPayloadOperationBytes": 897
+  },
+  "requiredInvariants": [
+    "All v7 source, pixel, provider, exact-probe, public-capability, non-consuming-preflight, terminal and framework-private unknown facts remain unchanged.",
+    "The public preflight is whole-operation authority: retainedKnownBytes and retainedBetweenCalls equal the 897-byte final-ready packed RGB backing that remains live when finalization begins.",
+    "The helper-local RGB8-to-DecodedImage materializer still retains zero bytes between calls; its operationPeak, transferredOutput and outputLayoutAuthority exactly match the corresponding whole-finalization authority.",
+    "The whole-finalization preflight and the consuming finalization return the same ledger.",
+    "v7 remains historical evidence of the superseded helper-local preflight interpretation and is not rewritten."
+  ]
+}

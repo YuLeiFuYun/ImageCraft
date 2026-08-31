@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SMOOTHED-SCANS-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "expectedDefaultSimpleProgressionScanCount": 10,
+  "generatedCases": [
+    {"id":"box-4x4-q75","width":4,"height":4,"pattern":"deterministic-noise","quality":75,"restart":null},
+    {"id":"fancy-5x4-q75","width":5,"height":4,"pattern":"deterministic-noise","quality":75,"restart":null},
+    {"id":"box-imcu-4x17-q75","width":4,"height":17,"pattern":"deterministic-noise","quality":75,"restart":null},
+    {"id":"fancy-imcu-5x17-q75","width":5,"height":17,"pattern":"deterministic-noise","quality":75,"restart":null},
+    {"id":"chroma-grid-31x19-q25","width":31,"height":19,"pattern":"chroma-grid","quality":25,"restart":null},
+    {"id":"noise-31x19-q100","width":31,"height":19,"pattern":"deterministic-noise","quality":100,"restart":null},
+    {"id":"restart-1B-17x17-q75","width":17,"height":17,"pattern":"deterministic-noise","quality":75,"restart":1}
+  ],
+  "retainedCases": [
+    {"id":"retained-tiny-default","file":"Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg","sha256":"f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966","width":23,"height":13,"scanCount":10},
+    {"id":"retained-landscape-default","file":"Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg","sha256":"5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6","width":1920,"height":1285,"scanCount":10},
+    {"id":"retained-people-spectral-balanced","file":"Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/people-usda-meeting--spectral-balanced-v1.jpg","sha256":"4a4879eec680d13b40fe7835f9cae6e58bc7ccfb8a42d598993c925d9a50ac39","width":1920,"height":1280,"scanCount":7},
+    {"id":"retained-architecture-luma-frontloaded","file":"Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/architecture-usda-snow--luma-frontloaded-v1.jpg","sha256":"7cfe7f7b2e4757b6015a456160c6b273e6240e0ee0440f6befe6f42cc773eafa","width":1920,"height":1275,"scanCount":9},
+    {"id":"retained-animal-default","file":"Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/animal-usda-cow-sunset--default-successive-v1.jpg","sha256":"3c8c249b8a8554a0c6cb2cf936e3f9af091fcdee5ed259b7746e153b24629c6b","width":1920,"height":1277,"scanCount":10}
+  ],
+  "claimBoundary": [
+    "This profile qualifies ImageCraft's package-only optional progressive block-smoothing preview policy for the same narrow complete-input JFIF 4:2:0 domain used by the raw per-scan profile. It does not qualify a public production backend or an incremental network DecodeSession.",
+    "The implementation ports the pinned libjpeg-turbo 3.2.0 first-nine-AC/DC estimator: a 5x5 neighborhood of retained quantized DC coefficients, per-component quantization tables, current zigzag progression precision, the change-DC branch when the first nine AC coefficients are all unseen, and point-transform magnitude capping. Retained entropy-decoded coefficient planes are never mutated.",
+    "Smoothing uses one decoder-owned 64xInt16 scratch block (128 bytes). The scan callback still reuses the single admitted RGB output backing across every generation; smoothing therefore widens exact operation state by 128 bytes, not by a frame or by generation count.",
+    "For every completed scan, ImageCraft smoothed RGB must equal pinned libjpeg-turbo buffered-image output byte-for-byte with default block smoothing enabled. Generated cases cross the h2v2 box/fancy and iMCU boundaries, content/quality and restart variation; retained cases add real 7/9/10-scan scripts.",
+    "Passing this profile establishes implementation parity with this pinned block-smoothing policy. It does not establish that block smoothing is perceptually optimal, that it should be the public default, or that preview utility under network arrival is globally improved. Those are separate policy/host experiments."
+  ]
+}

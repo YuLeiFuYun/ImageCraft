@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-ISLOW-IDCT-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "qualities": [25, 50, 75, 90, 100],
+  "codingModes": ["baseline", "progressive"],
+  "patterns": [
+    "black",
+    "white",
+    "gray",
+    "horizontal-ramp",
+    "vertical-ramp",
+    "checker",
+    "impulse",
+    "deterministic-noise"
+  ],
+  "claimBoundary": [
+    "The matrix uses only one-component 8x8 8-bit JPEGs, so the decoded 64-byte PGM raster is exactly one component block and cannot be affected by chroma upsampling or color conversion.",
+    "For every generated JPEG, a pinned libjpeg-turbo coefficient API probe extracts the actual quantized 8x8 coefficient block and the actual quantization table in natural order. ImageCraft receives only those 128 UInt16 words and a caller-owned 256-byte Int32 workspace plus 64-byte destination.",
+    "The reference raster is decoded with the same pinned libjpeg-turbo installation using the accurate integer DCT path. ImageCraft's dequantization + ISLOW IDCT output must equal all 64 reference samples byte-for-byte; no tolerance or cross-backend RGB conversion is involved.",
+    "The package primitive fails closed if a quantizer is outside 1...255 or any dequantized coefficient does not fit Int16. Passing the matrix qualifies only the generated legal-block domain that satisfies this precondition; it does not qualify entropy parsing, multi-block traversal, scaled IDCT, 12/16-bit sample paths or a production JPEG backend."
+  ]
+}

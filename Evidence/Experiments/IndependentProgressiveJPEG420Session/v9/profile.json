@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 9,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V9",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, cadence-aware output/render lifetime, first-SOS DQT release, actual-only coefficient planes and exact current Huffman retained payloads under a separate eight-slot maximum admission authority",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 2874,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "persistentBaseFixedStateByteCount": 576,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2752,
+    "renderFixedScratchByteCount": 384,
+    "frameQuantizationSourceByteCount": 260
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-dynamic-huffman",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "mechanismPressure": "single-byte scheduling observes DHT redefinitions between scans while final retained state contains only four exact 16+N payloads instead of eight 272-byte capacities"
+    },
+    {
+      "id": "noise576-dynamic-huffman",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "mechanismPressure": "optimized progressive tables grow and shrink substantially across scans; current retained DHT payload must fall independently of the unchanged worst-case future admission authority"
+    },
+    {
+      "id": "restart64-dynamic-huffman",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "mechanismPressure": "restart-heavy suspension proves dynamic DHT ownership composes with split restart markers and MCU rollback without altering entropy or RGB output"
+    }
+  ],
+  "requiredInvariants": [
+    "All v8 transport, source-authority, DQT lifetime, actual coefficient geometry, output cadence, RenderArena and transactional-MCU invariants remain unchanged.",
+    "persistentBaseFixedStateByteCount is exactly 576 bytes: 384 bytes of bound component dequantization values plus 192 bytes of progression precision.",
+    "One present Huffman slot retains exactly 16 code-length count bytes plus its currently declared symbol bytes; absent selectors and unused symbol capacity do not contribute to current codec-owned semantic byte charge.",
+    "maximumHuffmanTablePayloadByteCount remains 272 bytes and maximumHuffmanStateByteCount remains 2176 bytes for eight possible slots. This maximum is used for future-safe operation admission even when current retained payload is much smaller.",
+    "StatePlan.persistentStateBytes remains the maximum authority coefficientStateBytes + 576 + 2176; StateArena retained state is coefficientStateBytes + 576 + current Huffman payloads.",
+    "DHT redefinition resizes only the selected retained payload and preserves every other slot. The current retained total and historical high-water are independently observable from session snapshots.",
+    "For a potential table replacement, operation qualification remains conservative: the overall phase maximum also covers one 272-byte replacement payload in addition to maximum persistent state. Render-phase bounds dominate that mutation term in the retained evidence cases.",
+    "The tiny source finishes with 90 bytes of DHT payload and reaches a 95-byte DHT high-water. Its every-preview retained state is 3257 bytes while maximum retained authority remains 5343 bytes and operation peak remains 8095 bytes.",
+    "The 576x576 source finishes with 98 DHT bytes, reaches 169 bytes, retains 996416 bytes before finish, has maximum retained authority 998494 bytes and operation peak 2010910 bytes.",
+    "The restart64 source finishes with 89 DHT bytes, reaches 135 bytes, retains 13367 bytes before finish, has maximum retained authority 15454 bytes and operation peak 30494 bytes.",
+    "Actual retainedBetweenCalls must use current DHT payloads; operationPeak must continue to use maximum future Huffman authority. The validator rejects any report that substitutes one for the other.",
+    "Terminal finish/cancel/fatal failure still publishes zero codec-owned retained/operation/output state.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object headers, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

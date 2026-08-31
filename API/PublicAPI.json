@@ -5,6 +5,16 @@
       "relationships": [
         {
           "kind": "conformsTo",
+          "source": "AnimatedImageAsset",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "AnimatedImageAsset",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "DecodeLimits",
           "target": "Swift.Decodable"
         },
@@ -31,6 +41,16 @@
         {
           "kind": "conformsTo",
           "source": "DecodeLimits",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "DecodedAnimationFrame",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "DecodedAnimationFrame",
           "target": "Swift.SendableMetatype"
         },
         {
@@ -166,6 +186,326 @@
         {
           "kind": "conformsTo",
           "source": "ImageAlphaMode",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.CaseIterable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.RawRepresentable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationBlendOperation",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.CaseIterable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.RawRepresentable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationContainer",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDecodeLimits",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDecodeLimits",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDecodeLimits",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDecodeLimits",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDecoding",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDecoding",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.CaseIterable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.RawRepresentable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationDisposalMethod",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDescriptor",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDescriptor",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDescriptor",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDescriptor",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDescriptor",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDescriptor",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDuration",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDuration",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDuration",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDuration",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDuration",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameDuration",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameRect",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameRect",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameRect",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameRect",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameRect",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameRect",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationLoopCount",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationLoopCount",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationLoopCount",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationLoopCount",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationLoopCount",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationLoopCount",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationMetadata",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationMetadata",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationMetadata",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationMetadata",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationSource",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationSource",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationWholeTrackCostEstimate",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationWholeTrackCostEstimate",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationWholeTrackCostEstimate",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationWholeTrackCostEstimate",
           "target": "Swift.SendableMetatype"
         },
         {
@@ -645,6 +985,41 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.RawRepresentable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeOutputLayoutAuthority",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageDecodeOutputRepresentation",
           "target": "Swift.CaseIterable"
         },
@@ -695,6 +1070,36 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageDecodePreparationLimits",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodePreparationLimits",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodePreparationLimits",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodePreparationLimits",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodePreparationLimits",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodePreparationLimits",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageDecodeRequest",
           "target": "Swift.Decodable"
         },
@@ -725,6 +1130,31 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageDecodeResourceBound",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceBound",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceBound",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceBound",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceBound",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageDecodeResourceEstimate",
           "target": "Swift.Decodable"
         },
@@ -751,6 +1181,106 @@
         {
           "kind": "conformsTo",
           "source": "ImageDecodeResourceEstimate",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceLedgerSnapshot",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceLedgerSnapshot",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceLedgerSnapshot",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceLedgerSnapshot",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceLedgerSnapshot",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.CaseIterable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.RawRepresentable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourcePhase",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
+          "target": "Swift.RawRepresentable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeResourceUnknownReason",
           "target": "Swift.SendableMetatype"
         },
         {
@@ -1265,6 +1795,71 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageJPEGAnimationFrame",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageJPEGAnimationFrame",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedCICPColorEncoding",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedCICPColorEncoding",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedCICPColorEncoding",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedPixelColorEncoding",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedPixelColorEncoding",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedPixelColorEncoding",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedRGBA8",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedRGBA8",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedRGBA8",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedRGBA8Decoding",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImagePackedRGBA8Decoding",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImagePixelFormatDescription",
           "target": "Swift.Equatable"
         },
@@ -1342,6 +1937,61 @@
           "kind": "conformsTo",
           "source": "ImageProgressiveDecodeSession",
           "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodedImageResourceFinalization",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressiveDecodedImageResourceFinalization",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressivePreparationCreationResourceAuthority",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressivePreparationCreationResourceAuthority",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressivePreparationCreationResourceAuthority",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressivePreparationCreationResourceAuthority",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageProgressivePreparationCreationResourceAuthority",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageCreationResourceInspecting",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageCreationResourceInspecting",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageCreationResourceInspecting",
+          "target": "s:14ImageCraftCore08PreparedA8DecodingP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageCreationResourceInspecting",
+          "target": "s:14ImageCraftCore0A8DecodingP"
         },
         {
           "kind": "conformsTo",
@@ -1357,6 +2007,41 @@
           "kind": "conformsTo",
           "source": "PreparedImageDecoding",
           "target": "s:14ImageCraftCore0A8DecodingP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageResourceInspecting",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageResourceInspecting",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageResourceInspecting",
+          "target": "s:14ImageCraftCore08PreparedA8DecodingP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PreparedImageResourceInspecting",
+          "target": "s:14ImageCraftCore0A8DecodingP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecodedImageResourceFinalizingSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecodedImageResourceFinalizingSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImageDecodedImageResourceFinalizingSession",
+          "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
         },
         {
           "kind": "conformsTo",
@@ -1411,6 +2096,51 @@
         {
           "kind": "conformsTo",
           "source": "ProgressiveImageFinalizingSession",
+          "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationCreationResourceInspectingSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationCreationResourceInspectingSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationCreationResourceInspectingSession",
+          "target": "s:14ImageCraftCore011ProgressiveA16PreparingSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationCreationResourceInspectingSession",
+          "target": "s:14ImageCraftCore011ProgressiveA36PreparationResourceInspectingSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationCreationResourceInspectingSession",
+          "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationResourceInspectingSession",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationResourceInspectingSession",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationResourceInspectingSession",
+          "target": "s:14ImageCraftCore011ProgressiveA16PreparingSessionP"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ProgressiveImagePreparationResourceInspectingSession",
           "target": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP"
         },
         {
@@ -1494,8 +2224,44 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 342,
+      "symbolCount": 530,
       "symbols": [
+        {
+          "declaration": "struct AnimatedImageAsset",
+          "kind": "swift.struct",
+          "path": "AnimatedImageAsset",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV"
+        },
+        {
+          "declaration": "func cancel() async",
+          "kind": "swift.method",
+          "path": "AnimatedImageAsset.cancel()",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV6cancelyyYaF"
+        },
+        {
+          "declaration": "func frame(at index: Int, request: ImageDecodeRequest) async throws -> DecodedAnimationFrame",
+          "kind": "swift.method",
+          "path": "AnimatedImageAsset.frame(at:request:)",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV5frame2at7requestAA21DecodedAnimationFrameVSi_AA0A13DecodeRequestVtYaKF"
+        },
+        {
+          "declaration": "func frames(in range: Range<Int>, request: ImageDecodeRequest) async throws -> [DecodedAnimationFrame]",
+          "kind": "swift.method",
+          "path": "AnimatedImageAsset.frames(in:request:)",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV6frames2in7requestSayAA21DecodedAnimationFrameVGSnySiG_AA0A13DecodeRequestVtYaKF"
+        },
+        {
+          "declaration": "let metadata: ImageAnimationMetadata",
+          "kind": "swift.property",
+          "path": "AnimatedImageAsset.metadata",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV8metadataAA0A17AnimationMetadataVvp"
+        },
+        {
+          "declaration": "func wholeTrackCostEstimate(for request: ImageDecodeRequest) -> ImageAnimationWholeTrackCostEstimate?",
+          "kind": "swift.method",
+          "path": "AnimatedImageAsset.wholeTrackCostEstimate(for:)",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV22wholeTrackCostEstimate3forAA0a14AnimationWholeghI0VSgAA0A13DecodeRequestV_tF"
+        },
         {
           "declaration": "struct DecodeLimits",
           "kind": "swift.struct",
@@ -1567,6 +2333,30 @@
           "kind": "swift.property",
           "path": "DecodeLimits.maximumPixelCount",
           "preciseIdentifier": "s:14ImageCraftCore12DecodeLimitsV17maximumPixelCountSivp"
+        },
+        {
+          "declaration": "struct DecodedAnimationFrame",
+          "kind": "swift.struct",
+          "path": "DecodedAnimationFrame",
+          "preciseIdentifier": "s:14ImageCraftCore21DecodedAnimationFrameV"
+        },
+        {
+          "declaration": "let descriptor: ImageAnimationFrameDescriptor",
+          "kind": "swift.property",
+          "path": "DecodedAnimationFrame.descriptor",
+          "preciseIdentifier": "s:14ImageCraftCore21DecodedAnimationFrameV10descriptorAA0aeF10DescriptorVvp"
+        },
+        {
+          "declaration": "let image: DecodedImage",
+          "kind": "swift.property",
+          "path": "DecodedAnimationFrame.image",
+          "preciseIdentifier": "s:14ImageCraftCore21DecodedAnimationFrameV5imageAA0dA0Vvp"
+        },
+        {
+          "declaration": "init(image: DecodedImage, descriptor: ImageAnimationFrameDescriptor)",
+          "kind": "swift.init",
+          "path": "DecodedAnimationFrame.init(image:descriptor:)",
+          "preciseIdentifier": "s:14ImageCraftCore21DecodedAnimationFrameV5image10descriptorAcA0dA0V_AA0aeF10DescriptorVtcfc"
         },
         {
           "declaration": "struct DecodedImage",
@@ -1789,6 +2579,432 @@
           "kind": "swift.enum.case",
           "path": "ImageAlphaMode.unknown",
           "preciseIdentifier": "s:14ImageCraftCore0A9AlphaModeO7unknownyA2CmF"
+        },
+        {
+          "declaration": "enum ImageAnimationBlendOperation",
+          "kind": "swift.enum",
+          "path": "ImageAnimationBlendOperation",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationBlendOperationO"
+        },
+        {
+          "declaration": "init?(rawValue: String)",
+          "kind": "swift.init",
+          "path": "ImageAnimationBlendOperation.init(rawValue:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationBlendOperationO8rawValueACSgSS_tcfc"
+        },
+        {
+          "declaration": "case over",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationBlendOperation.over",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationBlendOperationO4overyA2CmF"
+        },
+        {
+          "declaration": "case source",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationBlendOperation.source",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationBlendOperationO6sourceyA2CmF"
+        },
+        {
+          "declaration": "enum ImageAnimationContainer",
+          "kind": "swift.enum",
+          "path": "ImageAnimationContainer",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO"
+        },
+        {
+          "declaration": "case apng",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationContainer.apng",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO4apngyA2CmF"
+        },
+        {
+          "declaration": "case gif",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationContainer.gif",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO3gifyA2CmF"
+        },
+        {
+          "declaration": "init?(rawValue: String)",
+          "kind": "swift.init",
+          "path": "ImageAnimationContainer.init(rawValue:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO8rawValueACSgSS_tcfc"
+        },
+        {
+          "declaration": "case jpegSequence",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationContainer.jpegSequence",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO12jpegSequenceyA2CmF"
+        },
+        {
+          "declaration": "struct ImageAnimationDecodeLimits",
+          "kind": "swift.struct",
+          "path": "ImageAnimationDecodeLimits",
+          "preciseIdentifier": "s:14ImageCraftCore0A21AnimationDecodeLimitsV"
+        },
+        {
+          "declaration": "let imageLimits: DecodeLimits",
+          "kind": "swift.property",
+          "path": "ImageAnimationDecodeLimits.imageLimits",
+          "preciseIdentifier": "s:14ImageCraftCore0A21AnimationDecodeLimitsV05imageF0AA0eF0Vvp"
+        },
+        {
+          "declaration": "init(imageLimits: DecodeLimits = DecodeLimits(\n      maximumEncodedBytes: 64 * 1024 * 1024,\n      maximumDimension: 8_192,\n      maximumPixelCount: 32_000_000,\n      maximumFrameCount: 256,\n      maximumMetadataBytes: 4 * 1024 * 1024,\n      maximumAuxiliaryAttachments: 0,\n      allowedFormats: Set(EncodedImageFormat.allCases)\n    ), maximumTimelineDecodedBytes: Int = 512 * 1024 * 1024, maximumFrameDecodeWindow: Int = 8)",
+          "kind": "swift.init",
+          "path": "ImageAnimationDecodeLimits.init(imageLimits:maximumTimelineDecodedBytes:maximumFrameDecodeWindow:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A21AnimationDecodeLimitsV05imageF027maximumTimelineDecodedBytes0h5FrameE6WindowAcA0eF0V_S2itcfc"
+        },
+        {
+          "declaration": "let maximumFrameDecodeWindow: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationDecodeLimits.maximumFrameDecodeWindow",
+          "preciseIdentifier": "s:14ImageCraftCore0A21AnimationDecodeLimitsV012maximumFrameE6WindowSivp"
+        },
+        {
+          "declaration": "let maximumTimelineDecodedBytes: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationDecodeLimits.maximumTimelineDecodedBytes",
+          "preciseIdentifier": "s:14ImageCraftCore0A21AnimationDecodeLimitsV27maximumTimelineDecodedBytesSivp"
+        },
+        {
+          "declaration": "protocol ImageAnimationDecoding : Sendable",
+          "kind": "swift.protocol",
+          "path": "ImageAnimationDecoding",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationDecodingP"
+        },
+        {
+          "declaration": "var codecDescriptor: ImageCodecDescriptor { get }",
+          "kind": "swift.property",
+          "path": "ImageAnimationDecoding.codecDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationDecodingP15codecDescriptorAA0a5CodecG0Vvp"
+        },
+        {
+          "declaration": "func prepareAnimation(source: ImageAnimationSource, limits: ImageAnimationDecodeLimits) async throws -> AnimatedImageAsset",
+          "kind": "swift.method",
+          "path": "ImageAnimationDecoding.prepareAnimation(source:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationDecodingP07prepareD06source6limitsAA08AnimatedA5AssetVAA0aD6SourceO_AA0aD12DecodeLimitsVtYaKF"
+        },
+        {
+          "declaration": "enum ImageAnimationDisposalMethod",
+          "kind": "swift.enum",
+          "path": "ImageAnimationDisposalMethod",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationDisposalMethodO"
+        },
+        {
+          "declaration": "case background",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationDisposalMethod.background",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationDisposalMethodO10backgroundyA2CmF"
+        },
+        {
+          "declaration": "init?(rawValue: String)",
+          "kind": "swift.init",
+          "path": "ImageAnimationDisposalMethod.init(rawValue:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationDisposalMethodO8rawValueACSgSS_tcfc"
+        },
+        {
+          "declaration": "case none",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationDisposalMethod.none",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationDisposalMethodO4noneyA2CmF"
+        },
+        {
+          "declaration": "case previous",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationDisposalMethod.previous",
+          "preciseIdentifier": "s:14ImageCraftCore0A23AnimationDisposalMethodO8previousyA2CmF"
+        },
+        {
+          "declaration": "struct ImageAnimationFrameDescriptor",
+          "kind": "swift.struct",
+          "path": "ImageAnimationFrameDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV"
+        },
+        {
+          "declaration": "let blend: ImageAnimationBlendOperation",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDescriptor.blend",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV5blendAA0aD14BlendOperationOvp"
+        },
+        {
+          "declaration": "let disposal: ImageAnimationDisposalMethod",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDescriptor.disposal",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV8disposalAA0aD14DisposalMethodOvp"
+        },
+        {
+          "declaration": "let duration: ImageAnimationFrameDuration",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDescriptor.duration",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV8durationAA0adE8DurationVvp"
+        },
+        {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageAnimationFrameDescriptor.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV6encode2toys7Encoder_p_tKF"
+        },
+        {
+          "declaration": "let index: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDescriptor.index",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV5indexSivp"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameDescriptor.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "init(index: Int, duration: ImageAnimationFrameDuration, rect: ImageAnimationFrameRect, disposal: ImageAnimationDisposalMethod, blend: ImageAnimationBlendOperation) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameDescriptor.init(index:duration:rect:disposal:blend:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV5index8duration4rect8disposal5blendACSi_AA0adE8DurationVAA0adE4RectVAA0aD14DisposalMethodOAA0aD14BlendOperationOtKcfc"
+        },
+        {
+          "declaration": "let rect: ImageAnimationFrameRect",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDescriptor.rect",
+          "preciseIdentifier": "s:14ImageCraftCore0A24AnimationFrameDescriptorV4rectAA0adE4RectVvp"
+        },
+        {
+          "declaration": "struct ImageAnimationFrameDuration",
+          "kind": "swift.struct",
+          "path": "ImageAnimationFrameDuration",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV"
+        },
+        {
+          "declaration": "let denominator: UInt32",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDuration.denominator",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV11denominators6UInt32Vvp"
+        },
+        {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageAnimationFrameDuration.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV6encode2toys7Encoder_p_tKF"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameDuration.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "init(numerator: UInt32, denominator: UInt32) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameDuration.init(numerator:denominator:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV9numerator11denominatorACs6UInt32V_AGtKcfc"
+        },
+        {
+          "declaration": "let numerator: UInt32",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDuration.numerator",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV9numerators6UInt32Vvp"
+        },
+        {
+          "declaration": "var roundedUpNanoseconds: UInt64 { get }",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameDuration.roundedUpNanoseconds",
+          "preciseIdentifier": "s:14ImageCraftCore0A22AnimationFrameDurationV20roundedUpNanosecondss6UInt64Vvp"
+        },
+        {
+          "declaration": "struct ImageAnimationFrameRect",
+          "kind": "swift.struct",
+          "path": "ImageAnimationFrameRect",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV"
+        },
+        {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageAnimationFrameRect.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV6encode2toys7Encoder_p_tKF"
+        },
+        {
+          "declaration": "let height: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameRect.height",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV6heightSivp"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameRect.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "init(x: Int, y: Int, width: Int, height: Int) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameRect.init(x:y:width:height:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV1x1y5width6heightACSi_S3itKcfc"
+        },
+        {
+          "declaration": "let width: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameRect.width",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV5widthSivp"
+        },
+        {
+          "declaration": "let x: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameRect.x",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV1xSivp"
+        },
+        {
+          "declaration": "let y: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameRect.y",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV1ySivp"
+        },
+        {
+          "declaration": "struct ImageAnimationLoopCount",
+          "kind": "swift.struct",
+          "path": "ImageAnimationLoopCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV"
+        },
+        {
+          "declaration": "let additionalRepeatCount: UInt32?",
+          "kind": "swift.property",
+          "path": "ImageAnimationLoopCount.additionalRepeatCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV016additionalRepeatF0s6UInt32VSgvp"
+        },
+        {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageAnimationLoopCount.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV6encode2toys7Encoder_p_tKF"
+        },
+        {
+          "declaration": "static let infinite: ImageAnimationLoopCount",
+          "kind": "swift.type.property",
+          "path": "ImageAnimationLoopCount.infinite",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV8infiniteACvpZ"
+        },
+        {
+          "declaration": "init(additionalRepeatCount: UInt32?)",
+          "kind": "swift.init",
+          "path": "ImageAnimationLoopCount.init(additionalRepeatCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV016additionalRepeatF0ACs6UInt32VSg_tcfc"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationLoopCount.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "var isInfinite: Bool { get }",
+          "kind": "swift.property",
+          "path": "ImageAnimationLoopCount.isInfinite",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV10isInfiniteSbvp"
+        },
+        {
+          "declaration": "static let playOnce: ImageAnimationLoopCount",
+          "kind": "swift.type.property",
+          "path": "ImageAnimationLoopCount.playOnce",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationLoopCountV8playOnceACvpZ"
+        },
+        {
+          "declaration": "struct ImageAnimationMetadata",
+          "kind": "swift.struct",
+          "path": "ImageAnimationMetadata",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV"
+        },
+        {
+          "declaration": "let canvasHeight: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.canvasHeight",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV12canvasHeightSivp"
+        },
+        {
+          "declaration": "let canvasWidth: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.canvasWidth",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV11canvasWidthSivp"
+        },
+        {
+          "declaration": "let codecFingerprint: String",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.codecFingerprint",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV16codecFingerprintSSvp"
+        },
+        {
+          "declaration": "let container: ImageAnimationContainer",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.container",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV9containerAA0aD9ContainerOvp"
+        },
+        {
+          "declaration": "let encodedByteCount: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.encodedByteCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV16encodedByteCountSivp"
+        },
+        {
+          "declaration": "var frameCount: Int { get }",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.frameCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV10frameCountSivp"
+        },
+        {
+          "declaration": "let frames: [ImageAnimationFrameDescriptor]",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.frames",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV6framesSayAA0aD15FrameDescriptorVGvp"
+        },
+        {
+          "declaration": "init(container: ImageAnimationContainer, canvasWidth: Int, canvasHeight: Int, loopCount: ImageAnimationLoopCount, frames: [ImageAnimationFrameDescriptor], encodedByteCount: Int, codecFingerprint: String) throws",
+          "kind": "swift.init",
+          "path": "ImageAnimationMetadata.init(container:canvasWidth:canvasHeight:loopCount:frames:encodedByteCount:codecFingerprint:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV9container11canvasWidth0G6Height9loopCount6frames011encodedByteK016codecFingerprintAcA0aD9ContainerO_S2iAA0ad4LoopK0VSayAA0aD15FrameDescriptorVGSiSStKcfc"
+        },
+        {
+          "declaration": "let loopCount: ImageAnimationLoopCount",
+          "kind": "swift.property",
+          "path": "ImageAnimationMetadata.loopCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A17AnimationMetadataV9loopCountAA0ad4LoopG0Vvp"
+        },
+        {
+          "declaration": "enum ImageAnimationSource",
+          "kind": "swift.enum",
+          "path": "ImageAnimationSource",
+          "preciseIdentifier": "s:14ImageCraftCore0A15AnimationSourceO"
+        },
+        {
+          "declaration": "case encoded(Data)",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationSource.encoded(_:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A15AnimationSourceO7encodedyAC10Foundation4DataVcACmF"
+        },
+        {
+          "declaration": "case jpegSequence(frames: [ImageJPEGAnimationFrame], loopCount: ImageAnimationLoopCount)",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationSource.jpegSequence(frames:loopCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A15AnimationSourceO12jpegSequenceyACSayAA0A18JPEGAnimationFrameVG_AA0aD9LoopCountVtcACmF"
+        },
+        {
+          "declaration": "struct ImageAnimationWholeTrackCostEstimate",
+          "kind": "swift.struct",
+          "path": "ImageAnimationWholeTrackCostEstimate",
+          "preciseIdentifier": "s:14ImageCraftCore0A31AnimationWholeTrackCostEstimateV"
+        },
+        {
+          "declaration": "let predecodePeakByteCostUpperBound: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationWholeTrackCostEstimate.predecodePeakByteCostUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A31AnimationWholeTrackCostEstimateV017predecodePeakByteG10UpperBoundSivp"
+        },
+        {
+          "declaration": "let providerRetainedByteCostUpperBound: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationWholeTrackCostEstimate.providerRetainedByteCostUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A31AnimationWholeTrackCostEstimateV020providerRetainedByteG10UpperBoundSivp"
+        },
+        {
+          "declaration": "let residentDecodedByteCostUpperBound: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationWholeTrackCostEstimate.residentDecodedByteCostUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A31AnimationWholeTrackCostEstimateV019residentDecodedByteG10UpperBoundSivp"
         },
         {
           "declaration": "protocol ImageCodec : ImageDecoding",
@@ -2133,6 +3349,42 @@
           "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO"
         },
         {
+          "declaration": "case animationDecodeWindowExceeded",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.animationDecodeWindowExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO29animationDecodeWindowExceededyA2CmF"
+        },
+        {
+          "declaration": "case animationFrameIndexOutOfRange",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.animationFrameIndexOutOfRange",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO29animationFrameIndexOutOfRangeyA2CmF"
+        },
+        {
+          "declaration": "case animationFrameRectInvalid",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.animationFrameRectInvalid",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO25animationFrameRectInvalidyA2CmF"
+        },
+        {
+          "declaration": "case animationSessionCancelled",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.animationSessionCancelled",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO25animationSessionCancelledyA2CmF"
+        },
+        {
+          "declaration": "case animationTimelineInvalid",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.animationTimelineInvalid",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO24animationTimelineInvalidyA2CmF"
+        },
+        {
+          "declaration": "case animationUnsupported",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.animationUnsupported",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO20animationUnsupportedyA2CmF"
+        },
+        {
           "declaration": "case auxiliaryAttachmentLimitExceeded",
           "kind": "swift.enum.case",
           "path": "ImageCraftError.auxiliaryAttachmentLimitExceeded",
@@ -2185,6 +3437,12 @@
           "kind": "swift.enum.case",
           "path": "ImageCraftError.pixelLimitExceeded",
           "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO18pixelLimitExceededyA2CmF"
+        },
+        {
+          "declaration": "case preparedStateBudgetExceeded",
+          "kind": "swift.enum.case",
+          "path": "ImageCraftError.preparedStateBudgetExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore0aB5ErrorO27preparedStateBudgetExceededyA2CmF"
         },
         {
           "declaration": "case probeMismatch",
@@ -2397,6 +3655,48 @@
           "preciseIdentifier": "s:14ImageCraftCore0A24DecodeMetadataCapabilityO18sourceColorProfileyA2CmF"
         },
         {
+          "declaration": "enum ImageDecodeOutputLayoutAuthority",
+          "kind": "swift.enum",
+          "path": "ImageDecodeOutputLayoutAuthority",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO"
+        },
+        {
+          "declaration": "case codecOwnedRGB8",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeOutputLayoutAuthority.codecOwnedRGB8",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO14codecOwnedRGB8yA2CmF"
+        },
+        {
+          "declaration": "case codecOwnedRGBA8",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeOutputLayoutAuthority.codecOwnedRGBA8",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO15codecOwnedRGBA8yA2CmF"
+        },
+        {
+          "declaration": "case codecOwnedStraightRGBA16LE",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeOutputLayoutAuthority.codecOwnedStraightRGBA16LE",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO26codecOwnedStraightRGBA16LEyA2CmF"
+        },
+        {
+          "declaration": "case frameworkChosen",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeOutputLayoutAuthority.frameworkChosen",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO15frameworkChosenyA2CmF"
+        },
+        {
+          "declaration": "init?(rawValue: String)",
+          "kind": "swift.init",
+          "path": "ImageDecodeOutputLayoutAuthority.init(rawValue:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO8rawValueACSgSS_tcfc"
+        },
+        {
+          "declaration": "case none",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeOutputLayoutAuthority.none",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeOutputLayoutAuthorityO4noneyA2CmF"
+        },
+        {
           "declaration": "enum ImageDecodeOutputRepresentation",
           "kind": "swift.enum",
           "path": "ImageDecodeOutputRepresentation",
@@ -2413,6 +3713,12 @@
           "kind": "swift.init",
           "path": "ImageDecodeOutputRepresentation.init(rawValue:)",
           "preciseIdentifier": "s:14ImageCraftCore0A26DecodeOutputRepresentationO8rawValueACSgSS_tcfc"
+        },
+        {
+          "declaration": "case packedRGBA8",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeOutputRepresentation.packedRGBA8",
+          "preciseIdentifier": "s:14ImageCraftCore0A26DecodeOutputRepresentationO11packedRGBA8yA2CmF"
         },
         {
           "declaration": "case pixelBuffer",
@@ -2451,6 +3757,54 @@
           "preciseIdentifier": "s:14ImageCraftCore0A17DecodePreparationV5probeAA0A5ProbeVvp"
         },
         {
+          "declaration": "typealias ImageDecodePreparationCreationResourceAuthority = ImageProgressivePreparationCreationResourceAuthority",
+          "kind": "swift.typealias",
+          "path": "ImageDecodePreparationCreationResourceAuthority",
+          "preciseIdentifier": "s:14ImageCraftCore0A42DecodePreparationCreationResourceAuthoritya"
+        },
+        {
+          "declaration": "struct ImageDecodePreparationLimits",
+          "kind": "swift.struct",
+          "path": "ImageDecodePreparationLimits",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV"
+        },
+        {
+          "declaration": "static let coreV1: ImageDecodePreparationLimits",
+          "kind": "swift.type.property",
+          "path": "ImageDecodePreparationLimits.coreV1",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV6coreV1ACvpZ"
+        },
+        {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageDecodePreparationLimits.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV6encode2toys7Encoder_p_tKF"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageDecodePreparationLimits.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "init(maximumEntryCount: Int = 1_024, maximumRetainedByteCharge: Int = 64 * 1_024 * 1_024)",
+          "kind": "swift.init",
+          "path": "ImageDecodePreparationLimits.init(maximumEntryCount:maximumRetainedByteCharge:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV17maximumEntryCount0G18RetainedByteChargeACSi_Sitcfc"
+        },
+        {
+          "declaration": "let maximumEntryCount: Int",
+          "kind": "swift.property",
+          "path": "ImageDecodePreparationLimits.maximumEntryCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV17maximumEntryCountSivp"
+        },
+        {
+          "declaration": "let maximumRetainedByteCharge: Int",
+          "kind": "swift.property",
+          "path": "ImageDecodePreparationLimits.maximumRetainedByteCharge",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodePreparationLimitsV25maximumRetainedByteChargeSivp"
+        },
+        {
           "declaration": "struct ImageDecodeRequest",
           "kind": "swift.struct",
           "path": "ImageDecodeRequest",
@@ -2487,6 +3841,36 @@
           "preciseIdentifier": "s:14ImageCraftCore0A13DecodeRequestV6targetAA12TargetPixelsVvp"
         },
         {
+          "declaration": "enum ImageDecodeResourceBound",
+          "kind": "swift.enum",
+          "path": "ImageDecodeResourceBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourceBoundO"
+        },
+        {
+          "declaration": "case bounded(Int)",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourceBound.bounded(_:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourceBoundO7boundedyACSicACmF"
+        },
+        {
+          "declaration": "var bytesUpperBound: Int? { get }",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceBound.bytesUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourceBoundO010bytesUpperF0SiSgvp"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageDecodeResourceBound.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourceBoundO4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "case unknown(ImageDecodeResourceUnknownReason)",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourceBound.unknown(_:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourceBoundO7unknownyAcA0adE13UnknownReasonOcACmF"
+        },
+        {
           "declaration": "struct ImageDecodeResourceEstimate",
           "kind": "swift.struct",
           "path": "ImageDecodeResourceEstimate",
@@ -2515,6 +3899,156 @@
           "kind": "swift.property",
           "path": "ImageDecodeResourceEstimate.workingSetBytes",
           "preciseIdentifier": "s:14ImageCraftCore0A22DecodeResourceEstimateV15workingSetBytesSivp"
+        },
+        {
+          "declaration": "struct ImageDecodeResourceLedgerSnapshot",
+          "kind": "swift.struct",
+          "path": "ImageDecodeResourceLedgerSnapshot",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV"
+        },
+        {
+          "declaration": "func bound(for phase: ImageDecodeResourcePhase) -> ImageDecodeResourceBound",
+          "kind": "swift.method",
+          "path": "ImageDecodeResourceLedgerSnapshot.bound(for:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV5bound3forAA0adE5BoundOAA0adE5PhaseO_tF"
+        },
+        {
+          "declaration": "func branchCoexistenceBound(callerRetainedOutputBytes: Int) -> ImageDecodeResourceBound?",
+          "kind": "swift.method",
+          "path": "ImageDecodeResourceLedgerSnapshot.branchCoexistenceBound(callerRetainedOutputBytes:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV22branchCoexistenceBound25callerRetainedOutputBytesAA0adeJ0OSgSi_tF"
+        },
+        {
+          "declaration": "func bytesUpperBound(for phase: ImageDecodeResourcePhase) -> Int?",
+          "kind": "swift.method",
+          "path": "ImageDecodeResourceLedgerSnapshot.bytesUpperBound(for:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV15bytesUpperBound3forSiSgAA0adE5PhaseO_tF"
+        },
+        {
+          "declaration": "func coexistenceBound(for phase: ImageDecodeResourcePhase, callerRetainedBytes: Int) -> ImageDecodeResourceBound?",
+          "kind": "swift.method",
+          "path": "ImageDecodeResourceLedgerSnapshot.coexistenceBound(for:callerRetainedBytes:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV16coexistenceBound3for19callerRetainedBytesAA0adeI0OSgAA0adE5PhaseO_SitF"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageDecodeResourceLedgerSnapshot.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "init?(retainedKnownBytes: Int, retainedBetweenCalls: ImageDecodeResourceBound, operationPeak: ImageDecodeResourceBound, transferredOutput: ImageDecodeResourceBound, outputLayoutAuthority: ImageDecodeOutputLayoutAuthority = .frameworkChosen, isTerminal: Bool = false)",
+          "kind": "swift.init",
+          "path": "ImageDecodeResourceLedgerSnapshot.init(retainedKnownBytes:retainedBetweenCalls:operationPeak:transferredOutput:outputLayoutAuthority:isTerminal:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV18retainedKnownBytes0H12BetweenCalls13operationPeak17transferredOutput21outputLayoutAuthority10isTerminalACSgSi_AA0adE5BoundOA2lA0adprS0OSbtcfc"
+        },
+        {
+          "declaration": "let isTerminal: Bool",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.isTerminal",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV10isTerminalSbvp"
+        },
+        {
+          "declaration": "let operationPeak: ImageDecodeResourceBound",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.operationPeak",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV13operationPeakAA0adE5BoundOvp"
+        },
+        {
+          "declaration": "let outputLayoutAuthority: ImageDecodeOutputLayoutAuthority",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.outputLayoutAuthority",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV21outputLayoutAuthorityAA0ad6OutputiJ0Ovp"
+        },
+        {
+          "declaration": "let retainedBetweenCalls: ImageDecodeResourceBound",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.retainedBetweenCalls",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV20retainedBetweenCallsAA0adE5BoundOvp"
+        },
+        {
+          "declaration": "let retainedKnownBytes: Int",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.retainedKnownBytes",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV18retainedKnownBytesSivp"
+        },
+        {
+          "declaration": "static var terminal: ImageDecodeResourceLedgerSnapshot { get }",
+          "kind": "swift.type.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.terminal",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV8terminalACvpZ"
+        },
+        {
+          "declaration": "let transferredOutput: ImageDecodeResourceBound",
+          "kind": "swift.property",
+          "path": "ImageDecodeResourceLedgerSnapshot.transferredOutput",
+          "preciseIdentifier": "s:14ImageCraftCore0A28DecodeResourceLedgerSnapshotV17transferredOutputAA0adE5BoundOvp"
+        },
+        {
+          "declaration": "enum ImageDecodeResourcePhase",
+          "kind": "swift.enum",
+          "path": "ImageDecodeResourcePhase",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourcePhaseO"
+        },
+        {
+          "declaration": "init?(rawValue: String)",
+          "kind": "swift.init",
+          "path": "ImageDecodeResourcePhase.init(rawValue:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourcePhaseO8rawValueACSgSS_tcfc"
+        },
+        {
+          "declaration": "case operationPeak",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourcePhase.operationPeak",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourcePhaseO13operationPeakyA2CmF"
+        },
+        {
+          "declaration": "case retainedBetweenCalls",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourcePhase.retainedBetweenCalls",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourcePhaseO20retainedBetweenCallsyA2CmF"
+        },
+        {
+          "declaration": "case transferredOutput",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourcePhase.transferredOutput",
+          "preciseIdentifier": "s:14ImageCraftCore0A19DecodeResourcePhaseO17transferredOutputyA2CmF"
+        },
+        {
+          "declaration": "enum ImageDecodeResourceUnknownReason",
+          "kind": "swift.enum",
+          "path": "ImageDecodeResourceUnknownReason",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeResourceUnknownReasonO"
+        },
+        {
+          "declaration": "case frameworkChosenOutputColorState",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourceUnknownReason.frameworkChosenOutputColorState",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeResourceUnknownReasonO31frameworkChosenOutputColorStateyA2CmF"
+        },
+        {
+          "declaration": "case frameworkChosenOutputLayout",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourceUnknownReason.frameworkChosenOutputLayout",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeResourceUnknownReasonO27frameworkChosenOutputLayoutyA2CmF"
+        },
+        {
+          "declaration": "case frameworkPrivateOperationAllocation",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourceUnknownReason.frameworkPrivateOperationAllocation",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeResourceUnknownReasonO35frameworkPrivateOperationAllocationyA2CmF"
+        },
+        {
+          "declaration": "case frameworkPrivateRetainedState",
+          "kind": "swift.enum.case",
+          "path": "ImageDecodeResourceUnknownReason.frameworkPrivateRetainedState",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeResourceUnknownReasonO29frameworkPrivateRetainedStateyA2CmF"
+        },
+        {
+          "declaration": "init?(rawValue: String)",
+          "kind": "swift.init",
+          "path": "ImageDecodeResourceUnknownReason.init(rawValue:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A27DecodeResourceUnknownReasonO8rawValueACSgSS_tcfc"
         },
         {
           "declaration": "enum ImageDecodeTrackMode",
@@ -3183,6 +4717,192 @@
           "preciseIdentifier": "s:14ImageCraftCore0A13EncodingErrorO21unsupportedCapabilityyAcA0A21EncoderSupportFailureOcACmF"
         },
         {
+          "declaration": "struct ImageJPEGAnimationFrame",
+          "kind": "swift.struct",
+          "path": "ImageJPEGAnimationFrame",
+          "preciseIdentifier": "s:14ImageCraftCore0A18JPEGAnimationFrameV"
+        },
+        {
+          "declaration": "let data: Data",
+          "kind": "swift.property",
+          "path": "ImageJPEGAnimationFrame.data",
+          "preciseIdentifier": "s:14ImageCraftCore0A18JPEGAnimationFrameV4data10Foundation4DataVvp"
+        },
+        {
+          "declaration": "let duration: ImageAnimationFrameDuration",
+          "kind": "swift.property",
+          "path": "ImageJPEGAnimationFrame.duration",
+          "preciseIdentifier": "s:14ImageCraftCore0A18JPEGAnimationFrameV8durationAA0a9AnimationE8DurationVvp"
+        },
+        {
+          "declaration": "init(data: Data, duration: ImageAnimationFrameDuration)",
+          "kind": "swift.init",
+          "path": "ImageJPEGAnimationFrame.init(data:duration:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A18JPEGAnimationFrameV4data8durationAC10Foundation4DataV_AA0a9AnimationE8DurationVtcfc"
+        },
+        {
+          "declaration": "struct ImagePackedCICPColorEncoding",
+          "kind": "swift.struct",
+          "path": "ImagePackedCICPColorEncoding",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV"
+        },
+        {
+          "declaration": "let colorPrimaries: UInt8",
+          "kind": "swift.property",
+          "path": "ImagePackedCICPColorEncoding.colorPrimaries",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV14colorPrimariess5UInt8Vvp"
+        },
+        {
+          "declaration": "init?(colorPrimaries: UInt8, transferFunction: UInt8, matrixCoefficients: UInt8, videoFullRangeFlag: UInt8)",
+          "kind": "swift.init",
+          "path": "ImagePackedCICPColorEncoding.init(colorPrimaries:transferFunction:matrixCoefficients:videoFullRangeFlag:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV14colorPrimaries16transferFunction18matrixCoefficients18videoFullRangeFlagACSgs5UInt8V_A3Jtcfc"
+        },
+        {
+          "declaration": "var isFullRange: Bool { get }",
+          "kind": "swift.property",
+          "path": "ImagePackedCICPColorEncoding.isFullRange",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV11isFullRangeSbvp"
+        },
+        {
+          "declaration": "let matrixCoefficients: UInt8",
+          "kind": "swift.property",
+          "path": "ImagePackedCICPColorEncoding.matrixCoefficients",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV18matrixCoefficientss5UInt8Vvp"
+        },
+        {
+          "declaration": "let transferFunction: UInt8",
+          "kind": "swift.property",
+          "path": "ImagePackedCICPColorEncoding.transferFunction",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV16transferFunctions5UInt8Vvp"
+        },
+        {
+          "declaration": "let videoFullRangeFlag: UInt8",
+          "kind": "swift.property",
+          "path": "ImagePackedCICPColorEncoding.videoFullRangeFlag",
+          "preciseIdentifier": "s:14ImageCraftCore0A23PackedCICPColorEncodingV18videoFullRangeFlags5UInt8Vvp"
+        },
+        {
+          "declaration": "enum ImagePackedPixelColorEncoding",
+          "kind": "swift.enum",
+          "path": "ImagePackedPixelColorEncoding",
+          "preciseIdentifier": "s:14ImageCraftCore0A24PackedPixelColorEncodingO"
+        },
+        {
+          "declaration": "case cicp(ImagePackedCICPColorEncoding)",
+          "kind": "swift.enum.case",
+          "path": "ImagePackedPixelColorEncoding.cicp(_:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A24PackedPixelColorEncodingO4cicpyAcA0ad9CICPColorG0VcACmF"
+        },
+        {
+          "declaration": "case embeddedICC(Data)",
+          "kind": "swift.enum.case",
+          "path": "ImagePackedPixelColorEncoding.embeddedICC(_:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A24PackedPixelColorEncodingO11embeddedICCyAC10Foundation4DataVcACmF"
+        },
+        {
+          "declaration": "var retainedByteCharge: Int { get }",
+          "kind": "swift.property",
+          "path": "ImagePackedPixelColorEncoding.retainedByteCharge",
+          "preciseIdentifier": "s:14ImageCraftCore0A24PackedPixelColorEncodingO18retainedByteChargeSivp"
+        },
+        {
+          "declaration": "case sRGB",
+          "kind": "swift.enum.case",
+          "path": "ImagePackedPixelColorEncoding.sRGB",
+          "preciseIdentifier": "s:14ImageCraftCore0A24PackedPixelColorEncodingO4sRGByA2CmF"
+        },
+        {
+          "declaration": "struct ImagePackedRGBA8",
+          "kind": "swift.struct",
+          "path": "ImagePackedRGBA8",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V"
+        },
+        {
+          "declaration": "let bytesPerRow: Int",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.bytesPerRow",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V11bytesPerRowSivp"
+        },
+        {
+          "declaration": "let colorEncoding: ImagePackedPixelColorEncoding",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.colorEncoding",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V13colorEncodingAA0ad10PixelColorG0Ovp"
+        },
+        {
+          "declaration": "let data: Data",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.data",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V4data10Foundation4DataVvp"
+        },
+        {
+          "declaration": "init?(data: Data, pixelWidth: Int, pixelHeight: Int, colorEncoding: ImagePackedPixelColorEncoding, sourceColorProfile: SourceColorProfile)",
+          "kind": "swift.init",
+          "path": "ImagePackedRGBA8.init(data:pixelWidth:pixelHeight:colorEncoding:sourceColorProfile:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V4data10pixelWidth0G6Height13colorEncoding18sourceColorProfileACSg10Foundation4DataV_S2iAA0ad5PixelmK0OAA06SourcemN0Otcfc"
+        },
+        {
+          "declaration": "var pixelByteCharge: Int { get }",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.pixelByteCharge",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V15pixelByteChargeSivp"
+        },
+        {
+          "declaration": "let pixelHeight: Int",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.pixelHeight",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V11pixelHeightSivp"
+        },
+        {
+          "declaration": "let pixelWidth: Int",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.pixelWidth",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V10pixelWidthSivp"
+        },
+        {
+          "declaration": "let sourceColorProfile: SourceColorProfile",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.sourceColorProfile",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V18sourceColorProfileAA06SourcegH0Ovp"
+        },
+        {
+          "declaration": "var transferredByteCharge: Int { get }",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8.transferredByteCharge",
+          "preciseIdentifier": "s:14ImageCraftCore0A11PackedRGBA8V21transferredByteChargeSivp"
+        },
+        {
+          "declaration": "protocol ImagePackedRGBA8Decoding : Sendable",
+          "kind": "swift.protocol",
+          "path": "ImagePackedRGBA8Decoding",
+          "preciseIdentifier": "s:14ImageCraftCore0A19PackedRGBA8DecodingP"
+        },
+        {
+          "declaration": "var codecDescriptor: ImageCodecDescriptor { get }",
+          "kind": "swift.property",
+          "path": "ImagePackedRGBA8Decoding.codecDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore0A19PackedRGBA8DecodingP15codecDescriptorAA0a5CodecH0Vvp"
+        },
+        {
+          "declaration": "func decodePackedRGBA8(data: Data, request: ImageDecodeRequest, limits: DecodeLimits) throws -> ImagePackedRGBA8",
+          "kind": "swift.method",
+          "path": "ImagePackedRGBA8Decoding.decodePackedRGBA8(data:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19PackedRGBA8DecodingP06decodedE04data7request6limitsAA0adE0V10Foundation4DataV_AA0A13DecodeRequestVAA0M6LimitsVtKF"
+        },
+        {
+          "declaration": "func packedRGBA8ResourceLedger(data: Data, request: ImageDecodeRequest, limits: DecodeLimits) throws -> ImageDecodeResourceLedgerSnapshot",
+          "kind": "swift.method",
+          "path": "ImagePackedRGBA8Decoding.packedRGBA8ResourceLedger(data:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19PackedRGBA8DecodingP06packedE14ResourceLedger4data7request6limitsAA0a6DecodehI8SnapshotV10Foundation4DataV_AA0aM7RequestVAA0M6LimitsVtKF"
+        },
+        {
+          "declaration": "func probe(data: Data, limits: DecodeLimits) throws -> ImageProbe",
+          "kind": "swift.method",
+          "path": "ImagePackedRGBA8Decoding.probe(data:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A19PackedRGBA8DecodingP5probe4data6limitsAA0A5ProbeV10Foundation4DataV_AA12DecodeLimitsVtKF"
+        },
+        {
           "declaration": "struct ImagePixelFormatDescription",
           "kind": "swift.struct",
           "path": "ImagePixelFormatDescription",
@@ -3393,6 +5113,90 @@
           "preciseIdentifier": "s:14ImageCraftCore0A24ProgressiveDecodeSessionP17receivedByteCountSivp"
         },
         {
+          "declaration": "struct ImageProgressiveDecodedImageResourceFinalization",
+          "kind": "swift.struct",
+          "path": "ImageProgressiveDecodedImageResourceFinalization",
+          "preciseIdentifier": "s:14ImageCraftCore0a18ProgressiveDecodedA20ResourceFinalizationV"
+        },
+        {
+          "declaration": "let image: DecodedImage",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodedImageResourceFinalization.image",
+          "preciseIdentifier": "s:14ImageCraftCore0a18ProgressiveDecodedA20ResourceFinalizationV5imageAA0eA0Vvp"
+        },
+        {
+          "declaration": "init(image: DecodedImage, probe: ImageProbe, sourceByteCount: Int, materializationResourceLedger: ImageDecodeResourceLedgerSnapshot)",
+          "kind": "swift.init",
+          "path": "ImageProgressiveDecodedImageResourceFinalization.init(image:probe:sourceByteCount:materializationResourceLedger:)",
+          "preciseIdentifier": "s:14ImageCraftCore0a18ProgressiveDecodedA20ResourceFinalizationV5image5probe15sourceByteCount015materializationF6LedgerAcA0eA0V_AA0A5ProbeVSiAA0a6DecodefN8SnapshotVtcfc"
+        },
+        {
+          "declaration": "let materializationResourceLedger: ImageDecodeResourceLedgerSnapshot",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodedImageResourceFinalization.materializationResourceLedger",
+          "preciseIdentifier": "s:14ImageCraftCore0a18ProgressiveDecodedA20ResourceFinalizationV015materializationF6LedgerAA0a6DecodefI8SnapshotVvp"
+        },
+        {
+          "declaration": "let probe: ImageProbe",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodedImageResourceFinalization.probe",
+          "preciseIdentifier": "s:14ImageCraftCore0a18ProgressiveDecodedA20ResourceFinalizationV5probeAA0A5ProbeVvp"
+        },
+        {
+          "declaration": "let sourceByteCount: Int",
+          "kind": "swift.property",
+          "path": "ImageProgressiveDecodedImageResourceFinalization.sourceByteCount",
+          "preciseIdentifier": "s:14ImageCraftCore0a18ProgressiveDecodedA20ResourceFinalizationV15sourceByteCountSivp"
+        },
+        {
+          "declaration": "struct ImageProgressivePreparationCreationResourceAuthority",
+          "kind": "swift.struct",
+          "path": "ImageProgressivePreparationCreationResourceAuthority",
+          "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageProgressivePreparationCreationResourceAuthority.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "init?(operationResourceLedger: ImageDecodeResourceLedgerSnapshot, resultingPreparationRetainedKnownBytes: Int, resultingPreparationRetainedBetweenCalls: ImageDecodeResourceBound)",
+          "kind": "swift.init",
+          "path": "ImageProgressivePreparationCreationResourceAuthority.init(operationResourceLedger:resultingPreparationRetainedKnownBytes:resultingPreparationRetainedBetweenCalls:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV09operationG6Ledger09resultingE18RetainedKnownBytes0keL12BetweenCallsACSgAA0a6DecodegJ8SnapshotV_SiAA0aqG5BoundOtcfc"
+        },
+        {
+          "declaration": "let operationResourceLedger: ImageDecodeResourceLedgerSnapshot",
+          "kind": "swift.property",
+          "path": "ImageProgressivePreparationCreationResourceAuthority.operationResourceLedger",
+          "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV09operationG6LedgerAA0a6DecodegJ8SnapshotVvp"
+        },
+        {
+          "declaration": "let resultingPreparationRetainedBetweenCalls: ImageDecodeResourceBound",
+          "kind": "swift.property",
+          "path": "ImageProgressivePreparationCreationResourceAuthority.resultingPreparationRetainedBetweenCalls",
+          "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV09resultingE20RetainedBetweenCallsAA0a6DecodeG5BoundOvp"
+        },
+        {
+          "declaration": "let resultingPreparationRetainedKnownBytes: Int",
+          "kind": "swift.property",
+          "path": "ImageProgressivePreparationCreationResourceAuthority.resultingPreparationRetainedKnownBytes",
+          "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV09resultingE18RetainedKnownBytesSivp"
+        },
+        {
+          "declaration": "protocol PreparedImageCreationResourceInspecting : PreparedImageDecoding",
+          "kind": "swift.protocol",
+          "path": "PreparedImageCreationResourceInspecting",
+          "preciseIdentifier": "s:14ImageCraftCore08PreparedA26CreationResourceInspectingP"
+        },
+        {
+          "declaration": "func preparationCreationResourceAuthority(data: Data, limits: DecodeLimits) throws -> ImageDecodePreparationCreationResourceAuthority",
+          "kind": "swift.method",
+          "path": "PreparedImageCreationResourceInspecting.preparationCreationResourceAuthority(data:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore08PreparedA26CreationResourceInspectingP011preparationeF9Authority4data6limitsAA0a22ProgressivePreparationefI0V10Foundation4DataV_AA12DecodeLimitsVtKF"
+        },
+        {
           "declaration": "protocol PreparedImageDecoding : ImageDecoding",
           "kind": "swift.protocol",
           "path": "PreparedImageDecoding",
@@ -3415,6 +5219,36 @@
           "kind": "swift.method",
           "path": "PreparedImageDecoding.prepare(data:limits:)",
           "preciseIdentifier": "s:14ImageCraftCore08PreparedA8DecodingP7prepare4data6limitsAA0A17DecodePreparationV10Foundation4DataV_AA0I6LimitsVtKF"
+        },
+        {
+          "declaration": "protocol PreparedImageResourceInspecting : PreparedImageDecoding",
+          "kind": "swift.protocol",
+          "path": "PreparedImageResourceInspecting",
+          "preciseIdentifier": "s:14ImageCraftCore08PreparedA18ResourceInspectingP"
+        },
+        {
+          "declaration": "func preparationResourceLedger(_ preparation: ImageDecodePreparation, request: ImageDecodeRequest, limits: DecodeLimits) -> ImageDecodeResourceLedgerSnapshot?",
+          "kind": "swift.method",
+          "path": "PreparedImageResourceInspecting.preparationResourceLedger(_:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore08PreparedA18ResourceInspectingP011preparationE6Ledger_7request6limitsAA0a6DecodeeH8SnapshotVSgAA0aK11PreparationV_AA0aK7RequestVAA0K6LimitsVtF"
+        },
+        {
+          "declaration": "protocol ProgressiveImageDecodedImageResourceFinalizingSession : ImageProgressiveDecodeSession",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImageDecodedImageResourceFinalizingSession",
+          "preciseIdentifier": "s:14ImageCraftCore011Progressivea7DecodedA25ResourceFinalizingSessionP"
+        },
+        {
+          "declaration": "func decodedImageFinalizationResourceLedger() throws -> ImageDecodeResourceLedgerSnapshot?",
+          "kind": "swift.method",
+          "path": "ProgressiveImageDecodedImageResourceFinalizingSession.decodedImageFinalizationResourceLedger()",
+          "preciseIdentifier": "s:14ImageCraftCore011Progressivea7DecodedA25ResourceFinalizingSessionP07decodeda12FinalizationF6LedgerAA0a6DecodefK8SnapshotVSgyKF"
+        },
+        {
+          "declaration": "func finishWithDecodedImageResourceAuthority() throws -> ImageProgressiveDecodedImageResourceFinalization",
+          "kind": "swift.method",
+          "path": "ProgressiveImageDecodedImageResourceFinalizingSession.finishWithDecodedImageResourceAuthority()",
+          "preciseIdentifier": "s:14ImageCraftCore011Progressivea7DecodedA25ResourceFinalizingSessionP010finishWitheaF9AuthorityAA0adeaF12FinalizationVyKF"
         },
         {
           "declaration": "protocol ProgressiveImageDecoding : ImageCodec",
@@ -3451,6 +5285,30 @@
           "kind": "swift.method",
           "path": "ProgressiveImageFinalizingSession.finishWithFinalImage()",
           "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA17FinalizingSessionP015finishWithFinalA0AA0aD18DecodeFinalizationVyKF"
+        },
+        {
+          "declaration": "protocol ProgressiveImagePreparationCreationResourceInspectingSession : ProgressiveImagePreparationResourceInspectingSession",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImagePreparationCreationResourceInspectingSession",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA44PreparationCreationResourceInspectingSessionP"
+        },
+        {
+          "declaration": "func preparationCreationResourceAuthority() throws -> ImageProgressivePreparationCreationResourceAuthority?",
+          "kind": "swift.method",
+          "path": "ProgressiveImagePreparationCreationResourceInspectingSession.preparationCreationResourceAuthority()",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA44PreparationCreationResourceInspectingSessionP011preparationfG9AuthorityAA0adefgK0VSgyKF"
+        },
+        {
+          "declaration": "protocol ProgressiveImagePreparationResourceInspectingSession : ProgressiveImagePreparingSession",
+          "kind": "swift.protocol",
+          "path": "ProgressiveImagePreparationResourceInspectingSession",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA36PreparationResourceInspectingSessionP"
+        },
+        {
+          "declaration": "func preparationFinalizationResourceLedger() throws -> ImageDecodeResourceLedgerSnapshot?",
+          "kind": "swift.method",
+          "path": "ProgressiveImagePreparationResourceInspectingSession.preparationFinalizationResourceLedger()",
+          "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA36PreparationResourceInspectingSessionP023preparationFinalizationF6LedgerAA0a6DecodefK8SnapshotVSgyKF"
         },
         {
           "declaration": "protocol ProgressiveImagePreparingSession : ImageProgressiveDecodeSession",
@@ -3555,6 +5413,61 @@
       "relationships": [
         {
           "kind": "conformsTo",
+          "source": "BoundedPNGDecodeError",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecodeError",
+          "target": "Swift.Error"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecodeError",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecodeError",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecodeError",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecoder",
+          "target": "ImageCraftCore.ImagePackedRGBA8Decoding"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecoder",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "BoundedPNGDecoder",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOAnimatedImageDecoder",
+          "target": "ImageCraftCore.ImageAnimationDecoding"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOAnimatedImageDecoder",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOAnimatedImageDecoder",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageIOImageDecoder",
           "target": "ImageCraftCore.ImageCodec"
         },
@@ -3572,11 +5485,21 @@
           "kind": "conformsTo",
           "source": "ImageIOImageDecoder",
           "target": "ImageCraftCore.ImageDecoding"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "ImageCraftCore.PreparedImageCreationResourceInspecting"
         },
         {
           "kind": "conformsTo",
           "source": "ImageIOImageDecoder",
           "target": "ImageCraftCore.PreparedImageDecoding"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageIOImageDecoder",
+          "target": "ImageCraftCore.PreparedImageResourceInspecting"
         },
         {
           "kind": "conformsTo",
@@ -3629,8 +5552,98 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 15,
+      "symbolCount": 33,
       "symbols": [
+        {
+          "declaration": "enum BoundedPNGDecodeError",
+          "kind": "swift.enum",
+          "path": "BoundedPNGDecodeError",
+          "preciseIdentifier": "s:010ImageCraftA2IO21BoundedPNGDecodeErrorO"
+        },
+        {
+          "declaration": "case operationBudgetExceeded",
+          "kind": "swift.enum.case",
+          "path": "BoundedPNGDecodeError.operationBudgetExceeded",
+          "preciseIdentifier": "s:010ImageCraftA2IO21BoundedPNGDecodeErrorO23operationBudgetExceededyA2CmF"
+        },
+        {
+          "declaration": "case unsupportedRequest",
+          "kind": "swift.enum.case",
+          "path": "BoundedPNGDecodeError.unsupportedRequest",
+          "preciseIdentifier": "s:010ImageCraftA2IO21BoundedPNGDecodeErrorO18unsupportedRequestyA2CmF"
+        },
+        {
+          "declaration": "case unsupportedSourceSemantics",
+          "kind": "swift.enum.case",
+          "path": "BoundedPNGDecodeError.unsupportedSourceSemantics",
+          "preciseIdentifier": "s:010ImageCraftA2IO21BoundedPNGDecodeErrorO26unsupportedSourceSemanticsyA2CmF"
+        },
+        {
+          "declaration": "struct BoundedPNGDecoder",
+          "kind": "swift.struct",
+          "path": "BoundedPNGDecoder",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV"
+        },
+        {
+          "declaration": "var codecDescriptor: ImageCodecDescriptor { get }",
+          "kind": "swift.property",
+          "path": "BoundedPNGDecoder.codecDescriptor",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV15codecDescriptor0aB4Core0a5CodecG0Vvp"
+        },
+        {
+          "declaration": "static let codecDescriptor: ImageCodecDescriptor",
+          "kind": "swift.type.property",
+          "path": "BoundedPNGDecoder.codecDescriptor",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV15codecDescriptor0aB4Core0a5CodecG0VvpZ"
+        },
+        {
+          "declaration": "func decodePackedRGBA8(data: Data, request: ImageDecodeRequest, limits: DecodeLimits) throws -> ImagePackedRGBA8",
+          "kind": "swift.method",
+          "path": "BoundedPNGDecoder.decodePackedRGBA8(data:request:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV17decodePackedRGBA84data7request6limits0aB4Core0agH0V10Foundation4DataV_AH0A13DecodeRequestVAH0O6LimitsVtKF"
+        },
+        {
+          "declaration": "init(maximumOperationByteCharge: Int) throws",
+          "kind": "swift.init",
+          "path": "BoundedPNGDecoder.init(maximumOperationByteCharge:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV26maximumOperationByteChargeACSi_tKcfc"
+        },
+        {
+          "declaration": "func packedRGBA8ResourceLedger(data: Data, request: ImageDecodeRequest, limits: DecodeLimits) throws -> ImageDecodeResourceLedgerSnapshot",
+          "kind": "swift.method",
+          "path": "BoundedPNGDecoder.packedRGBA8ResourceLedger(data:request:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV25packedRGBA8ResourceLedger4data7request6limits0aB4Core0a6DecodehI8SnapshotV10Foundation4DataV_AH0aN7RequestVAH0N6LimitsVtKF"
+        },
+        {
+          "declaration": "func probe(data: Data, limits: DecodeLimits) throws -> ImageProbe",
+          "kind": "swift.method",
+          "path": "BoundedPNGDecoder.probe(data:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO17BoundedPNGDecoderV5probe4data6limits0aB4Core0A5ProbeV10Foundation4DataV_AG12DecodeLimitsVtKF"
+        },
+        {
+          "declaration": "struct ImageIOAnimatedImageDecoder",
+          "kind": "swift.struct",
+          "path": "ImageIOAnimatedImageDecoder",
+          "preciseIdentifier": "s:010ImageCraftA2IO0a10IOAnimatedA7DecoderV"
+        },
+        {
+          "declaration": "let codecDescriptor: ImageCodecDescriptor",
+          "kind": "swift.property",
+          "path": "ImageIOAnimatedImageDecoder.codecDescriptor",
+          "preciseIdentifier": "s:010ImageCraftA2IO0a10IOAnimatedA7DecoderV15codecDescriptor0aB4Core0a5CodecG0Vvp"
+        },
+        {
+          "declaration": "init()",
+          "kind": "swift.init",
+          "path": "ImageIOAnimatedImageDecoder.init()",
+          "preciseIdentifier": "s:010ImageCraftA2IO0a10IOAnimatedA7DecoderVACycfc"
+        },
+        {
+          "declaration": "func prepareAnimation(source: ImageAnimationSource, limits: ImageAnimationDecodeLimits = ImageAnimationDecodeLimits()) async throws -> AnimatedImageAsset",
+          "kind": "swift.method",
+          "path": "ImageIOAnimatedImageDecoder.prepareAnimation(source:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO0a10IOAnimatedA7DecoderV16prepareAnimation6source6limits0aB4Core08AnimatedA5AssetVAG0aG6SourceO_AG0aG12DecodeLimitsVtYaKF"
+        },
         {
           "declaration": "struct ImageIOImageDecoder",
           "kind": "swift.struct",
@@ -3680,10 +5693,28 @@
           "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderVACycfc"
         },
         {
+          "declaration": "init(preparationLimits: ImageDecodePreparationLimits)",
+          "kind": "swift.init",
+          "path": "ImageIOImageDecoder.init(preparationLimits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderV17preparationLimitsAC0aB4Core0a17DecodePreparationG0V_tcfc"
+        },
+        {
           "declaration": "func makeProgressiveSession(format: EncodedImageFormat, request: ImageDecodeRequest, limits: DecodeLimits) throws -> any ImageProgressiveDecodeSession",
           "kind": "swift.method",
           "path": "ImageIOImageDecoder.makeProgressiveSession(format:request:limits:)",
           "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderV22makeProgressiveSession6format7request6limits0aB4Core0ag6DecodeH0_pAH07EncodedA6FormatO_AH0aM7RequestVAH0M6LimitsVtKF"
+        },
+        {
+          "declaration": "func preparationCreationResourceAuthority(data: Data, limits: DecodeLimits) throws -> ImageDecodePreparationCreationResourceAuthority",
+          "kind": "swift.method",
+          "path": "ImageIOImageDecoder.preparationCreationResourceAuthority(data:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderV36preparationCreationResourceAuthority4data6limits0aB4Core0a22ProgressivePreparationghI0V10Foundation4DataV_AG12DecodeLimitsVtKF"
+        },
+        {
+          "declaration": "func preparationResourceLedger(_ preparation: ImageDecodePreparation, request: ImageDecodeRequest, limits: DecodeLimits) -> ImageDecodeResourceLedgerSnapshot?",
+          "kind": "swift.method",
+          "path": "ImageIOImageDecoder.preparationResourceLedger(_:request:limits:)",
+          "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageDecoderV25preparationResourceLedger_7request6limits0aB4Core0a6DecodegH8SnapshotVSgAG0aL11PreparationV_AG0aL7RequestVAG0L6LimitsVtF"
         },
         {
           "declaration": "func prepare(data: Data, limits: DecodeLimits) throws -> ImageDecodePreparation",

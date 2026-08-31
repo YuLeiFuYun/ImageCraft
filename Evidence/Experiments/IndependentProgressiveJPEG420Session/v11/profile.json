@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 11,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V11",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, dynamic pre-SOF table ownership, first-SOS DQT release, actual-only coefficient planes, exact current post-SOF Huffman payloads and validated-EOI final-ready compaction",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2432,
+    "initialRetainedByteCharge": 2846,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "persistentBaseFixedStateByteCount": 576,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2752,
+    "renderFixedScratchByteCount": 384,
+    "frameQuantizationSourceByteCount": 260
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-dynamic-preframe",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "maximumObservedPreFrameTableBytes": 128,
+      "mechanismPressure": "session starts with only the fixed 414-byte transport; before SOF2 this source owns exactly two 64-byte DQT slots, while the 2432-byte future pre-frame authority remains admission-only"
+    },
+    {
+      "id": "noise576-dynamic-preframe",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "maximumObservedPreFrameTableBytes": 128,
+      "mechanismPressure": "large coefficient/control phases remain unchanged while pre-SOF retained table payload stays at two present DQT slots rather than the maximum four-DQT/eight-DHT authority"
+    },
+    {
+      "id": "restart64-dynamic-preframe",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "maximumObservedPreFrameTableBytes": 128,
+      "mechanismPressure": "pre-SOF exact ownership composes with later restart-heavy suspension without changing rollback, transport, RGB or final-ready compaction semantics"
+    }
+  ],
+  "requiredInvariants": [
+    "All v10 transport, source-authority, DQT latch, actual coefficient geometry, dynamic post-SOF Huffman, preview backing, restart and EOI compaction invariants remain unchanged.",
+    "PreFrameTableState no longer allocates one fixed arena. A DQT selector allocates one 64-byte payload only on first definition; a pre-SOF DHT selector allocates one fixed 272-byte capacity only on first definition so later redefinition can overwrite in place without replacement coexistence.",
+    "Selector identity is represented by optional slot ownership in the store and is not duplicated in codec-owned semantic byte charge, matching the post-SOF Huffman ownership model.",
+    "The maximum pre-frame authority is exactly 2432 bytes: four 64-byte DQT slots plus eight 272-byte DHT slot capacities. initialRetainedByteCharge is therefore 414+2432=2846 bytes and remains the constructor admission floor for arbitrary valid pre-SOF table definitions.",
+    "Actual initial retained state is exactly the 414-byte TransportBuffer. No table payload exists before a DQT/DHT definition is accepted.",
+    "All three retained sources define only DQT0 and DQT1 before SOF2 and no pre-SOF DHT, so maximumObservedPreFrameTableBytes is exactly 128 bytes. At SOF2 the dynamic pre-frame ownership is copied into frame quantization/Huffman authority and then released.",
+    "Final-ready retainedPreFrameTableBytes is exactly zero, while the historical pre-frame high-water remains observable after SOF/EOI compaction.",
+    "The maximum SOF transition/operation model still uses the full pre-frame authority rather than the 128-byte corpus high-water. Dynamic current retained state must not narrow future-table admission or the frame-transition coexistence bound.",
+    "Removing legacy pre-frame Huffman symbol-count/presence arrays lowers the maximum pre-frame authority by 28 bytes relative to v10. The retained sources' operation peaks remain unchanged because later render/entropy phases dominate.",
+    "Final-ready retained values remain v10 RGB-only values: tiny 897 bytes, noise576 995328 bytes, restart64 12288 bytes. Their operation peaks remain 8095, 2010910 and 30494 bytes respectively.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object/pointer fields, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

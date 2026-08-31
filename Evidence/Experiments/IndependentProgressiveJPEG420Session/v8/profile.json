@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 8,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V8",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit marker streaming, cadence-aware output/render lifetime, first-SOS quantization-source release and actual-only persistent coefficient planes",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 2874,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "persistentFixedStateByteCount": 2776,
+    "renderFixedScratchByteCount": 384,
+    "frameQuantizationSourceByteCount": 260
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-padded-y-release",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "mechanismPressure": "23x13 has Y actual geometry 3x2 but interleaved-MCU syntax geometry 4x2; single-byte scheduling forces dummy DC blocks through suspend/rollback while proving only six actual Y coefficient blocks persist"
+    },
+    {
+      "id": "noise576-aligned-control",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "mechanismPressure": "72x72 Y block geometry is already MCU-aligned, so v8 must preserve v7 retained/peak values while exercising the 414-byte transaction transport on a 132270-byte scan"
+    },
+    {
+      "id": "restart64-aligned-control",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "mechanismPressure": "aligned 8x8 Y block geometry plus 342 split restart markers proves the coefficient-layout change does not widen rollback scratch or alter restart suspension semantics"
+    }
+  ],
+  "requiredInvariants": [
+    "All v7 transport, marker streaming, JFIF/Adobe authority, quantization-source lifetime, cadence-aware output, RenderArena and transactional-MCU invariants remain unchanged.",
+    "SOF2 still publishes MCU-padded Y syntax geometry for interleaved entropy traversal, but the persistent coefficient plane contains only yActualWidthBlocks*yActualHeightBlocks image blocks.",
+    "Single-component AC scans, rasterization and block smoothing already address only actual image geometry; padded Y blocks therefore have no cross-scan image-state authority.",
+    "Interleaved DC-first dummy Y blocks are still fully Huffman-decoded and update the shared Y DC predictor before being discarded. Interleaved DC-refine dummy blocks still consume exactly one refinement bit each; their prior coefficient values cannot affect later entropy state.",
+    "Streaming snapshots/restores only persistent image blocks. At an edge MCU the unused tail of the existing six-block rollback arena supplies one reusable 128-byte dummy block, so operationScratchByteCharge remains exactly 768 bytes.",
+    "One-shot decode uses one equivalent 128-byte temporary dummy block during entropy parsing. That phase scratch is strictly smaller than the already-admitted render scratch and does not widen the one-shot operation peak.",
+    "Persistent Y coefficient bytes equal actual Y block count times 64 Int16 values; coefficientStateBytes equals Y plus two chroma planes.",
+    "The 23x13 witness has actual Y geometry 3x2, padded syntax geometry 4x2, yCoefficientBytes 768 instead of the historical 1024, coefficientStateBytes 1280, persistentStateBytes 4056, renderScratchBytes 2752 and totalStateBytes 6808.",
+    "For the 23x13 every-preview session, pre-finish retained state is 5367 bytes and operation peak is 8119 bytes; final RGB remains byte-identical to the complete decoder.",
+    "The 576x576 and 64x64 controls have no Y padding, so their v8 resource ledgers remain exactly equal to v7: 998518/2010934 bytes and 15478/30518 bytes retained/peak respectively.",
+    "Terminal finish/cancel/fatal failure still publishes zero codec-owned retained/operation/output state.",
+    "This profile does not qualify public DecodedImage color representation, non-JFIF semantics, embedded ICC, other sampling modes, physical RSS, allocator headers or perceptual reconstruction quality."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-BASELINE-JPEG-420-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "geometryCases": [[1,1],[4,4],[5,4],[4,17],[5,17],[15,15],[16,16],[16,17],[17,16],[17,17],[31,19],[64,33]],
+  "patterns": ["neutral-gradient", "chroma-grid", "deterministic-noise"],
+  "qualities": [25,75,100],
+  "restartIntervalsMCUs": [1,2,5],
+  "claimBoundary": [
+    "This profile qualifies a package-only complete-input baseline JFIF 4:2:0 JPEG slice: 8-bit SOF0, component IDs 1/2/3, 2x2/1x1/1x1 sampling, one interleaved sequential Huffman scan in 1/2/3 order, 8-bit DQT, optional DRI/RST markers and no DNL/arithmetic coding.",
+    "The decoder owns no frame-sized coefficient or chroma surface. Its variable state is one 16-row luma iMCU strip, one 8-row Cb/Cr strip, one deferred boundary luma row, one prior low-resolution Cb/Cr context row and two reconstructed full-width chroma rows, all behind an explicit 64-byte row-aligned state plan plus fixed coefficient/quantization/IDCT scratch.",
+    "For downsampled chroma width greater than two, internal iMCU boundary rows use global centered 3/4-current + 1/4-adjacent chroma context; width four versus five cases hit the pinned libjpeg box-to-fancy branch, while height sixteen versus seventeen cases hit the first cross-iMCU context boundary.",
+    "Generated geometry, content, quality and restart cases must match pinned libjpeg-turbo djpeg -rgb -dct int byte-for-byte. The exact operation charge must succeed and charge-1 must fail before output/state allocation.",
+    "Passing this profile qualifies a narrow baseline 4:2:0 research backend slice and its owned resource topology. It does not qualify progressive color JPEG, other sampling modes, arbitrary component/color transforms, scaled IDCT, non-JFIF color authority or a public production backend."
+  ]
+}

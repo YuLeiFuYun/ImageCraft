@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 7,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V7",
+  "implementationScope": "public resource-aware DecodedImage finalization adds non-consuming preflight resource authority; independent JPEG implementation remains package-only and the legacy value-only finalizer remains unadvertised",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-public-resource-aware-finalization-preflight",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 0,
+    "knownPixelPayloadOperationBytes": 897
+  },
+  "requiredInvariants": [
+    "All v6 packed, no-copy DecodedImage, exact ImageProbe, source-binding, public-capability and framework-private resource facts remain unchanged.",
+    "Before consuming finalization, a resource-aware session at finalReady exposes the exact materialization resource ledger through decodedImageFinalizationResourceLedger().",
+    "Reading the preflight ledger is non-consuming: the qualification snapshot is byte-for-byte unchanged before and after the preflight call.",
+    "The preflight ledger preserves operationPeak = unknown(frameworkPrivateOperationAllocation), transfer = 897 bytes and codecOwnedRGB8 layout authority; a bounded host can therefore reject before Core Graphics materialization runs.",
+    "The consuming finalization must return exactly the same materialization ledger that was exposed by preflight.",
+    "The independent JPEG backend remains package-only and still does not advertise ProgressiveImageFinalizingSession."
+  ]
+}

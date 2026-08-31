@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-CHROMA-GROUND-TRUTH-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "outputIMCURowCount": 16,
+  "generatedCases": [
+    {"id": "baseline-440", "codingMode": "baseline", "sampling": "440"},
+    {"id": "baseline-420", "codingMode": "baseline", "sampling": "420"},
+    {"id": "progressive-440", "codingMode": "progressive", "sampling": "440"},
+    {"id": "progressive-420", "codingMode": "progressive", "sampling": "420"}
+  ],
+  "claimBoundary": [
+    "The generator defines a 64x64 full-resolution YCbCr source with Y=128, Cr=128 and Cb(y)=65+2y. It derives each vertically subsampled Cb row with the JFIF-compatible two-tap 2:1 average (1/2,1/2), producing Cb_sub(r)=66+4r, then supplies those component planes through libjpeg raw_data_in. Horizontal chroma is constant, so 4:4:0 isolates vertical reconstruction while 4:2:0 adds horizontal sampling geometry without adding a horizontal signal.",
+    "The generated JPEGs must carry a JFIF APP0 marker. A pinned libjpeg-turbo raw_data_out probe re-observes the post-IDCT low-resolution component planes, so compression-domain error is measured separately from reconstruction error.",
+    "The high-resolution pre-compression Cb field is the falsifiable source truth. Global centered linear reconstruction and an iMCU-clamped counterfactual are both computed from the post-IDCT Cb plane. On held-out internal iMCU-boundary rows, global reconstruction must be closer to source truth than the clamped counterfactual before any backend RGB output is considered.",
+    "For libjpeg and ImageCraft/ImageIO independently, an affine blue-versus-source-Cb map is fit only on non-boundary rows and frozen before held-out internal boundary evaluation. The experiment records which backend better preserves the source-defined boundary signal; it does not promote any observed RGB code delta into a public tolerance or claim that JPEG/JFIF mandates a particular interpolation filter."
+  ]
+}

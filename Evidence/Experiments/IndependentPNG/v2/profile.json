@@ -1,0 +1,499 @@
+{
+  "claimBoundary": [
+    "success conformance is exact in straight-source and packed-premultiplied byte domains for static non-interlaced grayscale 1/2/4/8-bit, grayscale+alpha8, indexed 1/2/4/8-bit, RGB8 and RGBA8 sources with explicit sRGB authority, plus a separately bounded Adam7 RGBA8 slice; Adam7 cases cover full seven-pass geometry, empty-pass small images, every PNG filter, pass-local previous-row reset and split IDAT delivery; sub-byte grayscale/indexed rows are filtered in packed-byte form with bpp=1, PLTE is exercised from 2/3/11 entries through 256 entries, and out-of-range palette indices must fail closed",
+    "truecolor PLTE is qualified only as a suggested palette and must not alter RGB/RGBA source samples or packed output; valid truecolor hIST is covered by package metamorphic/spec evidence, not this libpng pixel-success matrix, because libpng 1.6.58 reports it as out-of-place despite PNG Third Edition allowing it",
+    "RGB8 and grayscale 1/2/4/8-bit tRNS are qualified as binary alpha with canonical unused high bits in the libpng success matrix; RGB8 composes with a suggested PLTE, while required grayscale unused-high-bit masking is locked separately by package/ImageIO differential tests because libpng 1.6.58 warns on non-zero unused high bits",
+    "success cases carry explicit sRGB color authority plus one narrow RGBA8 full-range Display-P3 SDR cICP preserve-source cell; untagged, non-RGB ICC, PQ cICP and sBIT source-precision authority fail closed",
+    "gAMA/cHRM and PNG Third Edition HDR metadata (mDCV/cLLI) remain outside the qualified domain; RGBA8 cICP is limited to full-range Display-P3 SDR preserve-source and does not qualify PQ/HLG or cICP-to-sRGB conversion; current-version reserved bits and color-authority ordering are enforced",
+    "libpng is an independent pixel oracle and is not used as ImageCraft implementation code",
+    "hostile cases must fail closed; error taxonomy is recorded but not widened to create support",
+    "this profile does not publish PNGIndependentRGBA8Decoder as a production backend"
+  ],
+  "hostileCases": [
+    {
+      "id": "PNG-XB-H01",
+      "mutation": "corrupt-idat-crc"
+    },
+    {
+      "id": "PNG-XB-H02",
+      "mutation": "trailing-byte"
+    },
+    {
+      "id": "PNG-XB-H03",
+      "mutation": "indexed8-out-of-range-index"
+    },
+    {
+      "id": "PNG-XB-H04",
+      "mutation": "adam7-truncated-stream"
+    },
+    {
+      "id": "PNG-XB-H05",
+      "mutation": "noncontiguous-idat"
+    },
+    {
+      "id": "PNG-XB-H06",
+      "mutation": "gamma-only"
+    },
+    {
+      "id": "PNG-XB-H07",
+      "mutation": "unknown-critical-chunk"
+    },
+    {
+      "id": "PNG-XB-H08",
+      "mutation": "operation-budget",
+      "operationBudgetBytes": 8192
+    },
+    {
+      "id": "PNG-XB-H10",
+      "mutation": "noncontiguous-idat-gamma"
+    },
+    {
+      "id": "PNG-XB-H11",
+      "mutation": "malformed-chunk-type-byte"
+    },
+    {
+      "id": "PNG-XB-H12",
+      "mutation": "untagged-color-authority"
+    },
+    {
+      "id": "PNG-XB-H13",
+      "mutation": "non-rgb-icc-color-authority"
+    },
+    {
+      "id": "PNG-XB-H14",
+      "mutation": "reserved-bit-lowercase"
+    },
+    {
+      "id": "PNG-XB-H15",
+      "mutation": "gamma-with-srgb"
+    },
+    {
+      "id": "PNG-XB-H16",
+      "mutation": "chrm-with-srgb"
+    },
+    {
+      "id": "PNG-XB-H17",
+      "mutation": "srgb-after-idat"
+    },
+    {
+      "id": "PNG-XB-H18",
+      "mutation": "mdcv-hdr-metadata"
+    },
+    {
+      "id": "PNG-XB-H19",
+      "mutation": "clli-hdr-metadata"
+    },
+    {
+      "id": "PNG-XB-H20",
+      "mutation": "cmyk-icc-color-authority"
+    },
+    {
+      "id": "PNG-XB-H21",
+      "mutation": "hist-without-plte"
+    },
+    {
+      "id": "PNG-XB-H22",
+      "mutation": "hist-length-mismatch"
+    },
+    {
+      "id": "PNG-XB-H23",
+      "mutation": "indexed2-out-of-range-index"
+    },
+    {
+      "id": "PNG-XB-H24",
+      "mutation": "pq-cicp-color-authority"
+    },
+    {
+      "id": "PNG-XB-H25",
+      "mutation": "sbit-source-precision"
+    }
+  ],
+  "operationBudgetBytes": 67108864,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PNG-CONFORMANCE-V2",
+  "schemaVersion": 2,
+  "successCases": [
+    {
+      "filters": [
+        0
+      ],
+      "height": 11,
+      "id": "PNG-XB-001",
+      "splitIDAT": 1,
+      "width": 19
+    },
+    {
+      "filters": [
+        1
+      ],
+      "height": 11,
+      "id": "PNG-XB-002",
+      "splitIDAT": 1,
+      "width": 19
+    },
+    {
+      "filters": [
+        2
+      ],
+      "height": 11,
+      "id": "PNG-XB-003",
+      "splitIDAT": 1,
+      "width": 19
+    },
+    {
+      "filters": [
+        3
+      ],
+      "height": 11,
+      "id": "PNG-XB-004",
+      "splitIDAT": 1,
+      "width": 19
+    },
+    {
+      "filters": [
+        4
+      ],
+      "height": 11,
+      "id": "PNG-XB-005",
+      "splitIDAT": 1,
+      "width": 19
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 13,
+      "id": "PNG-XB-006",
+      "splitIDAT": 1,
+      "width": 23
+    },
+    {
+      "filters": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "height": 9,
+      "id": "PNG-XB-007",
+      "splitIDAT": 3,
+      "width": 29
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 15,
+      "id": "PNG-XB-008",
+      "sourceFormat": "rgb8",
+      "splitIDAT": 2,
+      "width": 17
+    },
+    {
+      "filters": [
+        4,
+        1
+      ],
+      "height": 10,
+      "id": "PNG-XB-009",
+      "sourceFormat": "rgba8",
+      "splitIDAT": 2,
+      "suggestedPLTE": true,
+      "width": 21
+    },
+    {
+      "filters": [
+        3,
+        0
+      ],
+      "height": 12,
+      "id": "PNG-XB-010",
+      "sourceFormat": "rgb8",
+      "splitIDAT": 2,
+      "suggestedPLTE": true,
+      "width": 20
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 14,
+      "id": "PNG-XB-011",
+      "sourceFormat": "rgb8",
+      "splitIDAT": 3,
+      "transparentRGB16": [
+        11,
+        53,
+        101
+      ],
+      "width": 19
+    },
+    {
+      "filters": [
+        4,
+        2,
+        0
+      ],
+      "height": 13,
+      "id": "PNG-XB-012",
+      "sourceFormat": "rgb8",
+      "splitIDAT": 2,
+      "suggestedPLTE": true,
+      "transparentRGB16": [
+        11,
+        53,
+        101
+      ],
+      "width": 18
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 11,
+      "id": "PNG-XB-013",
+      "sourceFormat": "gray8",
+      "splitIDAT": 2,
+      "width": 23
+    },
+    {
+      "filters": [
+        4,
+        2,
+        0,
+        3,
+        1
+      ],
+      "height": 12,
+      "id": "PNG-XB-014",
+      "sourceFormat": "gray8",
+      "splitIDAT": 3,
+      "transparentGray16": 13,
+      "width": 21
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 10,
+      "id": "PNG-XB-015",
+      "sourceFormat": "grayAlpha8",
+      "splitIDAT": 3,
+      "width": 24
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 16,
+      "id": "PNG-XB-016",
+      "sourceFormat": "indexed8",
+      "splitIDAT": 3,
+      "width": 32
+    },
+    {
+      "filters": [
+        4,
+        2,
+        0,
+        3,
+        1
+      ],
+      "height": 13,
+      "id": "PNG-XB-017",
+      "indexedAlphaCount": 3,
+      "indexedPaletteEntryCount": 3,
+      "sourceFormat": "indexed8",
+      "splitIDAT": 2,
+      "width": 19
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 11,
+      "id": "PNG-XB-018",
+      "indexedAlphaCount": 2,
+      "indexedBitDepth": 1,
+      "indexedPaletteEntryCount": 2,
+      "sourceFormat": "indexed8",
+      "splitIDAT": 2,
+      "width": 13
+    },
+    {
+      "filters": [
+        4,
+        2,
+        0,
+        3,
+        1
+      ],
+      "height": 9,
+      "id": "PNG-XB-019",
+      "indexedAlphaCount": 3,
+      "indexedBitDepth": 2,
+      "indexedPaletteEntryCount": 3,
+      "sourceFormat": "indexed8",
+      "splitIDAT": 3,
+      "width": 13
+    },
+    {
+      "filters": [
+        1,
+        3,
+        4,
+        2,
+        0
+      ],
+      "height": 10,
+      "id": "PNG-XB-020",
+      "indexedAlphaCount": 7,
+      "indexedBitDepth": 4,
+      "indexedPaletteEntryCount": 11,
+      "sourceFormat": "indexed8",
+      "splitIDAT": 2,
+      "width": 13
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 11,
+      "id": "PNG-XB-021",
+      "sourceFormat": "gray1",
+      "splitIDAT": 2,
+      "transparentGray16": 1,
+      "width": 13
+    },
+    {
+      "filters": [
+        4,
+        2,
+        0,
+        3,
+        1
+      ],
+      "height": 9,
+      "id": "PNG-XB-022",
+      "sourceFormat": "gray2",
+      "splitIDAT": 3,
+      "transparentGray16": 2,
+      "width": 13
+    },
+    {
+      "filters": [
+        1,
+        3,
+        4,
+        2,
+        0
+      ],
+      "height": 10,
+      "id": "PNG-XB-023",
+      "sourceFormat": "gray4",
+      "splitIDAT": 2,
+      "transparentGray16": 7,
+      "width": 13
+    },
+    {
+      "filters": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "height": 11,
+      "id": "PNG-XB-024",
+      "interlace": 1,
+      "sourceFormat": "rgba8",
+      "splitIDAT": 3,
+      "width": 13
+    },
+    {
+      "filters": [
+        4,
+        3,
+        2,
+        1,
+        0
+      ],
+      "height": 1,
+      "id": "PNG-XB-025",
+      "interlace": 1,
+      "sourceFormat": "rgba8",
+      "splitIDAT": 1,
+      "width": 1
+    },
+    {
+      "filters": [
+        2,
+        4,
+        1,
+        3,
+        0
+      ],
+      "height": 3,
+      "id": "PNG-XB-026",
+      "interlace": 1,
+      "sourceFormat": "rgba8",
+      "splitIDAT": 2,
+      "width": 5
+    },
+    {
+      "cicp": [
+        12,
+        13,
+        0,
+        1
+      ],
+      "expectedColorEncoding": "cICP",
+      "expectedSourceColorProfile": "unknown",
+      "filters": [
+        4,
+        2,
+        0,
+        3,
+        1
+      ],
+      "height": 11,
+      "id": "PNG-XB-027",
+      "includeSRGB": false,
+      "sourceFormat": "rgba8",
+      "splitIDAT": 3,
+      "width": 19
+    }
+  ]
+}

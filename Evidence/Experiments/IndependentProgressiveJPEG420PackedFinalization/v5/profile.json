@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 5,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V5",
+  "implementationScope": "package-only resource-aware DecodedImage finalization with exact ImageProbe authority derived from the independent progressive JPEG parser and explicit fail-closed orientation/auxiliary semantics",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-resource-aware-decoded-finalization-exact-probe",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 0,
+    "knownPixelPayloadOperationBytes": 897
+  },
+  "requiredInvariants": [
+    "All v4 resource-aware finalization, no-copy provider, DecodedImage geometry/color and framework-private resource facts remain unchanged.",
+    "The resource-aware finalization publishes an exact ImageProbe: 23x13, one frame, orientation 1, JPEG, zero auxiliary attachments and source profile absent.",
+    "Probe metadataByteCount must equal an independent scan of all JPEG APP0..APP15 and COM payload bytes; it is not a hard-coded fixture constant or a retained metadata buffer size.",
+    "The retained source must contain no EXIF/XMP orientation authority, MPF auxiliary authority or embedded ICC authority. Executable hostile tests prove these recognized authorities fail closed in one-shot and incremental paths before raster semantics are published.",
+    "The resource-aware capability remains package-only and the current session still does not advertise the existing public ProgressiveImageFinalizingSession while Core Graphics wrapper operation allocation is unknown."
+  ]
+}

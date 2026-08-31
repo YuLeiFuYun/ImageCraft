@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-STATIC-PREPARATION-CREATION-V1",
+  "implementationScope": "public non-consuming static prepare(data:) creation authority for ImageIO data-only preparation; operation remains framework-private unknown and default decode/backend selection is unchanged",
+  "case": {
+    "id": "jpeg-progressive-static-preparation-no-icc",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "static-preparation-creation.json",
+    "encodedMetadataByteCount": 14,
+    "probe": {
+      "pixelWidth": 23,
+      "pixelHeight": 13,
+      "frameCount": 1,
+      "orientation": 1,
+      "auxiliaryAttachmentCount": 0
+    }
+  },
+  "requiredInvariants": [
+    "Static preflight does not create prepared-store state and does not charge caller-owned input as codec-retained state at the call boundary.",
+    "The actual ImageIO creation operation remains unknown(frameworkPrivateOperationAllocation); this preflight does not claim framework creation is bounded.",
+    "For the retained no-ICC JPEG source, resulting data-only preparation retainedKnownBytes and retainedBetweenCalls equal the complete 787-byte encoded source.",
+    "After successful prepare(data:), the prepared-token retained authority exactly matches the preflight resulting-state authority, and discard removes the token ledger.",
+    "Independent JPEG APP/COM accounting remains 14 bytes while the current ImageIO ImageProbe metadataByteCount is larger because the public probe contract intentionally takes max(container payload, serialized ImageIO property estimate). This is a falsification of a drop-in pure-JPEG probe substitution, not a stable requirement that the runtime-specific larger value stay fixed."
+  ]
+}

@@ -24,5 +24,14 @@ let package = Package(
                 .product(name: "ImageCraftImageIO", package: "ImageCraft"),
             ]
         ),
+        .testTarget(
+            name: "ImageCraftConsumerSmokeTests",
+            dependencies: [
+                "ImageCraftConsumerSmoke",
+                .product(name: "ImageCraftCore", package: "ImageCraft"),
+                .product(name: "ImageCraftImageIO", package: "ImageCraft"),
+            ],
+            resources: [.copy("Resources/jpeg-progressive-420.jpg")]
+        ),
     ]
 )

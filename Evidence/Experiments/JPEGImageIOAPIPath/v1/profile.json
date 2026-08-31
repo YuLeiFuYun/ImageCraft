@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-IMAGEIO-API-PATH-V1",
+  "generatedCases": [
+    {"id": "baseline-420", "codingMode": "baseline", "sampling": "420"},
+    {"id": "progressive-420", "codingMode": "progressive", "sampling": "420"}
+  ],
+  "variants": [
+    {"id": "direct-default", "mode": "direct", "allowFloat": false},
+    {"id": "direct-allow-float", "mode": "direct", "allowFloat": true},
+    {"id": "thumbnail-default", "mode": "thumbnail", "allowFloat": false},
+    {"id": "thumbnail-allow-float", "mode": "thumbnail", "allowFloat": true}
+  ],
+  "claimBoundary": [
+    "The experiment uses the same raw-component 64x64 4:2:0 synthetic signal as the iMCU context study, separately encoded as baseline and progressive JPEG. It compares ImageIO direct image creation against a full-size thumbnail request, with kCGImageSourceShouldAllowFloat both disabled and enabled.",
+    "Every variant is rendered into the same explicit top-to-bottom sRGB RGBA8 buffer before comparison. The formal claim is byte identity between API-path variants for each coding mode; any difference fails the experiment rather than being averaged into a tolerance.",
+    "Passing this experiment only rules out these public ImageIO API/allow-float switches as a workaround for the observed raster difference on the generated domain. It does not prove that every ImageIO option, OS release, decode scale or pixel representation shares the same internal path."
+  ]
+}

@@ -149,7 +149,11 @@ final class ImageEncoderTests: XCTestCase {
       limits: .coreV1
     )
 
-    XCTAssertEqual(probe.sourceColorProfile, .embeddedICC)
+    // Current ImageIO PNG output carries cICP in addition to lower-priority ICC metadata.
+    // SourceColorProfile cannot represent cICP yet, so the probe must not mispublish iCCP as the
+    // effective authority. Preserve-source decode must still preserve the framework-resolved P3 value.
+    XCTAssertEqual(probe.sourceColorProfile, .unknown)
+    XCTAssertEqual(decoded.colorDescription.sourceProfile, .unknown)
     XCTAssertEqual(
       decoded.colorDescription.outputColorSpaceName,
       CGColorSpace.displayP3 as String

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V1",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 131072,
+    "pendingTableCapacityBytes": 4096,
+    "maximumPendingTableRecordCount": 32,
+    "pendingTableRecordBytes": 256,
+    "rollbackCoefficientBytes": 768,
+    "fixedSessionByteCharge": 136192,
+    "maximumRollbackBlocksPerMCU": 6
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-every-preview",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "mechanismPressure": "every encoded byte boundary, including structural lengths, stuffed entropy bytes and scan boundaries"
+    },
+    {
+      "id": "noise576-scan-larger-than-transport",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "mechanismPressure": "one entropy scan is larger than the 131072-byte transport capacity, falsifying whole-scan buffering"
+    },
+    {
+      "id": "restart64-split-every-rst-marker",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "mechanismPressure": "every RST marker is split after its 0xFF byte, forcing rollback across pad validation, marker consumption and predictor reset"
+    }
+  ],
+  "requiredInvariants": [
+    "Every MCU is transactional: a suspended or failing MCU restores coefficient blocks, DC predictors, EOBRUN, restart index and entropy bit state to the pre-MCU checkpoint.",
+    "Caller-owned append Data is borrowed only for the call. Cross-call encoded retention is limited to the fixed transport buffer; committed entropy may reclaim raw bytes even when later MCUs continue from saved bits of the already-consumed entropy byte.",
+    "The large-scan case must complete with maximum observed transport occupancy below the fixed 128 KiB capacity even though one entropy scan itself exceeds that capacity.",
+    "Every report requires final RGB bytes to equal the complete-input independent decoder byte-for-byte and completed scan numbers to be contiguous from 1 through the final scan.",
+    "Before finish, accepted and reclaimed encoded byte counts must both equal the source byte count and retained transport bytes must be zero. After finish, the session resource ledger must be terminal zero state.",
+    "Frame admission composes fixed session buffers, ImageCraft-owned coefficient/control/row state and exact RGB output before geometry-dependent allocation. The package-only lifecycle tests separately require charge-minus-one post-acceptance failure to terminalize and reclaim.",
+    "This profile does not qualify non-JFIF color authority, embedded ICC, other sampling modes, arbitrary arithmetic/DNL coding, public DecodeSession integration, physical RSS, allocator bookkeeping, or reconstruction quality as a perceptual standard."
+  ]
+}

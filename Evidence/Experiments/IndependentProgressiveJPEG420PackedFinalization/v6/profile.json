@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 6,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V6",
+  "implementationScope": "public ImageCraftCore resource-aware DecodedImage finalization contract with public resource-ledger vocabulary; independent JPEG implementation remains package-only and does not advertise the legacy value-only public finalizer",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-public-resource-aware-finalization-contract",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 0,
+    "knownPixelPayloadOperationBytes": 897
+  },
+  "requiredInvariants": [
+    "All v5 packed, no-copy DecodedImage, exact ImageProbe, source-binding and framework-private resource facts remain unchanged.",
+    "ImageProgressiveDecodedImageResourceFinalization and ProgressiveImageDecodedImageResourceFinalizingSession are public ImageCraftCore API, and the ImageDecodeResourceLedger vocabulary required by that finalization is public as well. A normal-import ImageCraftCore test target provides the compile-time visibility proof.",
+    "The independent JPEG adapter remains package-only; runtime evidence still reaches the capability only through any ImageProgressiveDecodeSession and preserves source-bound probe/materialization facts.",
+    "The resource-aware DecodedImage capability is advertised while the legacy value-only ProgressiveImageFinalizingSession remains unadvertised for this resource-unknown backend, so frameworkPrivateOperationAllocation cannot disappear behind an older finalization shape.",
+    "Making the contract public does not make the independent JPEG backend default, change ImageIO behavior, or close Core Graphics wrapper allocation authority."
+  ]
+}

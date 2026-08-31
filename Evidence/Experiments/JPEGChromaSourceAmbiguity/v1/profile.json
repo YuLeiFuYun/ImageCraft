@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-CHROMA-SOURCE-AMBIGUITY-V1",
+  "subsampling": "integer 2:1 box average",
+  "subsampledCb": [80, 128, 128, 80],
+  "sharedFullResolutionLuma": [32, 48, 64, 80, 96, 112, 128, 144],
+  "sourceTruths": {
+    "phaseShiftedThinStripe": [80, 80, 80, 176, 176, 80, 80, 80],
+    "trueLowResolutionPlateau": [80, 80, 128, 128, 128, 128, 80, 80]
+  },
+  "reconstructionCandidates": {
+    "centeredThreeQuarterOneQuarter": [80, 92, 116, 128, 128, 116, 92, 80],
+    "nearestCurrent": [80, 80, 128, 128, 128, 128, 80, 80]
+  },
+  "claimBoundary": [
+    "The two full-resolution chroma truths and the full-resolution luma are fixed before evaluation. Both chroma truths must collapse to the same low-resolution samples under the same integer 2:1 box average.",
+    "The phase-shifted thin stripe must have lower source-truth RMSE under centered 3/4-1/4 reconstruction than under nearest/current reconstruction. The true low-resolution plateau must prefer the opposite reconstruction, with nearest/current exact.",
+    "Because a deterministic decoder limited to the shared subsampled chroma observes identical chroma inputs in the two worlds, it cannot select the source-truth-optimal reconstruction for both. Keeping full-resolution luma identical strengthens the counterexample: luma guidance only resolves the ambiguity under an additional luma/chroma correlation prior.",
+    "This is an identifiability mechanism result, not a claim that centered or nearest interpolation is perceptually optimal on natural images. Any production adaptive policy must state its prior/objective and carry counterexamples where that prior fails."
+  ]
+}

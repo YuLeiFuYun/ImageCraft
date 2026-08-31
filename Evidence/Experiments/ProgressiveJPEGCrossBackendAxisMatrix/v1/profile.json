@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-PROGRESSIVE-JPEG-CROSS-BACKEND-AXIS-MATRIX-V1",
+  "sources": [
+    {
+      "id": "landscape",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+      "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6"
+    },
+    {
+      "id": "people",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/people-usda-meeting--spectral-balanced-v1.jpg",
+      "sha256": "4a4879eec680d13b40fe7835f9cae6e58bc7ccfb8a42d598993c925d9a50ac39"
+    },
+    {
+      "id": "architecture",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/architecture-usda-snow--luma-frontloaded-v1.jpg",
+      "sha256": "7cfe7f7b2e4757b6015a456160c6b273e6240e0ee0440f6befe6f42cc773eafa"
+    },
+    {
+      "id": "animal",
+      "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/animal-usda-cow-sunset--default-successive-v1.jpg",
+      "sha256": "3c8c249b8a8554a0c6cb2cf936e3f9af091fcdee5ed259b7746e153b24629c6b"
+    }
+  ],
+  "encode": {
+    "quality": 75,
+    "optimizeHuffman": true,
+    "progressive": true
+  },
+  "variants": [
+    {"id": "444", "sampling": "1x1,1x1,1x1", "axis": "none"},
+    {"id": "422", "sampling": "2x1,1x1,1x1", "axis": "horizontal"},
+    {"id": "440", "sampling": "1x2,1x1,1x1", "axis": "vertical"},
+    {"id": "420", "sampling": "2x2,1x1,1x1", "axis": "horizontal+vertical"}
+  ],
+  "claimBoundary": [
+    "This matrix repeats the controlled 4:4:4/4:2:2/4:4:0/4:2:0 axis isolation across four retained public-domain real photographs. Each source is first decoded to a fixed RGB encoder input using the pinned libjpeg-turbo installation, then every sampling variant holds those RGB bytes, encoder quality, Huffman optimization and progressive mode constant.",
+    "Cross-backend deltas compare ImageCraft/ImageIO against one-shot pinned libjpeg-turbo. Source-fidelity deltas compare each decoder independently against the exact RGB bytes supplied to cjpeg, so they measure reconstruction fidelity for the controlled re-encode rather than fidelity to an unknown original scene.",
+    "No observed code delta, MAE or PSNR becomes a conformance tolerance. Consistency across the four sources can strengthen an axis-mechanism inference, but it does not prove perceptual superiority or generalize beyond the qualified encoder/settings/runtime domain."
+  ]
+}

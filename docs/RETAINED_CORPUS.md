@@ -72,7 +72,7 @@ v1 是受版本管理的结构与边界 corpus，不是完整真实世界图像�
 
 - 可合法再分发的摄影、扫描和图形设计样本；
 - 嵌入式 RGB ICC、分块 JPEG ICC 和冲突色彩声明；
-- 16-bit PNG、调色板透明、interlaced PNG；
+- 作为长期回归资产保留的 16-bit PNG 与 interlaced PNG（T101 已有生成式/正式 conformance corpus，但尚未提升为 v1 retained fixtures）；
 - restart marker、算术 JPEG、异常 Huffman/quantization 表；
 - 大尺寸、压缩炸弹和 fuzz 最小化样本；
 - APNG、复杂 GIF disposal 和 HEIF/AVIF。

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 10,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V10",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit transport, cadence-aware rendering, first-SOS DQT release, actual-only coefficient planes, exact current Huffman payloads and validated-EOI final-ready compaction to the transferable RGB value",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 2874,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6,
+    "dummyCoefficientScratchByteCount": 128,
+    "persistentBaseFixedStateByteCount": 576,
+    "maximumHuffmanTablePayloadByteCount": 272,
+    "maximumHuffmanStateByteCount": 2176,
+    "persistentFixedStateByteCount": 2752,
+    "renderFixedScratchByteCount": 384,
+    "frameQuantizationSourceByteCount": 260
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-final-ready-compaction",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "minimumReleasedPaddedYCoefficientBytes": 256,
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 90,
+      "maximumObservedHuffmanTableBytes": 95,
+      "mechanismPressure": "787 one-byte appends preserve all ten preview generations, then validated EOI releases transport/coefficient/table state while the existing final preview RGB remains the sole retained codec-owned value"
+    },
+    {
+      "id": "noise576-final-only-final-ready-compaction",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 98,
+      "maximumObservedHuffmanTableBytes": 169,
+      "mechanismPressure": "nearly one MiB of actual coefficients is released immediately after EOI validation; final-only renders exactly once at compaction but does not publish a preview generation before finish"
+    },
+    {
+      "id": "restart64-final-only-final-ready-compaction",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "retainedHuffmanTableBytes": 0,
+      "finalHuffmanTableBytesBeforeCompaction": 89,
+      "maximumObservedHuffmanTableBytes": 135,
+      "mechanismPressure": "342 split restart markers exercise rollback/reclamation before EOI; final-ready compaction must erase all decoder state without changing restart-derived final RGB"
+    }
+  ],
+  "requiredInvariants": [
+    "All v9 transport, JFIF/Adobe authority, DQT lifetime, actual coefficient geometry, dynamic Huffman, preview backing and transactional-MCU invariants remain unchanged before EOI.",
+    "EOI is consumed and final progression is validated while decoder state is still live. Compaction occurs only after validation and only when the currently retained transport window is empty.",
+    "If trailing bytes coexist with EOI in the current transport window, the session fails before compaction. If accepted input remains outside the current transport window, the append loop observes phase complete on its next iteration and terminalizes, so compaction cannot make trailing bytes disappear.",
+    "For every-completed-scan cadence, the final RGB backing already exists from the tenth scan and is preserved through EOI compaction. Its preview generation remains available while phase is complete.",
+    "For final-only cadence, EOI compaction renders the final RGB exactly once before releasing decoder state but deliberately leaves lastRenderedScanCount unset. withCurrentPreview therefore remains unsupported even though the transferable RGB backing exists.",
+    "Before StateArena is released, finalHuffmanTableBytesBeforeCompaction captures the current exact DHT payload and maximumObservedHuffmanTableBytes preserves its historical high-water. Final-ready retainedHuffmanTableBytes is then exactly zero.",
+    "Final-ready compaction releases TransportBuffer, frame state, coefficient/progression/dequantization state, current DHT payloads and any pre-frame/quantization-source authority while preserving output Data, statePlan, accepted/reclaimed counters and admitted operation-peak authority.",
+    "For every retained source, final-ready retainedBetweenCalls equals finalRGBByteCount exactly. No transport, coefficient, table or render scratch remains live between append and finish.",
+    "Maximum retained and operation-peak authorities remain v9 conservative bounds because EOI rendering still occurs while decoder state is live. Compaction lowers the post-EOI retained phase but does not retroactively narrow earlier coexistence peaks.",
+    "The tiny source retains exactly 897 RGB bytes at final-ready; maximum retained authority remains 5343 bytes and operation peak remains 8095 bytes. Final DHT before compaction is 90 bytes, high-water 95 bytes.",
+    "The 576x576 source retains exactly 995328 RGB bytes at final-ready; maximum retained authority remains 998494 bytes and operation peak remains 2010910 bytes. Final DHT before compaction is 98 bytes, high-water 169 bytes.",
+    "The restart64 source retains exactly 12288 RGB bytes at final-ready; maximum retained authority remains 15454 bytes and operation peak remains 30494 bytes. Final DHT before compaction is 89 bytes, high-water 135 bytes.",
+    "finish transfers the already-rendered RGB and terminalizes; it does not need live decoder state. cancel, trailing-input failure and other fatal paths still reclaim the compacted RGB and publish a zero terminal ledger.",
+    "Moving final-only rasterization from finish to validated EOI means a final raster/allocation failure can surface from append that accepts EOI. This is an intentional package-only lifecycle consequence, not a claim about public API timing.",
+    "This profile does not qualify malloc headers, allocator size classes, Swift object headers, physical RSS, non-JFIF semantics, embedded ICC, other sampling modes or perceptual reconstruction quality."
+  ]
+}

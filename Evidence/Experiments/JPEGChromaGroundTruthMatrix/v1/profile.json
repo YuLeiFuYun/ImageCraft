@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-CHROMA-GROUND-TRUTH-MATRIX-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "outputIMCURowCount": 16,
+  "generatedCases": [
+    {"id": "up-baseline-440", "signal": "ramp2-up", "codingMode": "baseline", "sampling": "440"},
+    {"id": "up-baseline-420", "signal": "ramp2-up", "codingMode": "baseline", "sampling": "420"},
+    {"id": "up-progressive-440", "signal": "ramp2-up", "codingMode": "progressive", "sampling": "440"},
+    {"id": "up-progressive-420", "signal": "ramp2-up", "codingMode": "progressive", "sampling": "420"},
+    {"id": "down-baseline-440", "signal": "ramp2-down", "codingMode": "baseline", "sampling": "440"},
+    {"id": "down-baseline-420", "signal": "ramp2-down", "codingMode": "baseline", "sampling": "420"},
+    {"id": "down-progressive-440", "signal": "ramp2-down", "codingMode": "progressive", "sampling": "440"},
+    {"id": "down-progressive-420", "signal": "ramp2-down", "codingMode": "progressive", "sampling": "420"},
+    {"id": "zigzag-baseline-440", "signal": "zigzag2", "codingMode": "baseline", "sampling": "440"},
+    {"id": "zigzag-baseline-420", "signal": "zigzag2", "codingMode": "baseline", "sampling": "420"},
+    {"id": "zigzag-progressive-440", "signal": "zigzag2", "codingMode": "progressive", "sampling": "440"},
+    {"id": "zigzag-progressive-420", "signal": "zigzag2", "codingMode": "progressive", "sampling": "420"}
+  ],
+  "claimBoundary": [
+    "The matrix repeats the JFIF-tagged source-grounded experiment across three independently specified full-resolution vertical Cb fields: a +2-code/row ramp, a -2-code/row ramp and a bounded piecewise +/-2-code/row zigzag. Each low-resolution Cb row is independently required to equal the integer average of the corresponding full-resolution row pair before encoding.",
+    "The matrix crosses each signal with baseline/progressive coding and 4:4:0/4:2:0 sampling. Horizontal chroma remains constant, so sampling-axis changes do not introduce a horizontal signal.",
+    "For every cell, the actual post-IDCT Cb plane is the reconstruction input. Global centered reconstruction must beat the iMCU-clamped counterfactual on held-out internal iMCU-boundary rows, and the libjpeg RGB path must preserve the source-defined boundary signal better than ImageCraft/ImageIO under a color map fit only on non-boundary rows.",
+    "This is a directional mechanism/quality matrix, not a JPEG normative filter rule, perceptual score or public pixel tolerance. Any cell that reverses either ordering fails the matrix rather than being averaged away."
+  ]
+}

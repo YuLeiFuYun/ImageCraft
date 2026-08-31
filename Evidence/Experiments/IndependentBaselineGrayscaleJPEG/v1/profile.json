@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-BASELINE-GRAYSCALE-JPEG-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "geometryCases": [
+    [1, 1], [7, 7], [8, 8], [9, 8], [8, 9], [17, 13], [31, 19], [64, 17]
+  ],
+  "patterns": ["flat", "horizontal-ramp", "checker", "deterministic-noise"],
+  "qualities": [25, 75, 100],
+  "restartIntervalsMCUs": [1, 2, 5],
+  "retainedCases": [
+    {
+      "id": "retained-grayscale-19x11",
+      "file": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-grayscale.jpg",
+      "sha256": "f9f74e388a7dcd740c878c895a3e00b917f8739f3d86f71798742dfe9176f0c7"
+    }
+  ],
+  "claimBoundary": [
+    "This profile qualifies a package-only complete-input baseline grayscale JPEG path: 8-bit SOF0, one 1x1 component, one sequential Huffman scan, 8-bit DQT, optional DRI/RST markers and no DNL. It does not qualify color JPEG, progressive JPEG or a public backend.",
+    "The decoder owns no frame-sized coefficient surface. After immutable source facts are parsed, width*height output bytes plus one fixed 512-byte scratch backing are admitted before allocation. The scratch contains one quantized coefficient block, one natural-order quantization table and the 256-byte ISLOW workspace; ISLOW writes clipped rows directly into the caller-admitted final raster, so there is no intermediate block-raster payload.",
+    "Generated geometry, pattern, quality and restart cases plus the retained grayscale fixture must match pinned libjpeg-turbo djpeg -grayscale -dct int byte-for-byte. The exact operation charge must succeed and charge-1 must fail before output/scratch allocation for every case.",
+    "The entropy reader is intentionally correctness-first: canonical Huffman decode has no lookahead table, stuffed FF data is recognized after any run of FF fill bytes, restart markers are sequence-checked, DC predictors reset at restart boundaries and residual entropy pad bits must be all ones. No observed pixel delta is converted into a tolerance."
+  ]
+}

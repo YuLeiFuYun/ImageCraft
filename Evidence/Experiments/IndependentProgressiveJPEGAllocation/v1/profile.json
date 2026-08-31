@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-ALLOCATION-TOPOLOGY-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "maximumScanCount": 500,
+  "source": {
+    "file": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/encoded/landscape-coconino-sunflowers--default-successive-v1.jpg",
+    "sha256": "5067c0137d70d1fc58086fed3dceb9de8343cc612b527521bec9cac61e1926b6"
+  },
+  "encode": {
+    "quality": 75,
+    "optimizeHuffman": true,
+    "progressive": true
+  },
+  "variants": [
+    {"id": "gray", "mode": "grayscale"},
+    {"id": "444", "mode": "sampling", "sampling": "1x1,1x1,1x1"},
+    {"id": "422", "mode": "sampling", "sampling": "2x1,1x1,1x1"},
+    {"id": "420", "mode": "sampling", "sampling": "2x2,1x1,1x1"}
+  ],
+  "claimBoundary": [
+    "This is a package-only mechanism experiment for the pinned libjpeg-turbo 3.2.0 classic decompressor and its private jmemmgr allocation topology. It does not qualify a production ImageCraft backend or a cross-version libjpeg memory contract.",
+    "The probe records logical jpeg_memory_mgr allocation entrypoints only after jpeg_read_header and before realize_virt_arrays, together with private total_space_allocated before and after each call. The event chain must close exactly from the post-header pool checkpoint to the pre-realize pool checkpoint.",
+    "For the qualified 8-bit full-scale grayscale/4:4:4/4:2:2/4:2:0 domain with default fancy upsampling, a separate geometry model derives the expected upsampler and main-controller sample-array shapes from image width and SOF sampling factors. Observed allocSArray shapes must match that model exactly; no fitted byte constant is allowed to change the modeled row payload.",
+    "Pool growth beyond logical row payload remains allocator topology, not pixel payload. The experiment records it explicitly and does not reinterpret max_memory_to_use as a whole-decoder memory cap."
+  ]
+}

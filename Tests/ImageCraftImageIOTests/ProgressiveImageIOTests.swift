@@ -104,6 +104,88 @@ final class ProgressiveImageIOTests: XCTestCase {
     XCTAssertEqual(try rgbaBytes(prepared.cgImage), try rgbaBytes(direct.cgImage))
   }
 
+  func testDataOnlyProgressivePreparationReusesValidatedContainerFacts() throws {
+    let decoder = ImageIOImageDecoder(
+      qualificationPreparationRetentionMode: .encodedDataOnly
+    )
+    let data = try fixture(named: "jpeg-progressive-420.jpg")
+    let request = ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32))
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: request,
+      limits: .coreV1
+    )
+    for chunk in chunks(data, maximumSize: 32) {
+      _ = try session.append(chunk)
+    }
+
+    let preparing = try XCTUnwrap(session as? any ProgressiveImagePreparingSession)
+    let candidate = try preparing.finishWithPreparation()
+    let ledger = try XCTUnwrap(
+      decoder.preparationResourceLedger(
+        candidate.preparation,
+        request: request,
+        limits: .coreV1
+      )
+    )
+    XCTAssertEqual(ledger.retainedBetweenCalls, .bounded(ledger.retainedKnownBytes))
+
+    let result = try decoder.decodeWithDiagnostics(
+      preparation: candidate.preparation,
+      request: request,
+      limits: .coreV1
+    )
+    let repeated = try XCTUnwrap(result.diagnostics.repeatedPreparationDiagnostics)
+    XCTAssertEqual(repeated.containerInspectionNanoseconds, 0)
+    let direct = try ImageIOImageDecoder().decode(data: data, request: request, limits: .coreV1)
+    XCTAssertEqual(try rgbaBytes(result.image.cgImage), try rgbaBytes(direct.cgImage))
+    XCTAssertNil(
+      decoder.preparationResourceLedger(
+        candidate.preparation,
+        request: request,
+        limits: .coreV1
+      )
+    )
+  }
+
+  func testOwnedRGBAProgressivePreparationPublishesBoundedTransferAndExactPixels() throws {
+    let decoder = ImageIOImageDecoder(
+      qualificationPreparationRetentionMode: .encodedDataOnly,
+      outputMaterializationMode: .ownedRGBA8
+    )
+    let data = try fixture(named: "jpeg-progressive-420.jpg")
+    let request = ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32))
+    let session = try decoder.makeProgressiveSession(
+      format: .jpeg,
+      request: request,
+      limits: .coreV1
+    )
+    for chunk in chunks(data, maximumSize: 32) {
+      _ = try session.append(chunk)
+    }
+    let preparing = try XCTUnwrap(session as? any ProgressiveImagePreparingSession)
+    let candidate = try preparing.finishWithPreparation()
+    let ledger = try XCTUnwrap(
+      decoder.preparationResourceLedger(
+        candidate.preparation,
+        request: request,
+        limits: .coreV1
+      )
+    )
+    guard case .bounded(let transferBound) = ledger.transferredOutput else {
+      return XCTFail("owned progressive preparation must bound transfer payload")
+    }
+    let result = try decoder.decode(
+      preparation: candidate.preparation,
+      request: request,
+      limits: .coreV1
+    )
+    XCTAssertEqual(result.cgImage.bytesPerRow, result.pixelWidth * 4)
+    XCTAssertLessThanOrEqual(result.estimatedByteCost, transferBound)
+    let direct = try ImageIOImageDecoder().decode(data: data, request: request, limits: .coreV1)
+    XCTAssertEqual(try rgbaBytes(result.cgImage), try rgbaBytes(direct.cgImage))
+  }
+
   func testEarlyPreparingSessionReturnsNilWithoutClosingUntilEOI() throws {
     let decoder = ImageIOImageDecoder()
     let data = try fixture(named: "jpeg-progressive-420.jpg")
@@ -162,7 +244,7 @@ final class ProgressiveImageIOTests: XCTestCase {
     }
   }
 
-  func testFinalizingSessionRejectsTrailingBytes() throws {
+  func testProgressiveSessionRejectsTrailingBytesAsSoonAsEOIIsKnown() throws {
     let decoder = ImageIOImageDecoder()
     var data = try fixture(named: "jpeg-progressive-420.jpg")
     data.append(0)
@@ -171,10 +253,10 @@ final class ProgressiveImageIOTests: XCTestCase {
       request: ImageDecodeRequest(target: try TargetPixels(width: 32, height: 32)),
       limits: .coreV1
     )
-    _ = try session.append(data)
-    let finalizing = try XCTUnwrap(session as? any ProgressiveImageFinalizingSession)
 
-    XCTAssertThrowsError(try finalizing.finishWithFinalImage())
+    XCTAssertThrowsError(try session.append(data)) { error in
+      XCTAssertEqual(error as? ImageCraftError, .unsupportedOrCorruptImage)
+    }
   }
 
   func testBaselineJPEGFailsClosedWithoutPretendingToBeProgressive() throws {

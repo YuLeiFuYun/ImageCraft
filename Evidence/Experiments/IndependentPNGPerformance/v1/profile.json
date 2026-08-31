@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PNG-DECODE-PERFORMANCE-V1",
+  "operationBudgetBytes": 536870912,
+  "successCases": [
+    {
+      "id": "PNG-PERF-001-RGBA8-MIXED",
+      "width": 1024,
+      "height": 1024,
+      "sourceFormat": "rgba8",
+      "filters": [0, 1, 2, 3, 4],
+      "splitIDAT": 4
+    },
+    {
+      "id": "PNG-PERF-002-RGB8-MIXED",
+      "width": 1024,
+      "height": 1024,
+      "sourceFormat": "rgb8",
+      "filters": [0, 1, 2, 3, 4],
+      "splitIDAT": 4
+    }
+  ],
+  "hostileCases": [],
+  "claimBoundary": [
+    "timings are directional host observations and are not cross-device performance claims",
+    "ImageIO is a performance reference here, not an independent semantic authority",
+    "the comparison requires exact packed-output equality before timing is accepted",
+    "no post-hoc pass/fail performance threshold is defined",
+    "operationByteChargeUpperBound is an ImageCraft-owned admission model, not RSS"
+  ]
+}

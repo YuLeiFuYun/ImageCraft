@@ -25,6 +25,7 @@ DERIVED_ROOT=${IMAGECRAFT_CONSUMER_DERIVED_DATA:-"$WORK/derived-data"}
 DERIVED_DATA="$DERIVED_ROOT/run-$$"
 
 swift build --package-path "$FIXTURE" --scratch-path "$SWIFTPM_SCRATCH" -c release
+swift test --package-path "$FIXTURE" --scratch-path "$SWIFTPM_SCRATCH" --jobs 1
 
 run_xcode_build() {
     label=$1

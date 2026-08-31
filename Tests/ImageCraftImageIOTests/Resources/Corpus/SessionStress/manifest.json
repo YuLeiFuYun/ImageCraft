@@ -1,0 +1,47 @@
+{
+  "cases": [
+    {
+      "byteCount": 592,
+      "file": "canonical-zero-23x13-q75-progressive-420.jpg",
+      "height": 13,
+      "maximumEntropyScanByteCount": 160,
+      "quality": 75,
+      "restart": null,
+      "restartMarkerCount": 0,
+      "scanCount": 4,
+      "scanScriptID": "all-first-zero-v1",
+      "sha256": "0d719304dd885f339356186593f4dc8aeae63b4e6618a2981e2437653ce0ce66",
+      "width": 23
+    },
+    {
+      "byteCount": 337012,
+      "file": "noise576-q95-progressive-420.jpg",
+      "height": 576,
+      "maximumEntropyScanByteCount": 132270,
+      "quality": 95,
+      "restart": null,
+      "restartMarkerCount": 0,
+      "scanCount": 10,
+      "scanScriptID": "libjpeg-simple-progression",
+      "sha256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "width": 576
+    },
+    {
+      "byteCount": 4723,
+      "file": "restart64-q90-progressive-420-rst1b.jpg",
+      "height": 64,
+      "maximumEntropyScanByteCount": 1078,
+      "quality": 90,
+      "restart": "1B",
+      "restartMarkerCount": 342,
+      "scanCount": 10,
+      "scanScriptID": "libjpeg-simple-progression",
+      "sha256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "width": 64
+    }
+  ],
+  "cjpegVersion": "libjpeg-turbo version 3.2.0 (build 20260630)",
+  "generator": "generate_progressive_session_stress.py",
+  "sampling": "2x2,1x1,1x1",
+  "schemaVersion": 1
+}

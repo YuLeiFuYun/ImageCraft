@@ -1,0 +1,73 @@
+{
+  "capabilityDiscoverable" : true,
+  "chunkByteCount" : 17,
+  "chunkCount" : 47,
+  "evidenceVersion" : "imagecraft-independent-progressive-jpeg-420-packed-finalization-v1",
+  "finalizationSourceByteCount" : 787,
+  "inputProfile" : "arbitraryChunk",
+  "maximumTightRGBABytes" : 0,
+  "packed" : {
+    "alphaAssociation" : "none",
+    "byteCount" : 897,
+    "bytesPerRow" : 69,
+    "channelLayout" : "rgb",
+    "colorEncoding" : "sRGB",
+    "pixelByteCharge" : 897,
+    "pixelHeight" : 13,
+    "pixelWidth" : 23,
+    "sampleStorage" : "uint8",
+    "sha256" : "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "sourceColorProfile" : "absent",
+    "transferredByteCharge" : 897
+  },
+  "packedMatchesKernelRGB" : true,
+  "preFinishProgress" : "finalReady",
+  "preFinishResourceLedger" : {
+    "isTerminal" : false,
+    "operationPeak" : {
+      "bounded" : {
+        "_0" : 6590
+      }
+    },
+    "outputLayoutAuthority" : "codecOwnedRGB8",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 897
+      }
+    },
+    "retainedKnownBytes" : 897,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 897
+      }
+    }
+  },
+  "retainsOpaqueFrameworkStateBetweenCalls" : false,
+  "schemaVersion" : 1,
+  "source" : {
+    "byteCount" : 787,
+    "sha256" : "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966"
+  },
+  "terminalProgress" : "terminal",
+  "terminalResourceLedger" : {
+    "isTerminal" : true,
+    "operationPeak" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "outputLayoutAuthority" : "none",
+    "retainedBetweenCalls" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    },
+    "retainedKnownBytes" : 0,
+    "transferredOutput" : {
+      "bounded" : {
+        "_0" : 0
+      }
+    }
+  },
+  "wrapperBackingWasShared" : true
+}

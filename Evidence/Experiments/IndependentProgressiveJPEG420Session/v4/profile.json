@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 4,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-SESSION-V4",
+  "implementationScope": "package-only progressive JFIF 4:2:0 incremental session with semantic-unit marker streaming, exact-MCU transactional transport and phase-separated retained/operation authority",
+  "fixedSessionResources": {
+    "transportCapacityBytes": 414,
+    "maximumMarkerSegmentEncodedBytes": 65537,
+    "maximumMarkerSemanticUnitBytes": 273,
+    "maximumACFirstTransactionBitCount": 1642,
+    "maximumInterleavedDCFirstTransactionBitCount": 162,
+    "maximumACRefineTransactionBitCount": 1085,
+    "maximumEntropyTransactionEncodedBytes": 414,
+    "preFrameTableStateByteCount": 2460,
+    "initialRetainedByteCharge": 2874,
+    "rollbackCoefficientBytes": 768,
+    "operationScratchByteCharge": 768,
+    "maximumRollbackBlocksPerMCU": 6
+  },
+  "fixtureGenerator": {
+    "file": "Tools/Quality/generate_progressive_session_stress.py",
+    "requiredCJPEGVersionPrefix": "libjpeg-turbo version 3.2.0",
+    "manifest": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/manifest.json"
+  },
+  "cases": [
+    {
+      "id": "tiny-single-byte-every-preview",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+      "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "schedule": "single-byte",
+      "previewCadence": "every-completed-scan",
+      "report": "tiny-single-byte.json",
+      "mechanismPressure": "every encoded byte boundary plus every completed-scan preview; all previews must alias one session-owned RGB backing"
+    },
+    {
+      "id": "noise576-scan-321x-transport",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/noise576-q95-progressive-420.jpg",
+      "inputSHA256": "fa8568e3f8b776f65a204a57d18959b0e2cc9e009be40f50cf48345c9230eca0",
+      "maximumEntropyScanByteCount": 132270,
+      "schedule": "fixed-32785",
+      "previewCadence": "final-only",
+      "report": "noise576-fixed-32785.json",
+      "mechanismPressure": "a 132270-byte entropy scan is more than 319 times the 414-byte transport authority; committed MCU prefixes must keep residency within the syntax-derived transaction ceiling"
+    },
+    {
+      "id": "restart64-split-every-rst-marker",
+      "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/SessionStress/restart64-q90-progressive-420-rst1b.jpg",
+      "inputSHA256": "862c6b163071feef98a6912c455e10d59472c8c358766afddc74366955ba1ac2",
+      "restartMarkerCount": 342,
+      "schedule": "split-restart-markers",
+      "previewCadence": "final-only",
+      "report": "restart64-split-markers.json",
+      "mechanismPressure": "every RST marker is split after its 0xFF byte, forcing transactional MCU rollback across marker boundaries"
+    }
+  ],
+  "requiredInvariants": [
+    "The 65537-byte maximum encoded marker segment is a file-format extent, not a residency requirement. Length-bearing marker headers are consumed first; semantically skippable APP/COM payloads stream-discard under declared-length metadata accounting.",
+    "The largest retained marker semantic unit is one DHT definition: one selector byte, 16 code-length counts and at most 256 symbols = 273 bytes. DQT commits 65-byte tables; JFIF, ICC and Adobe authority need only 14, 12 and 12 payload bytes respectively.",
+    "The qualified single-MCU entropy bound is derived across scan modes rather than from corpus observation: AC-first is 1642 bits (62 longest coefficient symbols plus a longest EOBRUN), interleaved DC-first is 162 bits and AC-refine is conservatively 1085 bits. Worst-case byte stuffing plus a restart marker makes the transport authority 414 bytes, which dominates the 273-byte marker semantic unit.",
+    "A maximum-length 65537-byte COM marker must stream through transport without whole-marker residency; legal ordinary-marker and restart-marker FF fill longer than two maximum marker segments is normalized and reclaimed incrementally.",
+    "Entropy-coded data accepts exactly FF 00 for one stuffed FF byte. The non-standard FF FF ... 00 compatibility pattern is fail-closed so an unbounded non-marker FF run cannot widen one MCU transaction.",
+    "Pre-frame DQT/DHT state is normalized into four quantization slots and eight Huffman slots; repeated marker definitions overwrite finite semantic state rather than retaining marker history.",
+    "The pre-frame table arena is released after SOF2 state transfer. The 768-byte six-block rollback buffer is operation-only scratch and is not charged to retainedBetweenCalls.",
+    "JFIF source authority is structural and ordered: the complete APP0 main-header fields must be valid and the JFIF marker must be the first marker after SOI. Adobe APP14 is accepted only when transform=1 agrees with JFIF YCbCr; embedded ICC and conflicting Adobe RGB/YCCK fail closed before rasterization.",
+    "Every MCU is transactional: suspension restores coefficient blocks, DC predictors, EOBRUN, restart index and entropy bit state to the pre-MCU checkpoint.",
+    "Caller-owned append Data is borrowed only for the call. Cross-call encoded retention is limited to the 414-byte transport buffer, and committed entropy/marker prefixes are reclaimable.",
+    "The 576x576 retained case must remain within the 414-byte transport authority while its largest entropy scan is 132270 bytes; corpus occupancy is an observation, not the proof of the domain bound.",
+    "Every report requires final RGB bytes to equal the complete-input independent decoder byte-for-byte and completed scan numbers to be contiguous from 1 through the final scan.",
+    "Every-completed-scan preview evidence must observe exactly one preview per scan and one stable session-owned RGB backing across all previews.",
+    "Before finish, retainedBetweenCalls equals transport plus ImageCraft-owned state plus one RGB output; operationPeak is the maximum of the SOF2 transition coexistence and steady retained bytes plus transactional rollback scratch. After finish, the ledger is terminal zero state.",
+    "This profile does not qualify non-JFIF color authority, embedded ICC, other sampling modes, public DecodedImage representation, physical RSS, allocator bookkeeping or perceptual reconstruction quality."
+  ]
+}

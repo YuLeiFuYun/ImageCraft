@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 4,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-JPEG-420-PACKED-FINALIZATION-V4",
+  "implementationScope": "package-only resource-aware DecodedImage finalization capability that keeps framework-private materialization authority visible and deliberately does not advertise the existing public finalization protocol",
+  "chunkByteCount": 17,
+  "case": {
+    "id": "jfif-420-resource-aware-decoded-finalization",
+    "input": "Tests/ImageCraftImageIOTests/Resources/Corpus/v1/jpeg-progressive-420.jpg",
+    "inputSHA256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+    "report": "packed-finalization.json",
+    "pixelWidth": 23,
+    "pixelHeight": 13,
+    "bytesPerRow": 69,
+    "byteCount": 897,
+    "outputSHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+    "bitsPerComponent": 8,
+    "bitsPerPixel": 24,
+    "copiedPixelPayloadByteCount": 0,
+    "knownPixelPayloadOperationBytes": 897
+  },
+  "requiredInvariants": [
+    "All packed, no-copy provider and DecodedImage geometry/color/resource facts from v3 remain byte-for-byte unchanged.",
+    "A second independent session fed the same source through the same 17-byte arbitrary-chunk schedule must expose ProgressiveImageDecodedImageResourceFinalizingSession when viewed only as any ImageProgressiveDecodeSession.",
+    "The same session must not advertise the existing public ProgressiveImageFinalizingSession while Core Graphics materialization operation authority remains unknown.",
+    "Resource-aware finalization sourceByteCount equals the complete 787-byte encoded body and its provider SHA equals the packed RGB SHA.",
+    "The capability returns the exact same materialization resource ledger as the qualified materializer, including operationPeak unknown(frameworkPrivateOperationAllocation) and transferredOutput bounded to 897 codec-owned RGB8 bytes.",
+    "Resource-aware finalization terminalizes and fully reclaims the session. This version makes unknown authority transportable through the host-facing package contract; it does not close the unknown or promote the backend publicly."
+  ]
+}

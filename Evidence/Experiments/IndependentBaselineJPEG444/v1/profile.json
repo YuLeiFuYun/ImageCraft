@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-BASELINE-JPEG-444-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "geometryCases": [[1,1],[7,7],[8,8],[9,8],[8,9],[17,13],[31,19],[64,17]],
+  "patterns": ["neutral-gradient", "chroma-grid", "deterministic-noise"],
+  "qualities": [25,75,100],
+  "restartIntervalsMCUs": [1,2,5],
+  "claimBoundary": [
+    "This profile qualifies a package-only complete-input baseline JFIF 4:4:4 JPEG slice: 8-bit SOF0, component IDs 1/2/3, 1x1 sampling for all components, one interleaved sequential Huffman scan, 8-bit DQT, optional DRI/RST markers and no DNL/arithmetic coding.",
+    "The decoder streams one MCU at a time and retains no frame-sized coefficient surface. It admits tight RGB output plus one fixed 704-byte codec payload backing before allocation: one current coefficient block, one current natural-order quantization table, one ISLOW workspace and three 8x8 Y/Cb/Cr sample blocks.",
+    "Generated geometry, content, quality and restart cases must match pinned libjpeg-turbo djpeg -rgb -dct int byte-for-byte. The exact operation charge must succeed and charge-1 must fail before output/scratch allocation.",
+    "Passing this profile composes previously exact ISLOW and YCbCr-to-RGB kernels with a three-component interleaved entropy path. It does not qualify subsampled chroma reconstruction, progressive color JPEG, arbitrary component IDs/color transforms or a public production backend."
+  ]
+}

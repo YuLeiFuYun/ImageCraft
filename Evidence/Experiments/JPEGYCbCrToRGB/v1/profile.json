@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-YCBCR-TO-RGB-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "samplings": [
+    {"id": "444", "cjpeg": "1x1,1x1,1x1", "factors": [[1,1],[1,1],[1,1]]},
+    {"id": "422", "cjpeg": "2x1,1x1,1x1", "factors": [[2,1],[1,1],[1,1]]},
+    {"id": "440", "cjpeg": "1x2,1x1,1x1", "factors": [[1,2],[1,1],[1,1]]},
+    {"id": "420", "cjpeg": "2x2,1x1,1x1", "factors": [[2,2],[1,1],[1,1]]}
+  ],
+  "codingModes": ["baseline", "progressive"],
+  "qualities": [25, 75, 100],
+  "patterns": ["neutral-gradient", "chroma-grid", "deterministic-noise"],
+  "geometry": [31, 19],
+  "claimBoundary": [
+    "This experiment isolates the 8-bit YCbCr-to-RGB conversion arithmetic from entropy decoding, IDCT and chroma reconstruction. Pinned libjpeg-turbo first decodes each generated JPEG to full-resolution interleaved JCS_YCbCr with JDCT_ISLOW and do_fancy_upsampling=TRUE; ImageCraft receives only those full-resolution bytes.",
+    "The RGB reference is the same pinned libjpeg-turbo installation decoding the same JPEG with JDCT_ISLOW and its default fancy upsampling. The pinned jdmaster use_merged_upsample predicate rejects merged upsampling whenever do_fancy_upsampling is true, so the RGB reference and JCS_YCbCr probe both use the separate upsampling path; any remaining RGB difference is attributable to color conversion rather than a merged h2v1/h2v2 fast path.",
+    "The matrix crosses 4:4:4, 4:2:2, 4:4:0 and 4:2:0 with baseline/progressive coding, three qualities and three deterministic RGB source patterns. The encoded SOF sampling factors and coding mode are independently parsed before comparison.",
+    "ImageCraft output must match pinned libjpeg RGB byte-for-byte. No tolerance is introduced. Passing qualifies only the integer 8-bit YCbCr-to-RGB primitive on the observed full-resolution YCbCr domain; it does not by itself qualify JPEG entropy, IDCT, chroma upsampling, color management or a production color backend."
+  ]
+}

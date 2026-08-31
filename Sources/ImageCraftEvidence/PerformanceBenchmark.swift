@@ -72,6 +72,86 @@ struct PerformanceCaseReport: Codable {
   let output: PerformanceOutput
 }
 
+private let preparedStateRetentionEvidenceVersion = "imagecraft-prepared-state-retention-v1"
+
+enum PreparedStateRetentionEvidenceStrategy: String, Codable {
+  case retainedSource = "retained-source"
+  case encodedDataOnly = "encoded-data-only"
+
+  var retentionMode: ImageIOPreparationRetentionMode {
+    switch self {
+    case .retainedSource: .retainedSource
+    case .encodedDataOnly: .encodedDataOnly
+    }
+  }
+}
+
+struct PreparedStateRSSObservation: Codable {
+  let baselineResidentBytes: UInt64
+  let preparedResidentBytes: UInt64
+  let preparedDeltaBytes: UInt64
+  let afterDiscardResidentBytes: UInt64
+  let afterDiscardDeltaBytes: UInt64
+}
+
+struct PreparedStateResourceClassification: Codable {
+  let retainedKnownBytes: Int
+  let retainedBetweenCalls: String
+  let operationPeak: String
+  let transferredOutput: String
+  let aggregateRetainedKnownByteCharge: Int
+  let aggregateMaximumRetainedKnownByteCharge: Int
+}
+
+struct PreparedStateDurationEvidence: Codable {
+  let samplesNanoseconds: [UInt64]
+  let statistics: PerformanceDurationStatistics
+}
+
+struct PreparedStateRetentionEvidenceReport: Codable {
+  let schemaVersion: UInt16
+  let evidenceVersion: String
+  let runtime: ImageIORuntimeFingerprint
+  let decoderFingerprint: String
+  let environment: PerformanceEnvironment
+  let strategy: PreparedStateRetentionEvidenceStrategy
+  let simultaneousPreparationCount: Int
+  let warmupIterations: Int
+  let iterations: Int
+  let source: PerformanceSource
+  let resourceClassification: PreparedStateResourceClassification
+  let rss: PreparedStateRSSObservation
+  let prepareDuration: PreparedStateDurationEvidence
+  let decodeDuration: PreparedStateDurationEvidence
+  let totalDuration: PreparedStateDurationEvidence
+  let initialInspectionDuration: PreparedStateDurationEvidence
+  let repeatedInspectionDuration: PreparedStateDurationEvidence
+  let outputRGBABytes: Int
+  let outputSHA256: String
+}
+
+private struct PreparedStateEvidenceFixture {
+  let encoded: EncodedImage
+  let limits: DecodeLimits
+  let request: ImageDecodeRequest
+  let source: PerformanceSource
+}
+
+private struct PreparedStateMemoryCapture {
+  let resourceClassification: PreparedStateResourceClassification
+  let rss: PreparedStateRSSObservation
+}
+
+private struct PreparedStateTimingCapture {
+  let prepareDuration: PreparedStateDurationEvidence
+  let decodeDuration: PreparedStateDurationEvidence
+  let totalDuration: PreparedStateDurationEvidence
+  let initialInspectionDuration: PreparedStateDurationEvidence
+  let repeatedInspectionDuration: PreparedStateDurationEvidence
+  let outputRGBABytes: Int
+  let outputSHA256: String
+}
+
 enum PerformanceBenchmarkError: Error {
   case invalidCase
   case invalidIterations
@@ -159,6 +239,290 @@ func writePerformanceBenchmark(caseID: String, iterations: Int) throws {
   encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
   FileHandle.standardOutput.write(try encoder.encode(report))
   FileHandle.standardOutput.write(Data([0x0A]))
+}
+
+func writePreparedStateRetentionEvidence(
+  strategyID: String,
+  preparationCount: Int,
+  iterations: Int
+) throws {
+  guard let strategy = PreparedStateRetentionEvidenceStrategy(rawValue: strategyID),
+    (1...512).contains(preparationCount),
+    (1...50).contains(iterations)
+  else { throw PerformanceBenchmarkError.invalidIterations }
+
+  let warmupIterations = 3
+  let fixture = try makePreparedStateEvidenceFixture()
+  let memory = try capturePreparedStateMemory(
+    strategy: strategy,
+    preparationCount: preparationCount,
+    fixture: fixture
+  )
+  let timing = try capturePreparedStateTimings(
+    strategy: strategy,
+    warmupIterations: warmupIterations,
+    iterations: iterations,
+    fixture: fixture
+  )
+
+  let report = PreparedStateRetentionEvidenceReport(
+    schemaVersion: 1,
+    evidenceVersion: preparedStateRetentionEvidenceVersion,
+    runtime: .capture(),
+    decoderFingerprint: ImageIOImageDecoder().codecDescriptor.cacheFingerprint,
+    environment: capturePerformanceEnvironment(),
+    strategy: strategy,
+    simultaneousPreparationCount: preparationCount,
+    warmupIterations: warmupIterations,
+    iterations: iterations,
+    source: fixture.source,
+    resourceClassification: memory.resourceClassification,
+    rss: memory.rss,
+    prepareDuration: timing.prepareDuration,
+    decodeDuration: timing.decodeDuration,
+    totalDuration: timing.totalDuration,
+    initialInspectionDuration: timing.initialInspectionDuration,
+    repeatedInspectionDuration: timing.repeatedInspectionDuration,
+    outputRGBABytes: timing.outputRGBABytes,
+    outputSHA256: timing.outputSHA256
+  )
+  let encoder = JSONEncoder()
+  encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+  FileHandle.standardOutput.write(try encoder.encode(report))
+  FileHandle.standardOutput.write(Data([0x0A]))
+}
+
+private func makePreparedStateEvidenceFixture() throws -> PreparedStateEvidenceFixture {
+  let sourceWidth = 3_072
+  let sourceHeight = 2_048
+  let sourceRGB = makePatternRGBData(width: sourceWidth, height: sourceHeight)
+  let sourceImage = try makePatternImage(width: sourceWidth, height: sourceHeight, rgb: sourceRGB)
+  let encodeRequest = try ImageEncodeRequest.jpeg(
+    quality: ImageEncodeQuality(rawValue: 0.82),
+    colorPolicy: .convertToSRGB,
+    metadataPolicy: .discard,
+    alphaPolicy: .reject
+  )
+  let encoded = try ImageIOImageEncoder().encode(
+    image: sourceImage,
+    request: encodeRequest,
+    limits: EncodeLimits(maximumEncodedBytes: 128 * 1_024 * 1_024)
+  )
+  let limits = DecodeLimits(
+    maximumEncodedBytes: max(encoded.byteCount, 1),
+    maximumDimension: 16_384,
+    maximumPixelCount: 100_000_000,
+    maximumFrameCount: 1,
+    maximumMetadataBytes: 4 * 1_024 * 1_024,
+    maximumAuxiliaryAttachments: 0,
+    allowedFormats: [.jpeg]
+  )
+  let request = ImageDecodeRequest(
+    target: try TargetPixels(width: 512, height: 512),
+    contentMode: .fit,
+    colorPolicy: .convertToSRGB
+  )
+  return PreparedStateEvidenceFixture(
+    encoded: encoded,
+    limits: limits,
+    request: request,
+    source: PerformanceSource(
+      generator: "imagecraft-pattern-v1",
+      representation: EncodedImageFormat.jpeg.rawValue,
+      pixelWidth: sourceWidth,
+      pixelHeight: sourceHeight,
+      encodedByteCount: encoded.byteCount,
+      encodedSHA256: sha256(encoded.data),
+      targetWidth: request.target.width,
+      targetHeight: request.target.height,
+      contentMode: request.contentMode.rawValue
+    )
+  )
+}
+
+private func capturePreparedStateMemory(
+  strategy: PreparedStateRetentionEvidenceStrategy,
+  preparationCount: Int,
+  fixture: PreparedStateEvidenceFixture
+) throws -> PreparedStateMemoryCapture {
+  // Stabilize process-global ImageIO/allocator state first. Retaining many preparations then makes
+  // per-source opaque state visible above page-level RSS granularity.
+  let charge = fixture.encoded.byteCount.multipliedReportingOverflow(by: preparationCount)
+  guard !charge.overflow else { throw PerformanceBenchmarkError.unexpectedOutput }
+  let decoder = ImageIOImageDecoder(
+    qualificationPreparationRetentionMode: strategy.retentionMode,
+    preparationLimits: ImageDecodePreparationLimits(
+      maximumEntryCount: preparationCount,
+      maximumRetainedByteCharge: charge.partialValue
+    )
+  )
+  let stabilization = try decoder.prepare(data: fixture.encoded.data, limits: fixture.limits)
+  _ = try decoder.decode(
+    preparation: stabilization,
+    request: fixture.request,
+    limits: fixture.limits
+  )
+  _ = malloc_zone_pressure_relief(nil, 0)
+  let baseline = try residentBytes()
+  var preparations: [ImageDecodePreparation] = []
+  preparations.reserveCapacity(preparationCount)
+  for _ in 0..<preparationCount {
+    preparations.append(
+      try autoreleasepool { try decoder.prepare(data: fixture.encoded.data, limits: fixture.limits) }
+    )
+  }
+  guard let first = preparations.first,
+    let ledger = decoder.preparationResourceLedger(
+      first,
+      request: fixture.request,
+      limits: fixture.limits
+    )
+  else { throw PerformanceBenchmarkError.unexpectedOutput }
+  let storeSnapshot = decoder.preparationStoreQualificationSnapshot()
+  guard storeSnapshot.entryCount == preparationCount,
+    storeSnapshot.reservationCount == 0,
+    storeSnapshot.maximumEntryCount == preparationCount,
+    storeSnapshot.retainedKnownByteCharge == charge.partialValue,
+    storeSnapshot.maximumRetainedKnownByteCharge == charge.partialValue
+  else { throw PerformanceBenchmarkError.unexpectedOutput }
+  _ = malloc_zone_pressure_relief(nil, 0)
+  let prepared = try residentBytes()
+  for preparation in preparations { decoder.discard(preparation) }
+  preparations.removeAll(keepingCapacity: false)
+  _ = malloc_zone_pressure_relief(nil, 0)
+  let afterDiscard = try residentBytes()
+  return PreparedStateMemoryCapture(
+    resourceClassification: PreparedStateResourceClassification(
+      retainedKnownBytes: ledger.retainedKnownBytes,
+      retainedBetweenCalls: describeResourceBound(ledger.retainedBetweenCalls),
+      operationPeak: describeResourceBound(ledger.operationPeak),
+      transferredOutput: describeResourceBound(ledger.transferredOutput),
+      aggregateRetainedKnownByteCharge: storeSnapshot.retainedKnownByteCharge,
+      aggregateMaximumRetainedKnownByteCharge: charge.partialValue
+    ),
+    rss: PreparedStateRSSObservation(
+      baselineResidentBytes: baseline,
+      preparedResidentBytes: prepared,
+      preparedDeltaBytes: positiveDelta(prepared, baseline),
+      afterDiscardResidentBytes: afterDiscard,
+      afterDiscardDeltaBytes: positiveDelta(afterDiscard, baseline)
+    )
+  )
+}
+
+private func capturePreparedStateTimings(
+  strategy: PreparedStateRetentionEvidenceStrategy,
+  warmupIterations: Int,
+  iterations: Int,
+  fixture: PreparedStateEvidenceFixture
+) throws -> PreparedStateTimingCapture {
+  let decoder = ImageIOImageDecoder(
+    qualificationPreparationRetentionMode: strategy.retentionMode
+  )
+  var prepareSamples: [UInt64] = []
+  var decodeSamples: [UInt64] = []
+  var totalSamples: [UInt64] = []
+  var initialInspectionSamples: [UInt64] = []
+  var repeatedInspectionSamples: [UInt64] = []
+  var outputSHA256: String?
+  var outputRGBABytes = 0
+  for index in 0..<(warmupIterations + iterations) {
+    let sample = try capturePreparedStateTimingIteration(decoder: decoder, fixture: fixture)
+    if let outputSHA256 {
+      guard sample.outputSHA256 == outputSHA256 else {
+        throw PerformanceBenchmarkError.unexpectedOutput
+      }
+    } else {
+      outputSHA256 = sample.outputSHA256
+      outputRGBABytes = sample.outputRGBABytes
+    }
+    if index >= warmupIterations {
+      prepareSamples.append(sample.prepareNanoseconds)
+      decodeSamples.append(sample.decodeNanoseconds)
+      totalSamples.append(sample.totalNanoseconds)
+      initialInspectionSamples.append(sample.initialInspectionNanoseconds)
+      repeatedInspectionSamples.append(sample.repeatedInspectionNanoseconds)
+    }
+  }
+  guard let outputSHA256 else { throw PerformanceBenchmarkError.unexpectedOutput }
+  return PreparedStateTimingCapture(
+    prepareDuration: durationEvidence(prepareSamples),
+    decodeDuration: durationEvidence(decodeSamples),
+    totalDuration: durationEvidence(totalSamples),
+    initialInspectionDuration: durationEvidence(initialInspectionSamples),
+    repeatedInspectionDuration: durationEvidence(repeatedInspectionSamples),
+    outputRGBABytes: outputRGBABytes,
+    outputSHA256: outputSHA256
+  )
+}
+
+private struct PreparedStateTimingIteration {
+  let prepareNanoseconds: UInt64
+  let decodeNanoseconds: UInt64
+  let totalNanoseconds: UInt64
+  let initialInspectionNanoseconds: UInt64
+  let repeatedInspectionNanoseconds: UInt64
+  let outputRGBABytes: Int
+  let outputSHA256: String
+}
+
+private func capturePreparedStateTimingIteration(
+  decoder: ImageIOImageDecoder,
+  fixture: PreparedStateEvidenceFixture
+) throws -> PreparedStateTimingIteration {
+  let totalStarted = DispatchTime.now().uptimeNanoseconds
+  let prepareStarted = DispatchTime.now().uptimeNanoseconds
+  let preparation = try decoder.prepareWithDiagnostics(
+    data: fixture.encoded.data,
+    limits: fixture.limits
+  )
+  let prepareDuration = DispatchTime.now().uptimeNanoseconds &- prepareStarted
+  let decodeStarted = DispatchTime.now().uptimeNanoseconds
+  let result = try decoder.decodeWithDiagnostics(
+    preparation: preparation.preparation,
+    request: fixture.request,
+    limits: fixture.limits
+  )
+  let decodeDuration = DispatchTime.now().uptimeNanoseconds &- decodeStarted
+  let totalDuration = DispatchTime.now().uptimeNanoseconds &- totalStarted
+  let rgba = try normalizedAnimationRGBA(result.image.cgImage)
+  return PreparedStateTimingIteration(
+    prepareNanoseconds: prepareDuration,
+    decodeNanoseconds: decodeDuration,
+    totalNanoseconds: totalDuration,
+    initialInspectionNanoseconds: sumPreparationDiagnostics(preparation.diagnostics),
+    repeatedInspectionNanoseconds:
+      result.diagnostics.repeatedPreparationDiagnostics.map(sumPreparationDiagnostics) ?? 0,
+    outputRGBABytes: rgba.count,
+    outputSHA256: sha256(rgba)
+  )
+}
+
+private func durationEvidence(_ samples: [UInt64]) -> PreparedStateDurationEvidence {
+  PreparedStateDurationEvidence(
+    samplesNanoseconds: samples,
+    statistics: durationStatistics(samples)
+  )
+}
+
+private func sumPreparationDiagnostics(_ diagnostics: ImageDecodePreparationDiagnostics) -> UInt64 {
+  diagnostics.containerInspectionNanoseconds
+    &+ diagnostics.imageSourceCreationNanoseconds
+    &+ diagnostics.imageSourceTypeNanoseconds
+    &+ diagnostics.imageFrameCountNanoseconds
+    &+ diagnostics.imagePropertiesReadNanoseconds
+    &+ diagnostics.probeValidationNanoseconds
+}
+
+private func describeResourceBound(_ bound: ImageDecodeResourceBound) -> String {
+  switch bound {
+  case .bounded(let bytes): "bounded:\(bytes)"
+  case .unknown(let reason): "unknown:\(reason.rawValue)"
+  }
+}
+
+private func positiveDelta(_ value: UInt64, _ baseline: UInt64) -> UInt64 {
+  value >= baseline ? value - baseline : 0
 }
 
 private func makeBenchmarkOperation(

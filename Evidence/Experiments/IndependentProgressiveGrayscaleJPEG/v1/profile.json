@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-PROGRESSIVE-GRAYSCALE-JPEG-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "expectedDefaultSimpleProgressionScanCount": 6,
+  "geometryCases": [
+    [1, 1], [7, 7], [8, 8], [9, 8], [8, 9], [17, 13], [31, 19], [64, 17]
+  ],
+  "patterns": ["flat", "horizontal-ramp", "checker", "deterministic-noise"],
+  "qualities": [25, 75, 100],
+  "customScanScripts": [
+    {
+      "id": "dc-multi-refine",
+      "file": "Evidence/Experiments/IndependentProgressiveGrayscaleJPEG/v1/scans/dc-multi-refine.txt",
+      "scanCount": 7
+    },
+    {
+      "id": "spectral-only",
+      "file": "Evidence/Experiments/IndependentProgressiveGrayscaleJPEG/v1/scans/spectral-only.txt",
+      "scanCount": 5
+    }
+  ],
+  "restartIntervalsMCUs": [1, 2, 5],
+  "claimBoundary": [
+    "This profile qualifies a package-only complete-input progressive grayscale JPEG slice: 8-bit SOF2, one 1x1 component, Huffman coding, 8-bit DQT, default libjpeg-turbo simple progression, and no DNL. It does not yet qualify color JPEG, arbitrary progressive scan scripts, incremental suspension or a public backend.",
+    "The resource model is explicit: caller-owned encoded bytes are borrowed; ImageCraft admits width*height final grayscale bytes, a full quantized Int16 coefficient plane of ceil(width/8)*ceil(height/8)*64*2 bytes, and 448 fixed state bytes before allocation. The fixed state is one 128-byte natural-order quantization table, one 256-byte ISLOW workspace, and 64 bytes of per-coefficient progression state.",
+    "Every generated case must structurally contain the pinned libjpeg-turbo default six grayscale progressive scans, must match pinned djpeg -grayscale -dct int byte-for-byte, and must accept the exact operation charge while rejecting charge-1 before state/output allocation.",
+    "Two pinned cjpeg scan scripts extend the default domain: one applies DC first at Al=2 followed by two DC refinements plus split AC first/refine bands, and one partitions the complete AC spectrum without successive approximation. Restart variants additionally combine the default six-scan script with DRI/RST intervals of 1, 2 and 5 MCUs.",
+    "Passing establishes final complete-input entropy/refinement/reconstruction conformance for the qualified default/custom/restart domain. It does not establish chunk suspension rollback, arbitrary DHT/DQT mutation policies, malformed-stream equivalence, or preview-generation semantics."
+  ]
+}

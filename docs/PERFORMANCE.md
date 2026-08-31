@@ -31,7 +31,7 @@ Evidence/Performance/macos-27.0-26A5388g-arm64-macbookpro18,3.json
 | `decode-jpeg-fit-1024` | fit 到 1024×1024，输出 1024×683 |
 | `decode-jpeg-fill-1024` | fill 到 1024×1024并居中裁切 |
 | `probe-then-decode-jpeg-fit-512` | 先独立 probe，再通过 supplied-probe 路径解码；当前实现会重新 inspection |
-| `prepare-then-decode-jpeg-fit-512` | prepare 后复用同一个 `CGImageSource` 解码 |
+| `prepare-then-decode-jpeg-fit-512` | prepare 保留已验证纯值容器事实；decode 重建短生命周期 `CGImageSource`，不重复容器安全扫描 |
 | `encode-png` | 1600×1200 无损 PNG 编码 |
 | `encode-jpeg-q75` | 3072×2048 JPEG quality 0.75 编码 |
 
@@ -126,6 +126,71 @@ scripts/verify-performance-baseline.sh \
 
 baseline 更新必须伴随原因说明。代码变快并不自动要求收紧预算；应先确认变化来自实现而不是系统负载、工具链或框架缓存行为。
 
+
+## 独立 PNG 与 RFC1950 方向性性能
+
+独立 PNG 的性能证据与稳定 ImageIO baseline 分开保存，因为它是 package-only qualification
+backend，不是已发布默认路径。`Tools/Performance/capture_rfc1950_inflate_comparison.py` 与
+`Tools/Performance/capture_independent_png_decode_comparison.py` 都在 source-freeze 窗口内使用独立
+SwiftPM scratch，先执行完整 `swift test --jobs 1`，再构建 Release `ImageCraftEvidence`；每个被测
+进程前后都核对同一 executable SHA。报告保存原始样本、runtime/framework/hardware、输入/输出
+SHA-256、source identity before/after，并且不定义事后速度通过阈值。
+
+RFC1950 capture 对 1 MiB `repetitive-v1`、`png-scanline-v1` 与 `incompressible-v1` 各运行3个
+独立进程，每进程对 pure exact、pure streaming 与 Apple Compression 进行9次轮换采样。streaming
+在计时前先完成一次完整 exact-byte equality gate；计时中的 sink只做有界交付计数，而decoder仍
+验证RFC1950 Adler-32，避免把重新收集整个输出的成本混入streaming timing。精确source identity、
+report SHA与原始样本保存在机器报告中，而不是回填进本文件，以避免文档参与source hash造成自引用。
+近期 formal process-median-of-medians 稳定显示：`repetitive-v1` 与 `incompressible-v1` 的
+pure/streaming 当前都快于 Apple；`png-scanline-v1` 的 pure 约为 Apple 的 1.05–1.07×，而
+streaming 仍约为 pure 的 1.4×量级、Apple 的 1.5×量级。因此 stored/high-match 与 stored-block
+逐字节bookkeeping已经通过bulk output和delayed commit实质消除；剩余机制级残差集中在
+**streaming literal-heavy dynamic Huffman**，不能再概括为“streaming整体无放大”，也不能用
+repetitive/incompressible结果代表PNG型压缩流。
+
+whole-PNG capture 使用确定性1024×1024 mixed-filter RGB8和RGBA8，要求 independent与
+`ImageIOImageDecoder.decodePackedRGBA8` 在计时前逐字节产生同一packed值，并显式传入/记录
+operation budget。RGB8与RGBA8必须分开报告：两者共享PNG框架和row engine，但压缩流entropy和
+source-row宽度不同，格式间时延差不能直接归因于premultiply或某一像素操作。精确source/report/
+Release-binary identity与原始样本由机器报告保存。近期 source-bound capture 中，RGBA8 mixed 的
+independent/ImageIO median ratio稳定在约1.6×量级；RGB8约0.90×，即该host上 independent RGB8
+方向性快约10%。对应 ImageCraft-owned operation
+upper bound 分别约4.264 MiB与4.262 MiB。机器可读结果位于
+`.artifacts/performance/rfc1950-inflate-comparison-v1/formal-report.json` 与
+`.artifacts/performance/independent-png-decode-comparison-v1/formal-report.json`；这些是绑定当前
+host/runtime的方向性观察，不是跨设备速度承诺，也不构成production backend资格。
+
+热路径实验只保留有可证收益的机制。当前保留9-bit UInt16 fast Huffman table、direct `readBit`、
+validated extra-bit unchecked reads、公式化length/distance、weighted-block Adler、bulk
+stored/match copy、delayed staging commit、**exact-output decoder** 对 `length <= 16` 的 scalar LZ77
+recurrence，以及当前的 local 56-bit fast-literal run。后者不扩大 Huffman table：仅在现有 512-entry
+UInt16 primary table直接命中 literal 时，把reader/output索引暂存为local state，按需要把bitbuffer
+补到最多约56 bits，并连续发射literal；遇到length/end/slow entry立即停止且不消费该符号，尾部仍
+由canonical path处理，因此没有增加24 KiB workspace。它与已回退的“primary literal后固定18-bit
+lookahead最多两个literal”以及旧batching状态机不是同一机制。当前 actual 4.195 MiB RGBA IDAT
+方向性采样中，pure/streaming/Apple中位数约13.30/14.05/9.09 ms，streaming/pure约1.056×；正式
+synthetic `png-scanline-v1`则仍显示streaming/pure≈1.438×，所以actual与synthetic压缩流必须分别
+保留，不能用单一ratio代表所有PNG。
+
+真实1024² RGBA IDAT结构统计显示约89.1%的输出字节来自372,728个match，平均match长度约10.0，
+约93.6%的match长度不超过16；在两个独立Release binaries的交替A/B中，短match scalar使
+actual-RGBA exact decode中位数约降低2.5%，synthetic PNG-like约降低2.9%，因此保留。对应的
+streaming recurrence没有形成同样收益（actual streaming约变慢1.2%，whole-PNG近中性且
+repetitive synthetic明显回退），已单独移除。
+
+streaming输出随后从独立的32 KiB history + 4 KiB staging收敛为一个36 KiB循环logical-output
+window（9个4 KiB槽）：8槽覆盖完整DEFLATE lookback，1槽是当前pending sink span。payload charge
+不变，但full flush不再复制staging到第二份history，也不再维护history+pending的联合逻辑视图。
+高重复A/B中，actual RGBA IDAT streaming中位数约降低4.8%，synthetic PNG-like约降低3.1%，RGB8
+whole-PNG约降低3.1%；RGBA8 whole-PNG绝对时延在两组7/15轮确认中保持中性（约+0.1%），未形成
+回退。该结构因此以“同资源、更少copy/状态、核心路径明确更快、目标RGBA不退化”的门槛保留。
+
+扩大fast table、32-bit wide refill、single-symbol fast inline、旧literal-run batching状态机、Huffman
+specialization、SIMD/C premultiply、SIMD Adler、UInt32 Adler narrowing以及“primary literal后再
+固定18-bit lookahead最多两个额外literal”均未形成稳定material improvement，已从当前实现移除或
+回退。这里的“旧literal-run batching”不包括上一段当前保留的 local-reader 56-bit fast-literal run。
+这些结论都以独立Release binary、同一确定性corpus和交替顺序A/B为 retain/revert门，不以复杂度
+换取噪声级收益。详细directional A/B记录位于 `.artifacts/program/T101/`。
 
 ## 渐进 JPEG 独立基准
 
@@ -393,3 +458,86 @@ scripts/capture-progressive-pipeline-evidence.sh output-directory 7
 在该固定 MacBookPro18,3、macOS 27.0 build 26A5388g、ImageIO 2847 环境中，六条路径的进程中位数配对变化均为改善：约 8.9% 至 16.9%。其中五条路径 7/7 配对获胜，full decode 为 6/7。该实验同时绑定完整测试、retained corpus、consumer 平台矩阵和独立 oracle 通过状态。
 
 该结果证明的是内部容器扫描实现的固定环境收益，不证明跨设备比例、ImageIO 光栅化算法优势、能耗改善或所有 JPEG 输入获得相同比例收益。稳定性能 baseline 与预算仍由 `Evidence/Performance` 管理，不因一次优化实验自动收紧。
+
+## 最后分块到最终 raster 的路径对照
+
+`ImageCraftEvidence --raster-comparison INPUT --chunk-size N --iterations M` 将输入按累计 ImageIO 更新与 ImageCraft append 语义分别推进到最后一个分块之前，然后从最后分块开始计时。Apple 路径记录 final source update 与 thumbnail rasterization；ImageCraft 路径记录 final append、prepared-state finalization、raster creation、post-processing 与总耗时。两条路径在每个 iteration 中交替先后顺序，减少固定顺序造成的 cache、温度和调度偏差。
+
+报告刻意保留 raw samples，不把 wrapper overhead、p95 比值或某个固定毫秒数写成门禁。当前门禁只要求输入身份可复核、统计可从样本精确重建、输出尺寸稳定且规范化 RGB 像素完全一致。后续性能资格必须使用 clean commit、固定 source identity、多轮独立进程、稳定设备和预先声明的误差预算。
+
+
+## 精确像素目标派生光栅探索
+
+Schema 5 派生光栅探针覆盖四张保留真实照片和三张生成的 W2 hero 图，并分别测量 390×260、780×520、1170×780 三个 fit 目标。21 个目标在规范化 RGB 后，直接原图解码、PNG、raw RGB LZFSE 与自适应过滤 RGB LZFSE 均逐字节一致。Schema 5 还记录已缓存 `CGImage` 再次绘制到 sRGB RGBA buffer 的 materialization 成本，使解码收益与后续显示成本可以分开解释。
+
+对 12 个真实照片目标，自适应过滤 LZFSE 的探索性中位数为：
+
+- 派生字节约为对应 PNG 的 0.97×，其中一个 landscape 反例接近 1.025×；
+- 读取/解码时延约为 PNG 的 0.37×；
+- 相对原 JPEG 解码约快 4.88×；
+- 创建时延中位约 55 ms，最大约 127 ms；
+- 估算未来命中盈亏平衡中位约 5.05 次，本 corpus 最大约 5.54 次。
+
+九个生成 W2 目标中，自适应字节约为 PNG 的 0.61×，重复读取约比原图解码快 14.4×；这些输入异常易压缩，不能代表普通照片。
+
+该结果要求采用准入机制而不是默认格式：创建必须异步，精确身份和持久化许可必须保持，预计未来复用次数必须保守超过“创建成本 / 每次命中解码节省”。文件读取、fsync、淘汰、撤销、能耗、物理设备行为和端到端宿主时延均不在此微基准范围内。
+
+### 被否决的最近整数 aspect-fit 规范化
+
+为消除 ImageIO thumbnail 在非整数缩放时的一像素舍入差异，曾实验“最近整数且不超过目标”的确定性 fit 几何，并在 ImageIO 输出不一致时追加一次保持色彩空间的精确 RGB 重采样。A/B 使用相同 Schema 5 工具，基线与候选仅在 decoder 几何实现上不同：
+
+- 7 张图 × 3 个目标；
+- 每侧每图 3 个独立进程 block；
+- 每报告每目标 15 个样本；
+- 共 42 个进程报告；
+- 顺序在 baseline-first 与 candidate-first 间交替。
+
+聚合结果：
+
+| 指标 | 候选 / 基线中位 | 解释 |
+|---|---:|---|
+| 原 JPEG 直接解码 | 1.014× | 候选约慢 1.4% |
+| 缓存 `CGImage` materialization | 1.021× | 候选约慢 2.1% |
+| 自适应派生字节 | 1.000× | 中位无变化，但最坏增至 1.227× |
+
+21 个目标中仅 6 个输出几何发生变化；9 个目标解码退化超过 5%，6 个改善超过 5%，候选/基线比值范围为 0.545×–1.821×。变化没有形成稳定 Pareto 改善：例如同为 390×260 的 12 MP hero 偶然改善约 45%，48 MP hero 却解码慢约 8.8%、materialization 慢约 23.1%，且自适应派生字节增约 22.7%。
+
+因此该候选被撤销，`ImageIOImageDecoder` implementation version 保持 4。保留的是 Schema 5 的 materialization 测量能力，不是最近整数输出语义。方向性聚合位于 `.artifacts/performance/geometry-v4-v5-ab/aggregate.json`，SHA-256 为 `14a90aa9a21a7dcd4c8e460e68cfb7eeac67736ddb3475070b28bbd2c2ed6e8f`。它来自脏工作树和单一主机，不构成稳定 baseline、跨设备结论或发布门禁。
+
+## 动画准备与 frame-window 探索
+
+`ImageCraftEvidence --animation-performance` 将动画成本拆成八个端点：精确容器/时间轴准备、直接 ImageIO 准备下界、ImageCraft 单帧、直接冷单帧、允许 full-image cache 的直接保留 source 单帧、ImageCraft 有界窗口顺序解码、等价 thumbnail/window 策略的直接顺序下界，以及无约束 full-frame ImageIO cache 诊断。报告绑定输入身份、容器、帧数、canvas、目标、选中帧、窗口大小、全部原始样本、测量顺序和规范化像素摘要。
+
+2026-08-05 当前源码的本机脏工作树探索使用 24 帧、256×256 GIF/APNG/JPEG sequence，3 次 warmup、18 个保留样本、8 帧窗口。prepare 与两个序列端点按 9/9 交替执行；单帧三路径以三个起始位置各 6 次轮转。选中帧像素摘要全部一致。
+
+等价 bounded-window 主端点中，ImageCraft 完整 24 帧 median 相对直接 ImageIO 约为 GIF 1.011×、APNG 1.010×、JPEG sequence 1.009×。prepare 约为 1.161×、1.173×、1.968×，额外成本来自精确 timing、loop、rect、disposal/blend、安全边界和 JPEG 序列颜色一致性验证。重复单帧在允许 full-image cache 时具有格式相关行为：GIF 和 JPEG sequence 的 ImageCraft 固定调度成本约为直接保留 source 的 4.75× 与 4.49×，但绝对 median 仅约 39–50 μs；APNG 则约为 0.034×，因为平台对该容器的 retained full-frame cache 路径成本不同。
+
+无约束全帧 cache 不作为主窗口端点。它在 GIF 和 JPEG sequence 上可把 24 帧循环降到约 0.43 ms 与 0.19 ms，但隐式让整条轨道留在 ImageIO cache，分别比有界窗口快约 46× 与 61×；APNG 收益较小。没有同等峰值内存和回收证据时，不能把该路径冒充有界播放器优势。
+
+这些数值不是稳定回归预算：fixture 为本地生成，工作树不干净，只有一台机器、一个尺寸和一类内容。正式 W5 结论必须使用受版本控制的多格式 corpus、交替进程顺序、同预加载与内存策略、frame-cache 字节、deadline miss、取消回收、能耗和物理设备证据。
+
+### Owned GIF whole-track 成本与本地解码方向性
+
+2026-08-08 的当前未发布 working-tree 后端新增了可证明的 owned GIF 路径，用于让上层在不猜测 ImageIO backing stride/working set 的情况下做 whole-track admission。支持边界包括 full-canvas opaque/实际 transparency、global/local palette、interlace，以及受 `maximumFrameDecodeWindow` 限制的 `.none` disposal subrect replay；无法证明的 subrect background/previous 和结构不完整 LZW 均回退 ImageIO。whole-track estimate 分开报告 decoded resident、provider-retained 和 predecode peak；这些是模型上界，不是 RSS/energy。
+
+同一 `people-motion-24f.gif`（607,000 B，24×256×256）上，临时 Release directional endpoint 把 owned `prepare + 24 frames` 从首版约 77.95 ms 降到当前约 15.98 ms median，约减少 79.5%。主要改动包括 exact-size index buffer、byte-reservoir LSB reader、连续 unsafe-byte reader、固定 4096-entry 临时 LZW 字典/literal fast path 和 UInt32 palette lookup。direct ImageIO 对照约 1.27 ms median，因此该结果**不是 decoder-only speedup**：owned 路径仍约 12.6× 慢；其价值是提供可审计的像素/内存边界，供后续一次性 predecode 换取长期 presentation offload。该方向性记录位于 `.artifacts/performance/animation-owned-gif-optimization-progression-2026-08.json`；它不是稳定跨设备性能 baseline。
+
+重放已有 fixture：
+
+```sh
+scripts/capture-animation-performance.sh \
+  path/to/animation.gif \
+  path/to/animation.apng \
+  path/to/jpeg-sequence-directory \
+  .artifacts/performance/animation-balanced \
+  18
+```
+
+验证器重算 median/p95、输入身份和像素摘要，并要求准备/序列严格平衡、单帧三向轮转。它不设置速度胜负阈值。
+## APNG semantic replay：零额外持久状态的 replay 缩短候选
+
+2026-08-07 的 source-bound 机制审计使用 retained YYImage 1.0.4（commit `42ba209608cb332887a33ebcae1bde50c52b151d`）的 `blendFromIndex/lastBlendIndex` 作为反例来源，但 ImageCraft runtime 采用更窄的持续状态规则，而不是复制 YYImage 实现。Fovea ComparativeLab 的独立模型在六个已有 APNG composition fixture 上保持 retained bytes 与 modeled peak bytes 不增；其中 full-canvas background-disposal fixture 的 replay 向量从 `[1,2,3]` 降为 `[1,1,1]`，其余五个真实 fixture 不退化。
+
+在预注册的 `FULL-BACKGROUND-1024-60` 分析场景、64 MiB retained budget 下，旧 checkpoint-only 模型约为 64 MiB retained / 76 MiB modeled peak / worst replay 4；semantic reset 模型为 8 MiB retained / 20 MiB modeled peak / worst replay 1。这个数字是分析模型，不是 RSS 或设备峰值。当前 owned APNG runtime 已实现持续 semantic anchor，并以 `semanticReplayResetCount` 和 `maximumResolvedReplayFrames` 暴露 package-only 诊断。10 帧 full-background 控制在最大 replay=2 时产生 9 个 semantic reset、0 个 retained checkpoint、maximum resolved replay=1；full-source + previous 控制仍需要 checkpoint。
+
+该结果只支持“在已绑定场景/当前未发布 runtime 上减少 replay/checkpoint”的局部结论。它不支持 universal APNG Pareto dominance、物理设备内存/能耗优势，也不改变 <=1024 RGBA8 non-interlaced admission、32 MiB retained 上限、8 帧最大 replay 或 Fovea 的生产 dependency pin。发布前仍需 exact revision、Fovea production-pin 集成和稳定 iPhone 证据。

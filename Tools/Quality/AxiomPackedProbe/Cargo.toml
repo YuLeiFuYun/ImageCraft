@@ -1,0 +1,11 @@
+[package]
+name = "imagecraft-axiom-packed-probe"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+axiomraster-codec-jpeg = { path = "../../../../AxiomRasterCodecJPEG" }
+axiomraster-core = { path = "../../../../AxiomRaster/crates/axiomraster-core" }
+axiomraster-codec-api = { path = "../../../../AxiomRaster/crates/axiomraster-codec-api" }
+axiomraster-runtime = { path = "../../../../AxiomRaster/crates/axiomraster-runtime" }
