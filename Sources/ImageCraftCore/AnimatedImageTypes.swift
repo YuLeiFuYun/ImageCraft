@@ -378,6 +378,50 @@ package protocol ImageAnimationFrameProviding: Sendable {
 /// `predecodePeakByteCostUpperBound` additionally includes conservative transient/materialization
 /// costs for the backend's configured frame-decode window. These are admission costs, not
 /// measurements of process RSS or system energy.
+/// A conservative byte-cost estimate for one bounded animation decode window.
+///
+/// The estimate covers codec-owned decoded output, provider-retained payload/state, and the modeled
+/// peak while decoding the requested window. It is an admission model, not a process-RSS theorem.
+public struct ImageAnimationFrameWindowCostEstimate: Hashable, Sendable {
+  public let frameCount: Int
+  public let decodedOutputByteCostUpperBound: Int
+  public let providerRetainedByteCostUpperBound: Int
+  public let predecodePeakByteCostUpperBound: Int
+
+  public init?(
+    frameCount: Int,
+    decodedOutputByteCostUpperBound: Int,
+    providerRetainedByteCostUpperBound: Int,
+    predecodePeakByteCostUpperBound: Int
+  ) {
+    let steadyState = decodedOutputByteCostUpperBound.addingReportingOverflow(
+      providerRetainedByteCostUpperBound
+    )
+    guard frameCount > 0,
+      decodedOutputByteCostUpperBound > 0,
+      providerRetainedByteCostUpperBound >= 0,
+      !steadyState.overflow,
+      predecodePeakByteCostUpperBound >= steadyState.partialValue
+    else { return nil }
+    self.frameCount = frameCount
+    self.decodedOutputByteCostUpperBound = decodedOutputByteCostUpperBound
+    self.providerRetainedByteCostUpperBound = providerRetainedByteCostUpperBound
+    self.predecodePeakByteCostUpperBound = predecodePeakByteCostUpperBound
+  }
+
+  /// Adds caller-owned decoded outputs that remain alive while this codec window executes.
+  public func coexistencePeakByteCostUpperBound(
+    callerRetainedOutputBytes: Int
+  ) -> Int? {
+    guard callerRetainedOutputBytes >= 0 else { return nil }
+    let sum = predecodePeakByteCostUpperBound.addingReportingOverflow(
+      callerRetainedOutputBytes
+    )
+    guard !sum.overflow else { return nil }
+    return sum.partialValue
+  }
+}
+
 public struct ImageAnimationWholeTrackCostEstimate: Hashable, Sendable {
   public let residentDecodedByteCostUpperBound: Int
   public let providerRetainedByteCostUpperBound: Int
@@ -408,17 +452,23 @@ public struct AnimatedImageAsset: Sendable {
   private let provider: any ImageAnimationFrameProviding
   private let wholeTrackCostEstimateProvider:
     @Sendable (ImageDecodeRequest) -> ImageAnimationWholeTrackCostEstimate?
+  private let frameWindowCostEstimateProvider:
+    @Sendable (ImageDecodeRequest, Int) -> ImageAnimationFrameWindowCostEstimate?
 
   package init(
     metadata: ImageAnimationMetadata,
     provider: any ImageAnimationFrameProviding,
     wholeTrackCostEstimateProvider:
       @escaping @Sendable (ImageDecodeRequest)
-      -> ImageAnimationWholeTrackCostEstimate? = { _ in nil }
+      -> ImageAnimationWholeTrackCostEstimate? = { _ in nil },
+    frameWindowCostEstimateProvider:
+      @escaping @Sendable (ImageDecodeRequest, Int)
+      -> ImageAnimationFrameWindowCostEstimate? = { _, _ in nil }
   ) {
     self.metadata = metadata
     self.provider = provider
     self.wholeTrackCostEstimateProvider = wholeTrackCostEstimateProvider
+    self.frameWindowCostEstimateProvider = frameWindowCostEstimateProvider
   }
 
   /// Returns no-decode whole-track admission bounds when the selected backend can prove both
@@ -428,6 +478,15 @@ public struct AnimatedImageAsset: Sendable {
     for request: ImageDecodeRequest
   ) -> ImageAnimationWholeTrackCostEstimate? {
     wholeTrackCostEstimateProvider(request)
+  }
+
+  /// Returns a no-decode admission estimate for one bounded frame window when the backend can
+  /// prove it. `nil` means the caller must fail closed rather than infer cost from geometry.
+  public func frameWindowCostEstimate(
+    for request: ImageDecodeRequest,
+    frameCount: Int
+  ) -> ImageAnimationFrameWindowCostEstimate? {
+    frameWindowCostEstimateProvider(request, frameCount)
   }
 
   public func frame(

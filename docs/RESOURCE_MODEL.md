@@ -73,7 +73,7 @@ replay and checkpoint state is controlled, but final representation still crosse
 
 ### Animation live-window seam
 
-Owned GIF/APNG qualification now has a package-only single-operation window estimator rather than
+Owned GIF/APNG qualification now exposes a backend-neutral single-operation window estimator rather than
 using the public whole-track estimate as a proxy for playback residency. For a requested frame count
 within `maximumFrameDecodeWindow`, the estimator separately publishes the decoded-output payload
 bound, provider-retained payload bound, and modeled predecode payload peak. The peak composes the
@@ -345,12 +345,12 @@ quality and cross-backend conformance evidence against its exact source identity
    observation. A backend that cannot bound a phase remains usable only under an explicit unknown
    resource policy; a backend that cannot normalize value semantics cannot enter pixel differential
    qualification.
-6. Promote the package-only animation window model only after the host can consume the same window
-   estimate. One provider now serializes heavy decode windows, drains/cancels queued callers, and proves
+6. The animation window model is now public for host admission after Fovea gained a production
+   ImageCraft-backed animation preparer; continue qualifying host cache/pin/global-budget composition. One provider now serializes heavy decode windows, drains/cancels queued callers, and proves
    terminal reclaim. Source-bound Fovea inspection shows its wrap planner may decode two ranges
    sequentially while retaining the first range before the second, exactly the coexistence case modeled
    by the ImageCraft helper; however Fovea's current preparation seam carries only whole-track bounds.
-   Keep the window estimate package-only until a future host contract can compose cache/pin/global-budget
+   Keep extending host composition so cache/pin/global-budget
    state without weakening either side. Core Graphics private allocation remains outside the theorem.
 
 No item above is a performance or physical-RSS claim. Physical memory, energy and thermal behavior

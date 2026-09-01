@@ -259,7 +259,8 @@ public struct ImageIOAnimatedImageDecoder: ImageAnimationDecoding {
       asset: AnimatedImageAsset(
         metadata: metadata,
         provider: provider,
-        wholeTrackCostEstimateProvider: wholeTrackCostEstimateProvider
+        wholeTrackCostEstimateProvider: wholeTrackCostEstimateProvider,
+        frameWindowCostEstimateProvider: frameWindowCostEstimateProvider
       ),
       diagnostics: diagnostics,
       lifecycleSnapshotProvider: { await provider.lifecycleSnapshot() },

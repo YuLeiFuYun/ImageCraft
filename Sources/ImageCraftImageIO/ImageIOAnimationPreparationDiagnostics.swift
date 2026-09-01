@@ -146,46 +146,7 @@ package struct ImageIOAnimationPreparationDiagnostics: Codable, Sendable {
   }
 }
 
-package struct ImageIOAnimationFrameWindowCostEstimate: Equatable, Sendable {
-  package let frameCount: Int
-  package let decodedOutputByteCostUpperBound: Int
-  package let providerRetainedByteCostUpperBound: Int
-  package let predecodePeakByteCostUpperBound: Int
-
-  package init?(
-    frameCount: Int,
-    decodedOutputByteCostUpperBound: Int,
-    providerRetainedByteCostUpperBound: Int,
-    predecodePeakByteCostUpperBound: Int
-  ) {
-    let steadyState = decodedOutputByteCostUpperBound.addingReportingOverflow(
-      providerRetainedByteCostUpperBound
-    )
-    guard frameCount > 0,
-      decodedOutputByteCostUpperBound > 0,
-      providerRetainedByteCostUpperBound >= 0,
-      !steadyState.overflow,
-      predecodePeakByteCostUpperBound >= steadyState.partialValue
-    else { return nil }
-    self.frameCount = frameCount
-    self.decodedOutputByteCostUpperBound = decodedOutputByteCostUpperBound
-    self.providerRetainedByteCostUpperBound = providerRetainedByteCostUpperBound
-    self.predecodePeakByteCostUpperBound = predecodePeakByteCostUpperBound
-  }
-
-  /// Composes caller-owned outputs that remain live while the next codec window is decoded.
-  /// This is an admission byte charge for the modeled payloads, not a process-RSS upper bound.
-  package func coexistencePeakByteCostUpperBound(
-    callerRetainedOutputBytes: Int
-  ) -> Int? {
-    guard callerRetainedOutputBytes >= 0 else { return nil }
-    let sum = predecodePeakByteCostUpperBound.addingReportingOverflow(
-      callerRetainedOutputBytes
-    )
-    guard !sum.overflow else { return nil }
-    return sum.partialValue
-  }
-}
+package typealias ImageIOAnimationFrameWindowCostEstimate = ImageAnimationFrameWindowCostEstimate
 
 package struct ImageIOInstrumentedAnimatedImageAsset: Sendable {
   package let asset: AnimatedImageAsset
