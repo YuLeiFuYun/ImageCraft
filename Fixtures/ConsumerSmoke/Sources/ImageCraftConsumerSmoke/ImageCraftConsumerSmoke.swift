@@ -142,6 +142,12 @@ public struct ImageCraftConsumerSmoke: Sendable {
         _ = estimate.providerRetainedByteCostUpperBound
         _ = estimate.predecodePeakByteCostUpperBound
       }
+      if let window = asset.frameWindowCostEstimate(for: request, frameCount: 1) {
+        _ = window.decodedOutputByteCostUpperBound
+        _ = window.providerRetainedByteCostUpperBound
+        _ = window.predecodePeakByteCostUpperBound
+        _ = window.coexistencePeakByteCostUpperBound(callerRetainedOutputBytes: 0)
+      }
       let upperBound = min(2, asset.metadata.frameCount)
       let window = try await asset.frames(in: 0..<upperBound, request: request)
       _ = try await asset.frame(at: 0, request: request)

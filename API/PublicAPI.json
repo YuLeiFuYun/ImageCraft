@@ -430,6 +430,26 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageAnimationFrameWindowCostEstimate",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameWindowCostEstimate",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameWindowCostEstimate",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageAnimationFrameWindowCostEstimate",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageAnimationLoopCount",
           "target": "Swift.Decodable"
         },
@@ -2224,7 +2244,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 530,
+      "symbolCount": 538,
       "symbols": [
         {
           "declaration": "struct AnimatedImageAsset",
@@ -2243,6 +2263,12 @@
           "kind": "swift.method",
           "path": "AnimatedImageAsset.frame(at:request:)",
           "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV5frame2at7requestAA21DecodedAnimationFrameVSi_AA0A13DecodeRequestVtYaKF"
+        },
+        {
+          "declaration": "func frameWindowCostEstimate(for request: ImageDecodeRequest, frameCount: Int) -> ImageAnimationFrameWindowCostEstimate?",
+          "kind": "swift.method",
+          "path": "AnimatedImageAsset.frameWindowCostEstimate(for:frameCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore08AnimatedA5AssetV23frameWindowCostEstimate3for0F5CountAA0a14AnimationFrameghI0VSgAA0A13DecodeRequestV_SitF"
         },
         {
           "declaration": "func frames(in range: Range<Int>, request: ImageDecodeRequest) async throws -> [DecodedAnimationFrame]",
@@ -2855,6 +2881,48 @@
           "kind": "swift.property",
           "path": "ImageAnimationFrameRect.y",
           "preciseIdentifier": "s:14ImageCraftCore0A18AnimationFrameRectV1ySivp"
+        },
+        {
+          "declaration": "struct ImageAnimationFrameWindowCostEstimate",
+          "kind": "swift.struct",
+          "path": "ImageAnimationFrameWindowCostEstimate",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV"
+        },
+        {
+          "declaration": "func coexistencePeakByteCostUpperBound(callerRetainedOutputBytes: Int) -> Int?",
+          "kind": "swift.method",
+          "path": "ImageAnimationFrameWindowCostEstimate.coexistencePeakByteCostUpperBound(callerRetainedOutputBytes:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV019coexistencePeakByteG10UpperBound25callerRetainedOutputBytesSiSgSi_tF"
+        },
+        {
+          "declaration": "let decodedOutputByteCostUpperBound: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameWindowCostEstimate.decodedOutputByteCostUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV017decodedOutputByteG10UpperBoundSivp"
+        },
+        {
+          "declaration": "let frameCount: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameWindowCostEstimate.frameCount",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV10frameCountSivp"
+        },
+        {
+          "declaration": "init?(frameCount: Int, decodedOutputByteCostUpperBound: Int, providerRetainedByteCostUpperBound: Int, predecodePeakByteCostUpperBound: Int)",
+          "kind": "swift.init",
+          "path": "ImageAnimationFrameWindowCostEstimate.init(frameCount:decodedOutputByteCostUpperBound:providerRetainedByteCostUpperBound:predecodePeakByteCostUpperBound:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV10frameCount017decodedOutputByteG10UpperBound016providerRetainedmgnO0013predecodePeakmgnO0ACSgSi_S3itcfc"
+        },
+        {
+          "declaration": "let predecodePeakByteCostUpperBound: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameWindowCostEstimate.predecodePeakByteCostUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV017predecodePeakByteG10UpperBoundSivp"
+        },
+        {
+          "declaration": "let providerRetainedByteCostUpperBound: Int",
+          "kind": "swift.property",
+          "path": "ImageAnimationFrameWindowCostEstimate.providerRetainedByteCostUpperBound",
+          "preciseIdentifier": "s:14ImageCraftCore0A32AnimationFrameWindowCostEstimateV020providerRetainedByteG10UpperBoundSivp"
         },
         {
           "declaration": "struct ImageAnimationLoopCount",

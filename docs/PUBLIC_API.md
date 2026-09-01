@@ -21,7 +21,7 @@ ImageCraft 的公开接口只描述宿主确实需要依赖、并且当前实现
 - JPEG 渐进会话、非最终像素代次和接收字节计数；
 - phase-aware `ImageDecodeResourceLedgerSnapshot`、bounded/unknown resource authority，以及可在消费式 `DecodedImage` finalization 之前非消费读取 resource ledger 的 `ProgressiveImageDecodedImageResourceFinalizingSession`；unknown reason 是合同状态，宿主不得把 tight-pixel estimate 或 RSS 样本替代成缺失的 byte upper bound；
 - backend-neutral `ImagePackedRGBA8` 值合同：top-to-bottom tight `bytesPerRow = width * 4`、8-bit RGBA、premultiplied alpha、独立的 sRGB / embedded ICC / RGB cICP output color authority、source-profile provenance，以及 pixel/transfer byte charge。这个公开值类型不等于公开任何 independent decoder，也不改变默认 ImageIO rollout；producer capability 与其 operation resource authority必须另行资格化；
-- GIF/APNG 与预分帧 JPEG 序列的动画容器、精确有理数时长、loop、frame rect、disposal、blend、资源限制、按需帧、有界 frame-window，以及可证明时的 whole-track decoded/provider-retained/predecode-peak 三项成本上界；
+- GIF/APNG 与预分帧 JPEG 序列的动画容器、精确有理数时长、loop、frame rect、disposal、blend、资源限制、按需帧、有界 frame-window，以及可证明时的 whole-track 与单-window decoded/provider-retained/predecode-peak 成本上界；
 - codec/encoder 身份、版本和有限能力 descriptor；
 - 保守资源估计结果。
 
