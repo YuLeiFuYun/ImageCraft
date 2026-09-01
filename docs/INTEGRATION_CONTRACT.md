@@ -57,4 +57,4 @@ scripts/verify-consumer-package.sh
 
 ## 尚未配置的分发设施
 
-公开 Git remote 与 GitHub Hosted `xcode-27` 核心 CI workflow 已配置，并由仓库内工具链门验证 Xcode 27 / Swift 6.4 身份；`main` 当前启用严格 required `core` check。项目仍未发布稳定版本 tag；管理员强制约束、runner 容量、真机和能耗资格必须与普通构建通过分开报告。
+公开 Git remote 与 GitHub Hosted `xcode-27` 核心 CI workflow 已配置，并由仓库内工具链门验证 Xcode 27 / Swift 6.4 身份；`main` 当前启用严格 required `core` check，管理员同样受该保护约束；仓库保留长期 `develop`，合并后不自动删除源分支。项目仍未发布稳定版本 tag；runner 容量、真机和能耗资格必须与普通构建通过分开报告。
