@@ -540,4 +540,4 @@ scripts/capture-animation-performance.sh \
 
 在预注册的 `FULL-BACKGROUND-1024-60` 分析场景、64 MiB retained budget 下，旧 checkpoint-only 模型约为 64 MiB retained / 76 MiB modeled peak / worst replay 4；semantic reset 模型为 8 MiB retained / 20 MiB modeled peak / worst replay 1。这个数字是分析模型，不是 RSS 或设备峰值。当前 owned APNG runtime 已实现持续 semantic anchor，并以 `semanticReplayResetCount` 和 `maximumResolvedReplayFrames` 暴露 package-only 诊断。10 帧 full-background 控制在最大 replay=2 时产生 9 个 semantic reset、0 个 retained checkpoint、maximum resolved replay=1；full-source + previous 控制仍需要 checkpoint。
 
-该结果只支持“在已绑定场景/当前未发布 runtime 上减少 replay/checkpoint”的局部结论。它不支持 universal APNG Pareto dominance、物理设备内存/能耗优势，也不改变 <=1024 RGBA8 non-interlaced admission、32 MiB retained 上限、8 帧最大 replay 或 Fovea 的生产 dependency pin。发布前仍需 exact revision、Fovea production-pin 集成和稳定 iPhone 证据。
+该结果只支持“在已绑定场景/已发布 `0.1.0-alpha.7` runtime 上减少 replay/checkpoint”的局部结论。它不支持 universal APNG Pareto dominance、物理设备内存/能耗优势，也不改变 <=1024 RGBA8 non-interlaced admission、32 MiB retained 上限或 8 帧最大 replay。Fovea 已精确 pin 到同一 ImageCraft revision，但当前源码仍没有由 ImageCraft 实现的生产 `EncodedAnimationPlaybackPreparing`；动画宿主接入、稳定 iPhone 证据和端到端资源/播放资格仍未闭合。
