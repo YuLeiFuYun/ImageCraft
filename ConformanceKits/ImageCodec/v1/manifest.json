@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kitID": "IMAGECRAFT-IMAGE-CODEC-CONFORMANCE-V1",
+  "contractVersion": 1,
+  "componentDependencies": {
+    "imageCraftContract": {
+      "packageIdentity": "ImageCraft",
+      "product": "ImageCraftCore",
+      "binding": "current-source-tree"
+    }
+  },
+  "factoryContract": {
+    "symbol": "CodecUnderTest",
+    "method": "make() -> any ImageCodec"
+  },
+  "fixtures": {
+    "manifest": "Fixtures/manifest.json",
+    "fixtureSetID": "IMAGECRAFT-IMAGE-CODEC-FIXTURES-V1"
+  },
+  "observationSchema": "observation-schema.json",
+  "harness": "Harness/ImageCodecConformanceTests.swift",
+  "obligations": [
+    {
+      "id": "IMAGECRAFT-ICT-001",
+      "summary": "Independent factory instances publish one stable/current non-empty finite-profile descriptor; every profile has non-empty operational axes and every progressive profile is constructible through ProgressiveImageDecoding.",
+      "testName": "testDescriptorIsStableCurrentAndNonEmpty_ICT_001"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-002",
+      "summary": "All 6144 finite capability requests agree with an independent same-profile oracle and exact fixed-axis failure precedence, preventing false Cartesian products across profiles.",
+      "testName": "testFiniteCapabilityDomainMatchesIndependentOracle_ICT_002"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-003",
+      "summary": "Every format advertised by any decode profile is probed deterministically against a versioned fixed-byte fixture and agrees with descriptor support.",
+      "testName": "testAdvertisedFormatsProbeDeterministically_ICT_003"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-004",
+      "summary": "Every format advertising the default complete-primary-CGImage profile decodes its versioned reference still image into bounded deterministic output geometry.",
+      "testName": "testAdvertisedFormatsDecodeReferenceStillImage_ICT_004"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-005",
+      "summary": "Backend resource estimates are deterministic and positive while conservative host composition preserves both lower bounds.",
+      "testName": "testResourceEstimatesArePositiveDeterministicAndComposable_ICT_005"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-006",
+      "summary": "Encoded-byte, format, dimension and pixel hard limits fail closed with stable ImageCraft errors.",
+      "testName": "testProbeHardLimitsFailClosed_ICT_006"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-007",
+      "summary": "When PreparedImageDecoding is exposed, preparations bind the direct probe, stay decoder-instance scoped, consume exactly once, and discard is idempotent and terminal.",
+      "testName": "testPreparedLifecycleIfExposed_ICT_007"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-008",
+      "summary": "When prepared-resource inspection is exposed, creation authority is deterministic and non-consuming, live-token retained authority matches the predicted resulting state, and authority disappears after discard.",
+      "testName": "testPreparedResourceAuthorityIfExposed_ICT_008"
+    },
+    {
+      "id": "IMAGECRAFT-ICT-009",
+      "summary": "Every format in a profile advertising progressive delivery constructs a session whose cancellation is idempotent and cannot emit later pixel generations.",
+      "testName": "testProgressiveCancellationFencesLaterPixels_ICT_009"
+    }
+  ],
+  "rules": {
+    "componentEvidenceDoesNotReplaceHostCompositionEvidence": true,
+    "referenceFixturesDoNotProveHostileCorpusSafety": true,
+    "releaseQualified": false,
+    "unsupportedOrSkippedFailsClosed": true
+  },
+  "supportedPlatforms": [
+    "macOS-12+"
+  ]
+}

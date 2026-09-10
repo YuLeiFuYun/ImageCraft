@@ -25,6 +25,10 @@ scripts/verify-integration-contract.sh
 scripts/verify-public-api.sh
 scripts/verify-source-identity.sh
 python3 Tools/Corpus/verify_manifest.py Tests/ImageCraftImageIOTests/Resources/Corpus/v1/manifest.json
+python3 Tools/Corpus/verify_avif_m4_fixtures.py \
+    Tests/ImageCraftImageIOTests/Resources/Corpus/FormatBreadthV1/avif-m4-fixtures.json
+python3 Tools/Corpus/verify_gainmap_m6_fixture.py \
+    Tests/ImageCraftImageIOTests/Resources/Corpus/FormatBreadthV1/gainmap-m6-fixtures.json
 python3 Tools/Corpus/verify_progressive_photo_corpus.py \
     Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/manifest.json
 python3 Tools/Quality/test_progressive_probe_helpers.py
@@ -43,5 +47,7 @@ python3 Tools/Performance/test_progressive_pipeline_simulation.py
 python3 Tools/Performance/validate_progressive_pipeline_experiment.py \
     Evidence/Experiments/progressive-jpeg-pipeline-simulation-2026-08-04.json
 xcrun swift test
+scripts/verify-image-codec-conformance-kit.sh
+scripts/verify-image-packed-rgba8-conformance-kit.sh
 xcrun swift build -c release
 scripts/verify-imageio-evidence.sh

@@ -6,6 +6,8 @@ public enum ImageAnimationContainer: String, Codable, CaseIterable, Hashable, Se
   case gif
   /// 带 acTL/fcTL/fdAT 动画块的 PNG。
   case apng
+  /// 带 ANIM/ANMF 动画块的扩展 WebP 容器。
+  case webp
   /// 由独立 JPEG 完整帧组成的 Motion-JPEG 风格序列。
   case jpegSequence
 }

@@ -33,16 +33,17 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
   package static let codecDescriptor = ImageCodecDescriptor(
     identifier: ImageCodecIdentifier(rawValue: "dev.fovea.independent-png-rgba8"),
     implementationVersion: 1,
-    capabilities: ImageCodecCapabilities(
-      formats: [.png],
-      deliveryModes: [.completeFrame],
-      progressiveFormats: [],
-      trackModes: [.primaryFrame],
-      metadata: [.sourceColorProfile],
-      dynamicRanges: [.standard],
-      outputRepresentations: [.packedRGBA8],
-      cancellationMode: .operationBoundary
-    )
+    decodeProfiles: [
+      ImageDecodeCapabilityProfile(
+        formats: [.png],
+        deliveryModes: [.completeFrame],
+        trackModes: [.primaryFrame],
+        metadata: [.sourceColorProfile],
+        dynamicRanges: [.standard],
+        outputRepresentations: [.packedRGBA8],
+        cancellationMode: .operationBoundary
+      )
+    ]
   )
 
   /// The caller owns operation-budget authority. There is intentionally no implicit default: every
@@ -117,6 +118,9 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
     request: ImageDecodeRequest,
     limits: DecodeLimits = .coreV1
   ) throws -> ImageDecodeResourceLedgerSnapshot {
+    guard request.dynamicRange == .standard else {
+      throw PNGIndependentRGBA8Error.unsupportedRequest
+    }
     guard data.count <= limits.maximumEncodedBytes else {
       throw ImageCraftError.encodedBytesExceeded
     }
@@ -223,6 +227,9 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
     request: ImageDecodeRequest,
     limits: DecodeLimits = .coreV1
   ) throws -> ImagePackedRGBA8 {
+    guard request.dynamicRange == .standard else {
+      throw PNGIndependentRGBA8Error.unsupportedRequest
+    }
     guard data.count <= limits.maximumEncodedBytes else {
       throw ImageCraftError.encodedBytesExceeded
     }

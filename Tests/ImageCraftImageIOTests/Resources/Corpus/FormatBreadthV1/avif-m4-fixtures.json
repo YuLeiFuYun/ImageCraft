@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "fixtureSetID": "IMAGECRAFT-AVIF-M4-V1",
+  "generator": {
+    "defaultFramework": "Apple ImageIO public.avif",
+    "qualificationRuntime": "Xcode 27",
+    "note": "Fixtures are frozen by SHA-256. The first two entries use ImageIO generation; entries may declare a generatorOverride for independent encoded input. Acceptance verifies kCGImagePropertyDepth after encoding; byte-for-byte reproduction across encoder versions is not assumed."
+  },
+  "fixtures": [
+    {
+      "file": "avif-alpha-steps-8bit.avif",
+      "width": 4,
+      "height": 1,
+      "sourceBitsPerComponent": 8,
+      "sourcePremultipliedRGBA8": [
+        [0, 0, 0, 0],
+        [64, 64, 64, 64],
+        [128, 128, 128, 128],
+        [255, 255, 255, 255]
+      ],
+      "encodedDepth": 8,
+      "byteCount": 605,
+      "sha256": "c13573d663589c72f6b3fba20d9698ee6788596c7116fdfac91596f42783f389"
+    },
+    {
+      "file": "avif-rgba-10bit.avif",
+      "width": 4,
+      "height": 1,
+      "sourceBitsPerComponent": 16,
+      "sourcePremultipliedRGBA16LE": [
+        [0, 0, 0, 0],
+        [16384, 8192, 0, 32768],
+        [32768, 16384, 8192, 49152],
+        [65535, 32768, 16384, 65535]
+      ],
+      "encodedDepth": 10,
+      "byteCount": 626,
+      "sha256": "024cb8f5808ee556e778583353a5b2ef0d10c0cb3933745bb1ada1d0f105bdf0"
+    },
+    {
+      "file": "avif-rgb-10bit-svt-16x8.avif",
+      "width": 16,
+      "height": 8,
+      "sourcePattern": "FFmpeg lavfi testsrc2=size=16x8:rate=1:duration=1",
+      "encodedDepth": 10,
+      "encodedPixelFormat": "yuv420p10le",
+      "generatorOverride": {
+        "ffmpegVersion": "9.0.1",
+        "codec": "libsvtav1 4.2.0",
+        "argv": [
+          "ffmpeg", "-f", "lavfi", "-i", "testsrc2=size=16x8:rate=1:duration=1",
+          "-frames:v", "1", "-pix_fmt", "yuv420p10le", "-c:v", "libsvtav1",
+          "-preset", "11", "-crf", "20", "-f", "avif", "<output>"
+        ]
+      },
+      "byteCount": 495,
+      "sha256": "7224b908f881ec93f09bd8dbda023c47ae7f1a27134a5014279d8b32aff5448c"
+    }
+  ]
+}

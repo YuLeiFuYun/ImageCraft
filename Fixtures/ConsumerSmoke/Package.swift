@@ -22,6 +22,8 @@ let package = Package(
             dependencies: [
                 .product(name: "ImageCraftCore", package: "ImageCraft"),
                 .product(name: "ImageCraftImageIO", package: "ImageCraft"),
+                .product(name: "ImageCraftPDF", package: "ImageCraft"),
+                .product(name: "ImageCraftSVG", package: "ImageCraft"),
             ]
         ),
         .testTarget(

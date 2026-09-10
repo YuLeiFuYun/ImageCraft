@@ -12,16 +12,17 @@ final class ImageCodecConformanceTests: XCTestCase {
         let descriptor = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.finite-domain"),
             implementationVersion: 1,
-            capabilities: ImageCodecCapabilities(
+            decodeProfiles: [
+            ImageDecodeCapabilityProfile(
                 formats: [.png, .jpeg],
                 deliveryModes: [.completeFrame],
-                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation, .sourceColorProfile],
                 dynamicRanges: [.standard],
                 outputRepresentations: [.coreGraphicsImage, .pixelBuffer],
                 cancellationMode: .operationBoundary
             )
+        ]
         )
         let metadataSubsets = allSubsets(ImageDecodeMetadataCapability.allCases)
         var checked = 0
@@ -43,7 +44,7 @@ final class ImageCodecConformanceTests: XCTestCase {
                                         cancellationMode: cancellation
                                     )
                                     let expected = independentSupport(
-                                        descriptor.capabilities,
+                                        descriptor.decodeProfiles,
                                         request
                                     )
                                     XCTAssertEqual(descriptor.supports(request), expected)
@@ -59,23 +60,24 @@ final class ImageCodecConformanceTests: XCTestCase {
                 }
             }
         }
-        XCTAssertEqual(checked, 3_072)
+        XCTAssertEqual(checked, 6_144)
     }
 
     func testFailurePrecedenceIsStableWhenSeveralCapabilitiesAreMissing() {
         let descriptor = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.failure-order"),
             implementationVersion: 1,
-            capabilities: ImageCodecCapabilities(
+            decodeProfiles: [
+            ImageDecodeCapabilityProfile(
                 formats: [.png],
                 deliveryModes: [.completeFrame],
-                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation],
                 dynamicRanges: [.standard],
                 outputRepresentations: [.coreGraphicsImage],
                 cancellationMode: .operationBoundary
             )
+        ]
         )
         let hostile = ImageDecodeCapabilityRequest(
             format: .gif,
@@ -107,35 +109,93 @@ final class ImageCodecConformanceTests: XCTestCase {
         let subset = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.subset"),
             implementationVersion: 1,
-            capabilities: ImageCodecCapabilities(
+            decodeProfiles: [
+            ImageDecodeCapabilityProfile(
                 formats: [.png],
                 deliveryModes: [.completeFrame],
-                progressiveFormats: [],
                 trackModes: [.primaryFrame],
                 metadata: [.orientation],
                 dynamicRanges: [.standard],
                 outputRepresentations: [.coreGraphicsImage],
                 cancellationMode: .operationBoundary
             )
+        ]
         )
         let superset = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.superset"),
             implementationVersion: 1,
-            capabilities: ImageCodecCapabilities(
+            decodeProfiles: [
+            ImageDecodeCapabilityProfile(
                 formats: Set(EncodedImageFormat.allCases),
                 deliveryModes: Set(ImageDecodeDeliveryMode.allCases),
-                progressiveFormats: Set(EncodedImageFormat.allCases),
                 trackModes: Set(ImageDecodeTrackMode.allCases),
                 metadata: Set(ImageDecodeMetadataCapability.allCases),
                 dynamicRanges: Set(ImageDecodeDynamicRange.allCases),
                 outputRepresentations: Set(ImageDecodeOutputRepresentation.allCases),
                 cancellationMode: .interruptible
             )
+        ]
         )
 
         for request in finiteRequests() where subset.supports(request) {
             XCTAssertTrue(superset.supports(request))
         }
+    }
+
+    func testProfileDisjunctionDoesNotInventCrossProfileSupport() {
+        let descriptor = ImageCodecDescriptor(
+            identifier: ImageCodecIdentifier(rawValue: "test.profile-disjunction"),
+            implementationVersion: 1,
+            decodeProfiles: [
+                ImageDecodeCapabilityProfile(
+                    formats: [.png],
+                    deliveryModes: [.completeFrame],
+                    trackModes: [.primaryFrame],
+                    metadata: [.orientation],
+                    dynamicRanges: [.standard],
+                    outputRepresentations: [.coreGraphicsImage],
+                    cancellationMode: .operationBoundary
+                ),
+                ImageDecodeCapabilityProfile(
+                    formats: [.jpeg],
+                    deliveryModes: [.progressiveGenerations],
+                    trackModes: [.primaryFrame],
+                    metadata: [.orientation],
+                    dynamicRanges: [.standard],
+                    outputRepresentations: [.pixelBuffer],
+                    cancellationMode: .interruptible
+                ),
+            ]
+        )
+
+        XCTAssertTrue(
+            descriptor.supports(
+                ImageDecodeCapabilityRequest(
+                    format: .jpeg,
+                    deliveryMode: .progressiveGenerations,
+                    outputRepresentation: .pixelBuffer,
+                    cancellationMode: .interruptible
+                )
+            )
+        )
+        XCTAssertFalse(
+            descriptor.supports(
+                ImageDecodeCapabilityRequest(
+                    format: .png,
+                    deliveryMode: .progressiveGenerations,
+                    outputRepresentation: .pixelBuffer
+                )
+            )
+        )
+        XCTAssertFalse(
+            descriptor.supports(
+                ImageDecodeCapabilityRequest(
+                    format: .jpeg,
+                    deliveryMode: .progressiveGenerations,
+                    outputRepresentation: .coreGraphicsImage
+                )
+            )
+        )
     }
 
     func testConservativeResourceCompositionIsCommutativeMonotoneAndIdempotent() throws {
@@ -182,39 +242,40 @@ final class ImageCodecConformanceTests: XCTestCase {
     }
 
     func testCodecFingerprintSeparatesEveryIdentityDimension() {
-        let capabilities = ImageCodecCapabilities(
-            formats: Set(EncodedImageFormat.allCases),
-            deliveryModes: [.completeFrame],
-            progressiveFormats: [],
-            trackModes: [.primaryFrame],
-            metadata: [.orientation, .sourceColorProfile],
-            dynamicRanges: [.standard],
-            outputRepresentations: [.coreGraphicsImage],
-            cancellationMode: .operationBoundary
-        )
+        let profiles = [
+            ImageDecodeCapabilityProfile(
+                formats: Set(EncodedImageFormat.allCases),
+                deliveryModes: [.completeFrame],
+                trackModes: [.primaryFrame],
+                metadata: [.orientation, .sourceColorProfile],
+                dynamicRanges: [.standard],
+                outputRepresentations: [.coreGraphicsImage],
+                cancellationMode: .operationBoundary
+            )
+        ]
         let base = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.a"),
             implementationVersion: 1,
             contractVersion: 1,
-            capabilities: capabilities
+            decodeProfiles: profiles
         )
         let identifier = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.b"),
             implementationVersion: 1,
             contractVersion: 1,
-            capabilities: capabilities
+            decodeProfiles: profiles
         )
         let implementation = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.a"),
             implementationVersion: 2,
             contractVersion: 1,
-            capabilities: capabilities
+            decodeProfiles: profiles
         )
         let contract = ImageCodecDescriptor(
             identifier: ImageCodecIdentifier(rawValue: "test.a"),
             implementationVersion: 1,
             contractVersion: 2,
-            capabilities: capabilities
+            decodeProfiles: profiles
         )
         XCTAssertEqual(
             Set([
@@ -326,16 +387,18 @@ final class ImageCodecConformanceTests: XCTestCase {
     }
 
     private func independentSupport(
-        _ capabilities: ImageCodecCapabilities,
+        _ profiles: [ImageDecodeCapabilityProfile],
         _ request: ImageDecodeCapabilityRequest
     ) -> Bool {
-        capabilities.formats.contains(request.format)
-            && capabilities.deliveryModes.contains(request.deliveryMode)
-            && capabilities.trackModes.contains(request.trackMode)
-            && request.requiredMetadata.isSubset(of: capabilities.metadata)
-            && capabilities.dynamicRanges.contains(request.dynamicRange)
-            && capabilities.outputRepresentations.contains(request.outputRepresentation)
-            && capabilities.cancellationMode.rawValue >= request.cancellationMode.rawValue
+        profiles.contains { profile in
+            profile.formats.contains(request.format)
+                && profile.deliveryModes.contains(request.deliveryMode)
+                && profile.trackModes.contains(request.trackMode)
+                && request.requiredMetadata.isSubset(of: profile.metadata)
+                && profile.dynamicRanges.contains(request.dynamicRange)
+                && profile.outputRepresentations.contains(request.outputRepresentation)
+                && profile.cancellationMode.rawValue >= request.cancellationMode.rawValue
+        }
     }
 }
 

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imagecraft.invalid/conformance/image-codec/v1/observation-schema.json",
+  "title": "ImageCraft ImageCodec Conformance Observation v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kitID",
+    "contractVersion",
+    "status",
+    "executedTestCount",
+    "expectedTestCount",
+    "failureCount",
+    "codecPackageName",
+    "codecProduct",
+    "manifestSha256",
+    "fixtureManifestSha256",
+    "observationSchemaSha256",
+    "harnessSha256",
+    "factorySha256",
+    "codecSourceSha256",
+    "imageCraftSourceIdentitySHA256",
+    "imageCraftSourceIdentityFileCount",
+    "imageCraftSourceIdentityID",
+    "obligations",
+    "releaseQualified"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "kitID": {"const": "IMAGECRAFT-IMAGE-CODEC-CONFORMANCE-V1"},
+    "contractVersion": {"const": 1},
+    "status": {"enum": ["passed", "failed"]},
+    "executedTestCount": {"type": "integer", "minimum": 0},
+    "expectedTestCount": {"const": 9},
+    "failureCount": {"type": "integer", "minimum": 0},
+    "codecPackageName": {"type": "string", "minLength": 1},
+    "codecProduct": {"type": "string", "minLength": 1},
+    "manifestSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fixtureManifestSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "observationSchemaSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "harnessSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "factorySha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "codecSourceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "imageCraftSourceIdentitySHA256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "imageCraftSourceIdentityFileCount": {"type": "integer", "minimum": 1},
+    "imageCraftSourceIdentityID": {"const": "IMAGECRAFT-SOURCE-IDENTITY-V2"},
+    "obligations": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": ["id", "testName", "observed"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^IMAGECRAFT-ICT-00[1-9]$"},
+          "testName": {"type": "string", "minLength": 1},
+          "observed": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "releaseQualified": {"const": false}
+  },
+  "additionalProperties": true
+}

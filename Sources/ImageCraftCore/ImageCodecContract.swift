@@ -109,12 +109,13 @@ public struct ImageDecodeCapabilityRequest: Codable, Hashable, Sendable {
     }
 }
 
-/// 一个后端能够兑现的有限能力集合。
-public struct ImageCodecCapabilities: Codable, Hashable, Sendable {
+/// 一条真实可兑现的解码能力 profile。
+///
+/// profile 内的轴形成一个合取；descriptor 的 profile 列表形成有限析取。若两个能力轴
+/// 不能安全形成笛卡尔积，后端必须拆成不同 profile，而不是把各轴分别并入全局集合。
+public struct ImageDecodeCapabilityProfile: Codable, Hashable, Sendable {
     public let formats: Set<EncodedImageFormat>
     public let deliveryModes: Set<ImageDecodeDeliveryMode>
-    /// 能够交付渐进代次的格式；避免把 delivery mode 与 format 误当作笛卡尔积。
-    public let progressiveFormats: Set<EncodedImageFormat>
     public let trackModes: Set<ImageDecodeTrackMode>
     public let metadata: Set<ImageDecodeMetadataCapability>
     public let dynamicRanges: Set<ImageDecodeDynamicRange>
@@ -124,7 +125,6 @@ public struct ImageCodecCapabilities: Codable, Hashable, Sendable {
     public init(
         formats: Set<EncodedImageFormat>,
         deliveryModes: Set<ImageDecodeDeliveryMode>,
-        progressiveFormats: Set<EncodedImageFormat>,
         trackModes: Set<ImageDecodeTrackMode>,
         metadata: Set<ImageDecodeMetadataCapability>,
         dynamicRanges: Set<ImageDecodeDynamicRange>,
@@ -133,62 +133,11 @@ public struct ImageCodecCapabilities: Codable, Hashable, Sendable {
     ) {
         self.formats = formats
         self.deliveryModes = deliveryModes
-        self.progressiveFormats = progressiveFormats
         self.trackModes = trackModes
         self.metadata = metadata
         self.dynamicRanges = dynamicRanges
         self.outputRepresentations = outputRepresentations
         self.cancellationMode = cancellationMode
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case formats
-        case deliveryModes
-        case progressiveFormats
-        case trackModes
-        case metadata
-        case dynamicRanges
-        case outputRepresentations
-        case cancellationMode
-    }
-
-    public init(from decoder: any Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        formats = try values.decode(Set<EncodedImageFormat>.self, forKey: .formats)
-        deliveryModes = try values.decode(Set<ImageDecodeDeliveryMode>.self, forKey: .deliveryModes)
-        progressiveFormats = try values.decodeIfPresent(
-            Set<EncodedImageFormat>.self,
-            forKey: .progressiveFormats
-        ) ?? []
-        trackModes = try values.decode(Set<ImageDecodeTrackMode>.self, forKey: .trackModes)
-        metadata = try values.decode(
-            Set<ImageDecodeMetadataCapability>.self,
-            forKey: .metadata
-        )
-        dynamicRanges = try values.decode(
-            Set<ImageDecodeDynamicRange>.self,
-            forKey: .dynamicRanges
-        )
-        outputRepresentations = try values.decode(
-            Set<ImageDecodeOutputRepresentation>.self,
-            forKey: .outputRepresentations
-        )
-        cancellationMode = try values.decode(
-            ImageDecodeCancellationMode.self,
-            forKey: .cancellationMode
-        )
-    }
-
-    public func encode(to encoder: any Encoder) throws {
-        var values = encoder.container(keyedBy: CodingKeys.self)
-        try values.encode(formats, forKey: .formats)
-        try values.encode(deliveryModes, forKey: .deliveryModes)
-        try values.encode(progressiveFormats, forKey: .progressiveFormats)
-        try values.encode(trackModes, forKey: .trackModes)
-        try values.encode(metadata, forKey: .metadata)
-        try values.encode(dynamicRanges, forKey: .dynamicRanges)
-        try values.encode(outputRepresentations, forKey: .outputRepresentations)
-        try values.encode(cancellationMode, forKey: .cancellationMode)
     }
 }
 
@@ -205,23 +154,24 @@ public enum ImageCodecSupportFailure: Codable, Equatable, Hashable, Sendable {
 
 /// 后端能力及其参与缓存身份的版本化描述。
 public struct ImageCodecDescriptor: Codable, Hashable, Sendable {
-    public static let currentContractVersion: UInt16 = 2
+    public static let currentContractVersion: UInt16 = 4
 
     public let identifier: ImageCodecIdentifier
     public let implementationVersion: UInt32
     public let contractVersion: UInt16
-    public let capabilities: ImageCodecCapabilities
+    /// 有限析取的真实解码能力 profiles；列表顺序不参与支持语义。
+    public let decodeProfiles: [ImageDecodeCapabilityProfile]
 
     public init(
         identifier: ImageCodecIdentifier,
         implementationVersion: UInt32,
         contractVersion: UInt16 = Self.currentContractVersion,
-        capabilities: ImageCodecCapabilities
+        decodeProfiles: [ImageDecodeCapabilityProfile]
     ) {
         self.identifier = identifier
         self.implementationVersion = implementationVersion
         self.contractVersion = contractVersion
-        self.capabilities = capabilities
+        self.decodeProfiles = decodeProfiles
     }
 
     /// 任何会改变像素、元数据解释或能力语义的版本变化都必须改变该值。
@@ -229,44 +179,48 @@ public struct ImageCodecDescriptor: Codable, Hashable, Sendable {
         "\(identifier.rawValue)#impl=\(implementationVersion)#contract=\(contractVersion)"
     }
 
-    /// 返回第一个稳定排序的能力缺口；`nil` 表示后端声明能够满足需求。
+    /// 按固定轴顺序过滤同一批 profile。任一步候选归零即返回该轴的稳定失败；
+    /// 后续轴因此不能从另一个 profile 借能力拼出不存在的组合。
     public func supportFailure(
         for request: ImageDecodeCapabilityRequest
     ) -> ImageCodecSupportFailure? {
-        guard capabilities.formats.contains(request.format) else {
-            return .format(request.format)
+        var candidates = decodeProfiles.filter { $0.formats.contains(request.format) }
+        guard !candidates.isEmpty else { return .format(request.format) }
+
+        candidates = candidates.filter { $0.deliveryModes.contains(request.deliveryMode) }
+        guard !candidates.isEmpty else { return .deliveryMode(request.deliveryMode) }
+
+        candidates = candidates.filter { $0.trackModes.contains(request.trackMode) }
+        guard !candidates.isEmpty else { return .trackMode(request.trackMode) }
+
+        for metadata in request.requiredMetadata.sorted(by: { $0.rawValue < $1.rawValue }) {
+            candidates = candidates.filter { $0.metadata.contains(metadata) }
+            guard !candidates.isEmpty else { return .metadata(metadata) }
         }
-        guard capabilities.deliveryModes.contains(request.deliveryMode) else {
-            return .deliveryMode(request.deliveryMode)
+
+        candidates = candidates.filter { $0.dynamicRanges.contains(request.dynamicRange) }
+        guard !candidates.isEmpty else { return .dynamicRange(request.dynamicRange) }
+
+        candidates = candidates.filter {
+            $0.outputRepresentations.contains(request.outputRepresentation)
         }
-        if request.deliveryMode == .progressiveGenerations,
-            !capabilities.progressiveFormats.contains(request.format)
-        {
-            return .deliveryMode(request.deliveryMode)
-        }
-        guard capabilities.trackModes.contains(request.trackMode) else {
-            return .trackMode(request.trackMode)
-        }
-        let missingMetadata = request.requiredMetadata
-            .subtracting(capabilities.metadata)
-            .sorted { $0.rawValue < $1.rawValue }
-        if let missing = missingMetadata.first { return .metadata(missing) }
-        guard capabilities.dynamicRanges.contains(request.dynamicRange) else {
-            return .dynamicRange(request.dynamicRange)
-        }
-        guard capabilities.outputRepresentations.contains(request.outputRepresentation) else {
+        guard !candidates.isEmpty else {
             return .outputRepresentation(request.outputRepresentation)
         }
-        guard capabilities.cancellationMode >= request.cancellationMode else {
+
+        let strongestCancellation =
+            candidates.map(\.cancellationMode).max() ?? .operationBoundary
+        candidates = candidates.filter { $0.cancellationMode >= request.cancellationMode }
+        guard !candidates.isEmpty else {
             return .cancellation(
                 required: request.cancellationMode,
-                available: capabilities.cancellationMode
+                available: strongestCancellation
             )
         }
         return nil
     }
 
-    /// 判断 descriptor 是否声明支持全部请求语义。
+    /// 判断是否至少有一条完整 profile 满足全部请求语义。
     public func supports(_ request: ImageDecodeCapabilityRequest) -> Bool {
         supportFailure(for: request) == nil
     }

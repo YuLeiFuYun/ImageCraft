@@ -63,6 +63,12 @@ public enum EncodedImageFormat: String, CaseIterable, Codable, Hashable, Sendabl
     case jpeg
     /// GIF（图形交换格式）数据。
     case gif
+    /// WebP 光栅容器；静态与动画能力由 codec profile 分别声明。
+    case webp
+    /// HEIF 图像家族，包括 ImageIO 报告为 HEIF、HEIC 或 HEICS 的容器。
+    case heif
+    /// AVIF 图像容器；静态与序列能力由 codec profile 分别声明。
+    case avif
 }
 
 /// 解码前执行的元数据、像素数、尺寸与帧数硬限制。
@@ -279,6 +285,8 @@ public struct ImageDecodeRequest: Codable, Hashable, Sendable {
     public let contentMode: ImageContentMode
     /// 请求的色彩配置处理方式。
     public let colorPolicy: ImageColorPolicy
+    /// 请求的输出动态范围语义。
+    public let dynamicRange: ImageDecodeDynamicRange
 
     /// 创建字段全部参与解码身份计算的显式解码请求。
     public init(
@@ -286,9 +294,54 @@ public struct ImageDecodeRequest: Codable, Hashable, Sendable {
         contentMode: ImageContentMode = .fit,
         colorPolicy: ImageColorPolicy = .preserveSource
     ) {
+        self.init(
+            target: target,
+            contentMode: contentMode,
+            colorPolicy: colorPolicy,
+            dynamicRange: .standard
+        )
+    }
+
+    /// 创建带显式动态范围意图的解码请求。
+    public init(
+        target: TargetPixels,
+        contentMode: ImageContentMode = .fit,
+        colorPolicy: ImageColorPolicy = .preserveSource,
+        dynamicRange: ImageDecodeDynamicRange
+    ) {
         self.target = target
         self.contentMode = contentMode
         self.colorPolicy = colorPolicy
+        self.dynamicRange = dynamicRange
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case target
+        case contentMode
+        case colorPolicy
+        case dynamicRange
+    }
+
+    /// 旧 payload 没有 `dynamicRange`；按历史语义解码为 `.standard`。
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(
+            target: try container.decode(TargetPixels.self, forKey: .target),
+            contentMode: try container.decode(ImageContentMode.self, forKey: .contentMode),
+            colorPolicy: try container.decode(ImageColorPolicy.self, forKey: .colorPolicy),
+            dynamicRange: try container.decodeIfPresent(
+                ImageDecodeDynamicRange.self,
+                forKey: .dynamicRange
+            ) ?? .standard
+        )
+    }
+
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(target, forKey: .target)
+        try container.encode(contentMode, forKey: .contentMode)
+        try container.encode(colorPolicy, forKey: .colorPolicy)
+        try container.encode(dynamicRange, forKey: .dynamicRange)
     }
 }
 
@@ -471,7 +524,18 @@ public struct ImageProbe: Hashable, Sendable {
     public let metadataByteCount: Int
     public let auxiliaryAttachmentCount: Int
     public let sourceColorProfile: SourceColorProfile
+    /// 容器/图像框架在探测阶段报告的源每分量有效位深。
+    ///
+    /// 该值用于在最终光栅分配前保守推导像素工作集；它不是输出位深承诺。后端若
+    /// 无法可靠取得该事实，可以保留为 `nil`；资源估算会按保守上界处理，而不是
+    /// 默认为 8 位并低估高位深输入。
+    public let sourceBitsPerComponent: Int?
 
+    /// 创建源每分量有效位深未知的 probe。
+    ///
+    /// 该初始化器保留既有公共符号与既有 backend 的二进制/源码兼容性，但不会
+    /// 伪造 8-bit 输入事实。资源估算会把未知位深按保守上界处理。能够可靠报告
+    /// 源位深的 backend 应使用带 `sourceBitsPerComponent` 的重载。
     public init(
         pixelWidth: Int,
         pixelHeight: Int,
@@ -482,9 +546,59 @@ public struct ImageProbe: Hashable, Sendable {
         auxiliaryAttachmentCount: Int = 0,
         sourceColorProfile: SourceColorProfile = .unknown
     ) throws {
+        try self.init(
+            pixelWidth: pixelWidth,
+            pixelHeight: pixelHeight,
+            frameCount: frameCount,
+            orientation: orientation,
+            format: format,
+            metadataByteCount: metadataByteCount,
+            auxiliaryAttachmentCount: auxiliaryAttachmentCount,
+            sourceColorProfile: sourceColorProfile,
+            sourceBitsPerComponent: nil
+        )
+    }
+
+    /// 创建带显式源每分量有效位深的 probe。
+    public init(
+        pixelWidth: Int,
+        pixelHeight: Int,
+        frameCount: Int,
+        orientation: UInt32 = 1,
+        format: EncodedImageFormat = .png,
+        metadataByteCount: Int = 0,
+        auxiliaryAttachmentCount: Int = 0,
+        sourceColorProfile: SourceColorProfile = .unknown,
+        sourceBitsPerComponent: Int
+    ) throws {
+        try self.init(
+            pixelWidth: pixelWidth,
+            pixelHeight: pixelHeight,
+            frameCount: frameCount,
+            orientation: orientation,
+            format: format,
+            metadataByteCount: metadataByteCount,
+            auxiliaryAttachmentCount: auxiliaryAttachmentCount,
+            sourceColorProfile: sourceColorProfile,
+            sourceBitsPerComponent: Optional(sourceBitsPerComponent)
+        )
+    }
+
+    private init(
+        pixelWidth: Int,
+        pixelHeight: Int,
+        frameCount: Int,
+        orientation: UInt32,
+        format: EncodedImageFormat,
+        metadataByteCount: Int,
+        auxiliaryAttachmentCount: Int,
+        sourceColorProfile: SourceColorProfile,
+        sourceBitsPerComponent: Int?
+    ) throws {
         guard pixelWidth > 0, pixelHeight > 0, frameCount > 0,
             (1...8).contains(orientation),
-            metadataByteCount >= 0, auxiliaryAttachmentCount >= 0
+            metadataByteCount >= 0, auxiliaryAttachmentCount >= 0,
+            sourceBitsPerComponent.map({ (1...32).contains($0) }) ?? true
         else {
             throw ImageCraftError.unsupportedOrCorruptImage
         }
@@ -496,6 +610,7 @@ public struct ImageProbe: Hashable, Sendable {
         self.metadataByteCount = metadataByteCount
         self.auxiliaryAttachmentCount = auxiliaryAttachmentCount
         self.sourceColorProfile = sourceColorProfile
+        self.sourceBitsPerComponent = sourceBitsPerComponent
     }
 
     package func validate(under limits: DecodeLimits) throws {
@@ -518,6 +633,26 @@ public struct ImageProbe: Hashable, Sendable {
         guard auxiliaryAttachmentCount <= limits.maximumAuxiliaryAttachments else {
             throw ImageCraftError.auxiliaryAttachmentLimitExceeded
         }
+    }
+
+    /// Compatibility comparison for callers that constructed a probe through the pre-depth
+    /// initializer. Unknown source precision may match a concrete verified precision because the
+    /// legacy probe already receives the conservative unknown-precision resource bound. Every
+    /// pre-existing probe fact remains strict, and two concrete precision values must agree.
+    package func matchesEncodedIdentityAllowingUnknownSourcePrecision(_ other: ImageProbe) -> Bool {
+        pixelWidth == other.pixelWidth
+            && pixelHeight == other.pixelHeight
+            && frameCount == other.frameCount
+            && orientation == other.orientation
+            && format == other.format
+            && metadataByteCount == other.metadataByteCount
+            && auxiliaryAttachmentCount == other.auxiliaryAttachmentCount
+            && sourceColorProfile == other.sourceColorProfile
+            && (
+                sourceBitsPerComponent == nil
+                    || other.sourceBitsPerComponent == nil
+                    || sourceBitsPerComponent == other.sourceBitsPerComponent
+            )
     }
 }
 

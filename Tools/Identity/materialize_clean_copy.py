@@ -12,8 +12,8 @@ from pathlib import Path, PurePosixPath
 SCHEMA_VERSION = 2
 EXPECTED_IDENTITY_ID = 'IMAGECRAFT-SOURCE-IDENTITY-V2'
 EXPECTED_COVERAGE_MODE = "explicit-top-level-complete-v2"
-EXPECTED_INCLUDED_TOP_LEVEL = frozenset(['.github', '.gitignore', 'API', 'CONTRIBUTING.md', 'Evidence', 'Fixtures', 'Integration', 'LICENSE', 'Package.swift', 'README.md', 'ROADMAP.md', 'SECURITY.md', 'Sources', 'Tests', 'Tools', 'docs', 'scripts'])
-EXPECTED_EXCLUDED_TOP_LEVEL = frozenset(['.artifacts', '.build', '.git', '.swiftpm'])
+EXPECTED_INCLUDED_TOP_LEVEL = frozenset(['.github', '.gitignore', 'API', 'CONTRIBUTING.md', 'ConformanceKits', 'Evidence', 'Fixtures', 'Integration', 'LICENSE', 'Package.swift', 'README.md', 'ROADMAP.md', 'SECURITY.md', 'Sources', 'Tests', 'Tools', 'docs', 'scripts'])
+EXPECTED_EXCLUDED_TOP_LEVEL = frozenset(['.artifacts', '.build', '.git', '.swiftpm', '.workflow'])
 EXPECTED_EXCLUDED_SUBTREES = tuple(['Fixtures/ConsumerSmoke/.build', 'Fixtures/ConsumerSmoke/.swiftpm'])
 EXPECTED_EXCLUDED_SUBTREE_PARTS = tuple(
     tuple(Path(value).parts) for value in EXPECTED_EXCLUDED_SUBTREES

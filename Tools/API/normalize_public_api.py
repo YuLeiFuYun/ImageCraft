@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 SCHEMA_VERSION = 1
-MODULES = ("ImageCraftCore", "ImageCraftImageIO")
+MODULES = ("ImageCraftCore", "ImageCraftImageIO", "ImageCraftPDF", "ImageCraftSVG")
 RELATIONSHIP_KINDS = {"conformsTo", "inheritsFrom"}
 
 
