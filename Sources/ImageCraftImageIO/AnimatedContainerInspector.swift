@@ -78,6 +78,15 @@ enum AnimatedContainerInspector {
           maximumFrameCount: limits.imageLimits.maximumFrameCount
         )
       }
+      if security.format == .webp {
+        return try WebPAnimationInspector.inspect(
+          bytes,
+          byteCount: data.count,
+          sourceColorProfile: security.sourceColorProfile,
+          embeddedICCProfile: security.embeddedICCProfile,
+          maximumFrameCount: limits.imageLimits.maximumFrameCount
+        )
+      }
       throw ImageCraftError.animationUnsupported
     }
   }

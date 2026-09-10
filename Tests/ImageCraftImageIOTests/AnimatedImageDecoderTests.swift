@@ -35,6 +35,24 @@ final class AnimatedImageDecoderTests: XCTestCase {
     XCTAssertGreaterThan(try blueComponent(second.image.cgImage, x: 1, y: 1), 200)
   }
 
+  func testAnimationFrameHighDynamicRangeRequestFailsClosedM6Pt004() async throws {
+    let data = try makeAnimatedGIF()
+    let asset = try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(data))
+    let request = ImageDecodeRequest(
+      target: try TargetPixels(width: 4, height: 4),
+      dynamicRange: .high
+    )
+
+    XCTAssertNil(asset.wholeTrackCostEstimate(for: request))
+    XCTAssertNil(asset.frameWindowCostEstimate(for: request, frameCount: 1))
+    do {
+      _ = try await asset.frame(at: 0, request: request)
+      XCTFail("current animation backend must not ignore a high-dynamic-range frame request")
+    } catch let error as ImageCodecContractError {
+      XCTAssertEqual(error, .unsupportedCapability(.dynamicRange(.high)))
+    }
+  }
+
   func testOwnedGIFFullCanvasMatchesImageIOAndPublishesCostBounds_IMG_ANIM_PT_057()
     async throws
   {
@@ -689,7 +707,7 @@ final class AnimatedImageDecoderTests: XCTestCase {
     XCTAssertEqual(ihdr.payload[ihdr.payload.startIndex + 9], 2)
 
     let decoder = ImageIOAnimatedImageDecoder()
-    XCTAssertEqual(decoder.codecDescriptor.implementationVersion, 2)
+    XCTAssertEqual(decoder.codecDescriptor.implementationVersion, 3)
     let asset = try await decoder.prepareAnimation(source: .encoded(data))
     XCTAssertNil(
       asset.wholeTrackCostEstimate(
@@ -2245,6 +2263,167 @@ private func patternedImage(width: Int, height: Int, seed: Int) throws -> CGImag
       provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
     )
   )
+}
+
+extension AnimatedImageDecoderTests {
+  func testAnimatedWebPSubrectBlendDisposalAndTimeline_M2_3_PT_003() async throws {
+    let data = try loadFormatBreadthAnimationFixture(
+      "webp-animated-composite-three-frame.webp"
+    )
+    let decoder = ImageIOAnimatedImageDecoder()
+    let prepared = try await decoder.prepareAnimationWithDiagnostics(source: .encoded(data))
+    let asset = prepared.asset
+
+    XCTAssertEqual(asset.metadata.container, .webp)
+    XCTAssertEqual(asset.metadata.canvasWidth, 8)
+    XCTAssertEqual(asset.metadata.canvasHeight, 4)
+    XCTAssertEqual(asset.metadata.loopCount, .playOnce)
+    XCTAssertEqual(asset.metadata.frameCount, 3)
+    XCTAssertEqual(prepared.diagnostics.backingKind, .imageIOEncoded)
+    XCTAssertEqual(prepared.diagnostics.imageIOSourceIndicesMatchTimeline, true)
+
+    XCTAssertEqual(asset.metadata.frames[0].duration, try duration(1, 10))
+    XCTAssertEqual(asset.metadata.frames[0].rect, try ImageAnimationFrameRect(x: 0, y: 0, width: 8, height: 4))
+    XCTAssertEqual(asset.metadata.frames[0].disposal, .none)
+    XCTAssertEqual(asset.metadata.frames[0].blend, .source)
+
+    XCTAssertEqual(asset.metadata.frames[1].duration, try duration(1, 5))
+    XCTAssertEqual(asset.metadata.frames[1].rect, try ImageAnimationFrameRect(x: 2, y: 2, width: 4, height: 2))
+    XCTAssertEqual(asset.metadata.frames[1].disposal, .background)
+    XCTAssertEqual(asset.metadata.frames[1].blend, .over)
+
+    XCTAssertEqual(asset.metadata.frames[2].duration, try duration(3, 10))
+    XCTAssertEqual(asset.metadata.frames[2].rect, try ImageAnimationFrameRect(x: 0, y: 0, width: 2, height: 2))
+    XCTAssertEqual(asset.metadata.frames[2].disposal, .none)
+    XCTAssertEqual(asset.metadata.frames[2].blend, .over)
+
+    let request = try decodeRequest(width: 8, height: 4)
+    let frames = try await asset.frames(in: 0..<3, request: request)
+    XCTAssertEqual(try pixel(frames[0].image.cgImage, x: 7, y: 0), [255, 0, 0, 255])
+
+    let blended = try pixel(frames[1].image.cgImage, x: 2, y: 2)
+    XCTAssertTrue((124...130).contains(Int(blended[0])))
+    XCTAssertTrue((124...130).contains(Int(blended[1])))
+    XCTAssertEqual(blended[2], 0)
+    XCTAssertEqual(blended[3], 255)
+    XCTAssertEqual(try pixel(frames[1].image.cgImage, x: 7, y: 0), [255, 0, 0, 255])
+
+    XCTAssertEqual(try pixel(frames[2].image.cgImage, x: 0, y: 0), [0, 0, 255, 255])
+    XCTAssertEqual(try pixel(frames[2].image.cgImage, x: 2, y: 2), [0, 0, 0, 0])
+    XCTAssertEqual(try pixel(frames[2].image.cgImage, x: 7, y: 0), [255, 0, 0, 255])
+  }
+
+  func testAnimatedWebPReservedFlagsAndOutOfCanvasRectFailClosed_M2_3_PT_004() async throws {
+    let data = try loadFormatBreadthAnimationFixture(
+      "webp-animated-composite-three-frame.webp"
+    )
+    let secondANMF = try XCTUnwrap(nthFourCCOffset(data, fourCC: "ANMF", occurrence: 2))
+
+    var reservedFlag = data
+    reservedFlag[secondANMF + 23] |= 0x04
+    await assertThrowsErrorAsync(
+      try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(reservedFlag))
+    ) { error in
+      XCTAssertEqual(error as? ImageCraftError, .animationTimelineInvalid)
+    }
+
+    var outsideCanvas = data
+    outsideCanvas[secondANMF + 8] = 0xFF
+    outsideCanvas[secondANMF + 9] = 0xFF
+    outsideCanvas[secondANMF + 10] = 0x7F
+    await assertThrowsErrorAsync(
+      try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(outsideCanvas))
+    ) { error in
+      XCTAssertEqual(error as? ImageCraftError, .animationFrameRectInvalid)
+    }
+  }
+
+  func testAnimatedWebPFeatureFlagsMustMatchPayload_M2_3_PT_005() async throws {
+    let data = try loadFormatBreadthAnimationFixture(
+      "webp-animated-composite-three-frame.webp"
+    )
+    XCTAssertGreaterThan(data.count, 20)
+
+    var undeclaredAlpha = data
+    undeclaredAlpha[20] &= ~UInt8(0x10)
+    await assertThrowsErrorAsync(
+      try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(undeclaredAlpha))
+    ) { error in
+      XCTAssertEqual(error as? ImageCraftError, .animationTimelineInvalid)
+    }
+
+    var missingICCChunk = data
+    missingICCChunk[20] |= 0x20
+    await assertThrowsErrorAsync(
+      try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(missingICCChunk))
+    ) { error in
+      XCTAssertEqual(error as? ImageCraftError, .animationTimelineInvalid)
+    }
+  }
+
+  func testAnimatedWebPCompositesBeforeTargetDownsample_M2_3_PT_006() async throws {
+    let data = try loadFormatBreadthAnimationFixture(
+      "webp-animated-composite-three-frame.webp"
+    )
+    let asset = try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(data))
+    let frames = try await asset.frames(
+      in: 0..<3,
+      request: try decodeRequest(width: 4, height: 2)
+    )
+
+    XCTAssertTrue(frames.allSatisfy { $0.image.pixelWidth == 4 && $0.image.pixelHeight == 2 })
+    XCTAssertEqual(try pixel(frames[0].image.cgImage, x: 3, y: 0), [255, 0, 0, 255])
+
+    let blended = try pixel(frames[1].image.cgImage, x: 1, y: 1)
+    XCTAssertGreaterThan(blended[1], 80)
+    XCTAssertLessThan(blended[0], 200)
+    XCTAssertEqual(blended[3], 255)
+    let unaffectedSecond = try pixel(frames[1].image.cgImage, x: 3, y: 0)
+    XCTAssertGreaterThanOrEqual(unaffectedSecond[0], 250)
+    XCTAssertEqual(unaffectedSecond[3], 255)
+
+    let blue = try pixel(frames[2].image.cgImage, x: 0, y: 0)
+    XCTAssertGreaterThan(blue[2], 200)
+    let cleared = try pixel(frames[2].image.cgImage, x: 1, y: 1)
+    XCTAssertLessThan(cleared[3], 100)
+    let unaffectedThird = try pixel(frames[2].image.cgImage, x: 3, y: 0)
+    XCTAssertGreaterThanOrEqual(unaffectedThird[0], 250)
+    XCTAssertGreaterThanOrEqual(unaffectedThird[3], 250)
+  }
+
+  func testStaticAVIFDoesNotBroadenAnimationContract_M4_PT_003() async throws {
+    let data = try loadFormatBreadthAnimationFixture("avif-rgba.avif")
+    await assertThrowsErrorAsync(
+      try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(data))
+    ) { error in
+      XCTAssertEqual(error as? ImageCraftError, .animationUnsupported)
+    }
+  }
+}
+
+private func loadFormatBreadthAnimationFixture(_ file: String) throws -> Data {
+  let url = try XCTUnwrap(
+    Bundle.module.url(
+      forResource: file,
+      withExtension: nil,
+      subdirectory: "Corpus/FormatBreadthV1"
+    ),
+    file
+  )
+  return try Data(contentsOf: url)
+}
+
+private func nthFourCCOffset(_ data: Data, fourCC: String, occurrence: Int) -> Int? {
+  let needle = Array(fourCC.utf8)
+  guard needle.count == 4, occurrence > 0, data.count >= 4 else { return nil }
+  let bytes = Array(data)
+  var seen = 0
+  for offset in 0...(bytes.count - needle.count) {
+    guard Array(bytes[offset..<(offset + needle.count)]) == needle else { continue }
+    seen += 1
+    if seen == occurrence { return offset }
+  }
+  return nil
 }
 
 private func imageWithTransparentCorner(width: Int, height: Int) throws -> CGImage {

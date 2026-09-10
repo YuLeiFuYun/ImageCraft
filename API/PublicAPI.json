@@ -545,36 +545,6 @@
         },
         {
           "kind": "conformsTo",
-          "source": "ImageCodecCapabilities",
-          "target": "Swift.Decodable"
-        },
-        {
-          "kind": "conformsTo",
-          "source": "ImageCodecCapabilities",
-          "target": "Swift.Encodable"
-        },
-        {
-          "kind": "conformsTo",
-          "source": "ImageCodecCapabilities",
-          "target": "Swift.Equatable"
-        },
-        {
-          "kind": "conformsTo",
-          "source": "ImageCodecCapabilities",
-          "target": "Swift.Hashable"
-        },
-        {
-          "kind": "conformsTo",
-          "source": "ImageCodecCapabilities",
-          "target": "Swift.Sendable"
-        },
-        {
-          "kind": "conformsTo",
-          "source": "ImageCodecCapabilities",
-          "target": "Swift.SendableMetatype"
-        },
-        {
-          "kind": "conformsTo",
           "source": "ImageCodecContractError",
           "target": "Swift.Equatable"
         },
@@ -855,6 +825,36 @@
         },
         {
           "kind": "conformsTo",
+          "source": "ImageDecodeCapabilityProfile",
+          "target": "Swift.Decodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeCapabilityProfile",
+          "target": "Swift.Encodable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeCapabilityProfile",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeCapabilityProfile",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeCapabilityProfile",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "ImageDecodeCapabilityProfile",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "ImageDecodeCapabilityRequest",
           "target": "Swift.Decodable"
         },
@@ -1995,6 +1995,141 @@
         },
         {
           "kind": "conformsTo",
+          "source": "PDFPageBounds",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFPageBounds",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFPageBounds",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFPageBounds",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationError",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationError",
+          "target": "Swift.Error"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationError",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationError",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationError",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationLimits",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationLimits",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationLimits",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationLimits",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationRequest",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationRequest",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationRequest",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizationRequest",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizerDescriptor",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizerDescriptor",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizerDescriptor",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFRasterizerDescriptor",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFSinglePageProbe",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFSinglePageProbe",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFSinglePageProbe",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFSinglePageProbe",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFSinglePageRasterizing",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "PDFSinglePageRasterizing",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "PreparedImageCreationResourceInspecting",
           "target": "Swift.Sendable"
         },
@@ -2180,6 +2315,141 @@
         },
         {
           "kind": "conformsTo",
+          "source": "SVGDocumentProbe",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGDocumentProbe",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGDocumentProbe",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGDocumentProbe",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationError",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationError",
+          "target": "Swift.Error"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationError",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationError",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationError",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationLimits",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationLimits",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationLimits",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationLimits",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationRequest",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationRequest",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationRequest",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizationRequest",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizerDescriptor",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizerDescriptor",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizerDescriptor",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGRasterizerDescriptor",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGSingleDocumentRasterizing",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGSingleDocumentRasterizing",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGViewBox",
+          "target": "Swift.Equatable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGViewBox",
+          "target": "Swift.Hashable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGViewBox",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "SVGViewBox",
+          "target": "Swift.SendableMetatype"
+        },
+        {
+          "kind": "conformsTo",
           "source": "SourceColorProfile",
           "target": "Swift.Decodable"
         },
@@ -2244,7 +2514,7 @@
           "target": "Swift.SendableMetatype"
         }
       ],
-      "symbolCount": 538,
+      "symbolCount": 633,
       "symbols": [
         {
           "declaration": "struct AnimatedImageAsset",
@@ -2529,10 +2799,22 @@
           "preciseIdentifier": "s:14ImageCraftCore07EncodedA6FormatO"
         },
         {
+          "declaration": "case avif",
+          "kind": "swift.enum.case",
+          "path": "EncodedImageFormat.avif",
+          "preciseIdentifier": "s:14ImageCraftCore07EncodedA6FormatO4avifyA2CmF"
+        },
+        {
           "declaration": "case gif",
           "kind": "swift.enum.case",
           "path": "EncodedImageFormat.gif",
           "preciseIdentifier": "s:14ImageCraftCore07EncodedA6FormatO3gifyA2CmF"
+        },
+        {
+          "declaration": "case heif",
+          "kind": "swift.enum.case",
+          "path": "EncodedImageFormat.heif",
+          "preciseIdentifier": "s:14ImageCraftCore07EncodedA6FormatO4heifyA2CmF"
         },
         {
           "declaration": "init?(rawValue: String)",
@@ -2551,6 +2833,12 @@
           "kind": "swift.enum.case",
           "path": "EncodedImageFormat.png",
           "preciseIdentifier": "s:14ImageCraftCore07EncodedA6FormatO3pngyA2CmF"
+        },
+        {
+          "declaration": "case webp",
+          "kind": "swift.enum.case",
+          "path": "EncodedImageFormat.webp",
+          "preciseIdentifier": "s:14ImageCraftCore07EncodedA6FormatO4webpyA2CmF"
         },
         {
           "declaration": "enum ImageAlphaMode",
@@ -2659,6 +2947,12 @@
           "kind": "swift.enum.case",
           "path": "ImageAnimationContainer.jpegSequence",
           "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO12jpegSequenceyA2CmF"
+        },
+        {
+          "declaration": "case webp",
+          "kind": "swift.enum.case",
+          "path": "ImageAnimationContainer.webp",
+          "preciseIdentifier": "s:14ImageCraftCore0A18AnimationContainerO4webpyA2CmF"
         },
         {
           "declaration": "struct ImageAnimationDecodeLimits",
@@ -3099,78 +3393,6 @@
           "preciseIdentifier": "s:14ImageCraftCore0A5CodecPAAE16resourceEstimate5probe7requestAA0a14DecodeResourceF0VAA0A5ProbeV_AA0aI7RequestVtKF"
         },
         {
-          "declaration": "struct ImageCodecCapabilities",
-          "kind": "swift.struct",
-          "path": "ImageCodecCapabilities",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV"
-        },
-        {
-          "declaration": "let cancellationMode: ImageDecodeCancellationMode",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.cancellationMode",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV16cancellationModeAA0a18DecodeCancellationG0Ovp"
-        },
-        {
-          "declaration": "let deliveryModes: Set<ImageDecodeDeliveryMode>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.deliveryModes",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV13deliveryModesShyAA0A18DecodeDeliveryModeOGvp"
-        },
-        {
-          "declaration": "let dynamicRanges: Set<ImageDecodeDynamicRange>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.dynamicRanges",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV13dynamicRangesShyAA0A18DecodeDynamicRangeOGvp"
-        },
-        {
-          "declaration": "func encode(to encoder: any Encoder) throws",
-          "kind": "swift.method",
-          "path": "ImageCodecCapabilities.encode(to:)",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV6encode2toys7Encoder_p_tKF"
-        },
-        {
-          "declaration": "let formats: Set<EncodedImageFormat>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.formats",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV7formatsShyAA07EncodedA6FormatOGvp"
-        },
-        {
-          "declaration": "init(formats: Set<EncodedImageFormat>, deliveryModes: Set<ImageDecodeDeliveryMode>, progressiveFormats: Set<EncodedImageFormat>, trackModes: Set<ImageDecodeTrackMode>, metadata: Set<ImageDecodeMetadataCapability>, dynamicRanges: Set<ImageDecodeDynamicRange>, outputRepresentations: Set<ImageDecodeOutputRepresentation>, cancellationMode: ImageDecodeCancellationMode)",
-          "kind": "swift.init",
-          "path": "ImageCodecCapabilities.init(formats:deliveryModes:progressiveFormats:trackModes:metadata:dynamicRanges:outputRepresentations:cancellationMode:)",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV7formats13deliveryModes18progressiveFormats05trackH08metadata13dynamicRanges21outputRepresentations16cancellationModeACShyAA07EncodedA6FormatOG_ShyAA0a14DecodeDeliveryR0OGANShyAA0au5TrackR0OGShyAA0aU18MetadataCapabilityOGShyAA0aU12DynamicRangeOGShyAA0aU20OutputRepresentationOGAA0au12CancellationR0Otcfc"
-        },
-        {
-          "declaration": "init(from decoder: any Decoder) throws",
-          "kind": "swift.init",
-          "path": "ImageCodecCapabilities.init(from:)",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV4fromACs7Decoder_p_tKcfc"
-        },
-        {
-          "declaration": "let metadata: Set<ImageDecodeMetadataCapability>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.metadata",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV8metadataShyAA0A24DecodeMetadataCapabilityOGvp"
-        },
-        {
-          "declaration": "let outputRepresentations: Set<ImageDecodeOutputRepresentation>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.outputRepresentations",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV21outputRepresentationsShyAA0A26DecodeOutputRepresentationOGvp"
-        },
-        {
-          "declaration": "let progressiveFormats: Set<EncodedImageFormat>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.progressiveFormats",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV18progressiveFormatsShyAA07EncodedA6FormatOGvp"
-        },
-        {
-          "declaration": "let trackModes: Set<ImageDecodeTrackMode>",
-          "kind": "swift.property",
-          "path": "ImageCodecCapabilities.trackModes",
-          "preciseIdentifier": "s:14ImageCraftCore0A17CodecCapabilitiesV10trackModesShyAA0A15DecodeTrackModeOGvp"
-        },
-        {
           "declaration": "enum ImageCodecContractError",
           "kind": "swift.enum",
           "path": "ImageCodecContractError",
@@ -3201,12 +3423,6 @@
           "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV16cacheFingerprintSSvp"
         },
         {
-          "declaration": "let capabilities: ImageCodecCapabilities",
-          "kind": "swift.property",
-          "path": "ImageCodecDescriptor.capabilities",
-          "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV12capabilitiesAA0aD12CapabilitiesVvp"
-        },
-        {
           "declaration": "let contractVersion: UInt16",
           "kind": "swift.property",
           "path": "ImageCodecDescriptor.contractVersion",
@@ -3217,6 +3433,12 @@
           "kind": "swift.type.property",
           "path": "ImageCodecDescriptor.currentContractVersion",
           "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV22currentContractVersions6UInt16VvpZ"
+        },
+        {
+          "declaration": "let decodeProfiles: [ImageDecodeCapabilityProfile]",
+          "kind": "swift.property",
+          "path": "ImageCodecDescriptor.decodeProfiles",
+          "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV14decodeProfilesSayAA0A23DecodeCapabilityProfileVGvp"
         },
         {
           "declaration": "let identifier: ImageCodecIdentifier",
@@ -3237,10 +3459,10 @@
           "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV4fromACs7Decoder_p_tKcfc"
         },
         {
-          "declaration": "init(identifier: ImageCodecIdentifier, implementationVersion: UInt32, contractVersion: UInt16 = Self.currentContractVersion, capabilities: ImageCodecCapabilities)",
+          "declaration": "init(identifier: ImageCodecIdentifier, implementationVersion: UInt32, contractVersion: UInt16 = Self.currentContractVersion, decodeProfiles: [ImageDecodeCapabilityProfile])",
           "kind": "swift.init",
-          "path": "ImageCodecDescriptor.init(identifier:implementationVersion:contractVersion:capabilities:)",
-          "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV10identifier21implementationVersion08contractH012capabilitiesAcA0aD10IdentifierV_s6UInt32Vs6UInt16VAA0aD12CapabilitiesVtcfc"
+          "path": "ImageCodecDescriptor.init(identifier:implementationVersion:contractVersion:decodeProfiles:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A15CodecDescriptorV10identifier21implementationVersion08contractH014decodeProfilesAcA0aD10IdentifierV_s6UInt32Vs6UInt16VSayAA0A23DecodeCapabilityProfileVGtcfc"
         },
         {
           "declaration": "func requireSupport(_ request: ImageDecodeCapabilityRequest) throws",
@@ -3579,6 +3801,66 @@
           "preciseIdentifier": "s:14ImageCraftCore0A22DecodeCancellationModeO17operationBoundaryyA2CmF"
         },
         {
+          "declaration": "struct ImageDecodeCapabilityProfile",
+          "kind": "swift.struct",
+          "path": "ImageDecodeCapabilityProfile",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV"
+        },
+        {
+          "declaration": "let cancellationMode: ImageDecodeCancellationMode",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.cancellationMode",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV16cancellationModeAA0ad12CancellationH0Ovp"
+        },
+        {
+          "declaration": "let deliveryModes: Set<ImageDecodeDeliveryMode>",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.deliveryModes",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV13deliveryModesShyAA0aD12DeliveryModeOGvp"
+        },
+        {
+          "declaration": "let dynamicRanges: Set<ImageDecodeDynamicRange>",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.dynamicRanges",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV13dynamicRangesShyAA0aD12DynamicRangeOGvp"
+        },
+        {
+          "declaration": "let formats: Set<EncodedImageFormat>",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.formats",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV7formatsShyAA07EncodedA6FormatOGvp"
+        },
+        {
+          "declaration": "init(formats: Set<EncodedImageFormat>, deliveryModes: Set<ImageDecodeDeliveryMode>, trackModes: Set<ImageDecodeTrackMode>, metadata: Set<ImageDecodeMetadataCapability>, dynamicRanges: Set<ImageDecodeDynamicRange>, outputRepresentations: Set<ImageDecodeOutputRepresentation>, cancellationMode: ImageDecodeCancellationMode)",
+          "kind": "swift.init",
+          "path": "ImageDecodeCapabilityProfile.init(formats:deliveryModes:trackModes:metadata:dynamicRanges:outputRepresentations:cancellationMode:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV7formats13deliveryModes05trackI08metadata13dynamicRanges21outputRepresentations16cancellationModeACShyAA07EncodedA6FormatOG_ShyAA0ad8DeliveryQ0OGShyAA0ad5TrackQ0OGShyAA0ad8MetadataE0OGShyAA0aD12DynamicRangeOGShyAA0aD20OutputRepresentationOGAA0ad12CancellationQ0Otcfc"
+        },
+        {
+          "declaration": "init(from decoder: any Decoder) throws",
+          "kind": "swift.init",
+          "path": "ImageDecodeCapabilityProfile.init(from:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV4fromACs7Decoder_p_tKcfc"
+        },
+        {
+          "declaration": "let metadata: Set<ImageDecodeMetadataCapability>",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.metadata",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV8metadataShyAA0ad8MetadataE0OGvp"
+        },
+        {
+          "declaration": "let outputRepresentations: Set<ImageDecodeOutputRepresentation>",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.outputRepresentations",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV21outputRepresentationsShyAA0aD20OutputRepresentationOGvp"
+        },
+        {
+          "declaration": "let trackModes: Set<ImageDecodeTrackMode>",
+          "kind": "swift.property",
+          "path": "ImageDecodeCapabilityProfile.trackModes",
+          "preciseIdentifier": "s:14ImageCraftCore0A23DecodeCapabilityProfileV10trackModesShyAA0aD9TrackModeOGvp"
+        },
+        {
           "declaration": "struct ImageDecodeCapabilityRequest",
           "kind": "swift.struct",
           "path": "ImageDecodeCapabilityRequest",
@@ -3891,6 +4173,18 @@
           "preciseIdentifier": "s:14ImageCraftCore0A13DecodeRequestV11contentModeAA0a7ContentG0Ovp"
         },
         {
+          "declaration": "let dynamicRange: ImageDecodeDynamicRange",
+          "kind": "swift.property",
+          "path": "ImageDecodeRequest.dynamicRange",
+          "preciseIdentifier": "s:14ImageCraftCore0A13DecodeRequestV12dynamicRangeAA0ad7DynamicG0Ovp"
+        },
+        {
+          "declaration": "func encode(to encoder: any Encoder) throws",
+          "kind": "swift.method",
+          "path": "ImageDecodeRequest.encode(to:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A13DecodeRequestV6encode2toys7Encoder_p_tKF"
+        },
+        {
           "declaration": "init(from decoder: any Decoder) throws",
           "kind": "swift.init",
           "path": "ImageDecodeRequest.init(from:)",
@@ -3901,6 +4195,12 @@
           "kind": "swift.init",
           "path": "ImageDecodeRequest.init(target:contentMode:colorPolicy:)",
           "preciseIdentifier": "s:14ImageCraftCore0A13DecodeRequestV6target11contentMode11colorPolicyAcA12TargetPixelsV_AA0a7ContentH0OAA0a5ColorJ0Otcfc"
+        },
+        {
+          "declaration": "init(target: TargetPixels, contentMode: ImageContentMode = .fit, colorPolicy: ImageColorPolicy = .preserveSource, dynamicRange: ImageDecodeDynamicRange)",
+          "kind": "swift.init",
+          "path": "ImageDecodeRequest.init(target:contentMode:colorPolicy:dynamicRange:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A13DecodeRequestV6target11contentMode11colorPolicy12dynamicRangeAcA12TargetPixelsV_AA0a7ContentH0OAA0a5ColorJ0OAA0ad7DynamicL0Otcfc"
         },
         {
           "declaration": "let target: TargetPixels",
@@ -5037,6 +5337,12 @@
           "preciseIdentifier": "s:14ImageCraftCore0A5ProbeV10pixelWidth0E6Height10frameCount11orientation6format012metadataByteI0019auxiliaryAttachmentI018sourceColorProfileACSi_S2is6UInt32VAA07EncodedA6FormatOS2iAA06SourceqR0OtKcfc"
         },
         {
+          "declaration": "init(pixelWidth: Int, pixelHeight: Int, frameCount: Int, orientation: UInt32 = 1, format: EncodedImageFormat = .png, metadataByteCount: Int = 0, auxiliaryAttachmentCount: Int = 0, sourceColorProfile: SourceColorProfile = .unknown, sourceBitsPerComponent: Int) throws",
+          "kind": "swift.init",
+          "path": "ImageProbe.init(pixelWidth:pixelHeight:frameCount:orientation:format:metadataByteCount:auxiliaryAttachmentCount:sourceColorProfile:sourceBitsPerComponent:)",
+          "preciseIdentifier": "s:14ImageCraftCore0A5ProbeV10pixelWidth0E6Height10frameCount11orientation6format012metadataByteI0019auxiliaryAttachmentI018sourceColorProfile0P16BitsPerComponentACSi_S2is6UInt32VAA07EncodedA6FormatOS2iAA06SourceqR0OSitKcfc"
+        },
+        {
           "declaration": "let metadataByteCount: Int",
           "kind": "swift.property",
           "path": "ImageProbe.metadataByteCount",
@@ -5059,6 +5365,12 @@
           "kind": "swift.property",
           "path": "ImageProbe.pixelWidth",
           "preciseIdentifier": "s:14ImageCraftCore0A5ProbeV10pixelWidthSivp"
+        },
+        {
+          "declaration": "let sourceBitsPerComponent: Int?",
+          "kind": "swift.property",
+          "path": "ImageProbe.sourceBitsPerComponent",
+          "preciseIdentifier": "s:14ImageCraftCore0A5ProbeV22sourceBitsPerComponentSiSgvp"
         },
         {
           "declaration": "let sourceColorProfile: SourceColorProfile",
@@ -5253,6 +5565,252 @@
           "preciseIdentifier": "s:14ImageCraftCore0A47ProgressivePreparationCreationResourceAuthorityV09resultingE18RetainedKnownBytesSivp"
         },
         {
+          "declaration": "struct PDFPageBounds",
+          "kind": "swift.struct",
+          "path": "PDFPageBounds",
+          "preciseIdentifier": "s:14ImageCraftCore13PDFPageBoundsV"
+        },
+        {
+          "declaration": "let height: Double",
+          "kind": "swift.property",
+          "path": "PDFPageBounds.height",
+          "preciseIdentifier": "s:14ImageCraftCore13PDFPageBoundsV6heightSdvp"
+        },
+        {
+          "declaration": "let width: Double",
+          "kind": "swift.property",
+          "path": "PDFPageBounds.width",
+          "preciseIdentifier": "s:14ImageCraftCore13PDFPageBoundsV5widthSdvp"
+        },
+        {
+          "declaration": "enum PDFRasterizationError",
+          "kind": "swift.enum",
+          "path": "PDFRasterizationError",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO"
+        },
+        {
+          "declaration": "case encodedBytesExceeded",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.encodedBytesExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO20encodedBytesExceededyA2CmF"
+        },
+        {
+          "declaration": "case encryptedDocumentUnsupported",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.encryptedDocumentUnsupported",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO28encryptedDocumentUnsupportedyA2CmF"
+        },
+        {
+          "declaration": "case multiplePagesUnsupported",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.multiplePagesUnsupported",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO24multiplePagesUnsupportedyA2CmF"
+        },
+        {
+          "declaration": "case pageExtentExceeded",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.pageExtentExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO18pageExtentExceededyA2CmF"
+        },
+        {
+          "declaration": "case pageGeometryInvalid",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.pageGeometryInvalid",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO19pageGeometryInvalidyA2CmF"
+        },
+        {
+          "declaration": "case pageRotationUnsupported",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.pageRotationUnsupported",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO23pageRotationUnsupportedyA2CmF"
+        },
+        {
+          "declaration": "case probeMismatch",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.probeMismatch",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO13probeMismatchyA2CmF"
+        },
+        {
+          "declaration": "case renderFailed",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.renderFailed",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO12renderFailedyA2CmF"
+        },
+        {
+          "declaration": "case targetDimensionExceeded",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.targetDimensionExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO23targetDimensionExceededyA2CmF"
+        },
+        {
+          "declaration": "case targetPixelCountExceeded",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.targetPixelCountExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO24targetPixelCountExceededyA2CmF"
+        },
+        {
+          "declaration": "case unsupportedOrCorruptDocument",
+          "kind": "swift.enum.case",
+          "path": "PDFRasterizationError.unsupportedOrCorruptDocument",
+          "preciseIdentifier": "s:14ImageCraftCore21PDFRasterizationErrorO28unsupportedOrCorruptDocumentyA2CmF"
+        },
+        {
+          "declaration": "struct PDFRasterizationLimits",
+          "kind": "swift.struct",
+          "path": "PDFRasterizationLimits",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV"
+        },
+        {
+          "declaration": "static let coreV1: PDFRasterizationLimits",
+          "kind": "swift.type.property",
+          "path": "PDFRasterizationLimits.coreV1",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV6coreV1ACvpZ"
+        },
+        {
+          "declaration": "init(maximumEncodedBytes: Int = 64 * 1024 * 1024, maximumPageExtentUnits: Double = 14_400, maximumTargetDimension: Int = 16_384, maximumTargetPixelCount: Int = 100_000_000)",
+          "kind": "swift.init",
+          "path": "PDFRasterizationLimits.init(maximumEncodedBytes:maximumPageExtentUnits:maximumTargetDimension:maximumTargetPixelCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV19maximumEncodedBytes0F15PageExtentUnits0F15TargetDimension0fL10PixelCountACSi_SdS2itcfc"
+        },
+        {
+          "declaration": "let maximumEncodedBytes: Int",
+          "kind": "swift.property",
+          "path": "PDFRasterizationLimits.maximumEncodedBytes",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV19maximumEncodedBytesSivp"
+        },
+        {
+          "declaration": "let maximumPageExtentUnits: Double",
+          "kind": "swift.property",
+          "path": "PDFRasterizationLimits.maximumPageExtentUnits",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV22maximumPageExtentUnitsSdvp"
+        },
+        {
+          "declaration": "let maximumTargetDimension: Int",
+          "kind": "swift.property",
+          "path": "PDFRasterizationLimits.maximumTargetDimension",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV22maximumTargetDimensionSivp"
+        },
+        {
+          "declaration": "let maximumTargetPixelCount: Int",
+          "kind": "swift.property",
+          "path": "PDFRasterizationLimits.maximumTargetPixelCount",
+          "preciseIdentifier": "s:14ImageCraftCore22PDFRasterizationLimitsV23maximumTargetPixelCountSivp"
+        },
+        {
+          "declaration": "struct PDFRasterizationRequest",
+          "kind": "swift.struct",
+          "path": "PDFRasterizationRequest",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizationRequestV"
+        },
+        {
+          "declaration": "let contentMode: ImageContentMode",
+          "kind": "swift.property",
+          "path": "PDFRasterizationRequest.contentMode",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizationRequestV11contentModeAA0a7ContentG0Ovp"
+        },
+        {
+          "declaration": "init(target: TargetPixels, contentMode: ImageContentMode = .fit)",
+          "kind": "swift.init",
+          "path": "PDFRasterizationRequest.init(target:contentMode:)",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizationRequestV6target11contentModeAcA12TargetPixelsV_AA0a7ContentH0Otcfc"
+        },
+        {
+          "declaration": "let target: TargetPixels",
+          "kind": "swift.property",
+          "path": "PDFRasterizationRequest.target",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizationRequestV6targetAA12TargetPixelsVvp"
+        },
+        {
+          "declaration": "struct PDFRasterizerDescriptor",
+          "kind": "swift.struct",
+          "path": "PDFRasterizerDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV"
+        },
+        {
+          "declaration": "var cacheFingerprint: String { get }",
+          "kind": "swift.property",
+          "path": "PDFRasterizerDescriptor.cacheFingerprint",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV16cacheFingerprintSSvp"
+        },
+        {
+          "declaration": "let contractVersion: UInt16",
+          "kind": "swift.property",
+          "path": "PDFRasterizerDescriptor.contractVersion",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV15contractVersions6UInt16Vvp"
+        },
+        {
+          "declaration": "static let currentContractVersion: UInt16",
+          "kind": "swift.type.property",
+          "path": "PDFRasterizerDescriptor.currentContractVersion",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV22currentContractVersions6UInt16VvpZ"
+        },
+        {
+          "declaration": "let identifier: ImageCodecIdentifier",
+          "kind": "swift.property",
+          "path": "PDFRasterizerDescriptor.identifier",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV10identifierAA0A15CodecIdentifierVvp"
+        },
+        {
+          "declaration": "let implementationVersion: UInt32",
+          "kind": "swift.property",
+          "path": "PDFRasterizerDescriptor.implementationVersion",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV21implementationVersions6UInt32Vvp"
+        },
+        {
+          "declaration": "init(identifier: ImageCodecIdentifier, implementationVersion: UInt32, contractVersion: UInt16 = Self.currentContractVersion)",
+          "kind": "swift.init",
+          "path": "PDFRasterizerDescriptor.init(identifier:implementationVersion:contractVersion:)",
+          "preciseIdentifier": "s:14ImageCraftCore23PDFRasterizerDescriptorV10identifier21implementationVersion08contractH0AcA0A15CodecIdentifierV_s6UInt32Vs6UInt16Vtcfc"
+        },
+        {
+          "declaration": "struct PDFSinglePageProbe",
+          "kind": "swift.struct",
+          "path": "PDFSinglePageProbe",
+          "preciseIdentifier": "s:14ImageCraftCore18PDFSinglePageProbeV"
+        },
+        {
+          "declaration": "let pageBounds: PDFPageBounds",
+          "kind": "swift.property",
+          "path": "PDFSinglePageProbe.pageBounds",
+          "preciseIdentifier": "s:14ImageCraftCore18PDFSinglePageProbeV10pageBoundsAA07PDFPageH0Vvp"
+        },
+        {
+          "declaration": "protocol PDFSinglePageRasterizing : Sendable",
+          "kind": "swift.protocol",
+          "path": "PDFSinglePageRasterizing",
+          "preciseIdentifier": "s:14ImageCraftCore24PDFSinglePageRasterizingP"
+        },
+        {
+          "declaration": "func probe(data: Data, limits: PDFRasterizationLimits) throws -> PDFSinglePageProbe",
+          "kind": "swift.method",
+          "path": "PDFSinglePageRasterizing.probe(data:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore24PDFSinglePageRasterizingP5probe4data6limitsAA0dE5ProbeV10Foundation4DataV_AA22PDFRasterizationLimitsVtKF"
+        },
+        {
+          "declaration": "func rasterize(data: Data, probe: PDFSinglePageProbe, request: PDFRasterizationRequest, limits: PDFRasterizationLimits) throws -> DecodedImage",
+          "kind": "swift.method",
+          "path": "PDFSinglePageRasterizing.rasterize(data:probe:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore24PDFSinglePageRasterizingP9rasterize4data5probe7request6limitsAA07DecodedA0V10Foundation4DataV_AA0dE5ProbeVAA23PDFRasterizationRequestVAA0P6LimitsVtKF"
+        },
+        {
+          "declaration": "var rasterizerDescriptor: PDFRasterizerDescriptor { get }",
+          "kind": "swift.property",
+          "path": "PDFSinglePageRasterizing.rasterizerDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore24PDFSinglePageRasterizingP20rasterizerDescriptorAA013PDFRasterizerH0Vvp"
+        },
+        {
+          "declaration": "func resourceEstimate(probe: PDFSinglePageProbe, request: PDFRasterizationRequest, limits: PDFRasterizationLimits) throws -> ImageDecodeResourceEstimate",
+          "kind": "swift.method",
+          "path": "PDFSinglePageRasterizing.resourceEstimate(probe:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore24PDFSinglePageRasterizingP16resourceEstimate5probe7request6limitsAA0a14DecodeResourceH0VAA0dE5ProbeV_AA23PDFRasterizationRequestVAA0O6LimitsVtKF"
+        },
+        {
+          "declaration": "func resourceEstimate(probe: PDFSinglePageProbe, request: PDFRasterizationRequest, limits: PDFRasterizationLimits) throws -> ImageDecodeResourceEstimate",
+          "kind": "swift.method",
+          "path": "PDFSinglePageRasterizing.resourceEstimate(probe:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore24PDFSinglePageRasterizingPAAE16resourceEstimate5probe7request6limitsAA0a14DecodeResourceH0VAA0dE5ProbeV_AA23PDFRasterizationRequestVAA0O6LimitsVtKF"
+        },
+        {
           "declaration": "protocol PreparedImageCreationResourceInspecting : PreparedImageDecoding",
           "kind": "swift.protocol",
           "path": "PreparedImageCreationResourceInspecting",
@@ -5389,6 +5947,288 @@
           "kind": "swift.method",
           "path": "ProgressiveImagePreparingSession.finishWithPreparation()",
           "preciseIdentifier": "s:14ImageCraftCore011ProgressiveA16PreparingSessionP21finishWithPreparationAA0ad6DecodeI12FinalizationVyKF"
+        },
+        {
+          "declaration": "struct SVGDocumentProbe",
+          "kind": "swift.struct",
+          "path": "SVGDocumentProbe",
+          "preciseIdentifier": "s:14ImageCraftCore16SVGDocumentProbeV"
+        },
+        {
+          "declaration": "let viewBox: SVGViewBox",
+          "kind": "swift.property",
+          "path": "SVGDocumentProbe.viewBox",
+          "preciseIdentifier": "s:14ImageCraftCore16SVGDocumentProbeV7viewBoxAA07SVGViewG0Vvp"
+        },
+        {
+          "declaration": "enum SVGRasterizationError",
+          "kind": "swift.enum",
+          "path": "SVGRasterizationError",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO"
+        },
+        {
+          "declaration": "case coordinateLimitExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.coordinateLimitExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO23coordinateLimitExceededyA2CmF"
+        },
+        {
+          "declaration": "case elementLimitExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.elementLimitExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO20elementLimitExceededyA2CmF"
+        },
+        {
+          "declaration": "case encodedBytesExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.encodedBytesExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO20encodedBytesExceededyA2CmF"
+        },
+        {
+          "declaration": "case malformedDocument",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.malformedDocument",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO17malformedDocumentyA2CmF"
+        },
+        {
+          "declaration": "case missingViewBox",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.missingViewBox",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO14missingViewBoxyA2CmF"
+        },
+        {
+          "declaration": "case nestingDepthExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.nestingDepthExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO20nestingDepthExceededyA2CmF"
+        },
+        {
+          "declaration": "case pathCommandLimitExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.pathCommandLimitExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO24pathCommandLimitExceededyA2CmF"
+        },
+        {
+          "declaration": "case probeMismatch",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.probeMismatch",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO13probeMismatchyA2CmF"
+        },
+        {
+          "declaration": "case renderFailed",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.renderFailed",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO12renderFailedyA2CmF"
+        },
+        {
+          "declaration": "case targetDimensionExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.targetDimensionExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO23targetDimensionExceededyA2CmF"
+        },
+        {
+          "declaration": "case targetPixelCountExceeded",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.targetPixelCountExceeded",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO24targetPixelCountExceededyA2CmF"
+        },
+        {
+          "declaration": "case unsafeMarkup",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.unsafeMarkup",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO12unsafeMarkupyA2CmF"
+        },
+        {
+          "declaration": "case unsupportedDocumentSemantics",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.unsupportedDocumentSemantics",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO28unsupportedDocumentSemanticsyA2CmF"
+        },
+        {
+          "declaration": "case viewBoxInvalid",
+          "kind": "swift.enum.case",
+          "path": "SVGRasterizationError.viewBoxInvalid",
+          "preciseIdentifier": "s:14ImageCraftCore21SVGRasterizationErrorO14viewBoxInvalidyA2CmF"
+        },
+        {
+          "declaration": "struct SVGRasterizationLimits",
+          "kind": "swift.struct",
+          "path": "SVGRasterizationLimits",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV"
+        },
+        {
+          "declaration": "static let coreV1: SVGRasterizationLimits",
+          "kind": "swift.type.property",
+          "path": "SVGRasterizationLimits.coreV1",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV6coreV1ACvpZ"
+        },
+        {
+          "declaration": "init(maximumEncodedBytes: Int = 4 * 1024 * 1024, maximumElements: Int = 4_096, maximumPathCommands: Int = 65_536, maximumNestingDepth: Int = 32, maximumCoordinateMagnitude: Double = 1_000_000, maximumTargetDimension: Int = 16_384, maximumTargetPixelCount: Int = 100_000_000)",
+          "kind": "swift.init",
+          "path": "SVGRasterizationLimits.init(maximumEncodedBytes:maximumElements:maximumPathCommands:maximumNestingDepth:maximumCoordinateMagnitude:maximumTargetDimension:maximumTargetPixelCount:)",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV19maximumEncodedBytes0F8Elements0F12PathCommands0F12NestingDepth0F19CoordinateMagnitude0F15TargetDimension0fP10PixelCountACSi_S3iSdS2itcfc"
+        },
+        {
+          "declaration": "let maximumCoordinateMagnitude: Double",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumCoordinateMagnitude",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV26maximumCoordinateMagnitudeSdvp"
+        },
+        {
+          "declaration": "let maximumElements: Int",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumElements",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV15maximumElementsSivp"
+        },
+        {
+          "declaration": "let maximumEncodedBytes: Int",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumEncodedBytes",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV19maximumEncodedBytesSivp"
+        },
+        {
+          "declaration": "let maximumNestingDepth: Int",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumNestingDepth",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV19maximumNestingDepthSivp"
+        },
+        {
+          "declaration": "let maximumPathCommands: Int",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumPathCommands",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV19maximumPathCommandsSivp"
+        },
+        {
+          "declaration": "let maximumTargetDimension: Int",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumTargetDimension",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV22maximumTargetDimensionSivp"
+        },
+        {
+          "declaration": "let maximumTargetPixelCount: Int",
+          "kind": "swift.property",
+          "path": "SVGRasterizationLimits.maximumTargetPixelCount",
+          "preciseIdentifier": "s:14ImageCraftCore22SVGRasterizationLimitsV23maximumTargetPixelCountSivp"
+        },
+        {
+          "declaration": "struct SVGRasterizationRequest",
+          "kind": "swift.struct",
+          "path": "SVGRasterizationRequest",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizationRequestV"
+        },
+        {
+          "declaration": "let contentMode: ImageContentMode",
+          "kind": "swift.property",
+          "path": "SVGRasterizationRequest.contentMode",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizationRequestV11contentModeAA0a7ContentG0Ovp"
+        },
+        {
+          "declaration": "init(target: TargetPixels, contentMode: ImageContentMode = .fit)",
+          "kind": "swift.init",
+          "path": "SVGRasterizationRequest.init(target:contentMode:)",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizationRequestV6target11contentModeAcA12TargetPixelsV_AA0a7ContentH0Otcfc"
+        },
+        {
+          "declaration": "let target: TargetPixels",
+          "kind": "swift.property",
+          "path": "SVGRasterizationRequest.target",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizationRequestV6targetAA12TargetPixelsVvp"
+        },
+        {
+          "declaration": "struct SVGRasterizerDescriptor",
+          "kind": "swift.struct",
+          "path": "SVGRasterizerDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV"
+        },
+        {
+          "declaration": "var cacheFingerprint: String { get }",
+          "kind": "swift.property",
+          "path": "SVGRasterizerDescriptor.cacheFingerprint",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV16cacheFingerprintSSvp"
+        },
+        {
+          "declaration": "let contractVersion: UInt16",
+          "kind": "swift.property",
+          "path": "SVGRasterizerDescriptor.contractVersion",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV15contractVersions6UInt16Vvp"
+        },
+        {
+          "declaration": "static let currentContractVersion: UInt16",
+          "kind": "swift.type.property",
+          "path": "SVGRasterizerDescriptor.currentContractVersion",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV22currentContractVersions6UInt16VvpZ"
+        },
+        {
+          "declaration": "let identifier: ImageCodecIdentifier",
+          "kind": "swift.property",
+          "path": "SVGRasterizerDescriptor.identifier",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV10identifierAA0A15CodecIdentifierVvp"
+        },
+        {
+          "declaration": "let implementationVersion: UInt32",
+          "kind": "swift.property",
+          "path": "SVGRasterizerDescriptor.implementationVersion",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV21implementationVersions6UInt32Vvp"
+        },
+        {
+          "declaration": "init(identifier: ImageCodecIdentifier, implementationVersion: UInt32, contractVersion: UInt16 = Self.currentContractVersion)",
+          "kind": "swift.init",
+          "path": "SVGRasterizerDescriptor.init(identifier:implementationVersion:contractVersion:)",
+          "preciseIdentifier": "s:14ImageCraftCore23SVGRasterizerDescriptorV10identifier21implementationVersion08contractH0AcA0A15CodecIdentifierV_s6UInt32Vs6UInt16Vtcfc"
+        },
+        {
+          "declaration": "protocol SVGSingleDocumentRasterizing : Sendable",
+          "kind": "swift.protocol",
+          "path": "SVGSingleDocumentRasterizing",
+          "preciseIdentifier": "s:14ImageCraftCore28SVGSingleDocumentRasterizingP"
+        },
+        {
+          "declaration": "func probe(data: Data, limits: SVGRasterizationLimits) throws -> SVGDocumentProbe",
+          "kind": "swift.method",
+          "path": "SVGSingleDocumentRasterizing.probe(data:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore28SVGSingleDocumentRasterizingP5probe4data6limitsAA16SVGDocumentProbeV10Foundation4DataV_AA22SVGRasterizationLimitsVtKF"
+        },
+        {
+          "declaration": "func rasterize(data: Data, probe: SVGDocumentProbe, request: SVGRasterizationRequest, limits: SVGRasterizationLimits) throws -> DecodedImage",
+          "kind": "swift.method",
+          "path": "SVGSingleDocumentRasterizing.rasterize(data:probe:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore28SVGSingleDocumentRasterizingP9rasterize4data5probe7request6limitsAA07DecodedA0V10Foundation4DataV_AA16SVGDocumentProbeVAA23SVGRasterizationRequestVAA0Q6LimitsVtKF"
+        },
+        {
+          "declaration": "var rasterizerDescriptor: SVGRasterizerDescriptor { get }",
+          "kind": "swift.property",
+          "path": "SVGSingleDocumentRasterizing.rasterizerDescriptor",
+          "preciseIdentifier": "s:14ImageCraftCore28SVGSingleDocumentRasterizingP20rasterizerDescriptorAA013SVGRasterizerH0Vvp"
+        },
+        {
+          "declaration": "func resourceEstimate(probe: SVGDocumentProbe, request: SVGRasterizationRequest, limits: SVGRasterizationLimits) throws -> ImageDecodeResourceEstimate",
+          "kind": "swift.method",
+          "path": "SVGSingleDocumentRasterizing.resourceEstimate(probe:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore28SVGSingleDocumentRasterizingP16resourceEstimate5probe7request6limitsAA0a14DecodeResourceH0VAA16SVGDocumentProbeV_AA23SVGRasterizationRequestVAA0P6LimitsVtKF"
+        },
+        {
+          "declaration": "func resourceEstimate(probe: SVGDocumentProbe, request: SVGRasterizationRequest, limits: SVGRasterizationLimits) throws -> ImageDecodeResourceEstimate",
+          "kind": "swift.method",
+          "path": "SVGSingleDocumentRasterizing.resourceEstimate(probe:request:limits:)",
+          "preciseIdentifier": "s:14ImageCraftCore28SVGSingleDocumentRasterizingPAAE16resourceEstimate5probe7request6limitsAA0a14DecodeResourceH0VAA16SVGDocumentProbeV_AA23SVGRasterizationRequestVAA0P6LimitsVtKF"
+        },
+        {
+          "declaration": "struct SVGViewBox",
+          "kind": "swift.struct",
+          "path": "SVGViewBox",
+          "preciseIdentifier": "s:14ImageCraftCore10SVGViewBoxV"
+        },
+        {
+          "declaration": "let height: Double",
+          "kind": "swift.property",
+          "path": "SVGViewBox.height",
+          "preciseIdentifier": "s:14ImageCraftCore10SVGViewBoxV6heightSdvp"
+        },
+        {
+          "declaration": "let width: Double",
+          "kind": "swift.property",
+          "path": "SVGViewBox.width",
+          "preciseIdentifier": "s:14ImageCraftCore10SVGViewBoxV5widthSdvp"
         },
         {
           "declaration": "enum SourceColorProfile",
@@ -5819,6 +6659,112 @@
           "kind": "swift.init",
           "path": "ImageIOImageEncoder.init()",
           "preciseIdentifier": "s:010ImageCraftA2IO0A14IOImageEncoderVACycfc"
+        }
+      ]
+    },
+    {
+      "module": "ImageCraftPDF",
+      "relationships": [
+        {
+          "kind": "conformsTo",
+          "source": "CoreGraphicsPDFRasterizer",
+          "target": "ImageCraftCore.PDFSinglePageRasterizing"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "CoreGraphicsPDFRasterizer",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "CoreGraphicsPDFRasterizer",
+          "target": "Swift.SendableMetatype"
+        }
+      ],
+      "symbolCount": 5,
+      "symbols": [
+        {
+          "declaration": "struct CoreGraphicsPDFRasterizer",
+          "kind": "swift.struct",
+          "path": "CoreGraphicsPDFRasterizer",
+          "preciseIdentifier": "s:13ImageCraftPDF25CoreGraphicsPDFRasterizerV"
+        },
+        {
+          "declaration": "init()",
+          "kind": "swift.init",
+          "path": "CoreGraphicsPDFRasterizer.init()",
+          "preciseIdentifier": "s:13ImageCraftPDF25CoreGraphicsPDFRasterizerVACycfc"
+        },
+        {
+          "declaration": "func probe(data: Data, limits: PDFRasterizationLimits) throws -> PDFSinglePageProbe",
+          "kind": "swift.method",
+          "path": "CoreGraphicsPDFRasterizer.probe(data:limits:)",
+          "preciseIdentifier": "s:13ImageCraftPDF25CoreGraphicsPDFRasterizerV5probe4data6limits0abD018PDFSinglePageProbeV10Foundation4DataV_AG22PDFRasterizationLimitsVtKF"
+        },
+        {
+          "declaration": "func rasterize(data: Data, probe: PDFSinglePageProbe, request: PDFRasterizationRequest, limits: PDFRasterizationLimits) throws -> DecodedImage",
+          "kind": "swift.method",
+          "path": "CoreGraphicsPDFRasterizer.rasterize(data:probe:request:limits:)",
+          "preciseIdentifier": "s:13ImageCraftPDF25CoreGraphicsPDFRasterizerV9rasterize4data5probe7request6limits0abD007DecodedA0V10Foundation4DataV_AI18PDFSinglePageProbeVAI23PDFRasterizationRequestVAI0R6LimitsVtKF"
+        },
+        {
+          "declaration": "let rasterizerDescriptor: PDFRasterizerDescriptor",
+          "kind": "swift.property",
+          "path": "CoreGraphicsPDFRasterizer.rasterizerDescriptor",
+          "preciseIdentifier": "s:13ImageCraftPDF25CoreGraphicsPDFRasterizerV20rasterizerDescriptor0abD00fH0Vvp"
+        }
+      ]
+    },
+    {
+      "module": "ImageCraftSVG",
+      "relationships": [
+        {
+          "kind": "conformsTo",
+          "source": "CoreGraphicsSVGRasterizer",
+          "target": "ImageCraftCore.SVGSingleDocumentRasterizing"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "CoreGraphicsSVGRasterizer",
+          "target": "Swift.Sendable"
+        },
+        {
+          "kind": "conformsTo",
+          "source": "CoreGraphicsSVGRasterizer",
+          "target": "Swift.SendableMetatype"
+        }
+      ],
+      "symbolCount": 5,
+      "symbols": [
+        {
+          "declaration": "struct CoreGraphicsSVGRasterizer",
+          "kind": "swift.struct",
+          "path": "CoreGraphicsSVGRasterizer",
+          "preciseIdentifier": "s:13ImageCraftSVG25CoreGraphicsSVGRasterizerV"
+        },
+        {
+          "declaration": "init()",
+          "kind": "swift.init",
+          "path": "CoreGraphicsSVGRasterizer.init()",
+          "preciseIdentifier": "s:13ImageCraftSVG25CoreGraphicsSVGRasterizerVACycfc"
+        },
+        {
+          "declaration": "func probe(data: Data, limits: SVGRasterizationLimits) throws -> SVGDocumentProbe",
+          "kind": "swift.method",
+          "path": "CoreGraphicsSVGRasterizer.probe(data:limits:)",
+          "preciseIdentifier": "s:13ImageCraftSVG25CoreGraphicsSVGRasterizerV5probe4data6limits0abD016SVGDocumentProbeV10Foundation4DataV_AG22SVGRasterizationLimitsVtKF"
+        },
+        {
+          "declaration": "func rasterize(data: Data, probe: SVGDocumentProbe, request: SVGRasterizationRequest, limits: SVGRasterizationLimits) throws -> DecodedImage",
+          "kind": "swift.method",
+          "path": "CoreGraphicsSVGRasterizer.rasterize(data:probe:request:limits:)",
+          "preciseIdentifier": "s:13ImageCraftSVG25CoreGraphicsSVGRasterizerV9rasterize4data5probe7request6limits0abD007DecodedA0V10Foundation4DataV_AI16SVGDocumentProbeVAI23SVGRasterizationRequestVAI0Q6LimitsVtKF"
+        },
+        {
+          "declaration": "let rasterizerDescriptor: SVGRasterizerDescriptor",
+          "kind": "swift.property",
+          "path": "CoreGraphicsSVGRasterizer.rasterizerDescriptor",
+          "preciseIdentifier": "s:13ImageCraftSVG25CoreGraphicsSVGRasterizerV20rasterizerDescriptor0abD00fH0Vvp"
         }
       ]
     }

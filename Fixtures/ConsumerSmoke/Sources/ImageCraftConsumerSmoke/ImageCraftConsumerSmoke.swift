@@ -2,6 +2,8 @@ import CoreGraphics
 import Foundation
 import ImageCraftCore
 import ImageCraftImageIO
+import ImageCraftPDF
+import ImageCraftSVG
 
 enum ProgressiveFinalizationAdmission: Equatable {
   case unavailable
@@ -49,6 +51,48 @@ public struct ImageCraftConsumerSmoke: Sendable {
 
   public var encoderFingerprint: String {
     ImageIOImageEncoder().encoderDescriptor.cacheFingerprint
+  }
+
+  public var pdfRasterizerFingerprint: String {
+    CoreGraphicsPDFRasterizer().rasterizerDescriptor.cacheFingerprint
+  }
+
+  public var svgRasterizerFingerprint: String {
+    CoreGraphicsSVGRasterizer().rasterizerDescriptor.cacheFingerprint
+  }
+
+  public func rasterizeSVG(_ data: Data) throws -> DecodedImage {
+    let rasterizer = CoreGraphicsSVGRasterizer()
+    let limits = SVGRasterizationLimits.coreV1
+    let probe = try rasterizer.probe(data: data, limits: limits)
+    let request = SVGRasterizationRequest(
+      target: try TargetPixels(width: 512, height: 512),
+      contentMode: .fit
+    )
+    _ = try rasterizer.resourceEstimate(probe: probe, request: request, limits: limits)
+    return try rasterizer.rasterize(
+      data: data,
+      probe: probe,
+      request: request,
+      limits: limits
+    )
+  }
+
+  public func rasterizeSinglePagePDF(_ data: Data) throws -> DecodedImage {
+    let rasterizer = CoreGraphicsPDFRasterizer()
+    let limits = PDFRasterizationLimits.coreV1
+    let probe = try rasterizer.probe(data: data, limits: limits)
+    let request = PDFRasterizationRequest(
+      target: try TargetPixels(width: 512, height: 512),
+      contentMode: .fit
+    )
+    _ = try rasterizer.resourceEstimate(probe: probe, request: request, limits: limits)
+    return try rasterizer.rasterize(
+      data: data,
+      probe: probe,
+      request: request,
+      limits: limits
+    )
   }
 
   /// Compile-time witness that hosts can request the backend-neutral packed RGBA8 representation

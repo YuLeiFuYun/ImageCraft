@@ -42,22 +42,14 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     private let preparationRetentionMode: ImageIOPreparationRetentionMode
     private let outputMaterializationMode: ImageIOOutputMaterializationMode
 
-    /// 当前 Image I/O 适配器只承诺完整主帧、SDR 和 Core Graphics 输出。
-    /// GIF 多帧容器可以被安全探测，但该适配器尚未公开动画时间轴语义。
-    public let codecDescriptor = ImageCodecDescriptor(
-        identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio"),
-        implementationVersion: 6,
-        capabilities: ImageCodecCapabilities(
-            formats: [.png, .jpeg, .gif],
-            deliveryModes: [.completeFrame, .progressiveGenerations],
-            progressiveFormats: [.jpeg],
-            trackModes: [.primaryFrame],
-            metadata: [.orientation, .sourceColorProfile],
-            dynamicRanges: [.standard],
-            outputRepresentations: [.coreGraphicsImage],
-            cancellationMode: .operationBoundary
-        )
-    )
+    /// 当前 Image I/O 适配器承诺完整主帧 SDR，并在 macOS 14 / iOS 17+ 且 runtime
+    /// 实际注册 HEIF/HEIC source 时额外承诺显式 `.high + preserveSource` 的 HEIF
+    /// Core Graphics 输出。direct-HDR 输入必须保持 HDR；允许辅助附件时，支持该平台
+    /// ImageIO 的 ISO gain-map 输入也可由 `DecodeToHDR` 合成，但仍以实际 HDR 后置条件
+    /// 为准，不能从位深或附件存在推断成功。GIF、WebP、HEIF 与 AVIF 家族的多帧容器
+    /// 可以被安全探测，但该适配器尚未公开这些格式的动画时间轴 HDR 语义；渐进
+    /// generations 仍只对 JPEG SDR 承诺。
+    public let codecDescriptor: ImageCodecDescriptor
 
     /// 使用默认 prepared-store 聚合预算创建 Image I/O 解码器。
     public init() {
@@ -66,9 +58,13 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
 
     /// 使用独立于单输入 `DecodeLimits` 的 prepared-store 聚合预算创建解码器。
     public init(preparationLimits: ImageDecodePreparationLimits) {
+        let outputMaterializationMode: ImageIOOutputMaterializationMode = .frameworkNative
         self.preparations = ImageIOPreparationStore(limits: preparationLimits)
         self.preparationRetentionMode = .encodedDataOnly
-        self.outputMaterializationMode = .frameworkNative
+        self.outputMaterializationMode = outputMaterializationMode
+        self.codecDescriptor = Self.makeCodecDescriptor(
+            outputMaterializationMode: outputMaterializationMode
+        )
     }
 
     /// Qualification-only initializer for comparing opaque source reuse with bounded data-only
@@ -81,6 +77,62 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         self.preparations = ImageIOPreparationStore(limits: preparationLimits)
         self.preparationRetentionMode = qualificationPreparationRetentionMode
         self.outputMaterializationMode = outputMaterializationMode
+        self.codecDescriptor = Self.makeCodecDescriptor(
+            outputMaterializationMode: outputMaterializationMode
+        )
+    }
+
+    private static func makeCodecDescriptor(
+        outputMaterializationMode: ImageIOOutputMaterializationMode
+    ) -> ImageCodecDescriptor {
+        var completeFrameFormats: Set<EncodedImageFormat> = [.png, .jpeg, .gif, .webp, .heif]
+        let runtimeSourceTypes = Set(CGImageSourceCopyTypeIdentifiers() as? [String] ?? [])
+        if runtimeSourceTypes.contains("public.avif") {
+            completeFrameFormats.insert(.avif)
+        }
+        var decodeProfiles = [
+            ImageDecodeCapabilityProfile(
+                formats: completeFrameFormats,
+                deliveryModes: [.completeFrame],
+                trackModes: [.primaryFrame],
+                metadata: [.orientation, .sourceColorProfile],
+                dynamicRanges: [.standard],
+                outputRepresentations: [.coreGraphicsImage],
+                cancellationMode: .operationBoundary
+            ),
+            ImageDecodeCapabilityProfile(
+                formats: [.jpeg],
+                deliveryModes: [.progressiveGenerations],
+                trackModes: [.primaryFrame],
+                metadata: [.orientation, .sourceColorProfile],
+                dynamicRanges: [.standard],
+                outputRepresentations: [.coreGraphicsImage],
+                cancellationMode: .operationBoundary
+            ),
+        ]
+        if #available(macOS 14.0, iOS 17.0, *) {
+            if outputMaterializationMode == .frameworkNative
+                && (runtimeSourceTypes.contains("public.heic")
+                    || runtimeSourceTypes.contains("public.heif"))
+            {
+                decodeProfiles.append(
+                    ImageDecodeCapabilityProfile(
+                        formats: [.heif],
+                        deliveryModes: [.completeFrame],
+                        trackModes: [.primaryFrame],
+                        metadata: [.orientation, .sourceColorProfile],
+                        dynamicRanges: [.high],
+                        outputRepresentations: [.coreGraphicsImage],
+                        cancellationMode: .operationBoundary
+                    )
+                )
+            }
+        }
+        return ImageCodecDescriptor(
+            identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio"),
+            implementationVersion: 11,
+            decodeProfiles: decodeProfiles
+        )
     }
 
     package func preparationStoreQualificationSnapshot()
@@ -350,7 +402,11 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
 
         let geometry = decodeGeometry(probe: probe, request: request, limits: limits)
         let rasterStarted = DispatchTime.now().uptimeNanoseconds
-        let raster = try createRaster(source: source, geometry: geometry)
+        let raster = try createRaster(
+            source: source,
+            geometry: geometry,
+            dynamicRange: request.dynamicRange
+        )
         let rasterDuration = DispatchTime.now().uptimeNanoseconds &- rasterStarted
 
         let postProcessingStarted = DispatchTime.now().uptimeNanoseconds
@@ -489,9 +545,17 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         request: ImageDecodeRequest,
         limits: DecodeLimits = .coreV1
     ) throws -> ImagePackedRGBA8 {
+        guard request.dynamicRange == .standard else {
+            throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+        }
         let inspection = try inspect(data: data, limits: limits)
+        try requireCompleteFrameSupport(probe: inspection.probe, request: request)
         let geometry = decodeGeometry(probe: inspection.probe, request: request, limits: limits)
-        let raster = try createRaster(source: inspection.source, geometry: geometry)
+        let raster = try createRaster(
+            source: inspection.source,
+            geometry: geometry,
+            dynamicRange: request.dynamicRange
+        )
         let image = try finalizeDecodedImage(
             raster,
             probe: inspection.probe,
@@ -542,7 +606,9 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     ) throws -> DecodedImage {
         let inspection = try inspect(data: data, limits: limits)
         let verifiedProbe = inspection.probe
-        guard verifiedProbe == probe else { throw ImageCraftError.probeMismatch }
+        guard verifiedProbe.matchesEncodedIdentityAllowingUnknownSourcePrecision(probe) else {
+            throw ImageCraftError.probeMismatch
+        }
         return try decode(
             source: inspection.source,
             probe: verifiedProbe,
@@ -563,14 +629,36 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         request: ImageDecodeRequest,
         limits: DecodeLimits
     ) throws -> DecodedImage {
+        try requireCompleteFrameSupport(probe: probe, request: request)
         let geometry = decodeGeometry(probe: probe, request: request, limits: limits)
-        let raster = try createRaster(source: source, geometry: geometry)
+        let raster = try createRaster(
+            source: source,
+            geometry: geometry,
+            dynamicRange: request.dynamicRange
+        )
         return try finalizeDecodedImage(
             raster,
             probe: probe,
             sourceColorSpace: sourceColorSpace,
             request: request,
             limits: limits
+        )
+    }
+
+    private func requireCompleteFrameSupport(
+        probe: ImageProbe,
+        request: ImageDecodeRequest
+    ) throws {
+        try codecDescriptor.requireSupport(
+            ImageDecodeCapabilityRequest(
+                format: probe.format,
+                deliveryMode: .completeFrame,
+                trackMode: .primaryFrame,
+                requiredMetadata: [.orientation, .sourceColorProfile],
+                dynamicRange: request.dynamicRange,
+                outputRepresentation: .coreGraphicsImage,
+                cancellationMode: .operationBoundary
+            )
         )
     }
 
@@ -603,24 +691,135 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
 
     private func createRaster(
         source: CGImageSource,
-        geometry: DecodeGeometry
+        geometry: DecodeGeometry,
+        dynamicRange: ImageDecodeDynamicRange = .standard
     ) throws -> CGImage {
-        let options: [CFString: Any] = [
+        var options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
             kCGImageSourceThumbnailMaxPixelSize: geometry.thumbnailSize,
             kCGImageSourceShouldCacheImmediately: true,
         ]
-        guard
-            let thumbnail = CGImageSourceCreateThumbnailAtIndex(
-                source,
-                0,
-                options as CFDictionary
-            )
+        if dynamicRange == .high {
+            if #available(macOS 14.0, iOS 17.0, *) {
+                // This is an output-range request, not an attachment selector. Direct-HDR input
+                // remains HDR, SDR input remains SDR and is rejected by the bidirectional
+                // postcondition, while supported gain-map containers may be composed by ImageIO.
+                options[kCGImageSourceDecodeRequest] = kCGImageSourceDecodeToHDR
+            }
+        }
+        if let thumbnail = CGImageSourceCreateThumbnailAtIndex(
+            source,
+            0,
+            options as CFDictionary
+        ) {
+            return thumbnail
+        }
+
+        // The pinned ImageIO HEIF implementation can fail very small thumbnail requests while a
+        // max-pixel-size of 4 succeeds for the same source. Never fall back to full-resolution
+        // decode: that would invalidate target-sized resource admission. Instead retry only below
+        // the fixed four-pixel floor and resample that <=4-pixel thumbnail ourselves.
+        guard geometry.thumbnailSize < 4 else {
+            throw ImageCraftError.decodeFailed
+        }
+        var fallbackOptions: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceThumbnailMaxPixelSize: 4,
+            kCGImageSourceShouldCacheImmediately: true,
+        ]
+        if dynamicRange == .high {
+            if #available(macOS 14.0, iOS 17.0, *) {
+                fallbackOptions[kCGImageSourceDecodeRequest] = kCGImageSourceDecodeToHDR
+            }
+        }
+        guard let fallback = CGImageSourceCreateThumbnailAtIndex(
+            source,
+            0,
+            fallbackOptions as CFDictionary
+        ) else {
+            throw ImageCraftError.decodeFailed
+        }
+        return try resampleSmallThumbnail(
+            fallback,
+            maximumDimension: geometry.thumbnailSize
+        )
+    }
+
+    private func resampleSmallThumbnail(
+        _ image: CGImage,
+        maximumDimension: Int
+    ) throws -> CGImage {
+        guard maximumDimension > 0,
+            max(image.width, image.height) <= 4,
+            let colorSpace = image.colorSpace,
+            colorSpace.model == .rgb
         else {
             throw ImageCraftError.decodeFailed
         }
-        return thumbnail
+        let scale = min(
+            1,
+            Double(maximumDimension) / Double(max(image.width, image.height))
+        )
+        let width = max(1, Int((Double(image.width) * scale).rounded()))
+        let height = max(1, Int((Double(image.height) * scale).rounded()))
+        let bytesPerPixel: Int
+        let bitsPerComponent: Int
+        let byteOrder: CGBitmapInfo
+        switch image.bitsPerComponent {
+        case 8:
+            bytesPerPixel = 4
+            bitsPerComponent = 8
+            byteOrder = .byteOrder32Big
+        case 9...15:
+            // ImageIO may expose packed 10/12-bit HEIF thumbnails. Core Graphics bitmap contexts
+            // do not accept those packed component widths directly, so widen the bounded <=4px
+            // fallback to 16-bit integer lanes. The generic resource estimator already charges
+            // every 9...16-bit source at 8 B/px, and the dynamic-range postcondition below the
+            // raster stage still rejects any SDR/HDR semantic collapse.
+            bytesPerPixel = 8
+            bitsPerComponent = 16
+            byteOrder = .byteOrder16Little
+        case 16:
+            bytesPerPixel = 8
+            bitsPerComponent = 16
+            byteOrder = image.bitmapInfo.intersection(.byteOrderMask)
+        default:
+            // This is only a bounded <=4-pixel workaround for ImageIO thumbnail floors. Do not
+            // quantize an unfamiliar storage representation merely to satisfy it.
+            throw ImageCraftError.decodeFailed
+        }
+        let rowBytes = width.multipliedReportingOverflow(by: bytesPerPixel)
+        guard !rowBytes.overflow else { throw ImageCraftError.decodeFailed }
+        let alphaInfo: CGImageAlphaInfo
+        switch image.alphaInfo {
+        case .none, .noneSkipFirst, .noneSkipLast:
+            alphaInfo = .noneSkipLast
+        default:
+            alphaInfo = .premultipliedLast
+        }
+        let bitmapInfo = byteOrder.union(
+            CGBitmapInfo(rawValue: alphaInfo.rawValue)
+        )
+        guard let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: bitsPerComponent,
+            bytesPerRow: rowBytes.partialValue,
+            space: colorSpace,
+            bitmapInfo: bitmapInfo.rawValue
+        ) else {
+            throw ImageCraftError.decodeFailed
+        }
+        context.interpolationQuality = .high
+        context.setBlendMode(.copy)
+        context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height))
+        guard let result = context.makeImage() else {
+            throw ImageCraftError.decodeFailed
+        }
+        return result
     }
 
     private func finalizeDecodedImage(
@@ -631,12 +830,36 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         limits: DecodeLimits,
         materializationMode: ImageIOOutputMaterializationMode? = nil
     ) throws -> DecodedImage {
-        let image = try colorNormalizedImage(
-            thumbnail,
-            sourceColorSpace: sourceColorSpace,
-            sourceProfile: probe.sourceColorProfile,
-            policy: request.colorPolicy
-        )
+        let resolvedMaterializationMode = materializationMode ?? outputMaterializationMode
+        if request.dynamicRange == .high {
+            guard request.colorPolicy == .preserveSource else {
+                throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+            }
+            switch resolvedMaterializationMode {
+            case .frameworkNative:
+                break
+            case .ownedRGBA8:
+                throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+            }
+        }
+        try validateDynamicRange(thumbnail, request: request)
+        let image: CGImage
+        if request.dynamicRange == .high {
+            // A gain-map-backed source can have an SDR/sRGB primary image while ImageIO's
+            // explicit HDR decode request returns a derived PQ/extended-range raster. The primary
+            // source profile is not the output raster's color interpretation in that case. High
+            // requests are already restricted to preserveSource/framework-native output, so keep
+            // the validated framework color space instead of re-tagging it from the SDR primary.
+            image = thumbnail
+        } else {
+            image = try colorNormalizedImage(
+                thumbnail,
+                sourceColorSpace: sourceColorSpace,
+                sourceProfile: probe.sourceColorProfile,
+                policy: request.colorPolicy
+            )
+        }
+        try validateDynamicRange(image, request: request)
         try validate(width: image.width, height: image.height, limits: limits)
         let target = request.target
         switch request.contentMode {
@@ -646,7 +869,7 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
             }
             return try materializeOutputIfNeeded(
                 DecodedImage(cgImage: image, sourceColorProfile: probe.sourceColorProfile),
-                mode: materializationMode ?? outputMaterializationMode
+                mode: resolvedMaterializationMode
             )
         case .fill:
             let cropWidth = min(target.width, image.width)
@@ -660,11 +883,45 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
             guard let cropped = image.cropping(to: crop) else {
                 throw ImageCraftError.decodeFailed
             }
+            try validateDynamicRange(cropped, request: request)
             try validate(width: cropped.width, height: cropped.height, limits: limits)
             return try materializeOutputIfNeeded(
                 DecodedImage(cgImage: cropped, sourceColorProfile: probe.sourceColorProfile),
-                mode: materializationMode ?? outputMaterializationMode
+                mode: resolvedMaterializationMode
             )
+        }
+    }
+
+    /// Enforce the requested dynamic-range semantic before and after color handling. `.standard`
+    /// must never publish an HDR/extended-range raster. `.high` must preserve a raster that public
+    /// Core Graphics signals identify as HDR; source-specific SDR input therefore fails closed even
+    /// after the HEIF backend-level high-range profile admitted the operation.
+    ///
+    /// `contentHeadroom` is an additional public signal on newer OS releases. It catches future
+    /// EDR encodings whose color-space classification alone may not express the complete content
+    /// range, while the color-space checks keep the deployment baseline fail-closed as well.
+    private func validateDynamicRange(_ image: CGImage, request: ImageDecodeRequest) throws {
+        let colorSpaceIsHigh = image.colorSpace.map {
+            $0.isHDR() || CGColorSpaceUsesExtendedRange($0)
+        } ?? false
+        var headroomIsHigh = false
+        if #available(macOS 15.0, iOS 18.0, *) {
+            let headroom = image.contentHeadroom
+            guard headroom.isFinite else {
+                throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+            }
+            headroomIsHigh = headroom > 1.000_001
+        }
+        let isHigh = colorSpaceIsHigh || headroomIsHigh
+        switch request.dynamicRange {
+        case .standard:
+            guard !isHigh else {
+                throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+            }
+        case .high:
+            guard request.colorPolicy == .preserveSource, isHigh else {
+                throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+            }
         }
     }
 
@@ -918,18 +1175,28 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
     ) throws -> Inspection {
         let properties = metadata.properties
         guard let rawWidth = properties[kCGImagePropertyPixelWidth] as? Int,
-            let rawHeight = properties[kCGImagePropertyPixelHeight] as? Int
+            let rawHeight = properties[kCGImagePropertyPixelHeight] as? Int,
+            let sourceBitsPerComponent = properties[kCGImagePropertyDepth] as? Int,
+            (1...32).contains(sourceBitsPerComponent)
         else {
             throw ImageCraftError.unsupportedOrCorruptImage
         }
 
         let propertyMetadataBytes = Self.serializedPropertySize(properties)
-        let metadataByteCount = max(container.metadataByteCount, propertyMetadataBytes)
+        let auxiliary = auxiliaryInspection(
+            in: properties,
+            source: metadata.source
+        )
+        let primaryMetadataByteCount = max(container.metadataByteCount, propertyMetadataBytes)
+        let (metadataByteCount, metadataOverflow) = primaryMetadataByteCount
+            .addingReportingOverflow(auxiliary.additionalMetadataByteCount)
+        guard !metadataOverflow else {
+            throw ImageCraftError.metadataLimitExceeded
+        }
         guard metadataByteCount <= limits.maximumMetadataBytes else {
             throw ImageCraftError.metadataLimitExceeded
         }
-        let auxiliaryAttachmentCount = auxiliaryAttachmentCount(in: properties)
-        guard auxiliaryAttachmentCount <= limits.maximumAuxiliaryAttachments else {
+        guard auxiliary.attachmentCount <= limits.maximumAuxiliaryAttachments else {
             throw ImageCraftError.auxiliaryAttachmentLimitExceeded
         }
 
@@ -959,8 +1226,9 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
                 orientation: orientation,
                 format: container.format,
                 metadataByteCount: metadataByteCount,
-                auxiliaryAttachmentCount: auxiliaryAttachmentCount,
-                sourceColorProfile: container.sourceColorProfile
+                auxiliaryAttachmentCount: auxiliary.attachmentCount,
+                sourceColorProfile: container.sourceColorProfile,
+                sourceBitsPerComponent: sourceBitsPerComponent
             ),
             sourceColorSpace: sourceColorSpace
         )
@@ -1116,28 +1384,101 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         return data.count
     }
 
-    private func auxiliaryAttachmentCount(in properties: [CFString: Any]) -> Int {
-        // 图像属性字典无需实体化载荷即可公开全部辅助附件；逐类探测既会
-        // 遗漏未来新增类型，也会让 Image I/O 对有效图像中每个不存在的附件
-        // 分别发出错误。
-        guard let attachments = properties[kCGImagePropertyAuxiliaryData] as? [Any] else {
-            return 0
+    private struct AuxiliaryInspection {
+        let attachmentCount: Int
+        let additionalMetadataByteCount: Int
+    }
+
+    private func auxiliaryInspection(
+        in properties: [CFString: Any],
+        source: CGImageSource
+    ) -> AuxiliaryInspection {
+        let attachments = properties[kCGImagePropertyAuxiliaryData] as? [Any] ?? []
+        let count = attachments.count
+
+        // Xcode 27 / current ImageIO exposes ISO gain maps through the public auxiliary-data API
+        // without listing them in `kCGImagePropertyAuxiliaryData`. Relying on the property array
+        // alone therefore under-reports a real attachment and bypasses the default
+        // `maximumAuxiliaryAttachments == 0` rule. Query only the public ISO type on runtimes
+        // that expose it, and de-duplicate if a future runtime also lists it in the property array.
+        if #available(macOS 15.0, iOS 18.0, *) {
+            let isoType = kCGImageAuxiliaryDataTypeISOGainMap as String
+            let listedTypes = Set(
+                attachments.compactMap { attachment -> String? in
+                    guard let dictionary = attachment as? [CFString: Any] else { return nil }
+                    return dictionary[kCGImagePropertyAuxiliaryDataType] as? String
+                }
+            )
+            if !listedTypes.contains(isoType),
+                let rawInfo = CGImageSourceCopyAuxiliaryDataInfoAtIndex(
+                    source,
+                    0,
+                    kCGImageAuxiliaryDataTypeISOGainMap
+                )
+            {
+                let (incremented, overflow) = count.addingReportingOverflow(1)
+                guard !overflow else {
+                    return AuxiliaryInspection(
+                        attachmentCount: Int.max,
+                        additionalMetadataByteCount: Int.max
+                    )
+                }
+                guard let info = rawInfo as? [CFString: Any] else {
+                    return AuxiliaryInspection(
+                        attachmentCount: incremented,
+                        additionalMetadataByteCount: Int.max
+                    )
+                }
+                return AuxiliaryInspection(
+                    attachmentCount: incremented,
+                    additionalMetadataByteCount: isoGainMapMetadataByteCount(info)
+                )
+            }
         }
-        return attachments.count
+        return AuxiliaryInspection(attachmentCount: count, additionalMetadataByteCount: 0)
+    }
+
+    private func isoGainMapMetadataByteCount(_ info: [CFString: Any]) -> Int {
+        var total = 0
+
+        if let rawDescription = info[kCGImageAuxiliaryDataInfoDataDescription] {
+            guard let description = rawDescription as? [CFString: Any] else { return Int.max }
+            let descriptionBytes = Self.serializedPropertySize(description)
+            guard descriptionBytes != Int.max else { return Int.max }
+            let (sum, overflow) = total.addingReportingOverflow(descriptionBytes)
+            guard !overflow else { return Int.max }
+            total = sum
+        }
+
+        if let rawMetadata = info[kCGImageAuxiliaryDataInfoMetadata] {
+            let metadata = rawMetadata as! CGImageMetadata
+            guard let xmpData = CGImageMetadataCreateXMPData(metadata, nil) else { return Int.max }
+            let (sum, overflow) = total.addingReportingOverflow((xmpData as Data).count)
+            guard !overflow else { return Int.max }
+            total = sum
+        }
+        return total
     }
 
     private func sourceOptions(format: EncodedImageFormat) -> CFDictionary {
-        [
-            kCGImageSourceShouldCache: false,
-            kCGImageSourceTypeIdentifierHint: typeIdentifier(for: format),
-        ] as CFDictionary
+        var options: [CFString: Any] = [kCGImageSourceShouldCache: false]
+        if let typeIdentifier = typeIdentifier(for: format) {
+            options[kCGImageSourceTypeIdentifierHint] = typeIdentifier
+        }
+        return options as CFDictionary
     }
 
-    private func typeIdentifier(for format: EncodedImageFormat) -> CFString {
+    private func typeIdentifier(for format: EncodedImageFormat) -> CFString? {
         switch format {
         case .png: "public.png" as CFString
         case .jpeg: "public.jpeg" as CFString
         case .gif: "com.compuserve.gif" as CFString
+        case .webp: "org.webmproject.webp" as CFString
+        case .heif:
+            // HEIF 是 family-level public contract；具体容器可能被 ImageIO 报告为
+            // public.heif/public.heic/public.heics，因此不提供会误导 subtype 的 hint。
+            nil
+        case .avif: "public.avif" as CFString
         }
     }
 
@@ -1147,6 +1488,9 @@ public struct ImageIOImageDecoder: ImageCodec, InstrumentedPreparedImageDecoding
         case "public.png": return .png
         case "public.jpeg": return .jpeg
         case "com.compuserve.gif": return .gif
+        case "org.webmproject.webp": return .webp
+        case "public.heif", "public.heic", "public.heics": return .heif
+        case "public.avif": return .avif
         default: return nil
         }
     }
@@ -1403,7 +1747,8 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
     ) throws -> any ImageProgressiveDecodeSession {
         let capability = ImageDecodeCapabilityRequest(
             format: format,
-            deliveryMode: .progressiveGenerations
+            deliveryMode: .progressiveGenerations,
+            dynamicRange: request.dynamicRange
         )
         guard codecDescriptor.supports(capability), format == .jpeg else {
             throw ImageCraftError.progressiveDecodingUnsupported
@@ -2103,7 +2448,11 @@ extension ImageIOImageDecoder: ProgressiveImageDecoding {
                 request: request,
                 limits: limits
             )
-            guard let raster = try? decoder.createRaster(source: source, geometry: geometry) else {
+            guard let raster = try? decoder.createRaster(
+                source: source,
+                geometry: geometry,
+                dynamicRange: request.dynamicRange
+            ) else {
                 return nil
             }
             return try decoder.finalizeDecodedImage(

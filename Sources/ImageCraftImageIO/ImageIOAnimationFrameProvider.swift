@@ -86,6 +86,9 @@ actor ImageIOAnimationFrameProvider: ImageAnimationFrameProviding {
     prefersCachedFullImage: Bool
   ) async throws -> [DecodedAnimationFrame] {
     try Task.checkCancellation()
+    guard request.dynamicRange == .standard else {
+      throw ImageCodecContractError.unsupportedCapability(.dynamicRange(.high))
+    }
     guard !isCancelled else { throw ImageCraftError.animationSessionCancelled }
     guard !range.isEmpty,
       range.lowerBound >= 0,

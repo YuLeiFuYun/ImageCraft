@@ -815,7 +815,9 @@ private func makeEncodeOperation(
       metadataPolicy: .discard,
       alphaPolicy: .reject
     )
-  case .gif:
+  case .gif, .webp, .heif, .avif:
+    // 当前 ImageIO encoder contract 只承诺 PNG/JPEG；格式广度扩展首先是解码能力，
+    // benchmark 不得因共享 EncodedImageFormat 枚举扩展而暗示额外编码支持。
     throw PerformanceBenchmarkError.invalidCase
   }
   let encoder = ImageIOImageEncoder()

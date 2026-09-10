@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetID": "IMAGECRAFT-GAINMAP-M6-V1",
+  "generator": {
+    "framework": "Apple CoreImage public representation API",
+    "qualificationRuntime": "Xcode 27 / macOS 27",
+    "primary": {
+      "width": 16,
+      "height": 8,
+      "format": "RGBA8",
+      "colorSpace": "sRGB",
+      "rgba": [0.25, 0.35, 0.45, 1.0],
+      "contentHeadroom": 1.0
+    },
+    "alternateHDR": {
+      "format": "RGBAh/Float16",
+      "colorSpace": "extendedLinearSRGB",
+      "rgba": [2.0, 1.5, 1.0, 1.0],
+      "contentHeadroom": 4.0
+    },
+    "representation": {
+      "container": "public.heic",
+      "api": "CIContext.writeHEIFRepresentation",
+      "options": ["hdrImage", "hdrGainMapAsRGB=true"]
+    },
+    "note": "The binary is frozen by SHA-256. Generation used only public CoreImage/ImageIO APIs; byte-for-byte reproduction across framework versions is not assumed. Acceptance semantics are enforced by M6_PT_006 rather than inferred from the filename."
+  },
+  "fixtures": [
+    {
+      "file": "heif-iso-gainmap-sdr-hdr.heic",
+      "width": 16,
+      "height": 8,
+      "primaryDepth": 8,
+      "auxiliaryType": "kCGImageAuxiliaryDataTypeISOGainMap",
+      "expectedSDR": {
+        "bitsPerComponent": 8,
+        "contentHeadroom": 1.0
+      },
+      "expectedHDR": {
+        "minimumBitsPerComponent": 9,
+        "contentHeadroom": 4.0
+      },
+      "byteCount": 1488,
+      "sha256": "e5d0836dca09abea8d3ec041be00fa6561fbb811f6fc90b0220d9967c3673eed"
+    }
+  ]
+}

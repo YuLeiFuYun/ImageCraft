@@ -19,43 +19,46 @@ run_build() {
     expected_target=$5
     product_directory=$6
     shift 6
-    derived="$DERIVED_DATA/$label"
-    log="$DERIVED_DATA/$label.log"
-    if ! xcodebuild \
-        -scheme ImageCraftImageIO \
-        -configuration Release \
-        -destination "$destination" \
-        -derivedDataPath "$derived" \
-        CODE_SIGNING_ALLOWED=NO \
-        CODE_SIGNING_REQUIRED=NO \
-        "$deployment_key=$deployment_value" \
-        build > "$log" 2>&1
-    then
-        tail -200 "$log" >&2
-        exit 1
-    fi
-    if ! grep -F -- "$expected_target" "$log" >/dev/null; then
-        echo "expected deployment target not observed for $label: $expected_target" >&2
-        tail -120 "$log" >&2
-        exit 1
-    fi
+    for module in ImageCraftImageIO ImageCraftPDF ImageCraftSVG; do
+        derived="$DERIVED_DATA/$label-$module"
+        log="$DERIVED_DATA/$label-$module.log"
+        if ! xcodebuild \
+            -scheme "$module" \
+            -configuration Release \
+            -destination "$destination" \
+            -derivedDataPath "$derived" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            "$deployment_key=$deployment_value" \
+            build > "$log" 2>&1
+        then
+            tail -200 "$log" >&2
+            exit 1
+        fi
+        if ! grep -F -- "$expected_target" "$log" >/dev/null; then
+            echo "expected deployment target not observed for $label/$module: $expected_target" >&2
+            tail -120 "$log" >&2
+            exit 1
+        fi
 
-    artifact="$derived/Build/Products/$product_directory/ImageCraftImageIO.o"
-    if [ ! -f "$artifact" ]; then
-        echo "missing platform artifact for $label: $artifact" >&2
-        exit 1
-    fi
-    architectures=$(xcrun lipo -archs "$artifact")
-    for required_architecture in "$@"; do
-        case " $architectures " in
-            *" $required_architecture "*) ;;
-            *)
-                echo "missing $required_architecture architecture for $label: $architectures" >&2
-                exit 1
-                ;;
-        esac
+        artifact="$derived/Build/Products/$product_directory/$module.o"
+        if [ ! -f "$artifact" ]; then
+            echo "missing platform artifact for $label/$module: $artifact" >&2
+            exit 1
+        fi
+        architectures=$(xcrun lipo -archs "$artifact")
+        for required_architecture in "$@"; do
+            case " $architectures " in
+                *" $required_architecture "*) ;;
+                *)
+                    echo "missing $required_architecture architecture for $label/$module: $architectures" >&2
+                    exit 1
+                    ;;
+            esac
+        done
+        printf 'ImageCraft platform build passed: %s/%s [%s]\n' \
+            "$label" "$module" "$architectures"
     done
-    printf 'ImageCraft platform build passed: %s [%s]\n' "$label" "$architectures"
 }
 
 run_build \
@@ -83,4 +86,4 @@ run_build \
     Release-iphoneos \
     arm64
 
-printf 'ImageCraft platform matrix: cases=3 errors=0\n'
+printf 'ImageCraft platform matrix: modules=3 cases=9 errors=0\n'

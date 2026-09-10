@@ -61,6 +61,29 @@ final class BoundedPNGDecoderPublicTests: XCTestCase {
     XCTAssertThrowsError(try BoundedPNGDecoder(maximumOperationByteCharge: -1))
   }
 
+  func testExternalHostCannotRequestHighDynamicRangeFromBoundedPNG() throws {
+    let encoded = try XCTUnwrap(Data(
+      base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAAXNSR0IArs4c6QAAABFJREFUeNpj+M/A8J+h4f9/ABF5BH1k603MAAAAAElFTkSuQmCC"
+    ))
+    let decoder = try BoundedPNGDecoder(maximumOperationByteCharge: 1 << 20)
+    let probe = try decoder.probe(data: encoded, limits: .coreV1)
+    let request = ImageDecodeRequest(
+      target: try TargetPixels(width: probe.pixelWidth, height: probe.pixelHeight),
+      dynamicRange: .high
+    )
+
+    XCTAssertThrowsError(
+      try decoder.packedRGBA8ResourceLedger(
+        data: encoded,
+        request: request,
+        limits: .coreV1
+      )
+    ) { XCTAssertEqual($0 as? BoundedPNGDecodeError, .unsupportedRequest) }
+    XCTAssertThrowsError(
+      try decoder.decodePackedRGBA8(data: encoded, request: request, limits: .coreV1)
+    ) { XCTAssertEqual($0 as? BoundedPNGDecodeError, .unsupportedRequest) }
+  }
+
   func testExternalHostMustExplicitlyRequestSRGBFallbackForUntaggedPNG() throws {
     let encoded = try XCTUnwrap(Data(
       base64Encoded: "iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAEUlEQVR42mP4z8Dwn6Hh/38AEXkEfWTrTcwAAAAASUVORK5CYII="
