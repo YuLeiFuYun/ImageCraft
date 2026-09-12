@@ -18,6 +18,30 @@ package enum JPEGIndependentProgressive420ScanPreviewPolicy: Sendable {
   case libjpegBlockSmoothing
 }
 
+/// Package-only source-color authority rollout for the owned progressive 4:2:0 kernel.
+///
+/// The public final-only session intentionally keeps the default `.jfifOnly` policy. The wider
+/// Adobe form is an explicit research/qualification opt-in so a package-level experiment cannot
+/// silently broaden the public JPEG source contract.
+package enum JPEGIndependentProgressive420ColorAuthorityPolicy: Sendable {
+  case jfifOnly
+  case jfifOrAdobeYCbCr
+
+  fileprivate func accepts(sawJFIF: Bool, sawAdobeYCbCr: Bool) -> Bool {
+    sawJFIF || (self == .jfifOrAdobeYCbCr && sawAdobeYCbCr)
+  }
+}
+
+/// Package-only metadata rollout for the owned progressive 4:2:0 kernel.
+///
+/// The default keeps every APP1 authority outside the qualified domain. The sole wider form
+/// accepts an exact Exif payload whose only IFD0 entry is Orientation=1, so opting in does not add
+/// rotation, dimensions, color, thumbnail, GPS, or chained-IFD semantics.
+package enum JPEGIndependentProgressive420MetadataPolicy: Sendable {
+  case rejectAPP1
+  case identityOrientationExifOnly
+}
+
 package struct JPEGIndependentProgressive420StatePlan: Codable, Equatable, Sendable {
   package static let rowAlignmentBytes = 64
   /// State that is present independent of which Huffman slots the source actually defines: three
@@ -264,13 +288,19 @@ package struct JPEGIndependentProgressive420Image: Equatable, Sendable {
 package struct JPEGIndependentProgressive420Decoder: Sendable {
   private let maximumOperationByteCharge: Int
   private let maximumMetadataBytes: Int
+  private let colorAuthorityPolicy: JPEGIndependentProgressive420ColorAuthorityPolicy
+  private let metadataPolicy: JPEGIndependentProgressive420MetadataPolicy
 
   package init(
     maximumOperationByteCharge: Int,
-    maximumMetadataBytes: Int = DecodeLimits.coreV1.maximumMetadataBytes
+    maximumMetadataBytes: Int = DecodeLimits.coreV1.maximumMetadataBytes,
+    colorAuthorityPolicy: JPEGIndependentProgressive420ColorAuthorityPolicy = .jfifOnly,
+    metadataPolicy: JPEGIndependentProgressive420MetadataPolicy = .rejectAPP1
   ) {
     self.maximumOperationByteCharge = maximumOperationByteCharge
     self.maximumMetadataBytes = maximumMetadataBytes
+    self.colorAuthorityPolicy = colorAuthorityPolicy
+    self.metadataPolicy = metadataPolicy
   }
 
   package func decode(_ data: Data) throws -> JPEGIndependentProgressive420Image {
@@ -349,7 +379,9 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         var parser = Parser(
           bytes: input,
           plan: statePlan,
-          quantizationSource: FrameQuantizationSourceState()
+          quantizationSource: FrameQuantizationSourceState(),
+          colorAuthorityPolicy: colorAuthorityPolicy,
+          metadataPolicy: metadataPolicy
         )
         let scans = try parser.decodeAll(state: state) { completedScan in
           guard let scanPreviewObserver else { return }
@@ -1253,13 +1285,19 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
     private var completedScanCount = 0
     private var lastRenderedScanCount: Int?
     private var sawJFIF = false
+    private var sawAdobeYCbCr = false
+    private var sawIdentityOrientationExif = false
     private var hasProcessedMarkerAfterSOI = false
     private var quantizationLatched = false
+    private let colorAuthorityPolicy: JPEGIndependentProgressive420ColorAuthorityPolicy
+    private let metadataPolicy: JPEGIndependentProgressive420MetadataPolicy
 
     package init(
       maximumCodecOwnedByteCharge: Int,
       limits: DecodeLimits = .coreV1,
-      previewCadence: IncrementalSessionPreviewCadence = .everyCompletedScan
+      previewCadence: IncrementalSessionPreviewCadence = .everyCompletedScan,
+      colorAuthorityPolicy: JPEGIndependentProgressive420ColorAuthorityPolicy = .jfifOnly,
+      metadataPolicy: JPEGIndependentProgressive420MetadataPolicy = .rejectAPP1
     ) throws {
       guard maximumCodecOwnedByteCharge >= 0 else {
         throw IncrementalSessionError.invalidBudget
@@ -1276,6 +1314,8 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
       self.maximumCodecOwnedByteCharge = maximumCodecOwnedByteCharge
       self.limits = limits
       self.previewCadence = previewCadence
+      self.colorAuthorityPolicy = colorAuthorityPolicy
+      self.metadataPolicy = metadataPolicy
       self.transportBuffer = try TransportBuffer()
       self.preFrameTables = PreFrameTableState()
     }
@@ -1848,13 +1888,16 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         return try processStreamingAPP1ProbeAuthority(pending, finalInput: finalInput)
 
       case 0xE2:
-        return try processStreamingICCAPP2(pending, finalInput: finalInput)
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
 
       case 0xEE:
         return try processStreamingAdobeAPP14(pending, finalInput: finalInput)
 
-      default:
+      case 0xFE:
         return try skipPendingMarkerPayload(pending, finalInput: finalInput)
+
+      default:
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
     }
 
@@ -1893,8 +1936,7 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         return try skipPendingMarkerPayload(pending, finalInput: finalInput)
       }
       if pending.declaredPayloadByteCount < 5 {
-        pending.semanticPrefixHandled = true
-        return try skipPendingMarkerPayload(pending, finalInput: finalInput)
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
       guard retainedTransportByteCount >= 5 else {
         if finalInput { throw ImageCraftError.unsupportedOrCorruptImage }
@@ -1905,8 +1947,7 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
           && bytes[3] == 0x46 && bytes[4] == 0x00
       }
       guard isJFIF else {
-        pending.semanticPrefixHandled = true
-        return try skipPendingMarkerPayload(pending, finalInput: finalInput)
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
       guard pending.wasFirstMarkerAfterSOI,
         pending.declaredPayloadByteCount >= 14
@@ -1935,37 +1976,6 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
       return true
     }
 
-    private func processStreamingICCAPP2(
-      _ original: PendingMarkerSegment,
-      finalInput: Bool
-    ) throws -> Bool {
-      var pending = original
-      if pending.semanticPrefixHandled {
-        return try skipPendingMarkerPayload(pending, finalInput: finalInput)
-      }
-      let prefixByteCount = min(pending.declaredPayloadByteCount, 12)
-      guard retainedTransportByteCount >= prefixByteCount else {
-        if finalInput { throw ImageCraftError.unsupportedOrCorruptImage }
-        return false
-      }
-      let unsupportedAuthority = try withAvailableTransportBytes { bytes in
-        let payload = 0..<prefixByteCount
-        return hasJPEGICCSignature(bytes, payload: payload)
-          || JPEGIndependentProgressive420Decoder.jpegAPP2CarriesAuxiliaryAuthority(
-            bytes,
-            payload: payload
-          )
-      }
-      if unsupportedAuthority {
-        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
-      }
-      pending.semanticPrefixHandled = true
-      try consumeTransportBytes(prefixByteCount)
-      pending.remainingPayloadBytes -= prefixByteCount
-      phase = pending.remainingPayloadBytes == 0 ? .markers : .markerPayload(pending)
-      return true
-    }
-
     private func processStreamingAPP1ProbeAuthority(
       _ original: PendingMarkerSegment,
       finalInput: Bool
@@ -1979,20 +1989,43 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         if finalInput { throw ImageCraftError.unsupportedOrCorruptImage }
         return false
       }
-      let hasProbeAuthority = try withAvailableTransportBytes { bytes in
-        JPEGIndependentProgressive420Decoder.jpegAPP1CarriesProbeSemanticAuthority(
+      let semanticKind = try withAvailableTransportBytes { bytes in
+        JPEGIndependentProgressive420Decoder.jpegAPP1SemanticKind(
           bytes,
           payload: 0..<prefixByteCount
         )
       }
-      if hasProbeAuthority {
+      if semanticKind == .xmp {
         throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
-      pending.semanticPrefixHandled = true
-      try consumeTransportBytes(prefixByteCount)
-      pending.remainingPayloadBytes -= prefixByteCount
-      phase = pending.remainingPayloadBytes == 0 ? .markers : .markerPayload(pending)
-      return true
+      if semanticKind == .exif {
+        guard metadataPolicy == .identityOrientationExifOnly,
+          !sawIdentityOrientationExif,
+          pending.declaredPayloadByteCount == 32
+        else {
+          throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
+        }
+        guard retainedTransportByteCount >= 32 else {
+          if finalInput { throw ImageCraftError.unsupportedOrCorruptImage }
+          return false
+        }
+        let qualified = try withAvailableTransportBytes { bytes in
+          JPEGIndependentProgressive420Decoder.exifAPP1IsIdentityOrientationOnly(
+            bytes,
+            payload: 0..<32
+          )
+        }
+        guard qualified else {
+          throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
+        }
+        sawIdentityOrientationExif = true
+        pending.semanticPrefixHandled = true
+        try consumeTransportBytes(32)
+        pending.remainingPayloadBytes -= 32
+        phase = .markers
+        return true
+      }
+      throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
     }
 
     private func processStreamingAdobeAPP14(
@@ -2004,8 +2037,7 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         return try skipPendingMarkerPayload(pending, finalInput: finalInput)
       }
       if pending.declaredPayloadByteCount < 5 {
-        pending.semanticPrefixHandled = true
-        return try skipPendingMarkerPayload(pending, finalInput: finalInput)
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
       guard retainedTransportByteCount >= 5 else {
         if finalInput { throw ImageCraftError.unsupportedOrCorruptImage }
@@ -2016,8 +2048,7 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
           && bytes[3] == 0x62 && bytes[4] == 0x65
       }
       guard isAdobe else {
-        pending.semanticPrefixHandled = true
-        return try skipPendingMarkerPayload(pending, finalInput: finalInput)
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
       guard pending.declaredPayloadByteCount == 12 else {
         throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
@@ -2035,6 +2066,10 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
       guard qualified else {
         throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
+      guard !sawAdobeYCbCr else {
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
+      }
+      sawAdobeYCbCr = true
       pending.semanticPrefixHandled = true
       try consumeTransportBytes(12)
       pending.remainingPayloadBytes -= 12
@@ -2070,38 +2105,33 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
     ) throws {
       switch marker {
       case 0xE0:
-        if let qualified = JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
+        guard JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
           bytes,
           payload: segment.payload
-        ) {
-          guard qualified, !hasProcessedMarkerAfterSOI else {
-            throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
-          }
-          sawJFIF = true
+        ) == true,
+          !hasProcessedMarkerAfterSOI
+        else {
+          throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
         }
+        sawJFIF = true
       case 0xE1:
-        if JPEGIndependentProgressive420Decoder.jpegAPP1CarriesProbeSemanticAuthority(
+        if !JPEGIndependentProgressive420Decoder.jpegAPP1IsQualified(
           bytes,
-          payload: segment.payload
+          payload: segment.payload,
+          metadataPolicy: metadataPolicy
         ) {
           throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
         }
       case 0xE2:
-        if hasJPEGICCSignature(bytes, payload: segment.payload)
-          || JPEGIndependentProgressive420Decoder.jpegAPP2CarriesAuxiliaryAuthority(
-            bytes,
-            payload: segment.payload
-          )
-        {
-          throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
-        }
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       case 0xEE:
-        if JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
+        guard JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
           bytes,
           payload: segment.payload
-        ) == false {
+        ) == true else {
           throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
         }
+        sawAdobeYCbCr = true
       case 0xC2:
         try acceptFrame(bytes: bytes, segment: segment)
       case 0xC0, 0xC1, 0xC3, 0xC5...0xC7, 0xC9...0xCB, 0xCD...0xCF:
@@ -2124,28 +2154,8 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
       case 0xDA:
         try beginScan(bytes: bytes, segment: segment)
       default:
-        break
+        throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
       }
-    }
-
-    private func hasJPEGICCSignature(
-      _ bytes: UnsafeBufferPointer<UInt8>,
-      payload: Range<Int>
-    ) -> Bool {
-      guard payload.count >= 12 else { return false }
-      let start = payload.lowerBound
-      return bytes[start] == 0x49
-        && bytes[start + 1] == 0x43
-        && bytes[start + 2] == 0x43
-        && bytes[start + 3] == 0x5F
-        && bytes[start + 4] == 0x50
-        && bytes[start + 5] == 0x52
-        && bytes[start + 6] == 0x4F
-        && bytes[start + 7] == 0x46
-        && bytes[start + 8] == 0x49
-        && bytes[start + 9] == 0x4C
-        && bytes[start + 10] == 0x45
-        && bytes[start + 11] == 0x00
     }
 
     private func acceptFrame(
@@ -2283,7 +2293,10 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
       bytes: UnsafeBufferPointer<UInt8>,
       segment: Segment
     ) throws {
-      guard sawJFIF,
+      guard colorAuthorityPolicy.accepts(
+        sawJFIF: sawJFIF,
+        sawAdobeYCbCr: sawAdobeYCbCr
+      ),
         let frame,
         let plan = statePlan,
         let state
@@ -2835,12 +2848,16 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
     let bytes: UnsafeBufferPointer<UInt8>
     let plan: JPEGIndependentProgressive420StatePlan
     var quantizationSource: FrameQuantizationSourceState? = nil
+    var colorAuthorityPolicy: JPEGIndependentProgressive420ColorAuthorityPolicy = .jfifOnly
+    var metadataPolicy: JPEGIndependentProgressive420MetadataPolicy = .rejectAPP1
     var offset = 2
     var frame: Frame?
     var restartIntervalMCUs = 0
     var quantizationLatched = false
     var scanCount = 0
     var sawJFIF = false
+    var sawAdobeYCbCr = false
+    var sawIdentityOrientationExif = false
     var hasProcessedMarkerAfterSOI = false
 
     mutating func decodeAll(
@@ -2875,36 +2892,37 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         offset = segment.end
         switch marker {
         case 0xE0:
-          if let qualified = JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
+          guard JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
             bytes,
             payload: segment.payload
-          ) {
-            guard qualified, isFirstMarkerAfterSOI else {
-              throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
-            }
-            sawJFIF = true
+          ) == true,
+            isFirstMarkerAfterSOI
+          else {
+            throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
           }
+          sawJFIF = true
         case 0xE1:
-          if JPEGIndependentProgressive420Decoder.jpegAPP1CarriesProbeSemanticAuthority(
+          guard !sawIdentityOrientationExif,
+            JPEGIndependentProgressive420Decoder.jpegAPP1IsQualified(
             bytes,
-            payload: segment.payload
-          ) {
+            payload: segment.payload,
+            metadataPolicy: metadataPolicy
+          )
+          else {
             throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
           }
+          sawIdentityOrientationExif = true
         case 0xE2:
-          if JPEGIndependentProgressive420Decoder.jpegAPP2CarriesAuxiliaryAuthority(
-            bytes,
-            payload: segment.payload
-          ) {
-            throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
-          }
+          throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
         case 0xEE:
-          if JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
+          guard !sawAdobeYCbCr,
+            JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
             bytes,
             payload: segment.payload
-          ) == false {
+          ) == true else {
             throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
           }
+          sawAdobeYCbCr = true
         case 0xC2:
           guard frame == nil else { throw ImageCraftError.unsupportedOrCorruptImage }
           let parsed = try Self.parseFrame(bytes, segment: segment)
@@ -2948,7 +2966,10 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
         case 0xCC, 0xDC:
           throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
         case 0xDA:
-          guard sawJFIF, let frame else {
+          guard colorAuthorityPolicy.accepts(
+            sawJFIF: sawJFIF,
+            sawAdobeYCbCr: sawAdobeYCbCr
+          ), let frame else {
             throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
           }
           if !quantizationLatched {
@@ -2982,8 +3003,10 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
             try scanCompleted(scanCount)
           }
           offset = entropyEnd
-        default:
+        case 0xFE:
           continue
+        default:
+          throw JPEGIndependentProgressive420Error.unsupportedSourceSemantics
         }
       }
       guard sawEOI, quantizationLatched else { throw ImageCraftError.unsupportedOrCorruptImage }
@@ -4670,28 +4693,102 @@ package struct JPEGIndependentProgressive420Decoder: Sendable {
     53, 60, 61, 54, 47, 55, 62, 63,
   ]
 
-  private static func jpegAPP1CarriesProbeSemanticAuthority(
-    _ bytes: UnsafeBufferPointer<UInt8>,
-    payload: Range<Int>
-  ) -> Bool {
-    jpegPayload(payload, in: bytes, hasPrefix: [0x45, 0x78, 0x69, 0x66, 0x00, 0x00])
-      || jpegPayload(
-        payload,
-        in: bytes,
-        hasPrefix: Array("http://ns.adobe.com/xap/1.0/\u{0}".utf8)
-      )
-      || jpegPayload(
-        payload,
-        in: bytes,
-        hasPrefix: Array("http://ns.adobe.com/xmp/extension/\u{0}".utf8)
-      )
+  private enum JPEGAPP1SemanticKind: Equatable {
+    case none
+    case exif
+    case xmp
   }
 
-  private static func jpegAPP2CarriesAuxiliaryAuthority(
+  private static func jpegAPP1SemanticKind(
+    _ bytes: UnsafeBufferPointer<UInt8>,
+    payload: Range<Int>
+  ) -> JPEGAPP1SemanticKind {
+    if jpegPayload(payload, in: bytes, hasPrefix: [0x45, 0x78, 0x69, 0x66, 0x00, 0x00]) {
+      return .exif
+    }
+    if jpegPayload(
+      payload,
+      in: bytes,
+      hasPrefix: Array("http://ns.adobe.com/xap/1.0/\u{0}".utf8)
+    ) || jpegPayload(
+      payload,
+      in: bytes,
+      hasPrefix: Array("http://ns.adobe.com/xmp/extension/\u{0}".utf8)
+    ) {
+      return .xmp
+    }
+    return .none
+  }
+
+  private static func jpegAPP1IsQualified(
+    _ bytes: UnsafeBufferPointer<UInt8>,
+    payload: Range<Int>,
+    metadataPolicy: JPEGIndependentProgressive420MetadataPolicy
+  ) -> Bool {
+    switch jpegAPP1SemanticKind(bytes, payload: payload) {
+    case .none, .xmp:
+      return false
+    case .exif:
+      return metadataPolicy == .identityOrientationExifOnly
+        && exifAPP1IsIdentityOrientationOnly(bytes, payload: payload)
+    }
+  }
+
+  private static func exifAPP1IsIdentityOrientationOnly(
     _ bytes: UnsafeBufferPointer<UInt8>,
     payload: Range<Int>
   ) -> Bool {
-    jpegPayload(payload, in: bytes, hasPrefix: [0x4D, 0x50, 0x46, 0x00])
+    guard payload.lowerBound >= 0,
+      payload.upperBound <= bytes.count,
+      payload.count == 32,
+      jpegPayload(payload, in: bytes, hasPrefix: [0x45, 0x78, 0x69, 0x66, 0x00, 0x00])
+    else { return false }
+
+    let tiff = payload.lowerBound + 6
+    let littleEndian: Bool
+    if bytes[tiff] == 0x49, bytes[tiff + 1] == 0x49 {
+      littleEndian = true
+    } else if bytes[tiff] == 0x4D, bytes[tiff + 1] == 0x4D {
+      littleEndian = false
+    } else {
+      return false
+    }
+
+    func read16(_ offset: Int) -> Int {
+      if littleEndian {
+        return Int(bytes[offset]) | Int(bytes[offset + 1]) << 8
+      }
+      return Int(bytes[offset]) << 8 | Int(bytes[offset + 1])
+    }
+
+    func read32(_ offset: Int) -> Int {
+      if littleEndian {
+        return Int(bytes[offset])
+          | Int(bytes[offset + 1]) << 8
+          | Int(bytes[offset + 2]) << 16
+          | Int(bytes[offset + 3]) << 24
+      }
+      return Int(bytes[offset]) << 24
+        | Int(bytes[offset + 1]) << 16
+        | Int(bytes[offset + 2]) << 8
+        | Int(bytes[offset + 3])
+    }
+
+    guard read16(tiff + 2) == 42,
+      read32(tiff + 4) == 8
+    else { return false }
+    let ifd = tiff + 8
+    guard read16(ifd) == 1 else { return false }
+    let entry = ifd + 2
+    guard read16(entry) == 0x0112,
+      read16(entry + 2) == 3,
+      read32(entry + 4) == 1,
+      read16(entry + 8) == 1,
+      bytes[entry + 10] == 0,
+      bytes[entry + 11] == 0,
+      read32(entry + 12) == 0
+    else { return false }
+    return true
   }
 
   private static func jpegPayload(

@@ -26,14 +26,18 @@ package final class JPEGIndependentProgressive420SessionQualification:
   package init(
     maximumCodecOwnedByteCharge: Int,
     limits: DecodeLimits = .coreV1,
-    previewCadence: JPEGIndependentProgressive420Decoder.IncrementalSessionPreviewCadence = .finalOnly
+    previewCadence: JPEGIndependentProgressive420Decoder.IncrementalSessionPreviewCadence = .finalOnly,
+    colorAuthorityPolicy: JPEGIndependentProgressive420ColorAuthorityPolicy = .jfifOnly,
+    metadataPolicy: JPEGIndependentProgressive420MetadataPolicy = .rejectAPP1
   ) throws {
     self.maximumCodecOwnedByteCharge = maximumCodecOwnedByteCharge
     self.limits = limits
     self.kernel = try JPEGIndependentProgressive420Decoder.IncrementalSession(
       maximumCodecOwnedByteCharge: maximumCodecOwnedByteCharge,
       limits: limits,
-      previewCadence: previewCadence
+      previewCadence: previewCadence,
+      colorAuthorityPolicy: colorAuthorityPolicy,
+      metadataPolicy: metadataPolicy
     )
   }
 
@@ -141,6 +145,21 @@ package final class JPEGIndependentProgressive420SessionQualification:
       image: try Self.packedRGB8Value(from: image),
       sourceByteCount: sourceByteCount
     )
+  }
+
+  package func packedRGB8FinalizationResourceLedger() throws
+    -> ImageDecodeResourceLedgerSnapshot?
+  {
+    lock.lock()
+    defer { lock.unlock() }
+    try checkActiveLocked()
+    let ready = kernel.snapshot()
+    guard ready.phase == .complete else { return nil }
+    guard ready.resourceLedger.outputLayoutAuthority == .codecOwnedRGB8,
+      ready.resourceLedger.bytesUpperBound(for: .operationPeak) != nil,
+      ready.resourceLedger.bytesUpperBound(for: .transferredOutput) != nil
+    else { throw ImageCraftError.decodeFailed }
+    return ready.resourceLedger
   }
 
   package static func packedRGB8Value(

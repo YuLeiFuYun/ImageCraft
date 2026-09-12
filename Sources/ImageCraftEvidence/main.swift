@@ -69,6 +69,7 @@ enum EvidenceCommand {
   case independentProgressiveGrayscaleCoefficients(input: URL, output: URL)
   case jpegYCbCrToRGB(input: URL, output: URL)
   case independentBaseline444(input: URL, output: URL)
+  case independentBaseline422(input: URL, output: URL)
   case independentBaseline420(input: URL, output: URL)
   case independentProgressive420(input: URL, output: URL, coefficientsOutput: URL)
   case independentProgressive420Session(input: URL, scheduleID: String, previewCadenceID: String)
@@ -84,7 +85,8 @@ enum EvidenceCommand {
     width: Int,
     height: Int,
     operationBudgetBytes: Int,
-    iterations: Int
+    iterations: Int,
+    colorPolicy: ImageColorPolicy
   )
   case progressiveTimeline(caseID: String, iterations: Int)
   case progressiveQuality(caseID: String)
@@ -228,6 +230,15 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
     )
   }
   if parameters.count == 4,
+    parameters[0] == "--independent-baseline-jpeg-422",
+    parameters[2] == "--output"
+  {
+    return .independentBaseline422(
+      input: URL(fileURLWithPath: parameters[1]),
+      output: URL(fileURLWithPath: parameters[3])
+    )
+  }
+  if parameters.count == 4,
     parameters[0] == "--independent-baseline-jpeg-420",
     parameters[2] == "--output"
   {
@@ -337,7 +348,7 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
       iterations: iterations
     )
   }
-  if parameters.count == 10,
+  if (parameters.count == 10 || parameters.count == 12),
     parameters[0] == "--independent-png-decode-comparison",
     parameters[2] == "--width",
     let width = Int(parameters[3]),
@@ -346,14 +357,20 @@ func parseCommand(_ arguments: [String]) throws -> EvidenceCommand {
     parameters[6] == "--operation-budget",
     let operationBudgetBytes = Int(parameters[7]),
     parameters[8] == "--iterations",
-    let iterations = Int(parameters[9])
+    let iterations = Int(parameters[9]),
+    let colorPolicy = parameters.count == 10
+      ? ImageColorPolicy.preserveSource
+      : (parameters[10] == "--color-policy"
+        ? ImageColorPolicy(rawValue: parameters[11])
+        : nil)
   {
     return .independentPNGDecodeComparison(
       input: URL(fileURLWithPath: parameters[1]),
       width: width,
       height: height,
       operationBudgetBytes: operationBudgetBytes,
-      iterations: iterations
+      iterations: iterations,
+      colorPolicy: colorPolicy
     )
   }
   if parameters.count == 7,
@@ -532,6 +549,8 @@ func run(command: EvidenceCommand) async throws {
     try writeJPEGYCbCrToRGBEvidence(input: input, output: output)
   case .independentBaseline444(let input, let output):
     try writeIndependentBaseline444Evidence(input: input, output: output)
+  case .independentBaseline422(let input, let output):
+    try writeIndependentBaseline422Evidence(input: input, output: output)
   case .independentBaseline420(let input, let output):
     try writeIndependentBaseline420Evidence(input: input, output: output)
   case .independentProgressive420(let input, let output, let coefficientsOutput):
@@ -579,14 +598,16 @@ func run(command: EvidenceCommand) async throws {
     let width,
     let height,
     let operationBudgetBytes,
-    let iterations
+    let iterations,
+    let colorPolicy
   ):
     try writeIndependentPNGDecodeComparisonEvidence(
       input: input,
       width: width,
       height: height,
       operationBudgetBytes: operationBudgetBytes,
-      iterations: iterations
+      iterations: iterations,
+      colorPolicy: colorPolicy
     )
   case .progressiveTimeline(let caseID, let iterations):
     try writeProgressiveTimelineBenchmark(caseID: caseID, iterations: iterations)

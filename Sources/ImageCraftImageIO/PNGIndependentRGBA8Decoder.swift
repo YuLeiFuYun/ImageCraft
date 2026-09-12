@@ -13,14 +13,15 @@ package enum PNGIndependentRGBA8Error: Error, Equatable, Sendable {
 /// Supported source domain:
 /// - validated static PNG structure with one IHDR, contiguous IDAT run and terminal IEND;
 /// - non-interlaced grayscale 1/2/4/8-bit, grayscale+alpha8, RGB8, RGBA8 and indexed 1/2/4/8-bit rows;
-/// - Adam7-interlaced RGBA8 under explicit sRGB authority as a separately qualified first slice;
+/// - Adam7-interlaced grayscale 1/2/4/8-bit, grayscale+alpha8, RGB8, RGBA8 and indexed 1/2/4/8-bit
+///   sources under explicit sRGB authority;
 /// - indexed PLTE/tRNS, grayscale/RGB tRNS and truecolor suggested PLTE where structurally valid;
 /// - full-resolution output only;
 /// - explicit sRGB for either color policy; non-interlaced untagged input only when the caller
 ///   explicitly requests the stable convert-to-sRGB fallback; or a structurally valid RGB ICC value
 ///   for preserve-source on RGB/RGBA input.
 ///
-/// Unqualified cICP/HDR, gAMA/cHRM, animation, Adam7 source types outside the explicit RGBA8 slice,
+/// Unqualified cICP/HDR, gAMA/cHRM, animation, Adam7 source types outside that explicit-sRGB slice,
 /// 16-bit samples and other unimplemented semantics fail closed rather than silently approximating
 /// ImageIO behavior.
 package struct PNGIndependentRGBA8Decoder: Sendable {
@@ -33,16 +34,17 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
   package static let codecDescriptor = ImageCodecDescriptor(
     identifier: ImageCodecIdentifier(rawValue: "dev.fovea.independent-png-rgba8"),
     implementationVersion: 1,
-    capabilities: ImageCodecCapabilities(
-      formats: [.png],
-      deliveryModes: [.completeFrame],
-      progressiveFormats: [],
-      trackModes: [.primaryFrame],
-      metadata: [.sourceColorProfile],
-      dynamicRanges: [.standard],
-      outputRepresentations: [.packedRGBA8],
-      cancellationMode: .operationBoundary
-    )
+    decodeProfiles: [
+      ImageDecodeCapabilityProfile(
+        formats: [.png],
+        deliveryModes: [.completeFrame],
+        trackModes: [.primaryFrame],
+        metadata: [.sourceColorProfile],
+        dynamicRanges: [.standard],
+        outputRepresentations: [.packedRGBA8],
+        cancellationMode: .operationBoundary
+      )
+    ]
   )
 
   /// The caller owns operation-budget authority. There is intentionally no implicit default: every
@@ -117,6 +119,9 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
     request: ImageDecodeRequest,
     limits: DecodeLimits = .coreV1
   ) throws -> ImageDecodeResourceLedgerSnapshot {
+    guard request.dynamicRange == .standard else {
+      throw PNGIndependentRGBA8Error.unsupportedRequest
+    }
     guard data.count <= limits.maximumEncodedBytes else {
       throw ImageCraftError.encodedBytesExceeded
     }
@@ -223,6 +228,9 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
     request: ImageDecodeRequest,
     limits: DecodeLimits = .coreV1
   ) throws -> ImagePackedRGBA8 {
+    guard request.dynamicRange == .standard else {
+      throw PNGIndependentRGBA8Error.unsupportedRequest
+    }
     guard data.count <= limits.maximumEncodedBytes else {
       throw ImageCraftError.encodedBytesExceeded
     }
@@ -309,6 +317,29 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
           indexedPalette = nil
         }
         if parsed.interlaceMethod == 1 {
+          if let indexedBitDepth = parsed.indexedBitDepth,
+            let indexedPalette
+          {
+            return try PNGScanlineRGBA8Decoder.inflateAndDecodePremultipliedIndexedAdam7(
+              cursor: cursor,
+              width: parsed.width,
+              height: parsed.height,
+              bitDepth: indexedBitDepth,
+              indexedPalette: indexedPalette
+            )
+          }
+          if parsed.sourceBitsPerPixel != 32 {
+            return try PNGScanlineRGBA8Decoder.inflateAndDecodePremultipliedNonIndexedAdam7(
+              cursor: cursor,
+              width: parsed.width,
+              height: parsed.height,
+              sourceBitsPerPixel: parsed.sourceBitsPerPixel,
+              grayscaleBitDepth: parsed.grayscaleBitDepth,
+              transparentGraySample: parsed.transparentGraySample,
+              transparentRGB8: parsed.transparentRGB8,
+              transparentGray8: parsed.transparentGray8
+            )
+          }
           return try PNGScanlineRGBA8Decoder.inflateAndDecodePremultipliedRGBA8Adam7(
             cursor: cursor,
             width: parsed.width,
@@ -687,8 +718,17 @@ package struct PNGIndependentRGBA8Decoder: Sendable {
       throw PNGIndependentRGBA8Error.unsupportedSourceSemantics
     }
     if header.interlaceMethod == 1 {
-      guard header.colorType == 6,
-        header.bitDepth == 8,
+      let bitDepth = Int(header.bitDepth)
+      let qualifiedAdam7Samples: Bool
+      switch header.colorType {
+      case 0, 3:
+        qualifiedAdam7Samples = [1, 2, 4, 8].contains(bitDepth)
+      case 2, 4, 6:
+        qualifiedAdam7Samples = bitDepth == 8
+      default:
+        qualifiedAdam7Samples = false
+      }
+      guard qualifiedAdam7Samples,
         security.sourceColorProfile == .standardSRGB
       else { throw PNGIndependentRGBA8Error.unsupportedSourceSemantics }
     }

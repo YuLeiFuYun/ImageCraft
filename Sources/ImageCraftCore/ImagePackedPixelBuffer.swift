@@ -350,19 +350,19 @@ public enum ImagePackedPixelColorEncoding: Equatable, Sendable {
     }
 }
 
-/// Qualification representation for codec-owned, tightly packed RGB8 pixels with no synthesized
+/// Backend-neutral representation for codec-owned, tightly packed RGB8 pixels with no synthesized
 /// alpha channel. Color interpretation remains an independent required value: exact RGB bytes alone
 /// are insufficient to classify source or output color semantics.
-package struct ImagePackedRGB8: Equatable, Sendable {
-    package let data: Data
-    package let pixelWidth: Int
-    package let pixelHeight: Int
-    package let bytesPerRow: Int
-    package let colorEncoding: ImagePackedPixelColorEncoding
-    package let sourceColorProfile: SourceColorProfile
+public struct ImagePackedRGB8: Equatable, Sendable {
+    public let data: Data
+    public let pixelWidth: Int
+    public let pixelHeight: Int
+    public let bytesPerRow: Int
+    public let colorEncoding: ImagePackedPixelColorEncoding
+    public let sourceColorProfile: SourceColorProfile
     package let format = ImagePackedPixelFormat.rgb8
 
-    package init?(
+    public init?(
         data: Data,
         pixelWidth: Int,
         pixelHeight: Int,
@@ -385,9 +385,9 @@ package struct ImagePackedRGB8: Equatable, Sendable {
         self.sourceColorProfile = sourceColorProfile
     }
 
-    package var pixelByteCharge: Int { data.count }
+    public var pixelByteCharge: Int { data.count }
 
-    package var transferredByteCharge: Int {
+    public var transferredByteCharge: Int {
         let total = data.count.addingReportingOverflow(colorEncoding.retainedByteCharge)
         return total.overflow ? Int.max : total.partialValue
     }
@@ -444,16 +444,38 @@ public struct ImagePackedRGBA8: Equatable, Sendable {
 /// Each channel is an unsigned 16-bit value stored little-endian. Alpha is straight/unassociated so
 /// exact source-domain RGB samples remain recoverable when alpha is neither zero nor full scale.
 /// Logical rows are top-to-bottom and `bytesPerRow == pixelWidth * 8`.
-package struct ImagePackedRGBA16Straight: Equatable, Sendable {
-    package let data: Data
-    package let pixelWidth: Int
-    package let pixelHeight: Int
-    package let bytesPerRow: Int
-    package let colorEncoding: ImagePackedPixelColorEncoding
-    package let sourceColorProfile: SourceColorProfile
+public struct ImagePackedRGBA16Straight: Equatable, Sendable {
+    public let data: Data
+    public let pixelWidth: Int
+    public let pixelHeight: Int
+    public let bytesPerRow: Int
+    public let colorEncoding: ImagePackedPixelColorEncoding
+    public let sourceColorProfile: SourceColorProfile
     package let sourceSignificantBits: ImagePackedSourceSignificantBits?
     package let hdrStaticMetadata: ImagePackedHDRStaticMetadata?
     package let format = ImagePackedPixelFormat.rgba16StraightLittleEndian
+
+    /// Constructs the public narrow value surface without package-only source metadata.
+    ///
+    /// Samples are tightly packed RGBA UInt16 values in little-endian byte order, alpha is straight
+    /// (unassociated), rows are top-to-bottom, and `bytesPerRow == pixelWidth * 8`.
+    public init?(
+        data: Data,
+        pixelWidth: Int,
+        pixelHeight: Int,
+        colorEncoding: ImagePackedPixelColorEncoding,
+        sourceColorProfile: SourceColorProfile
+    ) {
+        self.init(
+            data: data,
+            pixelWidth: pixelWidth,
+            pixelHeight: pixelHeight,
+            colorEncoding: colorEncoding,
+            sourceColorProfile: sourceColorProfile,
+            sourceSignificantBits: nil,
+            hdrStaticMetadata: nil
+        )
+    }
 
     package init?(
         data: Data,
@@ -482,9 +504,9 @@ package struct ImagePackedRGBA16Straight: Equatable, Sendable {
         self.hdrStaticMetadata = hdrStaticMetadata
     }
 
-    package var pixelByteCharge: Int { data.count }
+    public var pixelByteCharge: Int { data.count }
 
-    package var transferredByteCharge: Int {
+    public var transferredByteCharge: Int {
         let total = data.count.addingReportingOverflow(colorEncoding.retainedByteCharge)
         return total.overflow ? Int.max : total.partialValue
     }

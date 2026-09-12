@@ -22,6 +22,7 @@ private struct IndependentPNGDecodeComparisonReport: Codable {
   let alternatingOrder: Bool
   let inputByteCount: Int
   let inputSHA256: String
+  let requestColorPolicy: String
   let pixelWidth: Int
   let pixelHeight: Int
   let outputByteCount: Int
@@ -39,7 +40,8 @@ func writeIndependentPNGDecodeComparisonEvidence(
   width: Int,
   height: Int,
   operationBudgetBytes: Int,
-  iterations: Int
+  iterations: Int,
+  colorPolicy: ImageColorPolicy = .preserveSource
 ) throws {
   guard width > 0,
     height > 0,
@@ -64,7 +66,7 @@ func writeIndependentPNGDecodeComparisonEvidence(
   let request = ImageDecodeRequest(
     target: try TargetPixels(width: width, height: height),
     contentMode: .fit,
-    colorPolicy: .preserveSource
+    colorPolicy: colorPolicy
   )
   let independent = PNGIndependentRGBA8Decoder(
     maximumOperationByteCharge: operationBudgetBytes
@@ -140,6 +142,7 @@ func writeIndependentPNGDecodeComparisonEvidence(
     alternatingOrder: true,
     inputByteCount: data.count,
     inputSHA256: sha256(data),
+    requestColorPolicy: colorPolicy.rawValue,
     pixelWidth: width,
     pixelHeight: height,
     outputByteCount: output.count,

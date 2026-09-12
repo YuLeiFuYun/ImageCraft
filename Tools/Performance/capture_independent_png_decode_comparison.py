@@ -146,6 +146,8 @@ def parse_run(
         raise CaptureError(f"packed output did not match exactly for {case['id']}")
     if report.get("independentOperationBudgetBytes") != operation_budget_bytes:
         raise CaptureError(f"operation budget drifted for {case['id']}")
+    if report.get("requestColorPolicy") != "preserveSource":
+        raise CaptureError(f"color policy drifted for {case['id']}")
     for key in ("independent", "imageIO"):
         samples = report[key].get("samplesNanoseconds")
         if not isinstance(samples, list) or len(samples) != iterations or any(
@@ -167,6 +169,7 @@ def invariant_projection(report: dict[str, Any]) -> dict[str, Any]:
         "imageIODecoderFingerprint": report["imageIODecoderFingerprint"],
         "inputByteCount": report["inputByteCount"],
         "inputSHA256": report["inputSHA256"],
+        "requestColorPolicy": report["requestColorPolicy"],
         "pixelWidth": report["pixelWidth"],
         "pixelHeight": report["pixelHeight"],
         "outputByteCount": report["outputByteCount"],

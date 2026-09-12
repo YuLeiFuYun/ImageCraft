@@ -93,6 +93,14 @@ package struct JPEGIndependentBaseline444Decoder: Sendable {
     )
   }
 
+  /// Parse and validate the complete narrow baseline 4:4:4 source semantics without allocating
+  /// output or the 704-byte decode scratch. Used by bounded public preflight so a host does not
+  /// receive an executable resource ledger for a source the owned kernel would later reject.
+  package static func qualifiedDimensions(_ data: Data) throws -> (width: Int, height: Int) {
+    let plan = try DecodePlan.inspect(data)
+    return (plan.width, plan.height)
+  }
+
   private func decodeScan(
     input: UnsafeBufferPointer<UInt8>,
     plan: DecodePlan,
@@ -295,6 +303,7 @@ package struct JPEGIndependentBaseline444Decoder: Sendable {
         }
         var offset = 2
         var sawJFIF = false
+        var sawAdobeYCbCr = false
         var hasProcessedMarkerAfterSOI = false
         var width: Int?
         var height: Int?
@@ -322,22 +331,28 @@ package struct JPEGIndependentBaseline444Decoder: Sendable {
           offset = segment.end
           switch marker {
           case 0xE0:
-            if let qualified = JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
+            guard JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
               bytes,
               payload: segment.payload
-            ) {
-              guard qualified, isFirstMarkerAfterSOI else {
-                throw JPEGIndependentBaseline444Error.unsupportedSourceSemantics
-              }
-              sawJFIF = true
-            }
-          case 0xEE:
-            if JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
-              bytes,
-              payload: segment.payload
-            ) == false {
+            ) == true,
+              isFirstMarkerAfterSOI
+            else {
               throw JPEGIndependentBaseline444Error.unsupportedSourceSemantics
             }
+            sawJFIF = true
+          case 0xE1...0xED, 0xEF:
+            throw JPEGIndependentBaseline444Error.unsupportedSourceSemantics
+          case 0xEE:
+            guard !sawAdobeYCbCr,
+              JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
+              bytes,
+              payload: segment.payload
+            ) == true else {
+              throw JPEGIndependentBaseline444Error.unsupportedSourceSemantics
+            }
+            sawAdobeYCbCr = true
+          case 0xFE:
+            continue
           case 0xC0:
             guard frameComponents == nil else { throw ImageCraftError.unsupportedOrCorruptImage }
             let frame = try parseFrame(bytes, segment: segment)
@@ -380,7 +395,7 @@ package struct JPEGIndependentBaseline444Decoder: Sendable {
               restartInterval: restartInterval
             )
           default:
-            continue
+            throw JPEGIndependentBaseline444Error.unsupportedSourceSemantics
           }
         }
         throw ImageCraftError.unsupportedOrCorruptImage

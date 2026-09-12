@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kitID": "IMAGECRAFT-PROGRESSIVE-PACKED-RGB8-CONFORMANCE-V1",
+  "contractVersion": 1,
+  "profileID": "IMAGECRAFT-BOUNDED-PROGRESSIVE-JFIF420-PACKED-RGB8-V1",
+  "componentDependencies": {
+    "imageCraftContract": {
+      "packageIdentity": "ImageCraft",
+      "product": "ImageCraftCore",
+      "binding": "current-source-tree"
+    }
+  },
+  "factoryContract": {
+    "symbol": "PackedSessionUnderTest",
+    "method": "make(maximumCodecOwnedByteCharge: Int, limits: DecodeLimits) throws -> any ProgressiveImagePackedRGB8FinalizingSession"
+  },
+  "fixtures": {
+    "manifest": "Fixtures/manifest.json",
+    "fixtureSetID": "IMAGECRAFT-PROGRESSIVE-PACKED-RGB8-FIXTURES-V1"
+  },
+  "observationSchema": "observation-schema.json",
+  "harness": "Harness/ImageProgressivePackedRGB8ConformanceTests.swift",
+  "obligations": [
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-001",
+      "summary": "The public tight RGB8 value is externally constructible, exact, alpha-free, and rejects an invalid byte count.",
+      "testName": "testPublicRGB8ValueContract_PROGRESSIVE_PACKED_CT_001"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-002",
+      "summary": "Arbitrary source chunks publish no preview in the final-only profile and finalization preflight is nil until complete and non-consuming once ready.",
+      "testName": "testArbitraryChunkSessionIsFinalOnlyAndNonConsumingPreflight_PROGRESSIVE_PACKED_CT_002"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-003",
+      "summary": "The final-ready resource ledger is exact, bounded, caller-source composable, and publishes codec-owned RGB8 output authority.",
+      "testName": "testFinalReadyResourceLedgerIsExactBoundedAndComposable_PROGRESSIVE_PACKED_CT_003"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-004",
+      "summary": "Finalization binds the complete source byte count and transfers the frozen exact 23x13 tight RGB8 value with no synthesized alpha.",
+      "testName": "testFinalizationTransfersExactFrozenRGBAndSourceBinding_PROGRESSIVE_PACKED_CT_004"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-005",
+      "summary": "Whole-input, bytewise, and uneven arbitrary-chunk schedules produce the identical packed RGB8 final value.",
+      "testName": "testChunkPartitionDoesNotChangeFinalPackedValue_PROGRESSIVE_PACKED_CT_005"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-006",
+      "summary": "Encoded-byte/format hard limits and an ICC-bearing JFIF source fail closed without publishing a packed final value.",
+      "testName": "testLimitsAndICCSourceAuthorityFailClosed_PROGRESSIVE_PACKED_CT_006"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-007",
+      "summary": "Cancellation is idempotent and fences append, preflight, and packed finalization using the public progressive-session cancellation contract.",
+      "testName": "testCancellationReclaimsAndFencesLateCalls_PROGRESSIVE_PACKED_CT_007"
+    },
+    {
+      "id": "IMAGECRAFT-PROGRESSIVE-PACKED-CT-008",
+      "summary": "The hard codec-owned operation budget is enforced before a session with insufficient minimum retained state can be created.",
+      "testName": "testHardCodecOwnedBudgetIsEnforcedAtConstruction_PROGRESSIVE_PACKED_CT_008"
+    }
+  ],
+  "rules": {
+    "profileRequiresBoundedResourceAuthority": true,
+    "encodedSourceRemainsCallerOwned": true,
+    "finalOnlyPublishesNoPreview": true,
+    "referenceFixtureDoesNotProveBroadJPEGSupport": true,
+    "releaseQualified": false,
+    "unsupportedOrSkippedFailsClosed": true
+  },
+  "supportedPlatforms": [
+    "macOS-12+"
+  ]
+}

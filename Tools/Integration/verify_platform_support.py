@@ -61,7 +61,7 @@ def verify_root(contract: dict, description: dict) -> None:
         require(actual["targets"] == expected["targets"], f"{expected['name']} target drift")
 
 
-def verify_consumer(contract: dict, description: dict) -> None:
+def verify_consumer(contract: dict, description: dict, repository_root: Path) -> None:
     fixture = contract["consumerFixture"]
     require(description["name"] == fixture["name"], "consumer fixture name drift")
     require(
@@ -75,8 +75,11 @@ def verify_consumer(contract: dict, description: dict) -> None:
     )
     require(len(description["dependencies"]) == 1, "consumer fixture dependency drift")
     dependency = description["dependencies"][0]
-    require(dependency["identity"] == contract["packageName"].lower(), "consumer dependency identity drift")
     require(dependency["type"] == "fileSystem", "consumer fixture must use a local package dependency")
+    require(
+        Path(dependency["path"]).resolve() == repository_root.resolve(),
+        "consumer fixture local dependency path drift",
+    )
     target = next(
         value for value in description["targets"] if value["name"] == fixture["name"]
     )
@@ -106,7 +109,7 @@ def main() -> None:
     contract = load(args.contract)
     require(contract["schemaVersion"] == 1, "unsupported integration-contract schema")
     verify_root(contract, load(args.root_description))
-    verify_consumer(contract, load(args.consumer_description))
+    verify_consumer(contract, load(args.consumer_description), args.repository_root)
     verify_gate_files(contract, args.repository_root)
 
 

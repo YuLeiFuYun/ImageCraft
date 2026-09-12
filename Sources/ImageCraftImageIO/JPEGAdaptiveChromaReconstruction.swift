@@ -12,8 +12,11 @@ import ImageCraftCore
 /// The policy is retained as an experimental witness, not a production candidate. A phase-shifted
 /// two-row stripe is a known falsifier: two mixed low-resolution plateau samples make the local
 /// gradient test look like a persistent edge even though centered interpolation has lower
-/// source-truth RMSE. Any production successor must add at least a wider normal-direction
-/// persistence condition; see `testPhaseShiftedTwoRowStripeFalsifiesV3Rule`.
+/// source-truth RMSE. Wider chroma-only neighborhoods cannot restore universal source-truth
+/// identifiability because different full-resolution sources can share the same subsampled chroma.
+/// Any production successor must therefore state an additional prior/objective (for example a
+/// luma/content prior or an explicit natural-image/perceptual objective) and retain counterexamples
+/// where that prior fails; see `testPhaseShiftedTwoRowStripeFalsifiesV3Rule`.
 package enum JPEGAdaptiveChromaReconstruction {
   package static func writeH1V2(
     source: UnsafeBufferPointer<UInt8>,

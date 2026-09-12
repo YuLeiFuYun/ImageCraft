@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://imagecraft.invalid/conformance/image-progressive-packed-rgb8/v1/observation-schema.json",
+  "title": "ImageCraft ImageProgressivePackedRGB8 Conformance Observation v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kitID",
+    "profileID",
+    "contractVersion",
+    "status",
+    "executedTestCount",
+    "expectedTestCount",
+    "failureCount",
+    "backendPackageName",
+    "backendProduct",
+    "manifestSha256",
+    "fixtureManifestSha256",
+    "observationSchemaSha256",
+    "harnessSha256",
+    "factorySha256",
+    "backendSourceSha256",
+    "imageCraftSourceIdentitySHA256",
+    "imageCraftSourceIdentityFileCount",
+    "imageCraftSourceIdentityID",
+    "obligations",
+    "releaseQualified"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "kitID": {"const": "IMAGECRAFT-PROGRESSIVE-PACKED-RGB8-CONFORMANCE-V1"},
+    "profileID": {"const": "IMAGECRAFT-BOUNDED-PROGRESSIVE-JFIF420-PACKED-RGB8-V1"},
+    "contractVersion": {"const": 1},
+    "status": {"enum": ["passed", "failed"]},
+    "executedTestCount": {"type": "integer", "minimum": 0},
+    "expectedTestCount": {"const": 8},
+    "failureCount": {"type": "integer", "minimum": 0},
+    "backendPackageName": {"type": "string", "minLength": 1},
+    "backendProduct": {"type": "string", "minLength": 1},
+    "manifestSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fixtureManifestSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "observationSchemaSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "harnessSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "factorySha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "backendSourceSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "imageCraftSourceIdentitySHA256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "imageCraftSourceIdentityFileCount": {"type": "integer", "minimum": 1},
+    "imageCraftSourceIdentityID": {"const": "IMAGECRAFT-SOURCE-IDENTITY-V2"},
+    "obligations": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["id", "testName", "observed"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^IMAGECRAFT-PROGRESSIVE-PACKED-CT-00[1-8]$"},
+          "testName": {"type": "string", "minLength": 1},
+          "observed": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "releaseQualified": {"const": false}
+  },
+  "additionalProperties": true
+}

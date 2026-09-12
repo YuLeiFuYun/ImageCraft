@@ -1,0 +1,206 @@
+{
+  "cases": [
+    {
+      "bitDepth": 1,
+      "derived": {
+        "byteCount": 129,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi3p01-srgb-idat-preserved.png",
+        "idatByteCount": 41,
+        "idatSHA256": "641d18c67f638aa9b8f4ef6bc6ad352f9db158e0b3d0e98026dc71b1ef16bea6",
+        "modification": "replace gAMA with sRGB rendering-intent 0; remove sBIT when present; preserve IHDR, PLTE, IDAT and IEND bytes",
+        "modified": true,
+        "plteByteCount": 6,
+        "plteSHA256": "b4f17ba614e86d0eaab091dfc227ba9df62ac8a3d23e8b997d83e52f8b201170",
+        "removedAncillaryChunks": [
+          "gAMA"
+        ],
+        "sha256": "63ab2d47e214715479b569026eb8614a5107b014ea3f327d9aeb0b7c87945021",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true,
+        "sourcePLTEExact": true
+      },
+      "source": {
+        "byteCount": 132,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi3p01.png",
+        "idatByteCount": 41,
+        "idatSHA256": "641d18c67f638aa9b8f4ef6bc6ad352f9db158e0b3d0e98026dc71b1ef16bea6",
+        "modified": false,
+        "plteByteCount": 6,
+        "plteSHA256": "b4f17ba614e86d0eaab091dfc227ba9df62ac8a3d23e8b997d83e52f8b201170",
+        "sbitHex": null,
+        "sha256": "8e1edfbc0382e0b545c70209271cedead2d530df1ce40f5296f0749226b36006"
+      },
+      "upstreamPath": "png/basi3p01.png"
+    },
+    {
+      "bitDepth": 2,
+      "derived": {
+        "byteCount": 175,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi3p02-srgb-idat-preserved.png",
+        "idatByteCount": 81,
+        "idatSHA256": "4055f156ec15581a651f5d0f0b5540c91109e3292b54749ad4d65ada90e82b48",
+        "modification": "replace gAMA with sRGB rendering-intent 0; remove sBIT when present; preserve IHDR, PLTE, IDAT and IEND bytes",
+        "modified": true,
+        "plteByteCount": 12,
+        "plteSHA256": "f5da304eb4258d8e9ccd8541ce2a622919240acca4000144a7dfee337929c9d1",
+        "removedAncillaryChunks": [
+          "gAMA",
+          "sBIT"
+        ],
+        "sha256": "692ddb2ee18794b30ffa0699d7da25f9b345263a460021a5c74efaf05121d3e2",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true,
+        "sourcePLTEExact": true
+      },
+      "source": {
+        "byteCount": 193,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "sBIT",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi3p02.png",
+        "idatByteCount": 81,
+        "idatSHA256": "4055f156ec15581a651f5d0f0b5540c91109e3292b54749ad4d65ada90e82b48",
+        "modified": false,
+        "plteByteCount": 12,
+        "plteSHA256": "f5da304eb4258d8e9ccd8541ce2a622919240acca4000144a7dfee337929c9d1",
+        "sbitHex": "010101",
+        "sha256": "85f304eaaf6831b2bcc2c08892b947fef52f06337aaf23312d6326e367d73f77"
+      },
+      "upstreamPath": "png/basi3p02.png"
+    },
+    {
+      "bitDepth": 4,
+      "derived": {
+        "byteCount": 309,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi3p04-srgb-idat-preserved.png",
+        "idatByteCount": 182,
+        "idatSHA256": "315145cbe9ded4dfeadb3d687249905125fd0a7d09ce5377c10c12fd15d2cd16",
+        "modification": "replace gAMA with sRGB rendering-intent 0; remove sBIT when present; preserve IHDR, PLTE, IDAT and IEND bytes",
+        "modified": true,
+        "plteByteCount": 45,
+        "plteSHA256": "cb663866750e132ac774a6133278835434b104c9525775f5b2a8c89668424adf",
+        "removedAncillaryChunks": [
+          "gAMA",
+          "sBIT"
+        ],
+        "sha256": "fad47320ccca7559719dd49df0ef8071b3ce4e8cd3e29c0566ed7b2fd7388890",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true,
+        "sourcePLTEExact": true
+      },
+      "source": {
+        "byteCount": 327,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "sBIT",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi3p04.png",
+        "idatByteCount": 182,
+        "idatSHA256": "315145cbe9ded4dfeadb3d687249905125fd0a7d09ce5377c10c12fd15d2cd16",
+        "modified": false,
+        "plteByteCount": 45,
+        "plteSHA256": "cb663866750e132ac774a6133278835434b104c9525775f5b2a8c89668424adf",
+        "sbitHex": "040404",
+        "sha256": "78890ee2c4da71e460b5a1527efe7dc17d673ebe997f49ca1b4dcd7347d21e56"
+      },
+      "upstreamPath": "png/basi3p04.png"
+    },
+    {
+      "bitDepth": 8,
+      "derived": {
+        "byteCount": 1524,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi3p08-srgb-idat-preserved.png",
+        "idatByteCount": 674,
+        "idatSHA256": "5f22b89043252aa8f4f1cd7928987b439bcd001dc5273b6f97310f3f5041d0f1",
+        "modification": "replace gAMA with sRGB rendering-intent 0; remove sBIT when present; preserve IHDR, PLTE, IDAT and IEND bytes",
+        "modified": true,
+        "plteByteCount": 768,
+        "plteSHA256": "c9a0fbbd16ec81af092c5ea4474630247e63ca1f79d31b4f61ac9596888e7aa0",
+        "removedAncillaryChunks": [
+          "gAMA"
+        ],
+        "sha256": "604dcd436e07a4b10bd782020b0a97f27a22c18be5920f222d20c9837423d087",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true,
+        "sourcePLTEExact": true
+      },
+      "source": {
+        "byteCount": 1527,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "PLTE",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi3p08.png",
+        "idatByteCount": 674,
+        "idatSHA256": "5f22b89043252aa8f4f1cd7928987b439bcd001dc5273b6f97310f3f5041d0f1",
+        "modified": false,
+        "plteByteCount": 768,
+        "plteSHA256": "c9a0fbbd16ec81af092c5ea4474630247e63ca1f79d31b4f61ac9596888e7aa0",
+        "sbitHex": null,
+        "sha256": "ca103eef7a7c50abc7af9d5ec0dc9fdc07668e2f030adbce226e050dcec9eea3"
+      },
+      "upstreamPath": "png/basi3p08.png"
+    }
+  ],
+  "claimBoundary": "PngSuite compressed indexed Adam7 image data and palette bytes remain exact; only ancillary color/significance metadata is normalized to the already-qualified explicit-sRGB/no-sBIT domain.",
+  "fixtureSetID": "imagecraft-independent-png-adam7-indexed-pngsuite-v2",
+  "schemaVersion": 2,
+  "upstream": {
+    "license": "PngSuite permission grant: use/copy/modify/distribute for any purpose without fee",
+    "licenseNotice": "PngSuite.LICENSE",
+    "licensePath": "LICENSE",
+    "repositoryURL": "https://github.com/lunapaint/pngsuite.git",
+    "revision": "8cd768dd0d0063195174d0d01cacbd5a7d1e5605"
+  }
+}

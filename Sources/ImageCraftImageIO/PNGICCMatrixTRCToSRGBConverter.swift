@@ -269,9 +269,12 @@ extension PNGICCProfileSemantics {
   /// source [0, 1] domain, and needs no source-value clipping. Function 0 requires positive gamma;
   /// functions 1/2 add positive affine scale, an in-domain threshold and normalized high endpoint;
   /// functions 3/4 add a valid breakpoint/power base and near-continuity across the two pieces. curveType
-  /// admits count=0 identity, count=1 positive u8Fixed8 forward gamma, and count>1 normalized weakly
-  /// nondecreasing UInt16 samples with ICC-defined uniform-domain linear interpolation. Sampled values are
-  /// read directly from the retained profile bytes; no second table payload is allocated.
+  /// admits count=0 identity, count=1 positive u8Fixed8 forward gamma, and count>1 weakly
+  /// nondecreasing UInt16 samples with ICC-defined uniform-domain linear interpolation. Display-class
+  /// sampled curves retain the normalized 0->0 and 1->1 endpoint rule; input-class curves may encode a
+  /// non-zero device-black response at code zero, while still requiring a 65535 terminal sample and no
+  /// decrease. Sampled values are read directly from the retained profile bytes; no second table payload
+  /// is allocated.
   static func matrixTRCToSRGBTransform(
     _ profile: Data
   ) -> PNGICCMatrixTRCToSRGBTransform? {
@@ -314,9 +317,21 @@ extension PNGICCProfileSemantics {
       let redXYZ = parseXYZ(profile, range: tags["rXYZ"]),
       let greenXYZ = parseXYZ(profile, range: tags["gXYZ"]),
       let blueXYZ = parseXYZ(profile, range: tags["bXYZ"]),
-      let redTRC = parseQualifiedTRC(profile, range: tags["rTRC"]),
-      let greenTRC = parseQualifiedTRC(profile, range: tags["gTRC"]),
-      let blueTRC = parseQualifiedTRC(profile, range: tags["bTRC"])
+      let redTRC = parseQualifiedTRC(
+        profile,
+        range: tags["rTRC"],
+        allowNonZeroSampledStart: profileClass == .input
+      ),
+      let greenTRC = parseQualifiedTRC(
+        profile,
+        range: tags["gTRC"],
+        allowNonZeroSampledStart: profileClass == .input
+      ),
+      let blueTRC = parseQualifiedTRC(
+        profile,
+        range: tags["bTRC"],
+        allowNonZeroSampledStart: profileClass == .input
+      )
     else { return nil }
 
     let sourceTRCs: PNGICCMatrixTRCToSRGBTransform.SourceTransferCurves
@@ -369,7 +384,7 @@ extension PNGICCProfileSemantics {
     )
   }
 
-  private enum QualifiedForwardDeviceProfileClass {
+  private enum QualifiedForwardDeviceProfileClass: Equatable {
     case display
     case input
   }
@@ -589,7 +604,8 @@ extension PNGICCProfileSemantics {
 
   private static func parseQualifiedTRC(
     _ profile: Data,
-    range: Range<Int>?
+    range: Range<Int>?,
+    allowNonZeroSampledStart: Bool
   ) -> ParsedTRC? {
     guard let range, range.count >= 12,
       bytesAreZero(profile, range: (range.lowerBound + 4)..<(range.lowerBound + 8))
@@ -618,10 +634,11 @@ extension PNGICCProfileSemantics {
       let expectedByteCount = 12.addingReportingOverflow(sampleBytes.partialValue)
       guard !expectedByteCount.overflow, range.count == expectedByteCount.partialValue else { return nil }
       let samplesOffset = range.lowerBound + 12
-      guard readUInt16BE(profile, at: samplesOffset) == 0,
+      guard let firstSample = readUInt16BE(profile, at: samplesOffset),
+        (allowNonZeroSampledStart || firstSample == 0),
         readUInt16BE(profile, at: samplesOffset + (count - 1) * 2) == UInt16.max
       else { return nil }
-      var previous = UInt16.zero
+      var previous = firstSample
       for index in 0..<count {
         guard let sample = readUInt16BE(profile, at: samplesOffset + index * 2),
           sample >= previous

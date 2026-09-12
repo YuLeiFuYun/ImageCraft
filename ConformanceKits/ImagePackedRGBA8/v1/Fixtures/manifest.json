@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetID": "IMAGECRAFT-PACKED-RGBA8-FIXTURES-V1",
+  "fixtures": [
+    {
+      "id": "srgb-rgba8-2x1",
+      "file": "reference-srgb-2x1.png",
+      "format": "png",
+      "width": 2,
+      "height": 1,
+      "sha256": "fae4d77c7b01e71d08d0b79b5f7a2a254ea20568df8699362278161f37d5d407",
+      "expectedRGBA8Hex": "ff0000ff0080ffff"
+    }
+  ]
+}

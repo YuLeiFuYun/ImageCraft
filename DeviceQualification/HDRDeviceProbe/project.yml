@@ -1,0 +1,52 @@
+name: ImageCraftHDRDeviceProbe
+options:
+  bundleIdPrefix: dev.imagecraft.qualification
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+packages:
+  ImageCraft:
+    path: ../..
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+    GCC_TREAT_WARNINGS_AS_ERRORS: YES
+    IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+    CODE_SIGN_STYLE: Automatic
+    TARGETED_DEVICE_FAMILY: "1"
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    INFOPLIST_KEY_UIRequiresFullScreen: YES
+    INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+    SUPPORTS_MACCATALYST: NO
+    ENABLE_PREVIEWS: NO
+    OTHER_SWIFT_FLAGS: "-Xfrontend -warn-concurrency"
+targets:
+  ImageCraftHDRDeviceProbe:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - path: HDRDeviceProbeApp.swift
+    resources:
+      - path: ../../Tests/ImageCraftImageIOTests/Resources/Corpus/FormatBreadthV1/heif-rgba.heic
+      - path: ../../Tests/ImageCraftImageIOTests/Resources/Corpus/FormatBreadthV1/heif-iso-gainmap-sdr-hdr.heic
+    dependencies:
+      - package: ImageCraft
+        product: ImageCraftCore
+      - package: ImageCraft
+        product: ImageCraftImageIO
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.imagecraft.qualification.hdrdevice
+        PRODUCT_NAME: ImageCraftHDRDeviceProbe
+        SKIP_INSTALL: NO
+schemes:
+  ImageCraftHDRDeviceProbe:
+    build:
+      targets:
+        ImageCraftHDRDeviceProbe: all
+    run:
+      config: Release

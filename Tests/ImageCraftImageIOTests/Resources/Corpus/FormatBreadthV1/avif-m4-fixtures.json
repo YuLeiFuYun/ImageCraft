@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "fixtureSetID": "IMAGECRAFT-AVIF-M4-V1",
+  "generator": {
+    "defaultFramework": "Apple ImageIO public.avif",
+    "qualificationRuntime": "Xcode 27",
+    "note": "Fixtures are frozen by SHA-256. The first two entries use ImageIO generation; later entries may declare generatorOverride or sourceProvenance for independent encoded input. Acceptance verifies encoded depth independently where provenance states it; byte-for-byte reproduction across encoder versions is not assumed."
+  },
+  "fixtures": [
+    {
+      "file": "avif-alpha-steps-8bit.avif",
+      "width": 4,
+      "height": 1,
+      "sourceBitsPerComponent": 8,
+      "sourcePremultipliedRGBA8": [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          64,
+          64,
+          64,
+          64
+        ],
+        [
+          128,
+          128,
+          128,
+          128
+        ],
+        [
+          255,
+          255,
+          255,
+          255
+        ]
+      ],
+      "encodedDepth": 8,
+      "byteCount": 605,
+      "sha256": "c13573d663589c72f6b3fba20d9698ee6788596c7116fdfac91596f42783f389"
+    },
+    {
+      "file": "avif-rgba-10bit.avif",
+      "width": 4,
+      "height": 1,
+      "sourceBitsPerComponent": 16,
+      "sourcePremultipliedRGBA16LE": [
+        [
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          16384,
+          8192,
+          0,
+          32768
+        ],
+        [
+          32768,
+          16384,
+          8192,
+          49152
+        ],
+        [
+          65535,
+          32768,
+          16384,
+          65535
+        ]
+      ],
+      "encodedDepth": 10,
+      "byteCount": 626,
+      "sha256": "024cb8f5808ee556e778583353a5b2ef0d10c0cb3933745bb1ada1d0f105bdf0"
+    },
+    {
+      "file": "avif-rgb-10bit-svt-16x8.avif",
+      "width": 16,
+      "height": 8,
+      "sourcePattern": "FFmpeg lavfi testsrc2=size=16x8:rate=1:duration=1",
+      "encodedDepth": 10,
+      "encodedPixelFormat": "yuv420p10le",
+      "generatorOverride": {
+        "ffmpegVersion": "9.0.1",
+        "codec": "libsvtav1 4.2.0",
+        "argv": [
+          "ffmpeg",
+          "-f",
+          "lavfi",
+          "-i",
+          "testsrc2=size=16x8:rate=1:duration=1",
+          "-frames:v",
+          "1",
+          "-pix_fmt",
+          "yuv420p10le",
+          "-c:v",
+          "libsvtav1",
+          "-preset",
+          "11",
+          "-crf",
+          "20",
+          "-f",
+          "avif",
+          "<output>"
+        ]
+      },
+      "byteCount": 495,
+      "sha256": "7224b908f881ec93f09bd8dbda023c47ae7f1a27134a5014279d8b32aff5448c"
+    },
+    {
+      "file": "avif-rgb-12bit-aom-profile2-1204x800.avif",
+      "width": 1204,
+      "height": 800,
+      "encodedDepth": 12,
+      "encodedPixelFormat": "yuv420p12le",
+      "sourceProvenance": {
+        "repositoryURL": "https://github.com/AOMediaCodec/av1-avif.git",
+        "revision": "bf4c18d1f3971069b75e87d6ee469790589f4f09",
+        "path": "testFiles/Link-U/fox.profile2.12bpc.yuv420.avif",
+        "license": "CC-BY-SA-4.0",
+        "independentProbe": "FFmpeg 9.0.1 ffprobe pix_fmt=yuv420p12le",
+        "licenseNotice": "Link-U-avif-sample-images-CC-BY-SA-4.0.txt",
+        "origin": "Link-U AVIF sample images",
+        "originProjectURL": "https://github.com/link-u/avif-sample-images",
+        "attribution": "Link-U; AVIF Example files from Link-U",
+        "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "modified": false
+      },
+      "byteCount": 65017,
+      "sha256": "a324988b58d5e2a0865aa6d9161c6a10bd73a4098e67c57db986a4adc3de41e5"
+    },
+    {
+      "file": "avif-hdr-pq-10bit-imageio-2x2.avif",
+      "width": 2,
+      "height": 2,
+      "encodedDepth": 10,
+      "encodedPixelFormat": "yuv420p10le",
+      "dynamicRange": "high",
+      "colorPrimaries": "bt2020",
+      "transfer": "smpte2084",
+      "generatorOverride": {
+        "framework": "Apple ImageIO public.avif",
+        "qualificationRuntime": "Xcode 27",
+        "sourcePattern": "2x2 synthetic 16-bpc ITU-R BT.2100 PQ CGContext filled with RGBA=(0.8,0.5,0.2,1)",
+        "note": "ImageIO encodes the synthetic 2x2 source as a 2x2 AVIF; FFmpeg 9.0.1 independently identifies yuv420p10le, BT.2020 primaries and SMPTE ST 2084 transfer."
+      },
+      "byteCount": 372,
+      "sha256": "b1ca664edf96970f69db390f4e144e951840102a78ffbf17cb634f3c2dcf217a"
+    }
+  ]
+}

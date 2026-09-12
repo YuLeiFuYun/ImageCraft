@@ -1080,6 +1080,7 @@ def validated_real_input_matrix_profile(
     profile_path: Path,
     fixture_name: str,
     expected_sha256: str,
+    expected_trc_entry_count: int,
 ) -> bytes:
     fixture_path = profile_path.parent / "fixtures" / fixture_name
     profile = fixture_path.read_bytes()
@@ -1137,13 +1138,26 @@ def validated_real_input_matrix_profile(
     for signature in (b"rTRC", b"gTRC", b"bTRC"):
         offset, size = tags[signature]
         payload = profile[offset : offset + size]
+        expected_size = 12 + 2 * expected_trc_entry_count
         if (
-            size != 14
+            size != expected_size
             or payload[:8] != b"curv" + bytes(4)
-            or int.from_bytes(payload[8:12], "big") != 1
-            or int.from_bytes(payload[12:14], "big") <= 0
+            or int.from_bytes(payload[8:12], "big") != expected_trc_entry_count
         ):
-            raise ValueError(f"real input fixture escaped qualified single-gamma TRC shape: {fixture_name}")
+            raise ValueError(f"real input fixture escaped qualified TRC shape: {fixture_name}")
+        entries = [
+            int.from_bytes(payload[index : index + 2], "big")
+            for index in range(12, expected_size, 2)
+        ]
+        if expected_trc_entry_count == 1:
+            if entries[0] <= 0:
+                raise ValueError(f"real input fixture has invalid gamma TRC: {fixture_name}")
+        elif (
+            expected_trc_entry_count < 2
+            or entries[-1] != 65_535
+            or any(lhs > rhs for lhs, rhs in zip(entries, entries[1:]))
+        ):
+            raise ValueError(f"real input fixture has invalid sampled TRC: {fixture_name}")
     return profile
 
 
@@ -1229,6 +1243,22 @@ def main() -> None:
                     args.profile,
                     fixture_name,
                     fixture_sha,
+                    1,
+                )
+                if (
+                    specification.get("realICCFixture") != f"fixtures/{fixture_name}"
+                    or specification.get("realICCFixtureSHA256") != fixture_sha
+                    or specification.get("realICCProfileByteCount") != len(icc_profile)
+                ):
+                    raise ValueError(f"real ICC success provenance drifted: {case_id}")
+            elif icc_profile_kind == "realEpson3170ShaperMatrix":
+                fixture_name = "epson3170-set1-shaper-matrix.icc"
+                fixture_sha = "10db2faa7e29632caa33084ff4e7ab128989e78177b026f2b5084d7eb1bbddde"
+                icc_profile = validated_real_input_matrix_profile(
+                    args.profile,
+                    fixture_name,
+                    fixture_sha,
+                    256,
                 )
                 if (
                     specification.get("realICCFixture") != f"fixtures/{fixture_name}"
@@ -1238,7 +1268,10 @@ def main() -> None:
                     raise ValueError(f"real ICC success provenance drifted: {case_id}")
             else:
                 raise ValueError(f"unsupported ICC profile kind: {icc_profile_kind}")
-            if icc_profile_kind == "realEpson3170GammaMatrix":
+            if icc_profile_kind in (
+                "realEpson3170GammaMatrix",
+                "realEpson3170ShaperMatrix",
+            ):
                 if icc_profile_class != "scnr":
                     raise ValueError(f"real ICC input fixture class override is forbidden: {case_id}")
             else:
@@ -1317,7 +1350,10 @@ def main() -> None:
             elif source_pattern == "realEpson3170InGamut":
                 qualified_source_pattern = (
                     color_authority == "rgbICC"
-                    and icc_profile_kind == "realEpson3170GammaMatrix"
+                    and icc_profile_kind in (
+                        "realEpson3170GammaMatrix",
+                        "realEpson3170ShaperMatrix",
+                    )
                     and icc_profile_class == "scnr"
                 )
             else:

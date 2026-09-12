@@ -25,6 +25,18 @@ DEFAULT_PROFILE = ROOT / "Evidence/Experiments/IndependentBaselineJPEG444/v1/pro
 DEFAULT_OUTPUT = ROOT / ".artifacts/program/T101/independent-baseline-jpeg-444-v1.json"
 
 
+def align64(value: int) -> int:
+    if value <= 0:
+        raise CaptureError("invalid state-plan width")
+    return (value + 63) // 64 * 64
+
+
+def expected_state(width: int, height: int) -> dict[str, Any]:
+    if width <= 0 or height <= 0:
+        raise CaptureError("invalid geometry")
+    return {"fixedScratchByteCount": 704}
+
+
 def cases(profile: dict[str, Any]) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = []
     for raw_width, raw_height in profile["geometryCases"]:
@@ -52,7 +64,7 @@ def cases(profile: dict[str, Any]) -> list[dict[str, Any]]:
                 }
             )
     for interval in profile["restartIntervalsMCUs"]:
-        for width, height in [(17, 13), (31, 19), (64, 17)]:
+        for width, height in [(17, 17), (31, 19), (64, 33)]:
             result.append(
                 {
                     "id": f"restart-{interval}B-{width}x{height}",
@@ -189,23 +201,24 @@ def main() -> int:
                     for index in range(min(len(imagecraft_rgb), len(reference)))
                     if imagecraft_rgb[index] != reference[index]
                 )
+                pixel = mismatch[0] // 3
                 raise CaptureError(
                     f"ImageCraft baseline 4:4:4 differs from libjpeg: "
-                    f"{case_id} mismatch={mismatch}"
+                    f"{case_id} mismatch={mismatch} pixel=(x={pixel % width},y={pixel // width},c={mismatch[0] % 3})"
                 )
-            expected_charge = width * height * 3 + 704
-            expected_mcus = (width // 8 + (0 if width % 8 == 0 else 1)) * (
-                height // 8 + (0 if height % 8 == 0 else 1)
-            )
+
+            state = expected_state(width, height)
+            expected_charge = width * height * 3 + int(state["fixedScratchByteCount"])
+            expected_mcus = ((width + 7) // 8) * ((height + 7) // 8)
             if (
                 report.get("evidenceVersion") != "imagecraft-independent-baseline-jpeg-444-v1"
                 or report.get("outputSHA256") != sha256_bytes(imagecraft_rgb)
-                or report.get("fixedScratchByteCount") != 704
                 or report.get("operationByteCharge") != expected_charge
                 or report.get("decodedMCUCount") != expected_mcus
+                or report.get("fixedScratchByteCount") != state["fixedScratchByteCount"]
                 or report.get("thresholdMinusOneRejectedBeforeDecodeAllocation") is not True
             ):
-                raise CaptureError(f"baseline 4:4:4 evidence drifted: {case_id}")
+                raise CaptureError(f"baseline 4:4:4 evidence/resource plan drifted: {case_id}")
             if case["restart"] is not None and report.get("restartIntervalMCUs") != case["restart"]:
                 raise CaptureError(f"baseline 4:4:4 restart report drifted: {case_id}")
 
@@ -218,6 +231,7 @@ def main() -> int:
                     "referenceRGBSHA256": sha256_bytes(reference),
                     "imageCraftRGBSHA256": sha256_bytes(imagecraft_rgb),
                     "imageCraftEvidence": report,
+                    "expectedStatePlan": state,
                     "exactLibjpegRGB": True,
                 }
             )
@@ -262,8 +276,8 @@ def main() -> int:
                     case["imageCraftEvidence"]["thresholdMinusOneRejectedBeforeDecodeAllocation"]
                     for case in results
                 ),
-                "fixedScratchByteCount": 704,
                 "restartCaseCount": sum(1 for case in results if case["restart"] is not None),
+                "fixedScratchByteCount": 704,
                 "maximumOperationByteCharge": max(
                     int(case["imageCraftEvidence"]["operationByteCharge"])
                     for case in results

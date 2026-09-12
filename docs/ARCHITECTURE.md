@@ -12,12 +12,14 @@ ImageCraftCore
         ↑
 ImageCraftImageIO
   ImageIO adapter, validation, decode/encode implementation
+ImageCraftPDF
+  Core Graphics PDF single-page rasterization adapter
         ↑
 Host application (optional)
   network/cache/UI/identity/persistence
 ```
 
-`ImageCraftCore` 不得导入 ImageIO。`ImageCraftImageIO` 不得导入任何宿主模块。
+`ImageCraftCore` 不得导入 ImageIO。`ImageCraftImageIO` 与 `ImageCraftPDF` 不得导入任何宿主模块；PDF 使用独立 document-rasterization contract，不进入 `EncodedImageFormat` 或普通 `ImageDecoding`。
 
 ## 所有权
 
@@ -35,6 +37,12 @@ ImageCraft 拥有：
 - ContentID、DecodeKey、RenderKey 与 namespace；
 - 缓存、调度、UI 和持久发布；
 - 多 codec 选择与 rollout policy。
+
+## 解码能力组合模型
+
+`ImageCodecDescriptor.decodeProfiles` 是有限析取：每个 `ImageDecodeCapabilityProfile` 内的 format、delivery、track、metadata、dynamic-range、output 与 cancellation 共同形成一条真实可兑现的能力域。若两个轴之间存在条件关系，后端必须拆成不同 profile，不能把轴分别并入全局集合后让宿主得到虚假的笛卡尔积。支持判定沿固定轴顺序持续过滤同一批候选 profile；候选归零的第一个轴定义稳定失败分类。profile 列表顺序不影响支持或失败语义。
+
+当前 ImageIO 静态后端因此使用两条 profile：complete-primary-CGImage 覆盖 PNG/JPEG/GIF/WebP/HEIF，并仅在当前 ImageIO runtime 实际公开 `public.avif` 时加入 AVIF；progressive-primary-CGImage 仍仅覆盖 JPEG。源每分量位深是逐输入 `ImageProbe` 事实，并参与资源估算，不等于 HDR capability；HDR、动画或 pixel-buffer 后端仍必须以同样方式只声明实际组合，不增加格式专属补丁字段。
 
 ## 兼容身份
 
@@ -81,7 +89,7 @@ corpus 版本只追加、不原地改变语义。工具升级、位流变化或�
 
 ## 公共 API 收敛
 
-ImageCraft 公开 codec 请求、限制、结果、descriptor、JPEG 渐进会话和 ImageIO adapter；UI 几何分桶、render-cache admission、transform pipeline、预览替换策略与 frame timing 值模型属于宿主或未来模块，不进入当前公共面。运行时 fingerprint 和详细诊断只服务本仓库证据，保持 package-only。
+ImageCraft 公开 codec 请求、限制、结果、descriptor、JPEG 渐进会话和 ImageIO adapter；另以独立 `PDFSinglePageRasterizing` 合同公开单页 PDF 页面几何与目标光栅化，不把 PDF 伪装成固定源像素 codec。UI 几何分桶、render-cache admission、transform pipeline、预览替换策略与 frame timing 值模型属于宿主或未来模块，不进入当前公共面。运行时 fingerprint 和详细诊断只服务本仓库证据，保持 package-only。
 
 渐进 JPEG parser 只增量消费新增 marker/entropy 字节；累计字节传给 ImageIO 是系统增量源 API 的要求，但只在预览尝试或 finish 时更新，而不是每个网络分片更新。ImageIO adapter 仅在第 1、2、4、8 个已完成 scan 达到时尝试预览，将昂贵光栅化限制为常数上界；一次 append 最多返回一个代次，并可合并同一 chunk 跨过的多个阈值。预览次数上界并不能防御“极多 progressive scans + 稀疏 EOB runs”的最终解码 CPU 放大，因此 parser 与完整 JPEG container scanner 另共享 500-SOS package-internal ceiling；501st scan 在后续 ImageIO work 前失败关闭并走 terminal reclaim。真实照片矩阵已证明 chunk overshoot 会改变代次数量与同序号像素，因此 generation 只有单会话顺序语义，`sourceByteCount` 只有累计 append 边界语义。完整正文若一次到达可以零预览完成，但仍必须通过同一 scan-count security gate。该会话不承担完整正文真实性、尾随数据、最终颜色或最终缓存发布，宿主必须让完整正文重新进入常规安全解码路径。
 
@@ -96,13 +104,17 @@ package-only libjpeg-turbo research seam验证了另一种 progressive architect
 
 ## 性能证据边界
 
-性能工具位于 `ImageCraftEvidence`、`Tools/Performance` 和 `scripts`，不进入两个库产品的公共 API。fixture 构造、reference SHA-256、RSS sampler 与 JSON 输出不计入操作耗时；ImageCraft admission、ImageIO 调用、颜色/几何后处理和输出 container 自检计入。RSS 在独立单操作阶段采样。
+性能工具位于 `ImageCraftEvidence`、`Tools/Performance` 和 `scripts`，不进入三个库产品的公共 API。fixture 构造、reference SHA-256、RSS sampler 与 JSON 输出不计入操作耗时；ImageCraft admission、ImageIO/Core Graphics 调用、颜色/几何后处理和输出 container 自检计入。RSS 在独立单操作阶段采样。
 
 `ImageDecodeResourceEstimate` 是像素表面模型，不是进程 RSS 上界。性能报告并列记录估计值和采样 resident delta，但不要求二者相等。动态性能门必须绑定同一硬件、系统框架和工具链；默认验证只做静态 baseline 检查。
 
 
 ## 外部消费者边界
 
-`Fixtures/ConsumerSmoke` 是独立 SwiftPM package，而不是根包的 test target。它只能导入 `ImageCraftCore` 和 `ImageCraftImageIO` 的 public API；任何误把 package-only 类型写进公开示例或必要集成路径的改动都会在消费者编译时失败。
+`Fixtures/ConsumerSmoke` 是独立 SwiftPM package，而不是根包的 test target。它只能导入 `ImageCraftCore`、`ImageCraftImageIO` 和 `ImageCraftPDF` 的 public API；任何误把 package-only 类型写进公开示例或必要集成路径的改动都会在消费者编译时失败。
 
 平台矩阵只验证源码能够以声明的最低部署目标编译：macOS 12、iOS 15 Simulator、iOS 15 device。它不把 Simulator 编译成功解释为真机运行时、能耗、EDR 或跨 OS ImageIO 行为证据。
+
+## SVG 派生几何边界
+
+SVG implementation v2 对 S/T 反射控制点执行与显式、相对坐标相同的 maximumCoordinateMagnitude 校验；S/T 共用同一反射点与受限坐标构造路径，两轴、正负值和连续 T 反射都不能绕过预算。复核发生在 CGMutablePath 添加曲线前，并同时覆盖 probe 与 rasterize 的重新解析。合法恰好触达上限的曲线与显式展开的 C/Q 路径保持逐像素相等。该修复不扩张 SVG 子集，也不改变 contract v1；implementation fingerprint 升级用于隔离后端语义。

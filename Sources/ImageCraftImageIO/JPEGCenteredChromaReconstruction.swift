@@ -131,7 +131,7 @@ package enum JPEGCenteredChromaReconstruction {
     let maximumOutputWidth = try product(sourceWidth, 2)
     let sourceCount = try product(sourceWidth, sourceHeight)
     let destinationCount = try product(outputWidth, sourceHeight)
-    guard sourceWidth > 1, sourceHeight > 0, outputWidth > 0,
+    guard sourceWidth > 2, sourceHeight > 0, outputWidth > 0,
       outputWidth <= maximumOutputWidth,
       source.count == sourceCount,
       destination.count == destinationCount
@@ -167,6 +167,39 @@ package enum JPEGCenteredChromaReconstruction {
         (last * 3 + Int(source[sourceOffset + sourceWidth - 2]) + 1) >> 2
       ))
       write((sourceWidth - 1) * 2 + 1, UInt8(last))
+    }
+  }
+
+  /// libjpeg does not select the fancy H2V1 upsampler when the downsampled component width is at
+  /// most two samples. Keep that dispatch boundary explicit instead of forcing the triangle filter
+  /// through a geometry where the reference backend deliberately uses simple sample replication.
+  package static func writeH2V1Box(
+    source: UnsafeBufferPointer<UInt8>,
+    sourceWidth: Int,
+    sourceHeight: Int,
+    destination: UnsafeMutableBufferPointer<UInt8>,
+    outputWidth: Int
+  ) throws {
+    let maximumOutputWidth = try product(sourceWidth, 2)
+    let sourceCount = try product(sourceWidth, sourceHeight)
+    let destinationCount = try product(outputWidth, sourceHeight)
+    guard sourceWidth > 0, sourceWidth <= 2, sourceHeight > 0, outputWidth > 0,
+      outputWidth <= maximumOutputWidth,
+      source.count == sourceCount,
+      destination.count == destinationCount
+    else { throw ImageCraftError.unsupportedOrCorruptImage }
+
+    for row in 0..<sourceHeight {
+      let sourceOffset = row * sourceWidth
+      let outputOffset = row * outputWidth
+      for column in 0..<sourceWidth {
+        let value = source[sourceOffset + column]
+        let outputColumn = column * 2
+        if outputColumn < outputWidth { destination[outputOffset + outputColumn] = value }
+        if outputColumn + 1 < outputWidth {
+          destination[outputOffset + outputColumn + 1] = value
+        }
+      }
     }
   }
 

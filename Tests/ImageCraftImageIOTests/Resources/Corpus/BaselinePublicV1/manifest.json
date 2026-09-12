@@ -1,0 +1,27 @@
+{
+  "fixtures": [
+    {
+      "jpeg": "jpeg-baseline-422-23x13.jpg",
+      "jpegByteCount": 552,
+      "jpegSHA256": "6e0901315f1ea40df35139af4df40a456a6a9bb6a0423a7d92fe190c92b19e3f",
+      "rgb": "jpeg-baseline-422-23x13.rgb",
+      "rgbByteCount": 897,
+      "rgbSHA256": "56608f195b45873b2157f4dc6505798ab4c080dd297a35f5b0214151ab54ee1e",
+      "sampling": "422"
+    },
+    {
+      "jpeg": "jpeg-baseline-444-23x13.jpg",
+      "jpegByteCount": 613,
+      "jpegSHA256": "ccdb8b4b5058c8529bd570f7267f0dcfa038f3556ba6156241f37a9865490719",
+      "rgb": "jpeg-baseline-444-23x13.rgb",
+      "rgbByteCount": 897,
+      "rgbSHA256": "f3b0edfdac3b5eedc3b5f27e79644baf3c449ed3968720429fb34ea0df899a14",
+      "sampling": "444"
+    }
+  ],
+  "generator": "pinned libjpeg-turbo cjpeg/djpeg 3.2.0; deterministic RGB source formula",
+  "height": 13,
+  "quality": 75,
+  "schemaVersion": 1,
+  "width": 23
+}

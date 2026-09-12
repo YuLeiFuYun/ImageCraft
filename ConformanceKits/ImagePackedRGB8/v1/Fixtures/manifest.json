@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetID": "IMAGECRAFT-PACKED-RGB8-FIXTURES-V1",
+  "fixtures": [
+    {
+      "id": "baseline-jfif-grayscale-19x11",
+      "sampling": "grayscale",
+      "file": "reference-baseline-jfif-grayscale-19x11.jpg",
+      "expectedRGB8File": "reference-baseline-jfif-grayscale-19x11.rgb",
+      "format": "jpeg",
+      "width": 19,
+      "height": 11,
+      "sourceByteCount": 543,
+      "expectedRGB8ByteCount": 627,
+      "exactOperationByteCharge": 836,
+      "sha256": "f9f74e388a7dcd740c878c895a3e00b917f8739f3d86f71798742dfe9176f0c7",
+      "expectedRGB8SHA256": "466b5f63a65b4311ce2dfa93e660e4d4a5a71cebfc835388d2006c3489172949",
+      "oracle": "libjpeg-turbo djpeg 3.2.0, RGB PPM payload"
+    },
+    {
+      "id": "baseline-jfif-444-23x13",
+      "sampling": "4:4:4",
+      "file": "reference-baseline-jfif-444-23x13.jpg",
+      "expectedRGB8File": "reference-baseline-jfif-444-23x13.rgb",
+      "format": "jpeg",
+      "width": 23,
+      "height": 13,
+      "sourceByteCount": 613,
+      "expectedRGB8ByteCount": 897,
+      "exactOperationByteCharge": 1601,
+      "sha256": "ccdb8b4b5058c8529bd570f7267f0dcfa038f3556ba6156241f37a9865490719",
+      "expectedRGB8SHA256": "f3b0edfdac3b5eedc3b5f27e79644baf3c449ed3968720429fb34ea0df899a14",
+      "oracle": "libjpeg-turbo djpeg 3.2.0, RGB PPM payload"
+    },
+    {
+      "id": "baseline-jfif-422-23x13",
+      "sampling": "4:2:2",
+      "file": "reference-baseline-jfif-422-23x13.jpg",
+      "expectedRGB8File": "reference-baseline-jfif-422-23x13.rgb",
+      "format": "jpeg",
+      "width": 23,
+      "height": 13,
+      "sourceByteCount": 552,
+      "expectedRGB8ByteCount": 897,
+      "exactOperationByteCharge": 3073,
+      "sha256": "6e0901315f1ea40df35139af4df40a456a6a9bb6a0423a7d92fe190c92b19e3f",
+      "expectedRGB8SHA256": "56608f195b45873b2157f4dc6505798ab4c080dd297a35f5b0214151ab54ee1e",
+      "oracle": "libjpeg-turbo djpeg 3.2.0, RGB PPM payload"
+    },
+    {
+      "id": "baseline-jfif-420-23x13",
+      "sampling": "4:2:0",
+      "file": "reference-baseline-jfif-420-23x13.jpg",
+      "expectedRGB8File": "reference-baseline-jfif-420-23x13.rgb",
+      "format": "jpeg",
+      "width": 23,
+      "height": 13,
+      "sourceByteCount": 856,
+      "expectedRGB8ByteCount": 897,
+      "exactOperationByteCharge": 3777,
+      "sha256": "218392f142ad2f1bcf5280ecc1f82ded3152ecfa65fdcde23a6ff2c07f405585",
+      "expectedRGB8SHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+      "oracle": "libjpeg-turbo djpeg 3.2.0 (build 20260630), RGB PPM payload"
+    }
+  ]
+}

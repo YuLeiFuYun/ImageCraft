@@ -13,13 +13,48 @@ package enum ImageDecodeWorkingSetEstimator {
         guard let geometry = estimatedGeometry(probe: probe, request: request) else {
             return Int.max
         }
+        let sourceBytesPerComponent: Int
+        switch probe.sourceBitsPerComponent {
+        case .some(...8):
+            sourceBytesPerComponent = 1
+        case .some(...16):
+            sourceBytesPerComponent = 2
+        default:
+            // Unknown source precision and values wider than 16 bits use the conservative
+            // 32-bit component lane. This avoids silently preserving the old 4-B/px
+            // under-reservation for third-party backends that still use the legacy probe init.
+            sourceBytesPerComponent = 4
+        }
+        let sourceRGBABytesPerPixel = saturatedProduct([sourceBytesPerComponent, 4])
+        // A gain-map-backed source may have an 8-bit SDR primary raster while an explicit `.high`
+        // request materializes a 10/16-bpc HDR CGImage. The primary source precision therefore
+        // cannot by itself bound HDR output storage. Reserve at least 16-bit RGBA lanes for every
+        // high-range request; this also remains conservative for packed 10-bpc/32-bpp ImageIO
+        // layouts observed on other high-depth sources.
+        let dynamicRangeBytesPerPixel = request.dynamicRange == .high ? 8 : bytesPerPixel
+        let effectiveBytesPerPixel = max(
+            bytesPerPixel,
+            sourceRGBABytesPerPixel,
+            dynamicRangeBytesPerPixel
+        )
         let thumbnailBytes = saturatedProduct(
-            [geometry.thumbnailWidth, geometry.thumbnailHeight, bytesPerPixel]
+            [geometry.thumbnailWidth, geometry.thumbnailHeight, effectiveBytesPerPixel]
         )
         let outputBytes = saturatedProduct(
-            [geometry.outputWidth, geometry.outputHeight, bytesPerPixel]
+            [geometry.outputWidth, geometry.outputHeight, effectiveBytesPerPixel]
         )
-        return saturatedSum([thumbnailBytes, thumbnailBytes, outputBytes])
+        let ordinaryPeak = saturatedSum([thumbnailBytes, thumbnailBytes, outputBytes])
+
+        // Some ImageIO backends (currently HEIF/HEIC on the pinned Apple runtime) can refuse
+        // thumbnail requests below a small implementation floor even though a slightly larger
+        // bounded thumbnail succeeds. The ImageIO adapter may therefore hold one <=4x4 fallback
+        // surface while materializing the true requested raster. Keep that constant-size path in
+        // the generic host estimate so a tiny target never under-reserves its actual peak.
+        let smallFallbackBytes = saturatedProduct(
+            [min(probe.pixelWidth, 4), min(probe.pixelHeight, 4), effectiveBytesPerPixel]
+        )
+        let smallFallbackPeak = saturatedSum([smallFallbackBytes, outputBytes])
+        return max(ordinaryPeak, smallFallbackPeak)
     }
 
     private static func estimatedGeometry(

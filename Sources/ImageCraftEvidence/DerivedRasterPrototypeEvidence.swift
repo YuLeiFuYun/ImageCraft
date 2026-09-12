@@ -10,6 +10,29 @@ private struct DerivedRasterDurationSummary: Codable {
   let samplesNanoseconds: [UInt64]
 }
 
+private struct DerivedRasterArtifactQualification: Codable {
+  let format: String
+  let payloadByteCount: Int
+  let payloadSHA256: String
+  let pixelRGBSHA256: String
+  let exactPixelIdentity: Bool
+  let creationFromDecodedSurface: DerivedRasterDurationSummary
+  let decode: DerivedRasterDurationSummary
+  let creationAccountingAuthority: String
+  let knownCreationLogicalLiveBytePeak: Int?
+  let publishedPayloadByteCount: Int
+  let reclaimedLogicalTransientByteCount: Int
+  let minimumReuseCountForLatencyBreakEven: Int?
+}
+
+private struct DerivedRasterReuseDecision: Codable {
+  let expectedReuseCount: Int
+  let admitted: Bool
+  let selectedFormat: String?
+  let directOriginalMedianTotalNanoseconds: UInt64
+  let selectedArtifactMedianTotalNanoseconds: UInt64?
+}
+
 private struct DerivedRasterTargetEvidence: Codable {
   let requestedWidth: Int
   let requestedHeight: Int
@@ -38,6 +61,10 @@ private struct DerivedRasterTargetEvidence: Codable {
   let derivedLZFSECreationDecodeDrawAndCompress: DerivedRasterDurationSummary
   let derivedAdaptiveLZFSECreationDecodeDrawFilterAndCompress:
     DerivedRasterDurationSummary
+  let artifactQualifications: [DerivedRasterArtifactQualification]
+  let storageEfficientFormat: String
+  let storageEfficientPayloadByteCount: Int
+  let reuseDecisions: [DerivedRasterReuseDecision]
 }
 
 private struct DerivedRasterPrototypeReport: Codable {
@@ -183,6 +210,9 @@ func writeDerivedRasterPrototypeEvidence(
     var pngCreationSamples: [UInt64] = []
     var lzfseCreationSamples: [UInt64] = []
     var adaptiveCreationSamples: [UInt64] = []
+    var pngCreationFromDecodedSamples: [UInt64] = []
+    var lzfseCreationFromDecodedSamples: [UInt64] = []
+    var adaptiveCreationFromDecodedSamples: [UInt64] = []
     for index in 0..<(warmups + iterations) {
       var durations = [UInt64](repeating: 0, count: 5)
       for offset in 0..<5 {
@@ -263,6 +293,24 @@ func writeDerivedRasterPrototypeEvidence(
         )
         _ = try derivedRasterLZFSECompress(filtered)
       }
+      let pngCreationFromDecodedDuration = try derivedRasterMeasure {
+        _ = try encoder.encode(
+          image: directReference.cgImage, request: pngRequest, limits: encodeLimits
+        )
+      }
+      let lzfseCreationFromDecodedDuration = try derivedRasterMeasure {
+        let rgb = try rgbData(from: directReference.cgImage)
+        _ = try derivedRasterLZFSECompress(rgb)
+      }
+      let adaptiveCreationFromDecodedDuration = try derivedRasterMeasure {
+        let rgb = try rgbData(from: directReference.cgImage)
+        let filtered = derivedRasterAdaptiveRowFilter(
+          rgb,
+          width: directReference.pixelWidth,
+          height: directReference.pixelHeight
+        )
+        _ = try derivedRasterLZFSECompress(filtered)
+      }
       if index >= warmups {
         directSamples.append(durations[0])
         cachedMaterializationSamples.append(durations[1])
@@ -272,8 +320,98 @@ func writeDerivedRasterPrototypeEvidence(
         pngCreationSamples.append(pngCreationDuration)
         lzfseCreationSamples.append(lzfseCreationDuration)
         adaptiveCreationSamples.append(adaptiveCreationDuration)
+        pngCreationFromDecodedSamples.append(pngCreationFromDecodedDuration)
+        lzfseCreationFromDecodedSamples.append(lzfseCreationFromDecodedDuration)
+        adaptiveCreationFromDecodedSamples.append(adaptiveCreationFromDecodedDuration)
       }
     }
+
+    let directSummary = derivedRasterSummary(directSamples)
+    let cachedMaterializationSummary = derivedRasterSummary(cachedMaterializationSamples)
+    let pngDecodeSummary = derivedRasterSummary(pngSamples)
+    let lzfseDecodeSummary = derivedRasterSummary(lzfseSamples)
+    let adaptiveDecodeSummary = derivedRasterSummary(adaptiveSamples)
+    let pngCreationSummary = derivedRasterSummary(pngCreationSamples)
+    let lzfseCreationSummary = derivedRasterSummary(lzfseCreationSamples)
+    let adaptiveCreationSummary = derivedRasterSummary(adaptiveCreationSamples)
+    let pngCreationFromDecodedSummary = derivedRasterSummary(pngCreationFromDecodedSamples)
+    let lzfseCreationFromDecodedSummary = derivedRasterSummary(lzfseCreationFromDecodedSamples)
+    let adaptiveCreationFromDecodedSummary = derivedRasterSummary(
+      adaptiveCreationFromDecodedSamples
+    )
+    let pngDigest = sha256(derivedPNG.data)
+    let lzfseDigest = sha256(lzfse)
+    let adaptiveDigest = sha256(adaptiveLZFSE)
+    let artifactQualifications = [
+      DerivedRasterArtifactQualification(
+        format: "png",
+        payloadByteCount: derivedPNG.byteCount,
+        payloadSHA256: pngDigest,
+        pixelRGBSHA256: pngHash,
+        exactPixelIdentity: directHash == pngHash,
+        creationFromDecodedSurface: pngCreationFromDecodedSummary,
+        decode: pngDecodeSummary,
+        creationAccountingAuthority: "framework-private-logical-transient-unknown",
+        knownCreationLogicalLiveBytePeak: nil,
+        publishedPayloadByteCount: derivedPNG.byteCount,
+        reclaimedLogicalTransientByteCount: 0,
+        minimumReuseCountForLatencyBreakEven: derivedRasterMinimumReuseCount(
+          creation: pngCreationFromDecodedSummary,
+          decode: pngDecodeSummary,
+          direct: directSummary
+        )
+      ),
+      DerivedRasterArtifactQualification(
+        format: "lzfse-rgb8",
+        payloadByteCount: lzfse.count,
+        payloadSHA256: lzfseDigest,
+        pixelRGBSHA256: lzfseHash,
+        exactPixelIdentity: directHash == lzfseHash,
+        creationFromDecodedSurface: lzfseCreationFromDecodedSummary,
+        decode: lzfseDecodeSummary,
+        creationAccountingAuthority: "codec-owned-logical-bytes-exact",
+        knownCreationLogicalLiveBytePeak: directRGB.count
+          + derivedRasterLZFSEOutputCapacity(for: directRGB.count),
+        publishedPayloadByteCount: lzfse.count,
+        reclaimedLogicalTransientByteCount: directRGB.count,
+        minimumReuseCountForLatencyBreakEven: derivedRasterMinimumReuseCount(
+          creation: lzfseCreationFromDecodedSummary,
+          decode: lzfseDecodeSummary,
+          direct: directSummary
+        )
+      ),
+      DerivedRasterArtifactQualification(
+        format: "adaptive-row-filter-lzfse-rgb8",
+        payloadByteCount: adaptiveLZFSE.count,
+        payloadSHA256: adaptiveDigest,
+        pixelRGBSHA256: adaptiveHash,
+        exactPixelIdentity: directHash == adaptiveHash,
+        creationFromDecodedSurface: adaptiveCreationFromDecodedSummary,
+        decode: adaptiveDecodeSummary,
+        creationAccountingAuthority: "codec-owned-logical-bytes-exact",
+        knownCreationLogicalLiveBytePeak: directRGB.count + adaptiveFiltered.count
+          + derivedRasterLZFSEOutputCapacity(for: adaptiveFiltered.count),
+        publishedPayloadByteCount: adaptiveLZFSE.count,
+        reclaimedLogicalTransientByteCount: directRGB.count + adaptiveFiltered.count,
+        minimumReuseCountForLatencyBreakEven: derivedRasterMinimumReuseCount(
+          creation: adaptiveCreationFromDecodedSummary,
+          decode: adaptiveDecodeSummary,
+          direct: directSummary
+        )
+      ),
+    ]
+    let reuseDecisions = derivedRasterReuseDecisions(
+      direct: directSummary,
+      artifacts: artifactQualifications
+    )
+    let storageEfficientArtifact = artifactQualifications.filter(\.exactPixelIdentity).min {
+      lhs, rhs in
+      if lhs.payloadByteCount != rhs.payloadByteCount {
+        return lhs.payloadByteCount < rhs.payloadByteCount
+      }
+      return lhs.format < rhs.format
+    }
+    guard let storageEfficientArtifact else { throw EvidenceError.pixelConversionFailed }
 
     results.append(
       DerivedRasterTargetEvidence(
@@ -289,23 +427,25 @@ func writeDerivedRasterPrototypeEvidence(
         lzfsePixelsEqual: directHash == lzfseHash,
         adaptiveLZFSEPixelsEqual: directHash == adaptiveHash,
         derivedPNGByteCount: derivedPNG.byteCount,
-        derivedPNGSHA256: sha256(derivedPNG.data),
+        derivedPNGSHA256: pngDigest,
         derivedLZFSEByteCount: lzfse.count,
-        derivedLZFSESHA256: sha256(lzfse),
+        derivedLZFSESHA256: lzfseDigest,
         derivedAdaptiveLZFSEByteCount: adaptiveLZFSE.count,
-        derivedAdaptiveLZFSESHA256: sha256(adaptiveLZFSE),
+        derivedAdaptiveLZFSESHA256: adaptiveDigest,
         rawRGBByteCount: directRGB.count,
-        directOriginalDecode: derivedRasterSummary(directSamples),
-        cachedImageMaterialization: derivedRasterSummary(cachedMaterializationSamples),
-        derivedPNGDecode: derivedRasterSummary(pngSamples),
-        derivedLZFSEDecode: derivedRasterSummary(lzfseSamples),
-        derivedAdaptiveLZFSEDecode: derivedRasterSummary(adaptiveSamples),
-        derivedPNGCreationDecodeAndEncode: derivedRasterSummary(pngCreationSamples),
-        derivedLZFSECreationDecodeDrawAndCompress: derivedRasterSummary(
-          lzfseCreationSamples
-        ),
+        directOriginalDecode: directSummary,
+        cachedImageMaterialization: cachedMaterializationSummary,
+        derivedPNGDecode: pngDecodeSummary,
+        derivedLZFSEDecode: lzfseDecodeSummary,
+        derivedAdaptiveLZFSEDecode: adaptiveDecodeSummary,
+        derivedPNGCreationDecodeAndEncode: pngCreationSummary,
+        derivedLZFSECreationDecodeDrawAndCompress: lzfseCreationSummary,
         derivedAdaptiveLZFSECreationDecodeDrawFilterAndCompress:
-          derivedRasterSummary(adaptiveCreationSamples)
+          adaptiveCreationSummary,
+        artifactQualifications: artifactQualifications,
+        storageEfficientFormat: storageEfficientArtifact.format,
+        storageEfficientPayloadByteCount: storageEfficientArtifact.payloadByteCount,
+        reuseDecisions: reuseDecisions
       )
     )
   }
@@ -317,8 +457,8 @@ func writeDerivedRasterPrototypeEvidence(
   let lzfseTotalBytes = data.count + lzfseBytes
   let adaptiveTotalBytes = data.count + adaptiveBytes
   let report = DerivedRasterPrototypeReport(
-    schemaVersion: 5,
-    evidenceVersion: "imagecraft-target-derived-raster-prototype-v5",
+    schemaVersion: 6,
+    evidenceVersion: "imagecraft-target-derived-raster-prototype-v6",
     runtime: .capture(),
     inputByteCount: data.count,
     inputSHA256: sha256(data),
@@ -415,6 +555,69 @@ private func derivedRasterSummary(
     p95Nanoseconds: sorted[p95Index],
     samplesNanoseconds: samples
   )
+}
+
+private func derivedRasterMinimumReuseCount(
+  creation: DerivedRasterDurationSummary,
+  decode: DerivedRasterDurationSummary,
+  direct: DerivedRasterDurationSummary
+) -> Int? {
+  guard decode.medianNanoseconds < direct.medianNanoseconds else { return nil }
+  let saving = direct.medianNanoseconds - decode.medianNanoseconds
+  let numerator = creation.medianNanoseconds
+  let quotient = numerator / saving
+  let remainder = numerator % saving
+  let count = quotient + (remainder == 0 ? 0 : 1)
+  return Int(max(1, min(count, UInt64(Int.max))))
+}
+
+private func derivedRasterReuseDecisions(
+  direct: DerivedRasterDurationSummary,
+  artifacts: [DerivedRasterArtifactQualification]
+) -> [DerivedRasterReuseDecision] {
+  [1, 2, 4, 8].map { reuseCount in
+    let directTotal = derivedRasterSaturatedMultiply(
+      direct.medianNanoseconds,
+      UInt64(reuseCount)
+    )
+    let candidates = artifacts.filter(\.exactPixelIdentity).map { artifact in
+      (
+        artifact: artifact,
+        total: derivedRasterSaturatedAdding(
+          artifact.creationFromDecodedSurface.medianNanoseconds,
+          derivedRasterSaturatedMultiply(
+            artifact.decode.medianNanoseconds,
+            UInt64(reuseCount)
+          )
+        )
+      )
+    }
+    let best = candidates.min { lhs, rhs in
+      if lhs.total != rhs.total { return lhs.total < rhs.total }
+      if lhs.artifact.payloadByteCount != rhs.artifact.payloadByteCount {
+        return lhs.artifact.payloadByteCount < rhs.artifact.payloadByteCount
+      }
+      return lhs.artifact.format < rhs.artifact.format
+    }
+    let admitted = best.map { $0.total <= directTotal } ?? false
+    return DerivedRasterReuseDecision(
+      expectedReuseCount: reuseCount,
+      admitted: admitted,
+      selectedFormat: admitted ? best?.artifact.format : nil,
+      directOriginalMedianTotalNanoseconds: directTotal,
+      selectedArtifactMedianTotalNanoseconds: admitted ? best?.total : nil
+    )
+  }
+}
+
+private func derivedRasterSaturatedMultiply(_ lhs: UInt64, _ rhs: UInt64) -> UInt64 {
+  let result = lhs.multipliedReportingOverflow(by: rhs)
+  return result.overflow ? UInt64.max : result.partialValue
+}
+
+private func derivedRasterSaturatedAdding(_ lhs: UInt64, _ rhs: UInt64) -> UInt64 {
+  let result = lhs.addingReportingOverflow(rhs)
+  return result.overflow ? UInt64.max : result.partialValue
 }
 
 private func derivedRasterRGBImage(rgb: Data, width: Int, height: Int) throws -> CGImage {
@@ -536,7 +739,7 @@ private func derivedRasterAdaptiveRowUnfilter(
 }
 
 private func derivedRasterLZFSECompress(_ source: Data) throws -> Data {
-  var capacity = max(1_024, source.count + source.count / 8 + 65_536)
+  var capacity = derivedRasterLZFSEOutputCapacity(for: source.count)
   for _ in 0..<4 {
     var destination = Data(count: capacity)
     let written = destination.withUnsafeMutableBytes { output in
@@ -561,6 +764,10 @@ private func derivedRasterLZFSECompress(_ source: Data) throws -> Data {
     capacity *= 2
   }
   throw EvidenceError.pixelConversionFailed
+}
+
+private func derivedRasterLZFSEOutputCapacity(for sourceByteCount: Int) -> Int {
+  max(1_024, sourceByteCount + sourceByteCount / 8 + 65_536)
 }
 
 private func derivedRasterLZFSEDecompress(

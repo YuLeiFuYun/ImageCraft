@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "kitID": "IMAGECRAFT-PACKED-RGB8-CONFORMANCE-V1",
+  "contractVersion": 1,
+  "profileID": "IMAGECRAFT-BOUNDED-BASELINE-JPEG-PACKED-RGB8-V1",
+  "componentDependencies": {
+    "imageCraftContract": {
+      "packageIdentity": "ImageCraft",
+      "product": "ImageCraftCore",
+      "binding": "current-source-tree"
+    }
+  },
+  "factoryContract": {
+    "symbol": "PackedDecoderUnderTest",
+    "method": "make(maximumOperationByteCharge: Int) throws -> any ImagePackedRGB8Decoding"
+  },
+  "fixtures": {
+    "manifest": "Fixtures/manifest.json",
+    "fixtureSetID": "IMAGECRAFT-PACKED-RGB8-FIXTURES-V1"
+  },
+  "observationSchema": "observation-schema.json",
+  "harness": "Harness/ImagePackedRGB8ConformanceTests.swift",
+  "obligations": [
+    {
+      "id": "IMAGECRAFT-PACKED-RGB8-CT-001",
+      "summary": "The fixed JFIF grayscale, 4:4:4, 4:2:2 and 4:2:0 fixtures probe deterministically to their exact qualified single-frame source facts.",
+      "testName": "testReferenceJPEGProbeIsDeterministic_PACKED_RGB8_CT_001"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-RGB8-CT-002",
+      "summary": "Preflight authority is deterministic and fully bounded for all four qualified baseline modes, with exact operation peaks and caller-owned encoded-byte coexistence.",
+      "testName": "testResourceLedgerIsExactBoundedAndComposable_PACKED_RGB8_CT_002"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-RGB8-CT-003",
+      "summary": "Each fixed JPEG decodes deterministically to its independently frozen libjpeg-turbo tight RGB8 payload.",
+      "testName": "testReferenceJPEGDecodesIndependentExactRGB8_PACKED_RGB8_CT_003"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-RGB8-CT-004",
+      "summary": "Encoded-byte, format, dimension and pixel limits fail closed for every qualified fixture before a successful packed value can be published.",
+      "testName": "testProbeHardLimitsFailClosed_PACKED_RGB8_CT_004"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-RGB8-CT-005",
+      "summary": "The public one-shot slice accepts only exact full-size fit, convert-to-sRGB, standard-dynamic-range requests across the finite baseline JFIF union and rejects nearby alternatives.",
+      "testName": "testRequestSliceFailsClosed_PACKED_RGB8_CT_005"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-RGB8-CT-006",
+      "summary": "For each qualified baseline mode, a factory configured one byte below that fixture's exact operation peak rejects both resource admission and packed decode.",
+      "testName": "testHardOperationBudgetFailsClosed_PACKED_RGB8_CT_006"
+    }
+  ],
+  "rules": {
+    "profileRequiresBoundedResourceAuthority": true,
+    "encodedSourceRemainsCallerOwned": true,
+    "referenceFixtureSetDoesNotProveGeneralJPEGSupport": true,
+    "releaseQualified": false,
+    "unsupportedOrSkippedFailsClosed": true
+  },
+  "supportedPlatforms": [
+    "macOS-12+"
+  ]
+}

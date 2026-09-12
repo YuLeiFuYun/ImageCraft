@@ -1,0 +1,337 @@
+{
+  "cases": [
+    {
+      "bitDepth": 1,
+      "colorType": 0,
+      "derived": {
+        "byteCount": 214,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi0g01-srgb-idat-preserved.png",
+        "idatByteCount": 144,
+        "idatSHA256": "b36deaed8beb837c511d9fd30f467affd686812f2371695ae384ba4796888a97",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "2a485fbe57506f9a2da585e959023e964dfd9aade526420bc3035b4254d72716",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65544,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "grayscale1",
+      "source": {
+        "byteCount": 217,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi0g01.png",
+        "idatByteCount": 144,
+        "idatSHA256": "b36deaed8beb837c511d9fd30f467affd686812f2371695ae384ba4796888a97",
+        "modified": false,
+        "sha256": "9bf1c4610280efecc291361e2b7b026d602d03a7137f476ff84af626bb7b3a62"
+      },
+      "sourceBitsPerPixel": 1,
+      "upstreamPath": "png/basi0g01.png"
+    },
+    {
+      "bitDepth": 2,
+      "colorType": 0,
+      "derived": {
+        "byteCount": 151,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi0g02-srgb-idat-preserved.png",
+        "idatByteCount": 81,
+        "idatSHA256": "63b0b0f7c5b230f3c93d73a54bee13994adfe5bbfb23b9e7ea842d2ae7bf99c0",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "2df14623187bf5053964922feebf433b4fdcb816a66c9f643082837b1266880d",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65552,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "grayscale2",
+      "source": {
+        "byteCount": 154,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi0g02.png",
+        "idatByteCount": 81,
+        "idatSHA256": "63b0b0f7c5b230f3c93d73a54bee13994adfe5bbfb23b9e7ea842d2ae7bf99c0",
+        "modified": false,
+        "sha256": "50ed4ff9c1c80578ae58ead6fb28ea2e44016b5b56a7b3e95c235ec86f97c0d8"
+      },
+      "sourceBitsPerPixel": 2,
+      "upstreamPath": "png/basi0g02.png"
+    },
+    {
+      "bitDepth": 4,
+      "colorType": 0,
+      "derived": {
+        "byteCount": 244,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi0g04-srgb-idat-preserved.png",
+        "idatByteCount": 174,
+        "idatSHA256": "3abd6f7311f50f1facb239ce640fede0cdd7f1b9ab7d9036c485b2abfc7e3dd3",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "7c481670377ba74d14d09aad6087db605625d795180b48ab3266e5e828650c3e",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65568,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "grayscale4",
+      "source": {
+        "byteCount": 247,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi0g04.png",
+        "idatByteCount": 174,
+        "idatSHA256": "3abd6f7311f50f1facb239ce640fede0cdd7f1b9ab7d9036c485b2abfc7e3dd3",
+        "modified": false,
+        "sha256": "0cce4212157dae7c0f71f5f72cef39cecab3347de455da0ace7de83eebd47849"
+      },
+      "sourceBitsPerPixel": 4,
+      "upstreamPath": "png/basi0g04.png"
+    },
+    {
+      "bitDepth": 8,
+      "colorType": 0,
+      "derived": {
+        "byteCount": 251,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi0g08-srgb-idat-preserved.png",
+        "idatByteCount": 181,
+        "idatSHA256": "7e24864beca7cbd511bf14657640a3defaf26ae01ae9fade0a1675d2f02c30b9",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "a33accb24fc970fe61264e571716a21da0b48334c9bf748bb72f6bfad5060dd2",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65600,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "grayscale8",
+      "source": {
+        "byteCount": 254,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi0g08.png",
+        "idatByteCount": 181,
+        "idatSHA256": "7e24864beca7cbd511bf14657640a3defaf26ae01ae9fade0a1675d2f02c30b9",
+        "modified": false,
+        "sha256": "b9300750e7414c9fed68cc7f4f531f5e2cdd2724f50142e8aa3a0070836bece9"
+      },
+      "sourceBitsPerPixel": 8,
+      "upstreamPath": "png/basi0g08.png"
+    },
+    {
+      "bitDepth": 8,
+      "colorType": 2,
+      "derived": {
+        "byteCount": 312,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi2c08-srgb-idat-preserved.png",
+        "idatByteCount": 242,
+        "idatSHA256": "c3d572578ec6ec46facf721a59879abae661b97d96a540f75628724864b9aa0c",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "5557b5673f9abd00604d4936aedfd4b680200b5ecb9ea3d48ac3ef676de974b6",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65728,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "rgb8",
+      "source": {
+        "byteCount": 315,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi2c08.png",
+        "idatByteCount": 242,
+        "idatSHA256": "c3d572578ec6ec46facf721a59879abae661b97d96a540f75628724864b9aa0c",
+        "modified": false,
+        "sha256": "b2690d4475cdc39faf5a7d2de20de4e14eb96c6360fa791ec2003b4085ecacde"
+      },
+      "sourceBitsPerPixel": 24,
+      "upstreamPath": "png/basi2c08.png"
+    },
+    {
+      "bitDepth": 8,
+      "colorType": 4,
+      "derived": {
+        "byteCount": 211,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi4a08-srgb-idat-preserved.png",
+        "idatByteCount": 141,
+        "idatSHA256": "ac8add7745e7310dd854330901d1d7d3d41aba346cf625ffecd4f862a62b9a8c",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "2ed72f472f6db5984631aba11a830269778fbc476144b0d896de1ea07ff7a4a7",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65664,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "grayscaleAlpha8",
+      "source": {
+        "byteCount": 214,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi4a08.png",
+        "idatByteCount": 141,
+        "idatSHA256": "ac8add7745e7310dd854330901d1d7d3d41aba346cf625ffecd4f862a62b9a8c",
+        "modified": false,
+        "sha256": "dfae01a4548e30519157bb51ce29d4de3b35b74288e9568b4d5911de01c6048b"
+      },
+      "sourceBitsPerPixel": 16,
+      "upstreamPath": "png/basi4a08.png"
+    },
+    {
+      "bitDepth": 8,
+      "colorType": 6,
+      "derived": {
+        "byteCount": 358,
+        "chunks": [
+          "IHDR",
+          "sRGB",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "basi6a08-srgb-idat-preserved.png",
+        "idatByteCount": 288,
+        "idatSHA256": "612161ae2752ac732c230a0b0b807ceb59b3bbed41e7cdfc114ecad2b9f27aaa",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "79e04fe257851c0e7380b2f4287c7875408cb1e8c656eb0c05f2e7d9ab717bf7",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "expectedOperationPeakBytes": 65792,
+      "expectedTransferredOutputBytes": 4096,
+      "id": "rgba8",
+      "source": {
+        "byteCount": 361,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basi6a08.png",
+        "idatByteCount": 288,
+        "idatSHA256": "612161ae2752ac732c230a0b0b807ceb59b3bbed41e7cdfc114ecad2b9f27aaa",
+        "modified": false,
+        "sha256": "fe70ea20c8447e82abb7bc9dd05344a61a4631cc69e0974378df8f6263af0337"
+      },
+      "sourceBitsPerPixel": 32,
+      "upstreamPath": "png/basi6a08.png"
+    }
+  ],
+  "claimBoundary": "PngSuite Adam7 compressed image bytes remain exact; only gAMA is replaced with already-qualified explicit sRGB authority. No tRNS/sBIT/ICC/HDR semantic expansion is implied.",
+  "controls": [
+    {
+      "bitDepth": 8,
+      "colorType": 4,
+      "derived": {
+        "byteCount": 123,
+        "file": "basn4a08-srgb-idat-preserved.png",
+        "idatByteCount": 53,
+        "idatSHA256": "dc15f3540e45726fb10704ab80ae6dcae04c463d02e9496a20c3ac68dfe0fa98",
+        "modification": "replace the sole gAMA chunk with sRGB rendering-intent 0; preserve IHDR, IDAT and IEND bytes exactly",
+        "modified": true,
+        "sha256": "e1d2a40278f2d9f6ff8d0dd01bcb1fc44a3875528f8a78fcfc604d4b608ed679",
+        "sourceIDATExact": true,
+        "sourceIENDExact": true,
+        "sourceIHDRExact": true
+      },
+      "id": "grayscaleAlpha8NonInterlaced",
+      "role": "scan-order control for the grayscaleAlpha8 Adam7 case",
+      "source": {
+        "byteCount": 126,
+        "chunks": [
+          "IHDR",
+          "gAMA",
+          "IDAT",
+          "IEND"
+        ],
+        "file": "source-basn4a08.png",
+        "idatByteCount": 53,
+        "idatSHA256": "dc15f3540e45726fb10704ab80ae6dcae04c463d02e9496a20c3ac68dfe0fa98",
+        "modified": false,
+        "sha256": "7be24b618bfd437b921ae0caf9341d112338c6290cc62466deb19d2c7a512968"
+      },
+      "sourceBitsPerPixel": 16,
+      "upstreamPath": "png/basn4a08.png"
+    }
+  ],
+  "fixtureSetID": "imagecraft-independent-png-adam7-channels-pngsuite-v1",
+  "schemaVersion": 1,
+  "upstream": {
+    "license": "PngSuite permission grant: use/copy/modify/distribute for any purpose without fee",
+    "licenseNotice": "PngSuite.LICENSE",
+    "licensePath": "LICENSE",
+    "repositoryURL": "https://github.com/lunapaint/pngsuite.git",
+    "revision": "8cd768dd0d0063195174d0d01cacbd5a7d1e5605"
+  }
+}

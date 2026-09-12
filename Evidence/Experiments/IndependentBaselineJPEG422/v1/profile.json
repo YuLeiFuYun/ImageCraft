@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-INDEPENDENT-BASELINE-JPEG-422-V1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "geometryCases": [[1,1],[2,1],[3,1],[15,7],[16,8],[17,8],[16,9],[17,9],[31,13],[64,33]],
+  "patterns": ["neutral-gradient", "chroma-grid", "deterministic-noise"],
+  "qualities": [25,75,100],
+  "restartIntervalsMCUs": [1,2,5],
+  "claimBoundary": [
+    "This profile qualifies a package-only complete-input baseline JFIF 4:2:2 JPEG slice: 8-bit SOF0, component IDs 1/2/3, 2x1/1x1/1x1 sampling, one interleaved sequential Huffman scan, 8-bit DQT, optional DRI/RST and no DNL/arithmetic coding.",
+    "The decoder owns no frame-sized coefficient or sample surface. Its variable state is one 8-row full-resolution luma strip, one 8-row half-width Cb/Cr strip, two reconstructed full-width chroma rows and 512 bytes of coefficient/quantization/ISLOW scratch, with rows aligned to 64 bytes.",
+    "Generated geometry, content, quality and restart cases must match pinned libjpeg-turbo djpeg -rgb -dct int byte-for-byte. Exact operation charge must succeed and charge-1 must fail before output/state allocation.",
+    "Passing this profile qualifies only the package-owned baseline 4:2:2 research slice and its resource topology. It does not qualify progressive JPEG, other sampling modes, scaled IDCT, arbitrary color authorities or a default/public production backend."
+  ]
+}

@@ -22,6 +22,8 @@ let package = Package(
             dependencies: [
                 .product(name: "ImageCraftCore", package: "ImageCraft"),
                 .product(name: "ImageCraftImageIO", package: "ImageCraft"),
+                .product(name: "ImageCraftPDF", package: "ImageCraft"),
+                .product(name: "ImageCraftSVG", package: "ImageCraft"),
             ]
         ),
         .testTarget(
@@ -31,7 +33,12 @@ let package = Package(
                 .product(name: "ImageCraftCore", package: "ImageCraft"),
                 .product(name: "ImageCraftImageIO", package: "ImageCraft"),
             ],
-            resources: [.copy("Resources/jpeg-progressive-420.jpg")]
+            resources: [
+                .copy("Resources/jpeg-progressive-420.jpg"),
+                .copy("Resources/jpeg-baseline-420.jpg"),
+                .copy("Resources/jpeg-grayscale.jpg"),
+                .copy("Resources/jpeg-grayscale-19x11.rgb"),
+            ]
         ),
     ]
 )

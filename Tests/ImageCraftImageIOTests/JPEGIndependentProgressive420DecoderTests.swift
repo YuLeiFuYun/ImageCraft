@@ -217,18 +217,24 @@ final class JPEGIndependentProgressive420DecoderTests: XCTestCase {
 
   func testEXIFOrientationAuthorityFailsClosedBeforeIndependentRasterSemantics() throws {
     let control = try fixture(named: "jpeg-progressive-420.jpg")
-    let exif = Data([
-      0x45, 0x78, 0x69, 0x66, 0x00, 0x00,
-      0x49, 0x49, 0x2A, 0x00,
-      0x08, 0x00, 0x00, 0x00,
-      0x01, 0x00,
-      0x12, 0x01,
-      0x03, 0x00,
-      0x01, 0x00, 0x00, 0x00,
-      0x06, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00
-    ])
-    let hostile = try insertingAPPAfterFirstSegment(marker: 0xE1, payload: exif, into: control)
+    func exifOrientation(_ orientation: UInt16) -> Data {
+      Data([
+        0x45, 0x78, 0x69, 0x66, 0x00, 0x00,
+        0x49, 0x49, 0x2A, 0x00,
+        0x08, 0x00, 0x00, 0x00,
+        0x01, 0x00,
+        0x12, 0x01,
+        0x03, 0x00,
+        0x01, 0x00, 0x00, 0x00,
+        UInt8(orientation & 0xFF), UInt8(orientation >> 8), 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+      ])
+    }
+    let hostile = try insertingAPPAfterFirstSegment(
+      marker: 0xE1,
+      payload: exifOrientation(6),
+      into: control
+    )
     let imageIOProbe = try ImageIOImageDecoder().probe(data: hostile, limits: .coreV1)
     XCTAssertEqual(imageIOProbe.orientation, 6)
     XCTAssertEqual(imageIOProbe.pixelWidth, 13)
@@ -253,6 +259,153 @@ final class JPEGIndependentProgressive420DecoderTests: XCTestCase {
       )
     }
     XCTAssertEqual(session.snapshot().phase, .terminal)
+
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(
+        maximumOperationByteCharge: 1_000_000,
+        metadataPolicy: .identityOrientationExifOnly
+      ).decode(hostile)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+
+    let identity = try insertingAPPAfterFirstSegment(
+      marker: 0xE1,
+      payload: exifOrientation(1),
+      into: control
+    )
+    let plan = try JPEGIndependentProgressive420StatePlan.inspect(control)
+    let outputByteCount = plan.width * plan.height * 3
+    let oneShotCharge = plan.totalStateBytes + outputByteCount
+    let reference = try JPEGIndependentProgressive420Decoder(
+      maximumOperationByteCharge: oneShotCharge
+    ).decode(control)
+
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(maximumOperationByteCharge: oneShotCharge)
+        .decode(identity)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+    let accepted = try JPEGIndependentProgressive420Decoder(
+      maximumOperationByteCharge: oneShotCharge,
+      metadataPolicy: .identityOrientationExifOnly
+    ).decode(identity)
+    XCTAssertEqual(accepted.rgb, reference.rgb)
+
+    let duplicateIdentity = try insertingAPPAfterFirstSegment(
+      marker: 0xE1,
+      payload: exifOrientation(1),
+      into: identity
+    )
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(
+        maximumOperationByteCharge: oneShotCharge,
+        metadataPolicy: .identityOrientationExifOnly
+      ).decode(duplicateIdentity)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+
+    let publicSession = try BoundedProgressiveJPEG420Session(
+      maximumCodecOwnedByteCharge: 1_000_000
+    )
+    XCTAssertThrowsError(try publicSession.append(identity)) { error in
+      XCTAssertEqual(
+        error as? BoundedProgressiveJPEG420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+
+    let identityPlan = try JPEGIndependentProgressive420StatePlan.inspect(identity)
+    let sessionCharge = try JPEGIndependentProgressive420Decoder.IncrementalSession
+      .requiredOperationPeakByteCharge(
+        statePlan: identityPlan,
+        outputByteCount: outputByteCount
+      )
+    let acceptedSession = try JPEGIndependentProgressive420Decoder.IncrementalSession(
+      maximumCodecOwnedByteCharge: sessionCharge,
+      previewCadence: .finalOnly,
+      metadataPolicy: .identityOrientationExifOnly
+    )
+    for byte in identity {
+      _ = try acceptedSession.append(Data([byte]))
+    }
+    XCTAssertEqual(try acceptedSession.finish().rgb, reference.rgb)
+
+    let duplicateIdentitySession = try JPEGIndependentProgressive420Decoder.IncrementalSession(
+      maximumCodecOwnedByteCharge: sessionCharge,
+      previewCadence: .finalOnly,
+      metadataPolicy: .identityOrientationExifOnly
+    )
+    XCTAssertThrowsError(try duplicateIdentitySession.append(duplicateIdentity)) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+    XCTAssertEqual(duplicateIdentitySession.snapshot().phase, .terminal)
+
+    let adapter = try JPEGIndependentProgressive420SessionQualification(
+      maximumCodecOwnedByteCharge: sessionCharge,
+      metadataPolicy: .identityOrientationExifOnly
+    )
+    _ = try adapter.append(identity)
+    _ = try XCTUnwrap(adapter.packedRGB8FinalizationResourceLedger())
+    XCTAssertEqual(try adapter.finishWithPackedRGB8().image.data, reference.rgb)
+
+    var extraTagExif = exifOrientation(1)
+    extraTagExif[14] = 0x02
+    extraTagExif.insert(
+      contentsOf: [
+        0x32, 0x01, 0x02, 0x00,
+        0x02, 0x00, 0x00, 0x00,
+        0x78, 0x00, 0x00, 0x00
+      ],
+      at: 28
+    )
+    let extraTagSource = try insertingAPPAfterFirstSegment(
+      marker: 0xE1,
+      payload: extraTagExif,
+      into: control
+    )
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(
+        maximumOperationByteCharge: oneShotCharge,
+        metadataPolicy: .identityOrientationExifOnly
+      ).decode(extraTagSource)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+
+    let xmpSource = try insertingAPPAfterFirstSegment(
+      marker: 0xE1,
+      payload: Data("http://ns.adobe.com/xap/1.0/\u{0}<x/>".utf8),
+      into: control
+    )
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(
+        maximumOperationByteCharge: oneShotCharge,
+        metadataPolicy: .identityOrientationExifOnly
+      ).decode(xmpSource)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
   }
 
   func testMPFAuxiliaryAuthorityFailsClosed() throws {
@@ -291,16 +444,24 @@ final class JPEGIndependentProgressive420DecoderTests: XCTestCase {
       materializePNGICCProfile: false,
       materializeJPEGICCProfile: false
     )
-    var enriched = try insertingAPPAfterFirstSegment(
-      marker: 0xED,
-      payload: Data(repeating: 0x41, count: 31),
-      into: control
-    )
-    enriched = try insertingAPPAfterFirstSegment(
-      marker: 0xED,
-      payload: Data(repeating: 0x42, count: 17),
-      into: enriched
-    )
+    func insertingCOM(_ payload: Data, into jpeg: Data) throws -> Data {
+      let app0Offset = try firstMarkerOffset(marker: 0xE0, in: jpeg)
+      let app0 = try firstSegment(marker: 0xE0, in: jpeg)
+      let insertionOffset = app0Offset + app0.count
+      let segmentLength = payload.count + 2
+      guard segmentLength <= Int(UInt16.max) else {
+        throw ImageCraftError.metadataLimitExceeded
+      }
+      var segment = Data([
+        0xFF, 0xFE,
+        UInt8((segmentLength >> 8) & 0xFF), UInt8(segmentLength & 0xFF),
+      ])
+      segment.append(payload)
+      var result = jpeg
+      result.insert(contentsOf: segment, at: insertionOffset)
+      return result
+    }
+    let enriched = try insertingCOM(Data(repeating: 0x41, count: 48), into: control)
     let inspection = try EncodedImageSecurityInspector.inspect(
       enriched,
       maximumMetadataBytes: DecodeLimits.coreV1.maximumMetadataBytes,
@@ -424,10 +585,15 @@ final class JPEGIndependentProgressive420DecoderTests: XCTestCase {
     let original = try fixture(named: "jpeg-progressive-420.jpg")
     let insertionOffset = try firstMarkerOffset(marker: 0xDB, in: original)
 
-    func sourceWithAdobeTransform(_ transform: UInt8) -> Data {
+    func adobeSegment(_ transform: UInt8) -> Data {
       var app14 = Data([0xFF, 0xEE, 0x00, 0x0E])
       app14.append(Data("Adobe".utf8))
       app14.append(contentsOf: [0x00, 0x64, 0x00, 0x00, 0x00, 0x00, transform])
+      return app14
+    }
+
+    func sourceWithAdobeTransform(_ transform: UInt8) -> Data {
+      let app14 = adobeSegment(transform)
       var result = Data()
       result.reserveCapacity(original.count + app14.count)
       result.append(original.prefix(insertionOffset))
@@ -456,6 +622,34 @@ final class JPEGIndependentProgressive420DecoderTests: XCTestCase {
     _ = try acceptedSession.append(yCbCr)
     XCTAssertEqual(try acceptedSession.finish().rgb, reference.rgb)
 
+    var duplicateAdobe = Data()
+    duplicateAdobe.reserveCapacity(original.count + adobeSegment(1).count * 2)
+    duplicateAdobe.append(original.prefix(insertionOffset))
+    duplicateAdobe.append(adobeSegment(1))
+    duplicateAdobe.append(adobeSegment(1))
+    duplicateAdobe.append(original.dropFirst(insertionOffset))
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(
+        maximumOperationByteCharge: yCbCrPlan.totalStateBytes + outputByteCount
+      ).decode(duplicateAdobe)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+    let duplicateAdobeSession = try JPEGIndependentProgressive420Decoder.IncrementalSession(
+      maximumCodecOwnedByteCharge: sessionCharge,
+      previewCadence: .finalOnly
+    )
+    XCTAssertThrowsError(try duplicateAdobeSession.append(duplicateAdobe)) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+    XCTAssertEqual(duplicateAdobeSession.snapshot().phase, .terminal)
+
     for conflictingTransform in [UInt8(0), UInt8(2)] {
       let conflicting = sourceWithAdobeTransform(conflictingTransform)
       XCTAssertThrowsError(
@@ -481,6 +675,208 @@ final class JPEGIndependentProgressive420DecoderTests: XCTestCase {
       XCTAssertEqual(rejectingSession.snapshot().phase, .terminal)
       XCTAssertEqual(rejectingSession.snapshot().resourceLedger, .terminal)
     }
+
+    XCTAssertGreaterThanOrEqual(original.count, 20)
+    XCTAssertEqual(Array(original[0..<4]), [0xFF, 0xD8, 0xFF, 0xE0])
+    let jfifLength = Int(original[4]) << 8 | Int(original[5])
+    let jfifEnd = 2 + 2 + jfifLength
+    XCTAssertLessThan(jfifEnd, original.count)
+    var standaloneAdobe = Data(original.prefix(2))
+    standaloneAdobe.append(adobeSegment(1))
+    standaloneAdobe.append(original.dropFirst(jfifEnd))
+
+    let standalonePlan = try JPEGIndependentProgressive420StatePlan.inspect(standaloneAdobe)
+    XCTAssertEqual(standalonePlan, yCbCrPlan)
+    let standaloneCharge = standalonePlan.totalStateBytes + outputByteCount
+
+    XCTAssertThrowsError(
+      try JPEGIndependentProgressive420Decoder(
+        maximumOperationByteCharge: standaloneCharge
+      ).decode(standaloneAdobe)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentProgressive420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+
+    let packageOptIn = try JPEGIndependentProgressive420Decoder(
+      maximumOperationByteCharge: standaloneCharge,
+      colorAuthorityPolicy: .jfifOrAdobeYCbCr
+    ).decode(standaloneAdobe)
+    XCTAssertEqual(packageOptIn.rgb, reference.rgb)
+    XCTAssertEqual(packageOptIn.scanCount, reference.scanCount)
+
+    let standaloneSessionCharge = try JPEGIndependentProgressive420Decoder.IncrementalSession
+      .requiredOperationPeakByteCharge(
+        statePlan: standalonePlan,
+        outputByteCount: outputByteCount
+      )
+    let packageOptInSession = try JPEGIndependentProgressive420Decoder.IncrementalSession(
+      maximumCodecOwnedByteCharge: standaloneSessionCharge,
+      previewCadence: .finalOnly,
+      colorAuthorityPolicy: .jfifOrAdobeYCbCr
+    )
+    var chunkOffset = 0
+    while chunkOffset < standaloneAdobe.count {
+      let end = min(standaloneAdobe.count, chunkOffset + 7)
+      _ = try packageOptInSession.append(standaloneAdobe.subdata(in: chunkOffset..<end))
+      chunkOffset = end
+    }
+    XCTAssertEqual(try packageOptInSession.finish().rgb, reference.rgb)
+
+    let qualifiedAdapter = try JPEGIndependentProgressive420SessionQualification(
+      maximumCodecOwnedByteCharge: standaloneSessionCharge,
+      previewCadence: .finalOnly,
+      colorAuthorityPolicy: .jfifOrAdobeYCbCr
+    )
+    chunkOffset = 0
+    while chunkOffset < standaloneAdobe.count {
+      let end = min(standaloneAdobe.count, chunkOffset + 11)
+      XCTAssertNil(try qualifiedAdapter.append(standaloneAdobe.subdata(in: chunkOffset..<end)))
+      chunkOffset = end
+    }
+    let adapterLedger = try XCTUnwrap(qualifiedAdapter.packedRGB8FinalizationResourceLedger())
+    XCTAssertEqual(adapterLedger.outputLayoutAuthority, .codecOwnedRGB8)
+    let packedAdobe = try qualifiedAdapter.finishWithPackedRGB8()
+    XCTAssertEqual(packedAdobe.image.data, reference.rgb)
+    XCTAssertEqual(packedAdobe.image.colorEncoding, .sRGB)
+    XCTAssertEqual(packedAdobe.image.sourceColorProfile, .absent)
+
+    let publicSession = try BoundedProgressiveJPEG420Session(
+      maximumCodecOwnedByteCharge: standaloneSessionCharge
+    )
+    XCTAssertThrowsError(try publicSession.append(standaloneAdobe)) { error in
+      XCTAssertEqual(
+        error as? BoundedProgressiveJPEG420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+  }
+
+  func testUnqualifiedApplicationAndStructuralMarkersFailClosed() throws {
+    let original = try fixture(named: "jpeg-progressive-420.jpg")
+    let insertionOffset = try firstMarkerOffset(marker: 0xDB, in: original)
+    let originalPlan = try JPEGIndependentProgressive420StatePlan.inspect(original)
+    let outputByteCount = originalPlan.width * originalPlan.height * 3
+    let oneShotCharge = originalPlan.totalStateBytes + outputByteCount
+    let sessionCharge = try JPEGIndependentProgressive420Decoder.IncrementalSession
+      .requiredOperationPeakByteCharge(
+        statePlan: originalPlan,
+        outputByteCount: outputByteCount
+      )
+
+    func inserting(_ marker: UInt8, payload: Data = Data([0x4D, 0x4D])) -> Data {
+      let markerLength = payload.count + 2
+      var segment = Data([
+        0xFF, marker,
+        UInt8(markerLength >> 8), UInt8(markerLength & 0xFF),
+      ])
+      segment.append(payload)
+      var result = Data()
+      result.reserveCapacity(original.count + segment.count)
+      result.append(original.prefix(insertionOffset))
+      result.append(segment)
+      result.append(original.dropFirst(insertionOffset))
+      return result
+    }
+
+    let hostileSegments: [(UInt8, Data)] = [
+      (0xE0, Data("JFXX\u{0}".utf8)),
+      (0xE1, Data("opaque-app1".utf8)),
+      (0xE2, Data("opaque-app2".utf8)),
+      (0xE3, Data([0x4D, 0x4D])),
+      (0xEE, Data("not-adobe".utf8)),
+      (0xDE, Data([0x00, 0x00])),
+      (0xF0, Data([0x00, 0x00])),
+    ]
+    for (marker, payload) in hostileSegments {
+      let source = inserting(marker, payload: payload)
+      XCTAssertEqual(try JPEGIndependentProgressive420StatePlan.inspect(source), originalPlan)
+      XCTAssertThrowsError(
+        try JPEGIndependentProgressive420Decoder(
+          maximumOperationByteCharge: oneShotCharge
+        ).decode(source)
+      ) { error in
+        XCTAssertEqual(
+          error as? JPEGIndependentProgressive420Error,
+          .unsupportedSourceSemantics
+        )
+      }
+
+      let session = try JPEGIndependentProgressive420Decoder.IncrementalSession(
+        maximumCodecOwnedByteCharge: sessionCharge,
+        previewCadence: .finalOnly
+      )
+      XCTAssertThrowsError(try session.append(source)) { error in
+        XCTAssertEqual(
+          error as? JPEGIndependentProgressive420Error,
+          .unsupportedSourceSemantics
+        )
+      }
+      XCTAssertEqual(session.snapshot().phase, .terminal)
+      XCTAssertEqual(session.snapshot().resourceLedger, .terminal)
+    }
+
+    let publicSession = try BoundedProgressiveJPEG420Session(
+      maximumCodecOwnedByteCharge: sessionCharge
+    )
+    XCTAssertThrowsError(try publicSession.append(inserting(0xE3))) { error in
+      XCTAssertEqual(
+        error as? BoundedProgressiveJPEG420Error,
+        .unsupportedSourceSemantics
+      )
+    }
+  }
+
+  func testCOMRemainsOpaqueMetadataWithExactPixelIdentity() throws {
+    let original = try fixture(named: "jpeg-progressive-420.jpg")
+    let insertionOffset = try firstMarkerOffset(marker: 0xDB, in: original)
+    let payload = Data("qualified opaque comment".utf8)
+    let markerLength = payload.count + 2
+    var comment = Data([
+      0xFF, 0xFE,
+      UInt8(markerLength >> 8), UInt8(markerLength & 0xFF),
+    ])
+    comment.append(payload)
+    var source = Data()
+    source.reserveCapacity(original.count + comment.count)
+    source.append(original.prefix(insertionOffset))
+    source.append(comment)
+    source.append(original.dropFirst(insertionOffset))
+
+    let plan = try JPEGIndependentProgressive420StatePlan.inspect(source)
+    let outputByteCount = plan.width * plan.height * 3
+    let reference = try JPEGIndependentProgressive420Decoder(
+      maximumOperationByteCharge: plan.totalStateBytes + outputByteCount
+    ).decode(original)
+    let oneShot = try JPEGIndependentProgressive420Decoder(
+      maximumOperationByteCharge: plan.totalStateBytes + outputByteCount,
+      maximumMetadataBytes: 14 + payload.count
+    ).decode(source)
+    XCTAssertEqual(oneShot.rgb, reference.rgb)
+
+    let sessionCharge = try JPEGIndependentProgressive420Decoder.IncrementalSession
+      .requiredOperationPeakByteCharge(statePlan: plan, outputByteCount: outputByteCount)
+    let limits = DecodeLimits(
+      maximumEncodedBytes: DecodeLimits.coreV1.maximumEncodedBytes,
+      maximumPixelCount: DecodeLimits.coreV1.maximumPixelCount,
+      maximumFrameCount: DecodeLimits.coreV1.maximumFrameCount,
+      maximumMetadataBytes: 14 + payload.count,
+      allowedFormats: DecodeLimits.coreV1.allowedFormats
+    )
+    let session = try JPEGIndependentProgressive420Decoder.IncrementalSession(
+      maximumCodecOwnedByteCharge: sessionCharge,
+      limits: limits,
+      previewCadence: .finalOnly
+    )
+    var offset = 0
+    while offset < source.count {
+      let end = min(source.count, offset + 5)
+      _ = try session.append(source.subdata(in: offset..<end))
+      offset = end
+    }
+    XCTAssertEqual(try session.finish().rgb, reference.rgb)
   }
 
   func testTruncatedJFIFAuthorityFailsClosedInsteadOfUsingSignatureOnly() throws {

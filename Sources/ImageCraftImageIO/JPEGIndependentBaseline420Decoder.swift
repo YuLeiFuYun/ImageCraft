@@ -484,7 +484,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
   ) throws {
     state.clearCoefficientBlock()
     try state.loadQuantization(from: input, range: component.quantizationRange)
-    try decodeSequentialBlock(
+    try Self.decodeSequentialBlock(
       input: input,
       dcTable: component.dcHuffman,
       acTable: component.acHuffman,
@@ -517,7 +517,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
     )
   }
 
-  private func decodeSequentialBlock(
+  package static func decodeSequentialBlock(
     input: UnsafeBufferPointer<UInt8>,
     dcTable: HuffmanTableReference,
     acTable: HuffmanTableReference,
@@ -560,7 +560,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
     }
   }
 
-  private func decodeHuffmanSymbol(
+  package static func decodeHuffmanSymbol(
     input: UnsafeBufferPointer<UInt8>,
     table: HuffmanTableReference,
     reader: inout EntropyBitReader
@@ -584,7 +584,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
     throw ImageCraftError.unsupportedOrCorruptImage
   }
 
-  private func receiveExtend(bitCount: Int, reader: inout EntropyBitReader) throws -> Int {
+  package static func receiveExtend(bitCount: Int, reader: inout EntropyBitReader) throws -> Int {
     guard (0...16).contains(bitCount) else { throw ImageCraftError.unsupportedOrCorruptImage }
     if bitCount == 0 { return 0 }
     let value = Int(try reader.readBits(bitCount))
@@ -592,19 +592,45 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
     return value >= threshold ? value : value - ((1 << bitCount) - 1)
   }
 
-  private struct HuffmanTableReference: Sendable {
+  package struct HuffmanTableReference: Sendable {
     let countsRange: Range<Int>
     let symbolsRange: Range<Int>
     let symbolCount: Int
   }
 
-  private struct ScanComponent: Sendable {
+  package struct ScanComponent: Sendable {
     let quantizationRange: Range<Int>
     let dcHuffman: HuffmanTableReference
     let acHuffman: HuffmanTableReference
   }
 
-  private struct DecodePlan: Sendable {
+  package enum ColorSampling: Sendable {
+    case h2v2
+    case h2v1
+
+    var ySampling: UInt8 {
+      switch self {
+      case .h2v2: return 0x22
+      case .h2v1: return 0x21
+      }
+    }
+
+    var mcuHeight: Int {
+      switch self {
+      case .h2v2: return 16
+      case .h2v1: return 8
+      }
+    }
+
+    var chromaVerticalDivisor: Int {
+      switch self {
+      case .h2v2: return 2
+      case .h2v1: return 1
+      }
+    }
+  }
+
+  package struct DecodePlan: Sendable {
     let width: Int
     let height: Int
     let chromaWidth: Int
@@ -629,7 +655,10 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
       let end: Int
     }
 
-    static func inspect(_ data: Data) throws -> Self {
+    static func inspect(
+      _ data: Data,
+      sampling: ColorSampling = .h2v2
+    ) throws -> Self {
       try data.withUnsafeBytes { raw in
         let bytes = raw.bindMemory(to: UInt8.self)
         guard bytes.count >= 4, bytes[0] == 0xFF, bytes[1] == 0xD8 else {
@@ -637,6 +666,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
         }
         var offset = 2
         var sawJFIF = false
+        var sawAdobeYCbCr = false
         var hasProcessedMarkerAfterSOI = false
         var width: Int?
         var height: Int?
@@ -666,27 +696,33 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
           offset = segment.end
           switch marker {
           case 0xE0:
-            if let qualified = JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
+            guard JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
               bytes,
               payload: segment.payload
-            ) {
-              guard qualified, isFirstMarkerAfterSOI else {
-                throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
-              }
-              sawJFIF = true
-            }
-          case 0xEE:
-            if JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
-              bytes,
-              payload: segment.payload
-            ) == false {
+            ) == true,
+              isFirstMarkerAfterSOI
+            else {
               throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
             }
+            sawJFIF = true
+          case 0xE1...0xED, 0xEF:
+            throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
+          case 0xEE:
+            guard !sawAdobeYCbCr,
+              JPEGIndependentJFIFColorAuthority.adobeAPP14IsQualifiedYCbCr(
+              bytes,
+              payload: segment.payload
+            ) == true else {
+              throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
+            }
+            sawAdobeYCbCr = true
+          case 0xFE:
+            continue
           case 0xC0:
             guard frameY == nil, frameCb == nil, frameCr == nil else {
               throw ImageCraftError.unsupportedOrCorruptImage
             }
-            let frame = try parseFrame(bytes, segment: segment)
+            let frame = try parseFrame(bytes, segment: segment, sampling: sampling)
             width = frame.width
             height = frame.height
             frameY = frame.y
@@ -731,10 +767,11 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
               quantizationRanges: quantizationRanges,
               dcTables: dcTables,
               acTables: acTables,
-              restartInterval: restartInterval
+              restartInterval: restartInterval,
+              sampling: sampling
             )
           default:
-            continue
+            throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
           }
         }
         throw ImageCraftError.unsupportedOrCorruptImage
@@ -743,7 +780,8 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
 
     private static func parseFrame(
       _ bytes: UnsafeBufferPointer<UInt8>,
-      segment: Segment
+      segment: Segment,
+      sampling: ColorSampling
     ) throws -> (width: Int, height: Int, y: FrameComponent, cb: FrameComponent, cr: FrameComponent) {
       guard segment.payload.count == 15 else {
         throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
@@ -768,7 +806,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
       return (
         width,
         height,
-        try component(0, expectedID: 1, expectedSampling: 0x22),
+        try component(0, expectedID: 1, expectedSampling: sampling.ySampling),
         try component(1, expectedID: 2, expectedSampling: 0x11),
         try component(2, expectedID: 3, expectedSampling: 0x11)
       )
@@ -860,7 +898,8 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
       quantizationRanges: [Range<Int>?],
       dcTables: [HuffmanTableReference?],
       acTables: [HuffmanTableReference?],
-      restartInterval: Int
+      restartInterval: Int,
+      sampling: ColorSampling
     ) throws -> Self {
       guard segment.payload.count == 10 else {
         throw JPEGIndependentBaseline420Error.unsupportedSourceSemantics
@@ -895,10 +934,13 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
       }
 
       let mcuColumns = try JPEGIndependentBaseline420Decoder.ceilDiv(width, 16)
-      let mcuRows = try JPEGIndependentBaseline420Decoder.ceilDiv(height, 16)
+      let mcuRows = try JPEGIndependentBaseline420Decoder.ceilDiv(height, sampling.mcuHeight)
       let totalMCUs = try JPEGIndependentBaseline420Decoder.multiplied(mcuColumns, mcuRows)
       let chromaWidth = try JPEGIndependentBaseline420Decoder.ceilDiv(width, 2)
-      let chromaHeight = try JPEGIndependentBaseline420Decoder.ceilDiv(height, 2)
+      let chromaHeight = try JPEGIndependentBaseline420Decoder.ceilDiv(
+        height,
+        sampling.chromaVerticalDivisor
+      )
       return Self(
         width: width,
         height: height,
@@ -1150,7 +1192,7 @@ package struct JPEGIndependentBaseline420Decoder: Sendable {
     }
   }
 
-  private struct EntropyBitReader {
+  package struct EntropyBitReader {
     let bytes: UnsafeBufferPointer<UInt8>
     var offset: Int
     private var currentByte: UInt8 = 0

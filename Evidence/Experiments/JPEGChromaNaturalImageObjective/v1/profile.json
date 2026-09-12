@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "profileID": "IMAGECRAFT-JPEG-CHROMA-NATURAL-IMAGE-OBJECTIVE-V1",
+  "corpusManifest": "Evidence/Fixtures/ProgressiveJPEGRealPhoto/v1/manifest.json",
+  "sourceIDs": [
+    "people-usda-meeting",
+    "landscape-coconino-sunflowers",
+    "architecture-usda-snow",
+    "animal-usda-cow-sunset"
+  ],
+  "encodedVariantScanScriptID": "default-successive-v1",
+  "requiredLibJPEGTurboVersionPrefix": "libjpeg-turbo version 3.2.0",
+  "objective": {
+    "primary": "meanRGBChannelBlockSSIM8x8",
+    "direction": "maximize",
+    "tieBreak": "meanAbsoluteRGBCodeDifference",
+    "tieBreakDirection": "minimize",
+    "blockWidth": 8,
+    "blockHeight": 8,
+    "ssimK1": 0.01,
+    "ssimK2": 0.03,
+    "sampleRange": 255.0,
+    "varianceConvention": "population"
+  },
+  "candidates": [
+    {"id": "fancy-h-fancy-v", "horizontal": "fancy", "vertical": "fancy"},
+    {"id": "fancy-h-adaptive-v3", "horizontal": "fancy", "vertical": "adaptive-v3"},
+    {"id": "fancy-h-nearest-v", "horizontal": "fancy", "vertical": "nearest"},
+    {"id": "nearest-h-fancy-v", "horizontal": "nearest", "vertical": "fancy"},
+    {"id": "nearest-h-nearest-v", "horizontal": "nearest", "vertical": "nearest"}
+  ],
+  "claimBoundary": [
+    "The source reference is the pinned decoded public-domain thumbnail already retained by the progressive real-photo corpus; it is not a camera-raw ground truth.",
+    "The objective is fixed before capture: mean per-channel non-overlapping 8x8 block SSIM, with RGB MAE only as an exact-score tie-break. It is an explicit engineering objective, not a validated human-opinion score.",
+    "All candidates share the same encoded JPEG, post-IDCT Y/Cb/Cr planes and integer YCbCr-to-RGB transform. Only chroma reconstruction changes.",
+    "For each retained source, every retained progressive scan script must produce the same final libjpeg PPM SHA-256, and the fancy-H/fancy-V candidate must reproduce that final variant RGB byte-for-byte before objective ranking is accepted.",
+    "The v3 adaptive candidate is retained as a known non-universal heuristic. Winning or losing this corpus cannot restore universal source-truth dominance.",
+    "Four photographs are a directional source-bound natural-image sample, not a population claim or default-backend qualification."
+  ]
+}

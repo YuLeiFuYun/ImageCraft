@@ -537,6 +537,494 @@ enum PNGScanlineRGBA8Decoder {
     }
   }
 
+  static func inflateAndDecodePremultipliedIndexedAdam7(
+    _ compressedZlib: Data,
+    width: Int,
+    height: Int,
+    bitDepth: Int,
+    indexedPalette: IndexedPaletteView
+  ) throws -> Data {
+    try inflateAndDecodePremultipliedIndexedAdam7Impl(
+      width: width,
+      height: height,
+      bitDepth: bitDepth,
+      indexedPalette: indexedPalette
+    ) {
+      expectedByteCount,
+      consume in
+      try RFC1950BoundedInflate.inflateStreaming(
+        compressedZlib,
+        expectedByteCount: expectedByteCount,
+        consume: consume
+      )
+    }
+  }
+
+  static func inflateAndDecodePremultipliedIndexedAdam7<Cursor: RFC1950StreamingByteCursor>(
+    cursor: Cursor,
+    width: Int,
+    height: Int,
+    bitDepth: Int,
+    indexedPalette: IndexedPaletteView
+  ) throws -> Data {
+    try inflateAndDecodePremultipliedIndexedAdam7Impl(
+      width: width,
+      height: height,
+      bitDepth: bitDepth,
+      indexedPalette: indexedPalette
+    ) {
+      expectedByteCount,
+      consume in
+      try RFC1950BoundedInflate.inflateStreaming(
+        cursor: cursor,
+        expectedByteCount: expectedByteCount,
+        consume: consume
+      )
+    }
+  }
+
+  private static func inflateAndDecodePremultipliedIndexedAdam7Impl(
+    width: Int,
+    height: Int,
+    bitDepth: Int,
+    indexedPalette: IndexedPaletteView,
+    inflate: (
+      _ expectedByteCount: Int,
+      _ consume: (UnsafeBufferPointer<UInt8>) throws -> Void
+    ) throws -> Void
+  ) throws -> Data {
+    guard width > 0, height > 0, [1, 2, 4, 8].contains(bitDepth) else {
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+    guard let passes = PNGAdam7Geometry.passes(width: width, height: height) else {
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+    var expectedInflatedByteCount = 0
+    for pass in passes {
+      let passRowBytes = try sourceRowByteCount(
+        width: pass.width,
+        sourceBitsPerPixel: bitDepth
+      )
+      let filteredRowBytes = passRowBytes.addingReportingOverflow(1)
+      guard !filteredRowBytes.overflow else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      let passBytes = filteredRowBytes.partialValue.multipliedReportingOverflow(by: pass.height)
+      guard !passBytes.overflow else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      let next = expectedInflatedByteCount.addingReportingOverflow(passBytes.partialValue)
+      guard !next.overflow else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      expectedInflatedByteCount = next.partialValue
+    }
+    let fullSourceRowBytes = try sourceRowByteCount(
+      width: width,
+      sourceBitsPerPixel: bitDepth
+    )
+    let rowStorageByteCount = fullSourceRowBytes.multipliedReportingOverflow(by: 2)
+    let outputRowBytes = width.multipliedReportingOverflow(by: 4)
+    let outputByteCount = outputRowBytes.partialValue.multipliedReportingOverflow(by: height)
+    guard !rowStorageByteCount.overflow,
+      !outputRowBytes.overflow,
+      !outputByteCount.overflow
+    else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+
+    let rowStorage = UnsafeMutablePointer<UInt8>.allocate(capacity: rowStorageByteCount.partialValue)
+    defer { rowStorage.deallocate() }
+    memset(rowStorage, 0, rowStorageByteCount.partialValue)
+    var previous = rowStorage
+    var current = rowStorage.advanced(by: fullSourceRowBytes)
+    var output = Data(count: outputByteCount.partialValue)
+    var passIndex = 0
+    var passRow = 0
+    var positionInFilteredRow = 0
+    var filter = UInt8(0)
+
+    try output.withUnsafeMutableBytes { outputRaw in
+      let destination = outputRaw.bindMemory(to: UInt8.self)
+      try inflate(expectedInflatedByteCount) { bytes in
+        var inputOffset = 0
+        while inputOffset < bytes.count {
+          guard passIndex < passes.count else {
+            throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+          }
+          let pass = passes[passIndex]
+          let passRowBytes = try sourceRowByteCount(
+            width: pass.width,
+            sourceBitsPerPixel: bitDepth
+          )
+          if positionInFilteredRow == 0 {
+            filter = bytes[inputOffset]
+            guard filter <= 4 else { throw PNGScanlineRGBA8Error.invalidFilter }
+            inputOffset += 1
+            positionInFilteredRow = 1
+            if inputOffset == bytes.count { continue }
+          }
+
+          let column = positionInFilteredRow - 1
+          guard column < passRowBytes else {
+            throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+          }
+          let copyCount = min(passRowBytes - column, bytes.count - inputOffset)
+          guard copyCount > 0, let inputBase = bytes.baseAddress else {
+            throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+          }
+          memcpy(
+            current.advanced(by: column),
+            inputBase.advanced(by: inputOffset),
+            copyCount
+          )
+          inputOffset += copyCount
+          positionInFilteredRow += copyCount
+
+          if positionInFilteredRow == passRowBytes + 1 {
+            try unfilterCurrentRowInPlace(
+              current,
+              previous: UnsafePointer(previous),
+              count: passRowBytes,
+              filter: filter,
+              bytesPerPixel: 1
+            )
+            try writePremultipliedAdam7IndexedRow(
+              UnsafePointer(current),
+              to: destination,
+              fullWidth: width,
+              pass: pass,
+              passRow: passRow,
+              bitDepth: bitDepth,
+              indexedPalette: indexedPalette
+            )
+            swap(&previous, &current)
+            passRow += 1
+            positionInFilteredRow = 0
+            if passRow == pass.height {
+              passIndex += 1
+              passRow = 0
+              if passIndex < passes.count {
+                memset(previous, 0, fullSourceRowBytes)
+              }
+            }
+          }
+        }
+      }
+    }
+    guard passIndex == passes.count, passRow == 0, positionInFilteredRow == 0 else {
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+    return output
+  }
+
+  @inline(__always)
+  private static func writePremultipliedAdam7IndexedRow(
+    _ source: UnsafePointer<UInt8>,
+    to destination: UnsafeMutableBufferPointer<UInt8>,
+    fullWidth: Int,
+    pass: PNGAdam7Geometry.Pass,
+    passRow: Int,
+    bitDepth: Int,
+    indexedPalette: IndexedPaletteView
+  ) throws {
+    guard passRow >= 0, passRow < pass.height, [1, 2, 4, 8].contains(bitDepth) else {
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+    let y = pass.yStart + passRow * pass.yStep
+    let mask = UInt8((1 << bitDepth) - 1)
+    for passColumn in 0..<pass.width {
+      let index: Int
+      if bitDepth == 8 {
+        index = Int(source[passColumn])
+      } else {
+        let bitOffset = passColumn * bitDepth
+        let byteOffset = bitOffset >> 3
+        let shift = 8 - bitDepth - (bitOffset & 7)
+        index = Int((source[byteOffset] >> UInt8(shift)) & mask)
+      }
+      guard index < indexedPalette.entryCount else {
+        throw PNGScanlineRGBA8Error.invalidPaletteIndex
+      }
+      let x = pass.xStart + passColumn * pass.xStep
+      let destinationOffset = (y * fullWidth + x) * 4
+      guard destinationOffset >= 0, destinationOffset + 3 < destination.count else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      let paletteOffset = index * 3
+      let alpha = index < indexedPalette.alphaCount
+        ? indexedPalette.alphaBase![index]
+        : UInt8(255)
+      let red = indexedPalette.rgbBase[paletteOffset]
+      let green = indexedPalette.rgbBase[paletteOffset + 1]
+      let blue = indexedPalette.rgbBase[paletteOffset + 2]
+      if alpha == 0 {
+        destination[destinationOffset] = 0
+        destination[destinationOffset + 1] = 0
+        destination[destinationOffset + 2] = 0
+      } else if alpha == 255 {
+        destination[destinationOffset] = red
+        destination[destinationOffset + 1] = green
+        destination[destinationOffset + 2] = blue
+      } else {
+        let alpha16 = UInt16(alpha)
+        destination[destinationOffset] = UInt8((UInt16(red) * alpha16 + 127) / 255)
+        destination[destinationOffset + 1] = UInt8((UInt16(green) * alpha16 + 127) / 255)
+        destination[destinationOffset + 2] = UInt8((UInt16(blue) * alpha16 + 127) / 255)
+      }
+      destination[destinationOffset + 3] = alpha
+    }
+  }
+
+  static func inflateAndDecodePremultipliedNonIndexedAdam7<Cursor: RFC1950StreamingByteCursor>(
+    cursor: Cursor,
+    width: Int,
+    height: Int,
+    sourceBitsPerPixel: Int,
+    grayscaleBitDepth: Int?,
+    transparentGraySample: UInt16?,
+    transparentRGB8: TransparentRGB8?,
+    transparentGray8: UInt8?
+  ) throws -> Data {
+    guard width > 0, height > 0,
+      [1, 2, 4, 8, 16, 24].contains(sourceBitsPerPixel),
+      let passes = PNGAdam7Geometry.passes(width: width, height: height)
+    else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+    switch sourceBitsPerPixel {
+    case 1, 2, 4:
+      guard grayscaleBitDepth == sourceBitsPerPixel,
+        transparentRGB8 == nil,
+        transparentGray8 == nil
+      else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+    case 8:
+      guard grayscaleBitDepth == nil,
+        transparentGraySample == nil,
+        transparentRGB8 == nil
+      else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+    case 16:
+      guard grayscaleBitDepth == nil,
+        transparentGraySample == nil,
+        transparentRGB8 == nil,
+        transparentGray8 == nil
+      else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+    case 24:
+      guard grayscaleBitDepth == nil,
+        transparentGraySample == nil,
+        transparentGray8 == nil
+      else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+    default:
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+
+    var expectedInflatedByteCount = 0
+    for pass in passes {
+      let passRowBytes = try sourceRowByteCount(
+        width: pass.width,
+        sourceBitsPerPixel: sourceBitsPerPixel
+      )
+      let filteredRowBytes = passRowBytes.addingReportingOverflow(1)
+      guard !filteredRowBytes.overflow else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      let passBytes = filteredRowBytes.partialValue.multipliedReportingOverflow(by: pass.height)
+      guard !passBytes.overflow else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      let next = expectedInflatedByteCount.addingReportingOverflow(passBytes.partialValue)
+      guard !next.overflow else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      expectedInflatedByteCount = next.partialValue
+    }
+
+    let fullSourceRowBytes = try sourceRowByteCount(
+      width: width,
+      sourceBitsPerPixel: sourceBitsPerPixel
+    )
+    let rowStorageByteCount = fullSourceRowBytes.multipliedReportingOverflow(by: 2)
+    let outputRowBytes = width.multipliedReportingOverflow(by: 4)
+    let outputByteCount = outputRowBytes.partialValue.multipliedReportingOverflow(by: height)
+    guard !rowStorageByteCount.overflow,
+      !outputRowBytes.overflow,
+      !outputByteCount.overflow
+    else { throw PNGScanlineRGBA8Error.decodedByteCountMismatch }
+    let filterBytesPerPixel = try filterBytesPerPixel(sourceBitsPerPixel: sourceBitsPerPixel)
+
+    let rowStorage = UnsafeMutablePointer<UInt8>.allocate(capacity: rowStorageByteCount.partialValue)
+    defer { rowStorage.deallocate() }
+    memset(rowStorage, 0, rowStorageByteCount.partialValue)
+    var previous = rowStorage
+    var current = rowStorage.advanced(by: fullSourceRowBytes)
+    var output = Data(count: outputByteCount.partialValue)
+    var passIndex = 0
+    var passRow = 0
+    var positionInFilteredRow = 0
+    var filter = UInt8(0)
+
+    try output.withUnsafeMutableBytes { outputRaw in
+      let destination = outputRaw.bindMemory(to: UInt8.self)
+      try RFC1950BoundedInflate.inflateStreaming(
+        cursor: cursor,
+        expectedByteCount: expectedInflatedByteCount
+      ) { bytes in
+        var inputOffset = 0
+        while inputOffset < bytes.count {
+          guard passIndex < passes.count else {
+            throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+          }
+          let pass = passes[passIndex]
+          let passRowBytes = try sourceRowByteCount(
+            width: pass.width,
+            sourceBitsPerPixel: sourceBitsPerPixel
+          )
+          if positionInFilteredRow == 0 {
+            filter = bytes[inputOffset]
+            guard filter <= 4 else { throw PNGScanlineRGBA8Error.invalidFilter }
+            inputOffset += 1
+            positionInFilteredRow = 1
+            if inputOffset == bytes.count { continue }
+          }
+          let column = positionInFilteredRow - 1
+          guard column < passRowBytes else {
+            throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+          }
+          let copyCount = min(passRowBytes - column, bytes.count - inputOffset)
+          guard copyCount > 0, let inputBase = bytes.baseAddress else {
+            throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+          }
+          memcpy(
+            current.advanced(by: column),
+            inputBase.advanced(by: inputOffset),
+            copyCount
+          )
+          inputOffset += copyCount
+          positionInFilteredRow += copyCount
+
+          if positionInFilteredRow == passRowBytes + 1 {
+            try unfilterCurrentRowInPlace(
+              current,
+              previous: UnsafePointer(previous),
+              count: passRowBytes,
+              filter: filter,
+              bytesPerPixel: filterBytesPerPixel
+            )
+            try writePremultipliedAdam7NonIndexedRow(
+              UnsafePointer(current),
+              to: destination,
+              fullWidth: width,
+              pass: pass,
+              passRow: passRow,
+              sourceBitsPerPixel: sourceBitsPerPixel,
+              grayscaleBitDepth: grayscaleBitDepth,
+              transparentGraySample: transparentGraySample,
+              transparentRGB8: transparentRGB8,
+              transparentGray8: transparentGray8
+            )
+            swap(&previous, &current)
+            passRow += 1
+            positionInFilteredRow = 0
+            if passRow == pass.height {
+              passIndex += 1
+              passRow = 0
+              if passIndex < passes.count {
+                memset(previous, 0, fullSourceRowBytes)
+              }
+            }
+          }
+        }
+      }
+    }
+    guard passIndex == passes.count, passRow == 0, positionInFilteredRow == 0 else {
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+    return output
+  }
+
+  @inline(__always)
+  private static func writePremultipliedAdam7NonIndexedRow(
+    _ source: UnsafePointer<UInt8>,
+    to destination: UnsafeMutableBufferPointer<UInt8>,
+    fullWidth: Int,
+    pass: PNGAdam7Geometry.Pass,
+    passRow: Int,
+    sourceBitsPerPixel: Int,
+    grayscaleBitDepth: Int?,
+    transparentGraySample: UInt16?,
+    transparentRGB8: TransparentRGB8?,
+    transparentGray8: UInt8?
+  ) throws {
+    guard passRow >= 0, passRow < pass.height else {
+      throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+    }
+    let y = pass.yStart + passRow * pass.yStep
+    for passColumn in 0..<pass.width {
+      let x = pass.xStart + passColumn * pass.xStep
+      let destinationOffset = (y * fullWidth + x) * 4
+      guard destinationOffset >= 0, destinationOffset + 3 < destination.count else {
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+      switch sourceBitsPerPixel {
+      case 1, 2, 4:
+        guard let bitDepth = grayscaleBitDepth, bitDepth == sourceBitsPerPixel else {
+          throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+        }
+        let bitOffset = passColumn * bitDepth
+        let byteOffset = bitOffset >> 3
+        let shift = 8 - bitDepth - (bitOffset & 7)
+        let maximumSample = (1 << bitDepth) - 1
+        let sample = Int((source[byteOffset] >> UInt8(shift)) & UInt8(maximumSample))
+        let gray = UInt8((sample * 255 + maximumSample / 2) / maximumSample)
+        let alpha: UInt8 = transparentGraySample.map { sample == Int($0) ? 0 : 255 } ?? 255
+        destination[destinationOffset] = alpha == 0 ? 0 : gray
+        destination[destinationOffset + 1] = alpha == 0 ? 0 : gray
+        destination[destinationOffset + 2] = alpha == 0 ? 0 : gray
+        destination[destinationOffset + 3] = alpha
+      case 8:
+        let gray = source[passColumn]
+        let alpha: UInt8 = transparentGray8.map { gray == $0 ? 0 : 255 } ?? 255
+        destination[destinationOffset] = alpha == 0 ? 0 : gray
+        destination[destinationOffset + 1] = alpha == 0 ? 0 : gray
+        destination[destinationOffset + 2] = alpha == 0 ? 0 : gray
+        destination[destinationOffset + 3] = alpha
+      case 16:
+        let sourceOffset = passColumn * 2
+        let gray = source[sourceOffset]
+        let alpha = source[sourceOffset + 1]
+        let premultiplied = premultiplied8(gray, alpha: alpha)
+        destination[destinationOffset] = premultiplied
+        destination[destinationOffset + 1] = premultiplied
+        destination[destinationOffset + 2] = premultiplied
+        destination[destinationOffset + 3] = alpha
+      case 24:
+        let sourceOffset = passColumn * 3
+        let red = source[sourceOffset]
+        let green = source[sourceOffset + 1]
+        let blue = source[sourceOffset + 2]
+        let alpha: UInt8
+        if let transparentRGB8,
+          red == transparentRGB8.red,
+          green == transparentRGB8.green,
+          blue == transparentRGB8.blue
+        {
+          alpha = 0
+        } else {
+          alpha = 255
+        }
+        destination[destinationOffset] = alpha == 0 ? 0 : red
+        destination[destinationOffset + 1] = alpha == 0 ? 0 : green
+        destination[destinationOffset + 2] = alpha == 0 ? 0 : blue
+        destination[destinationOffset + 3] = alpha
+      default:
+        throw PNGScanlineRGBA8Error.decodedByteCountMismatch
+      }
+    }
+  }
+
+  @inline(__always)
+  private static func premultiplied8(_ value: UInt8, alpha: UInt8) -> UInt8 {
+    if alpha == 0 { return 0 }
+    if alpha == 255 { return value }
+    return UInt8((UInt16(value) * UInt16(alpha) + 127) / 255)
+  }
+
   static func inflateAndDecodePremultipliedRGBA8Adam7(
     _ compressedZlib: Data,
     width: Int,

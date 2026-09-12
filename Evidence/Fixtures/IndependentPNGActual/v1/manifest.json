@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetID": "imagecraft-independent-png-actual-stream-v1",
+  "operationBudgetBytes": 2097152,
+  "claimBoundary": "Externally authored PNG file bytes are retained unchanged for actual-IDAT decode/performance evidence. Public-domain/source metadata applies to the retained Wikimedia file; this fixture does not claim to be the original spacecraft camera bitstream or an unmodified NASA master.",
+  "cases": [
+    {
+      "id": "pale-blue-dot-cropped-2-wikimedia",
+      "path": "pale-blue-dot-cropped-2.png",
+      "byteCount": 51068,
+      "sha256": "9bab84fbb5ef61a1d1c75fb2179ce5510c60a8d61dfabd961b96b950f2e80533",
+      "width": 200,
+      "height": 200,
+      "bitDepth": 8,
+      "colorType": 2,
+      "interlaceMethod": 0,
+      "sourceColorAuthority": "absent",
+      "requestColorPolicy": "convertToSRGB",
+      "idatChunkCount": 7,
+      "compressedIDATByteCount": 50918,
+      "repositoryCopyModified": false,
+      "sourceDerivative": true,
+      "sourcePageURL": "https://commons.wikimedia.org/wiki/File:Pale_Blue_Dot_(cropped_2).png",
+      "sourceFileURL": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Pale_Blue_Dot_%28cropped_2%29.png",
+      "sourceDescription": "Pale Blue Dot, 200x200 cropped derivative hosted by Wikimedia Commons",
+      "sourceCreator": "NASA / Voyager 1",
+      "sourceWorkDate": "1990-06-06",
+      "retrievedDate": "2026-09-12",
+      "licenseStatus": "public-domain-US-NASA",
+      "licensePageURL": "https://commons.wikimedia.org/wiki/File:Pale_Blue_Dot_(cropped_2).png"
+    }
+  ]
+}

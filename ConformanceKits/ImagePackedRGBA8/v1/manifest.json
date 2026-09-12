@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "kitID": "IMAGECRAFT-PACKED-RGBA8-CONFORMANCE-V1",
+  "contractVersion": 1,
+  "profileID": "IMAGECRAFT-BOUNDED-PNG-PACKED-RGBA8-V1",
+  "componentDependencies": {
+    "imageCraftContract": {
+      "packageIdentity": "ImageCraft",
+      "product": "ImageCraftCore",
+      "binding": "current-source-tree"
+    }
+  },
+  "factoryContract": {
+    "symbol": "PackedDecoderUnderTest",
+    "method": "make(maximumOperationByteCharge: Int) throws -> any ImagePackedRGBA8Decoding"
+  },
+  "fixtures": {
+    "manifest": "Fixtures/manifest.json",
+    "fixtureSetID": "IMAGECRAFT-PACKED-RGBA8-FIXTURES-V1"
+  },
+  "observationSchema": "observation-schema.json",
+  "harness": "Harness/ImagePackedRGBA8ConformanceTests.swift",
+  "obligations": [
+    {
+      "id": "IMAGECRAFT-PACKED-CT-001",
+      "summary": "The bounded packed producer has a stable current descriptor and advertises the fixed PNG complete-frame packed-RGBA8 request.",
+      "testName": "testDescriptorQualifiesBoundedPNGProfile_PACKED_CT_001"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-CT-002",
+      "summary": "The versioned sRGB PNG fixture probes deterministically to the exact qualified 2x1 single-frame facts.",
+      "testName": "testReferencePNGProbeIsDeterministic_PACKED_CT_002"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-CT-003",
+      "summary": "Preflight resource authority is deterministic, fully bounded for the profile, and publishes codec-owned RGBA8 output-layout authority.",
+      "testName": "testResourceLedgerIsBoundedDeterministicAndComposable_PACKED_CT_003"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-CT-004",
+      "summary": "The fixed PNG decodes deterministically to exact tight premultiplied RGBA8 bytes and the transfer ledger equals the returned value charge.",
+      "testName": "testReferencePNGDecodesExactPackedRGBA8_PACKED_CT_004"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-CT-005",
+      "summary": "Encoded-byte, format, dimension and pixel hard limits fail closed against the fixed PNG before any successful packed output is published.",
+      "testName": "testProbeHardLimitsFailClosed_PACKED_CT_005"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED-CT-006",
+      "summary": "A factory configured with an operation budget below the minimum possible output cannot successfully admit the reference PNG.",
+      "testName": "testHardOperationBudgetFailsClosed_PACKED_CT_006"
+    }
+  ],
+  "rules": {
+    "profileRequiresBoundedResourceAuthority": true,
+    "encodedSourceRemainsCallerOwned": true,
+    "referenceFixtureDoesNotProveBroadPNGSupport": true,
+    "releaseQualified": false,
+    "unsupportedOrSkippedFailsClosed": true
+  },
+  "supportedPlatforms": [
+    "macOS-12+"
+  ]
+}

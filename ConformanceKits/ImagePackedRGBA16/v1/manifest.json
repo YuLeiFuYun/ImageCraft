@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "kitID": "IMAGECRAFT-PACKED-RGBA16-CONFORMANCE-V1",
+  "contractVersion": 1,
+  "profileID": "IMAGECRAFT-BOUNDED-PNG-PACKED-RGBA16-V1",
+  "componentDependencies": {
+    "imageCraftContract": {
+      "packageIdentity": "ImageCraft",
+      "product": "ImageCraftCore",
+      "binding": "current-source-tree"
+    }
+  },
+  "factoryContract": {
+    "symbol": "PackedDecoderUnderTest",
+    "method": "make(maximumOperationByteCharge: Int) throws -> any ImagePackedRGBA16Decoding"
+  },
+  "fixtures": {
+    "manifest": "Fixtures/manifest.json",
+    "fixtureSetID": "IMAGECRAFT-PACKED-RGBA16-FIXTURES-V1"
+  },
+  "observationSchema": "observation-schema.json",
+  "harness": "Harness/ImagePackedRGBA16ConformanceTests.swift",
+  "obligations": [
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-001",
+      "summary": "The public straight-RGBA16LE value is externally constructible, exact, tightly packed, and rejects an invalid byte count.",
+      "testName": "testPublicStraightRGBA16ValueContract_PACKED16_CT_001"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-002",
+      "summary": "The fixed explicit-sRGB 16-bit PNG probes deterministically to the exact 2x1 single-frame facts and reports 16 source bits per component.",
+      "testName": "testReferencePNGProbeIsDeterministicAndHighDepth_PACKED16_CT_002"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-003",
+      "summary": "Preflight resource authority is deterministic, fully bounded for the profile, caller-source composable, and publishes straight-RGBA16LE layout authority.",
+      "testName": "testResourceLedgerIsBoundedDeterministicAndComposable_PACKED16_CT_003"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-004",
+      "summary": "The fixed PNG decodes deterministically to exact tight straight little-endian RGBA16 bytes and the transfer ledger equals the returned value charge.",
+      "testName": "testReferencePNGDecodesExactStraightRGBA16LE_PACKED16_CT_004"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-005",
+      "summary": "Encoded-byte, format, dimension and pixel hard limits fail closed against the fixed PNG before any successful packed output is published.",
+      "testName": "testProbeHardLimitsFailClosed_PACKED16_CT_005"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-006",
+      "summary": "Color conversion, high-dynamic-range requests, and target mismatch are outside the v1 public profile and fail closed at both ledger and decode boundaries.",
+      "testName": "testUnsupportedRequestSemanticsFailClosed_PACKED16_CT_006"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-007",
+      "summary": "Untagged and sBIT-bearing 16-bit PNG fixtures are outside the explicit-sRGB no-extra-metadata profile and fail closed before packed publication.",
+      "testName": "testUnsupportedSourceSemanticsFailBeforePackedPublication_PACKED16_CT_007"
+    },
+    {
+      "id": "IMAGECRAFT-PACKED16-CT-008",
+      "summary": "A factory configured with an operation budget below the minimum possible output cannot successfully admit the reference 16-bit PNG.",
+      "testName": "testHardOperationBudgetFailsClosed_PACKED16_CT_008"
+    }
+  ],
+  "rules": {
+    "profileRequiresBoundedResourceAuthority": true,
+    "encodedSourceRemainsCallerOwned": true,
+    "referenceFixtureDoesNotProveBroadPNGSupport": true,
+    "releaseQualified": false,
+    "unsupportedOrSkippedFailsClosed": true
+  },
+  "supportedPlatforms": [
+    "macOS-12+"
+  ]
+}

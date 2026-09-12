@@ -24,12 +24,16 @@ rm -f "$OUTPUT"/*.symbols.json
 
 cd "$ROOT"
 swift build --scratch-path "$SCRATCH" --target ImageCraftImageIO >/dev/null
+swift build --scratch-path "$SCRATCH" --target ImageCraftPDF >/dev/null
+swift build --scratch-path "$SCRATCH" --target ImageCraftSVG >/dev/null
 MODULE_PATH=$(
     find "$SCRATCH" \( -type f -o -type d \) -name ImageCraftCore.swiftmodule -print |
     while IFS= read -r CORE
     do
         CANDIDATE=$(dirname "$CORE")
-        if [ -e "$CANDIDATE/ImageCraftImageIO.swiftmodule" ]; then
+        if [ -e "$CANDIDATE/ImageCraftImageIO.swiftmodule" ] && \
+            [ -e "$CANDIDATE/ImageCraftPDF.swiftmodule" ] && \
+            [ -e "$CANDIDATE/ImageCraftSVG.swiftmodule" ]; then
             printf '%s\n' "$CANDIDATE"
         fi
     done |
@@ -47,7 +51,7 @@ case "$ARCH" in
 esac
 TARGET="${ARCH}-apple-macosx12.0"
 SDK=$(xcrun --sdk macosx --show-sdk-path)
-for MODULE in ImageCraftCore ImageCraftImageIO
+for MODULE in ImageCraftCore ImageCraftImageIO ImageCraftPDF ImageCraftSVG
 do
     xcrun swift-symbolgraph-extract \
         -module-name "$MODULE" \

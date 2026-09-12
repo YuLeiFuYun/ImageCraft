@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetID": "IMAGECRAFT-PROGRESSIVE-PACKED-RGB8-FIXTURES-V1",
+  "fixtures": [
+    {
+      "id": "progressive-jfif-420-reference",
+      "file": "reference-progressive-jfif-420.jpg",
+      "format": "jpeg",
+      "width": 23,
+      "height": 13,
+      "byteCount": 787,
+      "sha256": "f47fd3d50db29b29754b2ec45e10519f0eb2cecbd537d22a24bf6a7883ec9966",
+      "expectedRGB8ByteCount": 897,
+      "expectedRGB8SHA256": "c7807abef8ee1d20dcdaa4953e0767518aab1485578dca5a9ae7c0bb3d146861",
+      "expectedOperationPeakBytes": 6590
+    },
+    {
+      "id": "progressive-jfif-420-hostile-icc",
+      "file": "hostile-icc-progressive-jfif-420.jpg",
+      "format": "jpeg",
+      "byteCount": 806,
+      "sha256": "130d8ae28871eba3314cd3e09801453510b90b7678cc78bfc98979bc8464d591",
+      "expectedDisposition": "unsupported-source-semantics"
+    }
+  ]
+}

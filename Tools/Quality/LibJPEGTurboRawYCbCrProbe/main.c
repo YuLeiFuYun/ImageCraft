@@ -118,6 +118,14 @@ int main(int argc, char **argv) {
   size_t widths[COMPONENT_COUNT] = {0, 0, 0};
   size_t heights[COMPONENT_COUNT] = {0, 0, 0};
   size_t padded_heights[COMPONENT_COUNT] = {0, 0, 0};
+  int component_ids[COMPONENT_COUNT] = {0, 0, 0};
+  int horizontal_sampling[COMPONENT_COUNT] = {0, 0, 0};
+  int vertical_sampling[COMPONENT_COUNT] = {0, 0, 0};
+  const unsigned int output_width = cinfo.output_width;
+  const unsigned int output_height = cinfo.output_height;
+  const int progressive_mode = cinfo.progressive_mode;
+  const int max_horizontal_sampling = cinfo.max_h_samp_factor;
+  const int max_vertical_sampling = cinfo.max_v_samp_factor;
 
   for (int ci = 0; ci < COMPONENT_COUNT; ci++) {
     jpeg_component_info *component = &cinfo.comp_info[ci];
@@ -144,6 +152,9 @@ int main(int argc, char **argv) {
     widths[ci] = (size_t)component->downsampled_width;
     heights[ci] = (size_t)component->downsampled_height;
     padded_heights[ci] = padded_height;
+    component_ids[ci] = component->component_id;
+    horizontal_sampling[ci] = component->h_samp_factor;
+    vertical_sampling[ci] = component->v_samp_factor;
     if (widths[ci] == 0 || heights[ci] == 0 || widths[ci] > stride ||
         heights[ci] > padded_height) {
       fprintf(stderr, "raw plane visible geometry is invalid\n");
@@ -212,17 +223,16 @@ int main(int argc, char **argv) {
          "\"progressiveMode\":%s,"
          "\"dctMethod\":\"islow\",\"maxHorizontalSamplingFactor\":%d,"
          "\"maxVerticalSamplingFactor\":%d,\"components\":[",
-         cinfo.output_width, cinfo.output_height, error.warning_count,
-         cinfo.progressive_mode ? "true" : "false",
-         cinfo.max_h_samp_factor, cinfo.max_v_samp_factor);
+         output_width, output_height, error.warning_count,
+         progressive_mode ? "true" : "false",
+         max_horizontal_sampling, max_vertical_sampling);
   for (int ci = 0; ci < COMPONENT_COUNT; ci++) {
-    jpeg_component_info *component = &cinfo.comp_info[ci];
     if (ci != 0) printf(",");
     printf("{\"componentID\":%d,\"horizontalSamplingFactor\":%d,"
            "\"verticalSamplingFactor\":%d,\"width\":%zu,\"height\":%zu,"
            "\"paddedStride\":%zu,\"paddedHeight\":%zu}",
-           component->component_id, component->h_samp_factor,
-           component->v_samp_factor, widths[ci], heights[ci], strides[ci],
+           component_ids[ci], horizontal_sampling[ci],
+           vertical_sampling[ci], widths[ci], heights[ci], strides[ci],
            padded_heights[ci]);
   }
   printf("]}\n");

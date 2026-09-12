@@ -44,6 +44,11 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
     self.maximumMetadataBytes = maximumMetadataBytes
   }
 
+  package static func qualifiedJFIFDimensions(_ data: Data) throws -> (width: Int, height: Int) {
+    let plan = try DecodePlan.inspect(data, requiresJFIF: true)
+    return (plan.width, plan.height)
+  }
+
   package func decode(_ data: Data) throws -> JPEGIndependentBaselineGrayscaleImage {
     guard maximumOperationByteCharge >= 0, maximumMetadataBytes >= 0 else {
       throw JPEGIndependentBaselineGrayscaleError.invalidOperationBudget
@@ -253,7 +258,7 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
     let restartIntervalMCUs: Int
     let entropyStartOffset: Int
 
-    static func inspect(_ data: Data) throws -> Self {
+    static func inspect(_ data: Data, requiresJFIF: Bool = false) throws -> Self {
       try data.withUnsafeBytes { raw in
         let bytes = raw.bindMemory(to: UInt8.self)
         guard bytes.count >= 4, bytes[0] == 0xFF, bytes[1] == 0xD8 else {
@@ -261,6 +266,8 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
         }
 
         var offset = 2
+        var hasProcessedMarkerAfterSOI = false
+        var sawJFIF = false
         var frame: Frame?
         var quantizationRanges = [Range<Int>?](repeating: nil, count: 4)
         var dcTables = [HuffmanTableReference?](repeating: nil, count: 4)
@@ -269,6 +276,8 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
 
         while offset < bytes.count {
           let marker = try readMarker(bytes, offset: &offset)
+          let isFirstMarkerAfterSOI = !hasProcessedMarkerAfterSOI
+          hasProcessedMarkerAfterSOI = true
           switch marker {
           case 0xD9:
             throw ImageCraftError.unsupportedOrCorruptImage
@@ -283,6 +292,20 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
           let segment = try segmentRange(bytes, lengthOffset: offset)
           offset = segment.end
           switch marker {
+          case 0xE0:
+            guard JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
+              bytes,
+              payload: segment.payload
+            ) == true,
+              isFirstMarkerAfterSOI
+            else {
+              throw JPEGIndependentBaselineGrayscaleError.unsupportedSourceSemantics
+            }
+            sawJFIF = true
+          case 0xE1...0xEF:
+            throw JPEGIndependentBaselineGrayscaleError.unsupportedSourceSemantics
+          case 0xFE:
+            continue
           case 0xC0:
             guard frame == nil else { throw ImageCraftError.unsupportedOrCorruptImage }
             frame = try parseFrame(bytes, segment: segment)
@@ -311,6 +334,9 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
             throw JPEGIndependentBaselineGrayscaleError.unsupportedSourceSemantics
           case 0xDA:
             guard let frame else { throw ImageCraftError.unsupportedOrCorruptImage }
+            guard !requiresJFIF || sawJFIF else {
+              throw JPEGIndependentBaselineGrayscaleError.unsupportedSourceSemantics
+            }
             return try parseScan(
               bytes,
               segment: segment,
@@ -322,7 +348,7 @@ package struct JPEGIndependentBaselineGrayscaleDecoder: Sendable {
               restartInterval: restartInterval
             )
           default:
-            continue
+            throw JPEGIndependentBaselineGrayscaleError.unsupportedSourceSemantics
           }
         }
         throw ImageCraftError.unsupportedOrCorruptImage

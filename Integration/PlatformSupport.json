@@ -13,7 +13,9 @@
     ],
     "requiredProducts": [
       "ImageCraftCore",
-      "ImageCraftImageIO"
+      "ImageCraftImageIO",
+      "ImageCraftPDF",
+      "ImageCraftSVG"
     ]
   },
   "evidenceProducts": [
@@ -37,6 +39,18 @@
       "name": "ImageCraftImageIO",
       "targets": [
         "ImageCraftImageIO"
+      ]
+    },
+    {
+      "name": "ImageCraftPDF",
+      "targets": [
+        "ImageCraftPDF"
+      ]
+    },
+    {
+      "name": "ImageCraftSVG",
+      "targets": [
+        "ImageCraftSVG"
       ]
     }
   ],

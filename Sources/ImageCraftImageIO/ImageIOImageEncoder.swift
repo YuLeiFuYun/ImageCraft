@@ -175,6 +175,9 @@ public struct ImageIOImageEncoder: ImageEncoding {
     case .png: UTType.png.identifier as CFString
     case .jpeg: UTType.jpeg.identifier as CFString
     case .gif: UTType.gif.identifier as CFString
+    case .webp: "org.webmproject.webp" as CFString
+    case .heif: "public.heic" as CFString
+    case .avif: "public.avif" as CFString
     }
   }
 

@@ -119,4 +119,34 @@ final class JPEGCenteredChromaReconstructionTests: XCTestCase {
     }
     XCTAssertEqual(output, [10, 13, 17, 28, 42, 60, 80, 90])
   }
+
+  func testH2V1NarrowWidthUsesReferenceBoxDispatch() throws {
+    let source: [UInt8] = [10, 90]
+    var output = [UInt8](repeating: 0, count: 3)
+    try source.withUnsafeBufferPointer { sourceBuffer in
+      try output.withUnsafeMutableBufferPointer { outputBuffer in
+        try JPEGCenteredChromaReconstruction.writeH2V1Box(
+          source: sourceBuffer,
+          sourceWidth: 2,
+          sourceHeight: 1,
+          destination: outputBuffer,
+          outputWidth: 3
+        )
+      }
+    }
+    XCTAssertEqual(output, [10, 10, 90])
+    XCTAssertThrowsError(
+      try source.withUnsafeBufferPointer { sourceBuffer in
+        try output.withUnsafeMutableBufferPointer { outputBuffer in
+          try JPEGCenteredChromaReconstruction.writeH2V1(
+            source: sourceBuffer,
+            sourceWidth: 2,
+            sourceHeight: 1,
+            destination: outputBuffer,
+            outputWidth: 3
+          )
+        }
+      }
+    )
+  }
 }

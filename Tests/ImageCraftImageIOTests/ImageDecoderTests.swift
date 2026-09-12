@@ -1651,13 +1651,13 @@ extension ImageDecoderTests {
             includeSRGB: true,
             truncateInflatedTailByteCount: 1
         )
-        let validRGBAdam7 = try makeRawAdam7PNG(
+        let untaggedRGBAdam7 = try makeRawAdam7PNG(
             width: width,
             height: height,
             straightPixels: rgb,
             bytesPerPixel: 3,
             colorType: 2,
-            includeSRGB: true
+            includeSRGB: false
         )
         let request = ImageDecodeRequest(
             target: try TargetPixels(width: width, height: height),
@@ -1668,11 +1668,11 @@ extension ImageDecoderTests {
             XCTAssertEqual(error as? ImageCraftError, .unsupportedOrCorruptImage)
         }
         _ = try ImageIOImageDecoder().decodePackedRGBA8(
-            data: validRGBAdam7,
+            data: untaggedRGBAdam7,
             request: request,
             limits: .coreV1
         )
-        XCTAssertThrowsError(try candidate.decode(data: validRGBAdam7, request: request)) { error in
+        XCTAssertThrowsError(try candidate.decode(data: untaggedRGBAdam7, request: request)) { error in
             XCTAssertEqual(error as? PNGIndependentRGBA8Error, .unsupportedSourceSemantics)
         }
     }
@@ -2511,6 +2511,64 @@ extension ImageDecoderTests {
             ) { error in
                 XCTAssertEqual(error as? PNGIndependentRGBA16Error, .unsupportedSourceSemantics)
             }
+        }
+    }
+
+    func testIndependentPNG16InputClassSampledTRCMayRetainNonZeroDeviceBlack() throws {
+        let redXYZ: (Int32, Int32, Int32) = (28_576, 14_578, 911)
+        let greenXYZ: (Int32, Int32, Int32) = (25_238, 46_986, 6_362)
+        let blueXYZ: (Int32, Int32, Int32) = (9_376, 3_973, 46_788)
+        let sampled = PNGTestICCTransferCurve.curveSamples([7, 16_384, 32_768, 49_152, 65_535])
+        func profile(_ profileClass: String) -> Data {
+            makeDeterministicMatrixTRCICCProfile(
+                redXYZ: redXYZ,
+                greenXYZ: greenXYZ,
+                blueXYZ: blueXYZ,
+                trc: sampled,
+                profileClass: profileClass
+            )
+        }
+        let inputProfile = profile("scnr")
+        let displayProfile = profile("mntr")
+        let sourceSamples: [UInt16] = [
+            0, 0, 0, 0x1234,
+            16_384, 16_384, 16_384, 0x4567,
+            32_768, 32_768, 32_768, 0x89AB,
+            65_535, 65_535, 65_535, 0xCDEF,
+        ]
+        func png(_ profile: Data) throws -> Data {
+            try makeRawRGBA16PNG(
+                width: 2,
+                height: 2,
+                samples: sourceSamples,
+                filters: [4, 2],
+                splitIDAT: 2,
+                includeSRGB: false,
+                embeddedICCProfile: profile
+            )
+        }
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 2),
+            colorPolicy: .convertToSRGB
+        )
+        let decoder = PNGIndependentRGBA16Decoder(maximumOperationByteCharge: 64 * 1024 * 1024)
+        let value = try decoder.decode(
+            data: png(inputProfile),
+            request: request,
+            limits: .coreV1
+        )
+        XCTAssertEqual(value.colorEncoding, .sRGB)
+        XCTAssertEqual(value.sourceColorProfile, .embeddedICC)
+        XCTAssertEqual(value.data[6], 0x34)
+        XCTAssertEqual(value.data[7], 0x12)
+        XCTAssertTrue(value.data[0] != 0 || value.data[1] != 0)
+
+        // A monitor/display profile still uses normalized display-black semantics; the same
+        // non-zero first sampled entry must not silently widen that class.
+        XCTAssertThrowsError(
+            try decoder.decode(data: png(displayProfile), request: request, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(error as? PNGIndependentRGBA16Error, .unsupportedSourceSemantics)
         }
     }
 
@@ -4004,6 +4062,113 @@ extension ImageDecoderTests {
         }
     }
 
+    func testBoundedPNG16PublicSliceIsExactAndRejectsPackageOnlyMetadataSemantics() throws {
+        let width = 2
+        let height = 1
+        let samples: [UInt16] = [
+            0x1234, 0x5678, 0x9ABC, 0xDEF0,
+            0xFFFF, 0x0001, 0x8000, 0x1234,
+        ]
+        let encoded = try makeRawRGBA16PNG(
+            width: width,
+            height: height,
+            samples: samples,
+            filters: [0],
+            splitIDAT: 1,
+            includeSRGB: true
+        )
+        let decoder: any ImagePackedRGBA16Decoding = try BoundedPNG16Decoder(
+            maximumOperationByteCharge: 1 << 20
+        )
+        let probe = try decoder.probe(data: encoded, limits: .coreV1)
+        XCTAssertEqual(probe.pixelWidth, width)
+        XCTAssertEqual(probe.pixelHeight, height)
+        XCTAssertEqual(probe.sourceColorProfile, .standardSRGB)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 16)
+
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: width, height: height),
+            colorPolicy: .preserveSource
+        )
+        let ledger = try decoder.packedRGBA16ResourceLedger(
+            data: encoded,
+            request: request,
+            limits: .coreV1
+        )
+        XCTAssertEqual(ledger.outputLayoutAuthority, .codecOwnedStraightRGBA16LE)
+        XCTAssertEqual(ledger.transferredOutput, .bounded(width * height * 8))
+        let value = try decoder.decodePackedRGBA16(
+            data: encoded,
+            request: request,
+            limits: .coreV1
+        )
+        XCTAssertEqual(value.data, rgba16LittleEndianTestData(samples))
+        XCTAssertEqual(value.colorEncoding, .sRGB)
+        XCTAssertEqual(value.sourceColorProfile, .standardSRGB)
+        XCTAssertEqual(value.bytesPerRow, width * 8)
+
+        let withSBIT = try makeRawRGBA16PNG(
+            width: width,
+            height: height,
+            samples: samples,
+            filters: [0],
+            splitIDAT: 1,
+            includeSRGB: true,
+            significantBits: [12, 13, 14, 15]
+        )
+        let withCICP = try makeRawRGBA16PNG(
+            width: width,
+            height: height,
+            samples: samples,
+            filters: [0],
+            splitIDAT: 1,
+            includeSRGB: false,
+            cicp: [12, 13, 0, 1]
+        )
+        let p3 = try XCTUnwrap(CGColorSpace(name: CGColorSpace.displayP3))
+        let p3Profile = try XCTUnwrap(p3.copyICCData()).bridgeToData()
+        let withICC = try makeRawRGBA16PNG(
+            width: width,
+            height: height,
+            samples: samples,
+            filters: [0],
+            splitIDAT: 1,
+            includeSRGB: false,
+            embeddedICCProfile: p3Profile
+        )
+        let untagged = try makeRawRGBA16PNG(
+            width: width,
+            height: height,
+            samples: samples,
+            filters: [0],
+            splitIDAT: 1,
+            includeSRGB: false
+        )
+        for hostile in [withSBIT, withCICP, withICC, untagged] {
+            XCTAssertThrowsError(try decoder.probe(data: hostile, limits: .coreV1)) { error in
+                XCTAssertEqual(error as? BoundedPNG16DecodeError, .unsupportedSourceSemantics)
+            }
+            XCTAssertThrowsError(
+                try decoder.packedRGBA16ResourceLedger(
+                    data: hostile,
+                    request: request,
+                    limits: .coreV1
+                )
+            ) { error in
+                XCTAssertEqual(error as? BoundedPNG16DecodeError, .unsupportedSourceSemantics)
+            }
+            XCTAssertThrowsError(
+                try decoder.decodePackedRGBA16(
+                    data: hostile,
+                    request: request,
+                    limits: .coreV1
+                )
+            ) { error in
+                XCTAssertEqual(error as? BoundedPNG16DecodeError, .unsupportedSourceSemantics)
+            }
+        }
+    }
+
     func testIndependentPNG16RGBTRNSUsesFullSamplesAndSixByteSourceRows() throws {
         let width = 7
         let height = 5
@@ -4371,8 +4536,9 @@ extension ImageDecoderTests {
             cancellationMode: .operationBoundary
         )
         XCTAssertTrue(PNGIndependentRGBA8Decoder.codecDescriptor.supports(capability))
+        XCTAssertEqual(PNGIndependentRGBA8Decoder.codecDescriptor.decodeProfiles.count, 1)
         XCTAssertEqual(
-            PNGIndependentRGBA8Decoder.codecDescriptor.capabilities.outputRepresentations,
+            PNGIndependentRGBA8Decoder.codecDescriptor.decodeProfiles[0].outputRepresentations,
             [.packedRGBA8]
         )
         XCTAssertFalse(ImageIOImageDecoder().codecDescriptor.supports(capability))
@@ -5854,23 +6020,946 @@ extension ImageDecoderTests {
     func testImageIOCodecDescriptorAdvertisesOnlyCurrentSemantics() {
         let descriptor = ImageIOImageDecoder().codecDescriptor
         XCTAssertEqual(descriptor.identifier.rawValue, "dev.fovea.imageio")
-        XCTAssertEqual(descriptor.implementationVersion, 6)
-        XCTAssertEqual(descriptor.capabilities.formats, [.png, .jpeg, .gif])
+        XCTAssertEqual(descriptor.implementationVersion, 12)
+        let complete = descriptor.decodeProfiles[0]
+        var expectedCompleteFormats: Set<EncodedImageFormat> = [.png, .jpeg, .gif, .webp, .heif]
+        let runtimeSourceTypes = Set(CGImageSourceCopyTypeIdentifiers() as? [String] ?? [])
+        if runtimeSourceTypes.contains("public.avif") {
+            expectedCompleteFormats.insert(.avif)
+        }
+        XCTAssertEqual(complete.formats, expectedCompleteFormats)
+        XCTAssertEqual(complete.deliveryModes, [.completeFrame])
+        XCTAssertEqual(complete.trackModes, [.primaryFrame])
+        XCTAssertEqual(complete.metadata, [.orientation, .sourceColorProfile])
+        XCTAssertEqual(complete.dynamicRanges, [.standard])
+        XCTAssertEqual(complete.outputRepresentations, [.coreGraphicsImage])
+        XCTAssertEqual(complete.cancellationMode, .operationBoundary)
+
+        let progressive = descriptor.decodeProfiles[1]
+        XCTAssertEqual(progressive.formats, [.jpeg])
+        XCTAssertEqual(progressive.deliveryModes, [.progressiveGenerations])
+        XCTAssertEqual(progressive.trackModes, [.primaryFrame])
+        XCTAssertEqual(progressive.metadata, [.orientation, .sourceColorProfile])
+        XCTAssertEqual(progressive.dynamicRanges, [.standard])
+        XCTAssertEqual(progressive.outputRepresentations, [.coreGraphicsImage])
+        XCTAssertEqual(progressive.cancellationMode, .operationBoundary)
+
+        var expectedHighFormats: Set<EncodedImageFormat> = []
+        if runtimeSourceTypes.contains("public.heic") || runtimeSourceTypes.contains("public.heif") {
+            expectedHighFormats.insert(.heif)
+        }
+        if runtimeSourceTypes.contains("public.avif") {
+            expectedHighFormats.insert(.avif)
+        }
+        let highProfiles = descriptor.decodeProfiles.filter { $0.dynamicRanges == [.high] }
+        if expectedHighFormats.isEmpty {
+            XCTAssertEqual(descriptor.decodeProfiles.count, 2)
+            XCTAssertTrue(highProfiles.isEmpty)
+        } else {
+            XCTAssertEqual(descriptor.decodeProfiles.count, 3)
+            XCTAssertEqual(highProfiles.count, 1)
+            let high = try? XCTUnwrap(highProfiles.first)
+            XCTAssertEqual(high?.formats, expectedHighFormats)
+            XCTAssertEqual(high?.deliveryModes, [.completeFrame])
+            XCTAssertEqual(high?.trackModes, [.primaryFrame])
+            XCTAssertEqual(high?.metadata, [.orientation, .sourceColorProfile])
+            XCTAssertEqual(high?.outputRepresentations, [.coreGraphicsImage])
+            XCTAssertEqual(high?.cancellationMode, .operationBoundary)
+        }
+
+        let ownedDescriptor = ImageIOImageDecoder(
+            qualificationPreparationRetentionMode: .encodedDataOnly,
+            outputMaterializationMode: .ownedRGBA8
+        ).codecDescriptor
         XCTAssertEqual(
-            descriptor.capabilities.deliveryModes,
-            [.completeFrame, .progressiveGenerations]
+            ownedDescriptor.supportFailure(
+                for: ImageDecodeCapabilityRequest(format: .heif, dynamicRange: .high)
+            ),
+            .dynamicRange(.high)
         )
-        XCTAssertEqual(descriptor.capabilities.progressiveFormats, [.jpeg])
-        XCTAssertEqual(descriptor.capabilities.trackModes, [.primaryFrame])
-        XCTAssertEqual(
-            descriptor.capabilities.metadata,
-            [.orientation, .sourceColorProfile]
-        )
-        XCTAssertEqual(descriptor.capabilities.dynamicRanges, [.standard])
-        XCTAssertEqual(descriptor.capabilities.outputRepresentations, [.coreGraphicsImage])
-        XCTAssertEqual(descriptor.capabilities.cancellationMode, .operationBoundary)
     }
 
+    func testStaticWebPProbeDecodeAndLosslessPixels_M2_1_PT_001() throws {
+        let data = try loadFormatBreadthFixture("webp-rgba-lossless.webp")
+        let sourcePNG = try loadCorpusV1Fixture("png-rgba-srgb.png")
+        let decoder = ImageIOImageDecoder()
+
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .webp)
+        XCTAssertEqual(probe.pixelWidth, 17)
+        XCTAssertEqual(probe.pixelHeight, 9)
+        XCTAssertEqual(probe.frameCount, 1)
+
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: 17, height: 9),
+            colorPolicy: .convertToSRGB
+        )
+        let webp = try decoder.decode(data: data, request: request, limits: .coreV1)
+        let png = try decoder.decode(data: sourcePNG, request: request, limits: .coreV1)
+        XCTAssertEqual(webp.pixelWidth, 17)
+        XCTAssertEqual(webp.pixelHeight, 9)
+        XCTAssertEqual(
+            try normalizedRGBABytes(webp.cgImage),
+            try normalizedRGBABytes(png.cgImage)
+        )
+    }
+
+    func testStaticHEIFProbeAndDecode_M2_2_PT_001() throws {
+        let data = try loadFormatBreadthFixture("heif-rgba.heic")
+        let decoder = ImageIOImageDecoder()
+
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .heif)
+        XCTAssertEqual(probe.pixelWidth, 17)
+        XCTAssertEqual(probe.pixelHeight, 9)
+        XCTAssertEqual(probe.frameCount, 1)
+
+        let image = try decoder.decode(
+            data: data,
+            request: ImageDecodeRequest(
+                target: try TargetPixels(width: 17, height: 9),
+                colorPolicy: .convertToSRGB
+            ),
+            limits: .coreV1
+        )
+        XCTAssertEqual(image.pixelWidth, 17)
+        XCTAssertEqual(image.pixelHeight, 9)
+        XCTAssertGreaterThan(image.estimatedByteCost, 0)
+    }
+
+    func testStaticHEIFTinyTargetUsesBoundedThumbnailFallback_M2_2_PT_005() throws {
+        let data = try loadFormatBreadthFixture("heif-rgba.heic")
+        let decoder = ImageIOImageDecoder()
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: 1, height: 1),
+            colorPolicy: .convertToSRGB
+        )
+
+        let estimate = try decoder.resourceEstimate(probe: probe, request: request)
+        let image = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: request,
+            limits: .coreV1
+        )
+
+        XCTAssertEqual(image.pixelWidth, 1)
+        XCTAssertEqual(image.pixelHeight, 1)
+        // 4x4 fallback surface (64 B tight RGBA) + one 1x1 result (4 B).
+        XCTAssertGreaterThanOrEqual(estimate.workingSetBytes, 68)
+    }
+
+    func testDirectHDRHEIFRequiresExplicitHighAndPreservesHDR_M6_PT_001() throws {
+        let destinationTypes = Set(CGImageDestinationCopyTypeIdentifiers() as? [String] ?? [])
+        guard destinationTypes.contains("public.heic") else {
+            throw XCTSkip("current ImageIO runtime does not expose public.heic encoding")
+        }
+        let sourceTypes = Set(CGImageSourceCopyTypeIdentifiers() as? [String] ?? [])
+        guard sourceTypes.contains("public.heic") || sourceTypes.contains("public.heif") else {
+            throw XCTSkip("current ImageIO runtime does not expose HEIF/HEIC decoding")
+        }
+
+        let data = try makeDirectHDRHEIC()
+        let decoder = ImageIOImageDecoder()
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .heif)
+        XCTAssertGreaterThan(probe.sourceBitsPerComponent ?? 0, 8)
+        XCTAssertTrue(
+            decoder.codecDescriptor.supports(
+                ImageDecodeCapabilityRequest(format: .heif, dynamicRange: .high)
+            )
+        )
+
+        // The legacy/default operation remains SDR and must never silently publish this source.
+        for colorPolicy in [ImageColorPolicy.preserveSource, .convertToSRGB] {
+            XCTAssertThrowsError(
+                try decoder.decode(
+                    data: data,
+                    probe: probe,
+                    request: ImageDecodeRequest(
+                        target: try TargetPixels(width: 2, height: 1),
+                        colorPolicy: colorPolicy
+                    ),
+                    limits: .coreV1
+                )
+            ) { error in
+                XCTAssertEqual(
+                    error as? ImageCodecContractError,
+                    .unsupportedCapability(.dynamicRange(.high))
+                )
+            }
+        }
+
+        let highRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 1),
+            colorPolicy: .preserveSource,
+            dynamicRange: .high
+        )
+        let estimate = try decoder.resourceEstimate(probe: probe, request: highRequest)
+        let high = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: highRequest,
+            limits: .coreV1
+        )
+        XCTAssertEqual(high.pixelWidth, 2)
+        XCTAssertEqual(high.pixelHeight, 1)
+        XCTAssertGreaterThan(high.pixelFormat.bitsPerComponent, 8)
+        let highColorSpace = try XCTUnwrap(high.cgImage.colorSpace)
+        XCTAssertTrue(highColorSpace.isHDR() || CGColorSpaceUsesExtendedRange(highColorSpace))
+        if #available(macOS 15.0, iOS 18.0, *) {
+            XCTAssertGreaterThan(high.cgImage.contentHeadroom, 1)
+        }
+        XCTAssertGreaterThanOrEqual(estimate.workingSetBytes, high.estimatedByteCost * 3)
+
+        // The advertised HEIF high profile is not limited to full-size output. Both the tiny
+        // thumbnail path (`fit`) and the full-raster-then-crop path (`fill`) must preserve HDR.
+        for contentMode in [ImageContentMode.fit, .fill] {
+            let tinyRequest = ImageDecodeRequest(
+                target: try TargetPixels(width: 1, height: 1),
+                contentMode: contentMode,
+                colorPolicy: .preserveSource,
+                dynamicRange: .high
+            )
+            let tiny = try decoder.decode(
+                data: data,
+                probe: probe,
+                request: tinyRequest,
+                limits: .coreV1
+            )
+            XCTAssertEqual(tiny.pixelWidth, 1)
+            XCTAssertEqual(tiny.pixelHeight, 1)
+            XCTAssertGreaterThan(tiny.pixelFormat.bitsPerComponent, 8)
+            let tinyColorSpace = try XCTUnwrap(tiny.cgImage.colorSpace)
+            XCTAssertTrue(tinyColorSpace.isHDR() || CGColorSpaceUsesExtendedRange(tinyColorSpace))
+            if #available(macOS 15.0, iOS 18.0, *) {
+                XCTAssertGreaterThan(tiny.cgImage.contentHeadroom, 1)
+            }
+        }
+
+        let highConvertRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 1),
+            colorPolicy: .convertToSRGB,
+            dynamicRange: .high
+        )
+        XCTAssertThrowsError(
+            try decoder.decode(
+                data: data,
+                probe: probe,
+                request: highConvertRequest,
+                limits: .coreV1
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? ImageCodecContractError,
+                .unsupportedCapability(.dynamicRange(.high))
+            )
+        }
+        XCTAssertThrowsError(
+            try decoder.decodePackedRGBA8(
+                data: data,
+                request: highRequest,
+                limits: .coreV1
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? ImageCodecContractError,
+                .unsupportedCapability(.dynamicRange(.high))
+            )
+        }
+    }
+
+    func testAVIFDirectHDRRequiresExplicitHighAndPreservesPQ_M6_PT_007() throws {
+        let decoder = ImageIOImageDecoder()
+        guard decoder.codecDescriptor.decodeProfiles.contains(where: { $0.formats.contains(.avif) })
+        else {
+            throw XCTSkip("Current ImageIO runtime does not advertise public.avif")
+        }
+        let data = try loadFormatBreadthFixture("avif-hdr-pq-10bit-imageio-2x2.avif")
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .avif)
+        XCTAssertEqual(probe.pixelWidth, 2)
+        XCTAssertEqual(probe.pixelHeight, 2)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 10)
+        XCTAssertTrue(
+            decoder.codecDescriptor.supports(
+                ImageDecodeCapabilityRequest(format: .avif, dynamicRange: .high)
+            )
+        )
+
+        let standardRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 2),
+            colorPolicy: .preserveSource
+        )
+        XCTAssertThrowsError(
+            try decoder.decode(data: data, probe: probe, request: standardRequest, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(
+                error as? ImageCodecContractError,
+                .unsupportedCapability(.dynamicRange(.high))
+            )
+        }
+
+        let highRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 2),
+            colorPolicy: .preserveSource,
+            dynamicRange: .high
+        )
+        let estimate = try decoder.resourceEstimate(probe: probe, request: highRequest)
+        let high = try decoder.decode(
+            data: data, probe: probe, request: highRequest, limits: .coreV1
+        )
+        XCTAssertEqual(high.pixelWidth, 2)
+        XCTAssertEqual(high.pixelHeight, 2)
+        XCTAssertGreaterThan(high.pixelFormat.bitsPerComponent, 8)
+        let colorSpace = try XCTUnwrap(high.cgImage.colorSpace)
+        XCTAssertTrue(colorSpace.isHDR() || CGColorSpaceUsesExtendedRange(colorSpace))
+        if #available(macOS 15.0, iOS 18.0, *) {
+            XCTAssertGreaterThan(high.cgImage.contentHeadroom, 1)
+        }
+        XCTAssertGreaterThanOrEqual(estimate.workingSetBytes, high.estimatedByteCost * 3)
+
+        let tiny = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: ImageDecodeRequest(
+                target: try TargetPixels(width: 1, height: 1),
+                colorPolicy: .preserveSource,
+                dynamicRange: .high
+            ),
+            limits: .coreV1
+        )
+        XCTAssertEqual(tiny.pixelWidth, 1)
+        XCTAssertEqual(tiny.pixelHeight, 1)
+        XCTAssertGreaterThan(tiny.pixelFormat.bitsPerComponent, 8)
+        let tinyColorSpace = try XCTUnwrap(tiny.cgImage.colorSpace)
+        XCTAssertTrue(tinyColorSpace.isHDR() || CGColorSpaceUsesExtendedRange(tinyColorSpace))
+
+        XCTAssertThrowsError(
+            try decoder.decode(
+                data: data,
+                probe: probe,
+                request: ImageDecodeRequest(
+                    target: try TargetPixels(width: 2, height: 2),
+                    colorPolicy: .convertToSRGB,
+                    dynamicRange: .high
+                ),
+                limits: .coreV1
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? ImageCodecContractError,
+                .unsupportedCapability(.dynamicRange(.high))
+            )
+        }
+    }
+
+    func testISOGainMapIsCountedAdmittedAndAppliedOnlyForHigh_M6_PT_006() throws {
+        guard #available(macOS 15.0, *) else {
+            throw XCTSkip("ISO gain-map generation requires macOS 15+")
+        }
+        let sourceTypes = Set(CGImageSourceCopyTypeIdentifiers() as? [String] ?? [])
+        guard sourceTypes.contains("public.heic") || sourceTypes.contains("public.heif") else {
+            throw XCTSkip("current ImageIO runtime does not expose HEIF/HEIC decoding")
+        }
+
+        let data = try loadFormatBreadthFixture("heif-iso-gainmap-sdr-hdr.heic")
+        let decoder = ImageIOImageDecoder()
+
+        XCTAssertThrowsError(try decoder.probe(data: data, limits: .coreV1)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .auxiliaryAttachmentLimitExceeded)
+        }
+
+        let limits = DecodeLimits(maximumAuxiliaryAttachments: 1)
+        let probe = try decoder.probe(data: data, limits: limits)
+        XCTAssertEqual(probe.format, .heif)
+        XCTAssertEqual(probe.auxiliaryAttachmentCount, 1)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 8)
+
+        let source = try XCTUnwrap(CGImageSourceCreateWithData(data as CFData, nil))
+        let properties = try XCTUnwrap(
+            CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any]
+        )
+        let propertyMetadataBytes = try PropertyListSerialization.data(
+            fromPropertyList: properties,
+            format: .binary,
+            options: 0
+        ).count
+        let gainMapInfo = try XCTUnwrap(
+            CGImageSourceCopyAuxiliaryDataInfoAtIndex(
+                source,
+                0,
+                kCGImageAuxiliaryDataTypeISOGainMap
+            ) as? [CFString: Any]
+        )
+        let gainMapDescription = try XCTUnwrap(
+            gainMapInfo[kCGImageAuxiliaryDataInfoDataDescription] as? [CFString: Any]
+        )
+        let gainMapDescriptionBytes = try PropertyListSerialization.data(
+            fromPropertyList: gainMapDescription,
+            format: .binary,
+            options: 0
+        ).count
+        let gainMapMetadata = gainMapInfo[kCGImageAuxiliaryDataInfoMetadata] as! CGImageMetadata
+        let gainMapXMP = try XCTUnwrap(CGImageMetadataCreateXMPData(gainMapMetadata, nil)) as Data
+        let independentlyVisibleMetadataBytes =
+            propertyMetadataBytes + gainMapDescriptionBytes + gainMapXMP.count
+        XCTAssertGreaterThan(gainMapDescriptionBytes, 0)
+        XCTAssertGreaterThan(gainMapXMP.count, 0)
+        XCTAssertGreaterThanOrEqual(probe.metadataByteCount, independentlyVisibleMetadataBytes)
+
+        let tooTightMetadataLimits = DecodeLimits(
+            maximumMetadataBytes: independentlyVisibleMetadataBytes - 1,
+            maximumAuxiliaryAttachments: 1
+        )
+        XCTAssertThrowsError(
+            try decoder.probe(data: data, limits: tooTightMetadataLimits)
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .metadataLimitExceeded)
+        }
+
+        let standardRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 8, height: 4),
+            colorPolicy: .preserveSource,
+            dynamicRange: .standard
+        )
+        let standard = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: standardRequest,
+            limits: limits
+        )
+        XCTAssertEqual(standard.pixelWidth, 8)
+        XCTAssertEqual(standard.pixelHeight, 4)
+        XCTAssertEqual(standard.pixelFormat.bitsPerComponent, 8)
+        let standardColorSpace = try XCTUnwrap(standard.cgImage.colorSpace)
+        XCTAssertFalse(
+            standardColorSpace.isHDR() || CGColorSpaceUsesExtendedRange(standardColorSpace)
+        )
+        XCTAssertEqual(standard.cgImage.contentHeadroom, 1, accuracy: 0.000_001)
+
+        let highRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 8, height: 4),
+            colorPolicy: .preserveSource,
+            dynamicRange: .high
+        )
+        let estimate = try decoder.resourceEstimate(probe: probe, request: highRequest)
+        let high = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: highRequest,
+            limits: limits
+        )
+        XCTAssertEqual(high.pixelWidth, 8)
+        XCTAssertEqual(high.pixelHeight, 4)
+        XCTAssertGreaterThan(high.pixelFormat.bitsPerComponent, 8)
+        let highColorSpace = try XCTUnwrap(high.cgImage.colorSpace)
+        XCTAssertTrue(highColorSpace.isHDR() || CGColorSpaceUsesExtendedRange(highColorSpace))
+        XCTAssertGreaterThan(high.cgImage.contentHeadroom, 1)
+        XCTAssertGreaterThanOrEqual(estimate.workingSetBytes, high.estimatedByteCost * 3)
+
+        let tinyRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 1, height: 1),
+            colorPolicy: .preserveSource,
+            dynamicRange: .high
+        )
+        let tiny = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: tinyRequest,
+            limits: limits
+        )
+        XCTAssertEqual(tiny.pixelWidth, 1)
+        XCTAssertEqual(tiny.pixelHeight, 1)
+        XCTAssertGreaterThan(tiny.pixelFormat.bitsPerComponent, 8)
+        let tinyColorSpace = try XCTUnwrap(tiny.cgImage.colorSpace)
+        XCTAssertTrue(tinyColorSpace.isHDR() || CGColorSpaceUsesExtendedRange(tinyColorSpace))
+    }
+
+    func testHighRequestRejectsSDRHEIF_M6_PT_005() throws {
+        let sourceTypes = Set(CGImageSourceCopyTypeIdentifiers() as? [String] ?? [])
+        guard sourceTypes.contains("public.heic") || sourceTypes.contains("public.heif") else {
+            throw XCTSkip("current ImageIO runtime does not expose HEIF/HEIC decoding")
+        }
+        let data = try loadFormatBreadthFixture("heif-rgba.heic")
+        let decoder = ImageIOImageDecoder()
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: 17, height: 9),
+            colorPolicy: .preserveSource,
+            dynamicRange: .high
+        )
+        XCTAssertThrowsError(
+            try decoder.decode(data: data, probe: probe, request: request, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(
+                error as? ImageCodecContractError,
+                .unsupportedCapability(.dynamicRange(.high))
+            )
+        }
+    }
+
+    func testHighDynamicRangeOperationRequestFailsBeforeCurrentImageIOWorkM6Pt003() throws {
+        let colorSpace = try XCTUnwrap(CGColorSpace(name: CGColorSpace.sRGB))
+        let data = try makeColorManagedPNG(width: 2, height: 1, colorSpace: colorSpace)
+        let decoder = ImageIOImageDecoder()
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 1),
+            dynamicRange: .high
+        )
+
+        XCTAssertThrowsError(
+            try decoder.decode(data: data, probe: probe, request: request, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(
+                error as? ImageCodecContractError,
+                .unsupportedCapability(.dynamicRange(.high))
+            )
+        }
+        XCTAssertThrowsError(
+            try decoder.makeProgressiveSession(
+                format: .jpeg,
+                request: request,
+                limits: .coreV1
+            )
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .progressiveDecodingUnsupported)
+        }
+    }
+
+    func testStaticAVIFProbeAndDecode_M4_PT_001() throws {
+        let data = try loadFormatBreadthFixture("avif-rgba.avif")
+        let decoder = ImageIOImageDecoder()
+        let runtimeSourceTypes = Set(CGImageSourceCopyTypeIdentifiers() as? [String] ?? [])
+        guard runtimeSourceTypes.contains("public.avif") else {
+            XCTAssertFalse(
+                decoder.codecDescriptor.supports(
+                    ImageDecodeCapabilityRequest(format: .avif)
+                )
+            )
+            throw XCTSkip("current ImageIO runtime does not expose public.avif")
+        }
+
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .avif)
+        XCTAssertEqual(probe.pixelWidth, 17)
+        XCTAssertEqual(probe.pixelHeight, 9)
+        XCTAssertEqual(probe.frameCount, 1)
+
+        let image = try decoder.decode(
+            data: data,
+            request: ImageDecodeRequest(
+                target: try TargetPixels(width: 17, height: 9),
+                colorPolicy: .convertToSRGB
+            ),
+            limits: .coreV1
+        )
+        XCTAssertEqual(image.pixelWidth, 17)
+        XCTAssertEqual(image.pixelHeight, 9)
+        XCTAssertGreaterThan(image.estimatedByteCost, 0)
+    }
+
+    func testAVIFAlphaStepsPreserveTransparency_M4_2_PT_001() throws {
+        let decoder = ImageIOImageDecoder()
+        guard decoder.codecDescriptor.decodeProfiles.contains(where: { $0.formats.contains(.avif) })
+        else {
+            throw XCTSkip("Current ImageIO runtime does not advertise public.avif")
+        }
+        let data = try loadFormatBreadthFixture("avif-alpha-steps-8bit.avif")
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .avif)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 8)
+
+        let image = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: ImageDecodeRequest(
+                target: try TargetPixels(width: 4, height: 1),
+                colorPolicy: .preserveSource
+            ),
+            limits: .coreV1
+        )
+        XCTAssertNotEqual(image.alphaMode, .none)
+        XCTAssertEqual(image.pixelFormat.bitsPerComponent, 8)
+        let bytes = [UInt8](try normalizedRGBABytes(image.cgImage))
+        let expectedAlpha = [0, 64, 128, 255]
+        let actualAlpha = stride(from: 3, to: bytes.count, by: 4).map { Int(bytes[$0]) }
+        XCTAssertEqual(actualAlpha.count, expectedAlpha.count)
+        for (actual, expected) in zip(actualAlpha, expectedAlpha) {
+            XCTAssertLessThanOrEqual(abs(actual - expected), 1)
+        }
+    }
+
+    func testAVIF10BitPreservesHighDepthAndScalesResourceEstimate_M4_2_PT_002() throws {
+        let decoder = ImageIOImageDecoder()
+        guard decoder.codecDescriptor.decodeProfiles.contains(where: { $0.formats.contains(.avif) })
+        else {
+            throw XCTSkip("Current ImageIO runtime does not advertise public.avif")
+        }
+        let data = try loadFormatBreadthFixture("avif-rgba-10bit.avif")
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .avif)
+        XCTAssertEqual(probe.pixelWidth, 4)
+        XCTAssertEqual(probe.pixelHeight, 1)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 10)
+
+        let fullRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 4, height: 1),
+            colorPolicy: .preserveSource
+        )
+        let fullEstimate = try decoder.resourceEstimate(probe: probe, request: fullRequest)
+        XCTAssertEqual(fullEstimate.workingSetBytes, 96)
+        let full = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: fullRequest,
+            limits: .coreV1
+        )
+        XCTAssertEqual(full.pixelFormat.bitsPerComponent, 16)
+        XCTAssertEqual(full.pixelFormat.bitsPerPixel, 64)
+        XCTAssertGreaterThanOrEqual(full.pixelFormat.bytesPerRow, full.pixelWidth * 8)
+        XCTAssertGreaterThanOrEqual(fullEstimate.workingSetBytes, full.estimatedByteCost * 3)
+        let fullSamples = try normalizedRGBA16Samples(full.cgImage)
+        XCTAssertTrue(fullSamples.contains { $0 > 0 && $0 < UInt16.max && $0 % 257 != 0 })
+
+        let halfRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 2, height: 1),
+            colorPolicy: .preserveSource
+        )
+        let halfEstimate = try decoder.resourceEstimate(probe: probe, request: halfRequest)
+        XCTAssertEqual(halfEstimate.workingSetBytes, 48)
+        let half = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: halfRequest,
+            limits: .coreV1
+        )
+        XCTAssertEqual(half.pixelWidth, 2)
+        XCTAssertEqual(half.pixelHeight, 1)
+        XCTAssertEqual(half.pixelFormat.bitsPerComponent, 16)
+        XCTAssertEqual(half.pixelFormat.bitsPerPixel, 64)
+        XCTAssertGreaterThanOrEqual(halfEstimate.workingSetBytes, half.estimatedByteCost * 3)
+        let halfSamples = try normalizedRGBA16Samples(half.cgImage)
+        XCTAssertTrue(halfSamples.contains { $0 > 0 && $0 < UInt16.max && $0 % 257 != 0 })
+    }
+
+    func testAVIFExternal12BitPreservesHighDepthAtSmallTarget_M4_2_PT_006() throws {
+        let decoder = ImageIOImageDecoder()
+        guard decoder.codecDescriptor.decodeProfiles.contains(where: { $0.formats.contains(.avif) })
+        else {
+            throw XCTSkip("Current ImageIO runtime does not advertise public.avif")
+        }
+        let data = try loadFormatBreadthFixture("avif-rgb-12bit-aom-profile2-1204x800.avif")
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .avif)
+        XCTAssertEqual(probe.pixelWidth, 1204)
+        XCTAssertEqual(probe.pixelHeight, 800)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 12)
+
+        let request = ImageDecodeRequest(
+            target: try TargetPixels(width: 12, height: 8),
+            colorPolicy: .preserveSource
+        )
+        let estimate = try decoder.resourceEstimate(probe: probe, request: request)
+        XCTAssertEqual(estimate.workingSetBytes, 2_304)
+        let image = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: request,
+            limits: .coreV1
+        )
+        XCTAssertEqual(image.pixelWidth, 12)
+        XCTAssertEqual(image.pixelHeight, 8)
+        XCTAssertGreaterThan(image.pixelFormat.bitsPerComponent, 8)
+        XCTAssertGreaterThanOrEqual(estimate.workingSetBytes, image.estimatedByteCost * 3)
+        let samples = try normalizedRGBA16Samples(image.cgImage)
+        XCTAssertTrue(samples.contains { $0 > 0 && $0 < UInt16.max && $0 % 257 != 0 })
+    }
+
+    func testResourceEstimateUsesProbeSourceDepth_M4_2_PT_003() throws {
+        let decoder = ImageIOImageDecoder()
+        let request = ImageDecodeRequest(target: try TargetPixels(width: 2, height: 1))
+        let eightBit = try ImageProbe(
+            pixelWidth: 2,
+            pixelHeight: 1,
+            frameCount: 1,
+            sourceBitsPerComponent: 8
+        )
+        let tenBit = try ImageProbe(
+            pixelWidth: 2,
+            pixelHeight: 1,
+            frameCount: 1,
+            sourceBitsPerComponent: 10
+        )
+        XCTAssertEqual(
+            try decoder.resourceEstimate(probe: eightBit, request: request).workingSetBytes,
+            24
+        )
+        XCTAssertEqual(
+            try decoder.resourceEstimate(probe: tenBit, request: request).workingSetBytes,
+            48
+        )
+        let twentyFourBit = try ImageProbe(
+            pixelWidth: 2,
+            pixelHeight: 1,
+            frameCount: 1,
+            sourceBitsPerComponent: 24
+        )
+        XCTAssertEqual(
+            try decoder.resourceEstimate(probe: twentyFourBit, request: request).workingSetBytes,
+            96
+        )
+    }
+
+    func testAVIFExternal10BitOrdinaryThumbnailPreservesDepthAndBound_M4_2_PT_005() throws {
+        let decoder = ImageIOImageDecoder()
+        guard decoder.codecDescriptor.decodeProfiles.contains(where: { $0.formats.contains(.avif) })
+        else {
+            throw XCTSkip("Current ImageIO runtime does not advertise public.avif")
+        }
+        let data = try loadFormatBreadthFixture("avif-rgb-10bit-svt-16x8.avif")
+        let probe = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(probe.format, .avif)
+        XCTAssertEqual(probe.pixelWidth, 16)
+        XCTAssertEqual(probe.pixelHeight, 8)
+        XCTAssertEqual(probe.sourceBitsPerComponent, 10)
+
+        let fullRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 16, height: 8),
+            colorPolicy: .preserveSource
+        )
+        let fullEstimate = try decoder.resourceEstimate(probe: probe, request: fullRequest)
+        XCTAssertEqual(fullEstimate.workingSetBytes, 3_072)
+        let full = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: fullRequest,
+            limits: .coreV1
+        )
+        XCTAssertEqual(full.pixelWidth, 16)
+        XCTAssertEqual(full.pixelHeight, 8)
+        XCTAssertGreaterThan(full.pixelFormat.bitsPerComponent, 8)
+        XCTAssertGreaterThanOrEqual(fullEstimate.workingSetBytes, full.estimatedByteCost * 3)
+
+        let halfRequest = ImageDecodeRequest(
+            target: try TargetPixels(width: 8, height: 4),
+            colorPolicy: .preserveSource
+        )
+        let halfEstimate = try decoder.resourceEstimate(probe: probe, request: halfRequest)
+        XCTAssertEqual(halfEstimate.workingSetBytes, 768)
+        let half = try decoder.decode(
+            data: data,
+            probe: probe,
+            request: halfRequest,
+            limits: .coreV1
+        )
+        XCTAssertEqual(half.pixelWidth, 8)
+        XCTAssertEqual(half.pixelHeight, 4)
+        XCTAssertGreaterThan(half.pixelFormat.bitsPerComponent, 8)
+        XCTAssertGreaterThanOrEqual(halfEstimate.workingSetBytes, half.estimatedByteCost * 3)
+    }
+
+    func testLegacyProbeUnknownDepthIsCompatibleButConcreteMismatchRejects_M4_2_PT_004() throws {
+        let decoder = ImageIOImageDecoder()
+        let data = try loadFormatBreadthFixture("avif-alpha-steps-8bit.avif")
+        let verified = try decoder.probe(data: data, limits: .coreV1)
+        XCTAssertEqual(verified.sourceBitsPerComponent, 8)
+
+        let legacy = try ImageProbe(
+            pixelWidth: verified.pixelWidth,
+            pixelHeight: verified.pixelHeight,
+            frameCount: verified.frameCount,
+            orientation: verified.orientation,
+            format: verified.format,
+            metadataByteCount: verified.metadataByteCount,
+            auxiliaryAttachmentCount: verified.auxiliaryAttachmentCount,
+            sourceColorProfile: verified.sourceColorProfile
+        )
+        XCTAssertNil(legacy.sourceBitsPerComponent)
+        XCTAssertNoThrow(
+            try decoder.decode(
+                data: data,
+                probe: legacy,
+                request: ImageDecodeRequest(
+                    target: try TargetPixels(width: 4, height: 1),
+                    colorPolicy: .preserveSource
+                ),
+                limits: .coreV1
+            )
+        )
+
+        let wrongConcreteDepth = try ImageProbe(
+            pixelWidth: verified.pixelWidth,
+            pixelHeight: verified.pixelHeight,
+            frameCount: verified.frameCount,
+            orientation: verified.orientation,
+            format: verified.format,
+            metadataByteCount: verified.metadataByteCount,
+            auxiliaryAttachmentCount: verified.auxiliaryAttachmentCount,
+            sourceColorProfile: verified.sourceColorProfile,
+            sourceBitsPerComponent: 10
+        )
+        XCTAssertThrowsError(
+            try decoder.decode(
+                data: data,
+                probe: wrongConcreteDepth,
+                request: ImageDecodeRequest(
+                    target: try TargetPixels(width: 4, height: 1),
+                    colorPolicy: .preserveSource
+                ),
+                limits: .coreV1
+            )
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .probeMismatch)
+        }
+    }
+
+    func testWebPAndHEIFFailClosedBeforeImageIOOnContainerBoundaryViolations_M2_PT_002()
+        throws
+    {
+        let decoder = ImageIOImageDecoder()
+
+        var webpWithTrailingByte = try loadFormatBreadthFixture("webp-rgba-lossless.webp")
+        webpWithTrailingByte.append(0)
+        XCTAssertThrowsError(
+            try decoder.probe(data: webpWithTrailingByte, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedOrCorruptImage)
+        }
+
+        var heifWithTrailingByte = try loadFormatBreadthFixture("heif-rgba.heic")
+        heifWithTrailingByte.append(0)
+        XCTAssertThrowsError(
+            try decoder.probe(data: heifWithTrailingByte, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedOrCorruptImage)
+        }
+
+        var avifWithTrailingByte = try loadFormatBreadthFixture("avif-rgba.avif")
+        avifWithTrailingByte.append(0)
+        XCTAssertThrowsError(
+            try decoder.probe(data: avifWithTrailingByte, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedOrCorruptImage)
+        }
+    }
+
+    func testHEIFAndAVIFRemainDistinctAndBoundTopLevelMetadataBeforeImageIO_M4_PT_002()
+        throws
+    {
+        let decoder = ImageIOImageDecoder()
+        let heif = try loadFormatBreadthFixture("heif-rgba.heic")
+        let avif = try loadFormatBreadthFixture("avif-rgba.avif")
+
+        let zeroMetadata = DecodeLimits(maximumMetadataBytes: 0)
+        XCTAssertThrowsError(try decoder.probe(data: heif, limits: zeroMetadata)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .metadataLimitExceeded)
+        }
+        XCTAssertThrowsError(try decoder.probe(data: avif, limits: zeroMetadata)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .metadataLimitExceeded)
+        }
+
+        let heifOnly = DecodeLimits(allowedFormats: [.heif])
+        XCTAssertThrowsError(try decoder.probe(data: avif, limits: heifOnly)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedFormat)
+        }
+        let avifOnly = DecodeLimits(allowedFormats: [.avif])
+        XCTAssertThrowsError(try decoder.probe(data: heif, limits: avifOnly)) { error in
+            XCTAssertEqual(error as? ImageCraftError, .unsupportedFormat)
+        }
+    }
+
+    func testFormatBreadthStillHonorsDecodeAllowlist_M2_PT_004() throws {
+        let decoder = ImageIOImageDecoder()
+        let limits = DecodeLimits(allowedFormats: [.png, .jpeg, .gif])
+        for fixture in ["webp-rgba-lossless.webp", "heif-rgba.heic"] {
+            XCTAssertThrowsError(
+                try decoder.probe(data: loadFormatBreadthFixture(fixture), limits: limits),
+                fixture
+            ) { error in
+                XCTAssertEqual(error as? ImageCraftError, .unsupportedFormat, fixture)
+            }
+        }
+    }
+
+    func testAnimatedWebPStillPathFailsClosedWhileAnimationPathIsExplicit_M2_3_PT_001()
+        async throws
+    {
+        let data = try loadFormatBreadthFixture("webp-animated-two-frame.webp")
+
+        XCTAssertThrowsError(
+            try ImageIOImageDecoder().probe(data: data, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .frameLimitExceeded)
+        }
+
+        let decoder = ImageIOAnimatedImageDecoder()
+        let asset = try await decoder.prepareAnimation(source: .encoded(data))
+        XCTAssertEqual(asset.metadata.container, .webp)
+        XCTAssertEqual(asset.metadata.canvasWidth, 8)
+        XCTAssertEqual(asset.metadata.canvasHeight, 4)
+        XCTAssertEqual(asset.metadata.frameCount, 2)
+        XCTAssertEqual(asset.metadata.loopCount, .infinite)
+        XCTAssertEqual(asset.metadata.frames[0].duration, try .init(numerator: 1, denominator: 10))
+        XCTAssertEqual(asset.metadata.frames[1].duration, try .init(numerator: 1, denominator: 5))
+        XCTAssertEqual(asset.metadata.frames[0].disposal, .none)
+        XCTAssertEqual(asset.metadata.frames[1].disposal, .none)
+        XCTAssertEqual(asset.metadata.frames[0].blend, .source)
+        XCTAssertEqual(asset.metadata.frames[1].blend, .source)
+        XCTAssertTrue(
+            decoder.codecDescriptor.supports(
+                ImageDecodeCapabilityRequest(
+                    format: .webp,
+                    trackMode: .animatedSequence,
+                    requiredMetadata: [.frameTiming]
+                )
+            )
+        )
+    }
+
+    func testAnimatedHEICSDoesNotBroadenStillOrAnimationContract_M2_3_PT_002() async throws {
+        let data = try loadFormatBreadthFixture("heif-animated-two-frame.heics")
+
+        XCTAssertThrowsError(
+            try ImageIOImageDecoder().probe(data: data, limits: .coreV1)
+        ) { error in
+            XCTAssertEqual(error as? ImageCraftError, .frameLimitExceeded)
+        }
+
+        do {
+            _ = try await ImageIOAnimatedImageDecoder().prepareAnimation(source: .encoded(data))
+            XCTFail("animated HEIF/HEICS must remain outside the current animation contract")
+        } catch {
+            XCTAssertEqual(error as? ImageCraftError, .animationUnsupported)
+        }
+    }
+
+}
+
+private func loadFormatBreadthFixture(_ file: String) throws -> Data {
+    let url = try XCTUnwrap(
+        Bundle.module.url(
+            forResource: file,
+            withExtension: nil,
+            subdirectory: "Corpus/FormatBreadthV1"
+        ),
+        file
+    )
+    return try Data(contentsOf: url)
+}
+
+private func loadCorpusV1Fixture(_ file: String) throws -> Data {
+    let url = try XCTUnwrap(
+        Bundle.module.url(
+            forResource: file,
+            withExtension: nil,
+            subdirectory: "Corpus/v1"
+        ),
+        file
+    )
+    return try Data(contentsOf: url)
 }
 
 private func makeJPEGWithMetadataSegment(marker: UInt8, payloadBytes: Int) -> Data {
@@ -5987,6 +7076,45 @@ private func makeColorManagedJPEG(
         image,
         [kCGImageDestinationLossyCompressionQuality: 0.95] as CFDictionary
     )
+    guard CGImageDestinationFinalize(destination) else {
+        throw ImageFixtureError.creationFailed
+    }
+    return output as Data
+}
+
+private func makeDirectHDRHEIC(width: Int = 2, height: Int = 1) throws -> Data {
+    guard let colorSpace = CGColorSpace(name: CGColorSpace.itur_2100_PQ) else {
+        throw ImageFixtureError.creationFailed
+    }
+    let bytesPerRow = width * 8
+    guard
+        let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: 16,
+            bytesPerRow: bytesPerRow,
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+                | CGBitmapInfo.byteOrder16Little.rawValue
+        )
+    else { throw ImageFixtureError.creationFailed }
+    context.setFillColor(red: 0.8, green: 0.5, blue: 0.2, alpha: 1)
+    context.fill(CGRect(x: 0, y: 0, width: width, height: height))
+    guard let image = context.makeImage(), image.colorSpace?.isHDR() == true else {
+        throw ImageFixtureError.creationFailed
+    }
+
+    let output = NSMutableData()
+    guard
+        let destination = CGImageDestinationCreateWithData(
+            output,
+            "public.heic" as CFString,
+            1,
+            nil
+        )
+    else { throw ImageFixtureError.creationFailed }
+    CGImageDestinationAddImage(destination, image, nil)
     guard CGImageDestinationFinalize(destination) else {
         throw ImageFixtureError.creationFailed
     }
@@ -7313,6 +8441,37 @@ private func normalizedRGBABytes(_ image: CGImage) throws -> Data {
     }
     guard drew else { throw ImageFixtureError.creationFailed }
     return bytes
+}
+
+private func normalizedRGBA16Samples(_ image: CGImage) throws -> [UInt16] {
+    let bytesPerRow = image.width * 8
+    var bytes = Data(repeating: 0, count: bytesPerRow * image.height)
+    let drew = bytes.withUnsafeMutableBytes { rawBuffer -> Bool in
+        guard let base = rawBuffer.baseAddress,
+            let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
+            let context = CGContext(
+                data: base,
+                width: image.width,
+                height: image.height,
+                bitsPerComponent: 16,
+                bytesPerRow: bytesPerRow,
+                space: colorSpace,
+                bitmapInfo: CGBitmapInfo(
+                    rawValue: CGImageAlphaInfo.premultipliedLast.rawValue
+                ).union(.byteOrder16Little).rawValue
+            )
+        else { return false }
+        context.setBlendMode(.copy)
+        context.draw(
+            image,
+            in: CGRect(x: 0, y: 0, width: image.width, height: image.height)
+        )
+        return true
+    }
+    guard drew else { throw ImageFixtureError.creationFailed }
+    return stride(from: 0, to: bytes.count, by: 2).map { offset in
+        UInt16(bytes[offset]) | (UInt16(bytes[offset + 1]) << 8)
+    }
 }
 
 private enum ImageFixtureError: Error {

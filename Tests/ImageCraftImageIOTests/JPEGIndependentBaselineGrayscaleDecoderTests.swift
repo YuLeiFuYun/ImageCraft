@@ -66,6 +66,46 @@ final class JPEGIndependentBaselineGrayscaleDecoderTests: XCTestCase {
     }
   }
 
+  func testUnqualifiedApplicationAndStructuralMarkersFailClosedWhileCOMRemainsOpaque() throws {
+    let original = try fixture(named: "jpeg-grayscale.jpg")
+    let exactCharge = 19 * 11 + JPEGIndependentBaselineGrayscaleDecoder.fixedScratchByteCount
+    let decoder = JPEGIndependentBaselineGrayscaleDecoder(
+      maximumOperationByteCharge: exactCharge
+    )
+    let reference = try decoder.decode(original)
+    XCTAssertEqual(Array(original.prefix(4)), [0xFF, 0xD8, 0xFF, 0xE0])
+    let app0Length = Int(original[4]) << 8 | Int(original[5])
+    let insertionOffset = 4 + app0Length
+
+    func inserting(_ marker: UInt8, payload: Data) -> Data {
+      let markerLength = payload.count + 2
+      var segment = Data([
+        0xFF, marker,
+        UInt8(markerLength >> 8), UInt8(markerLength & 0xFF),
+      ])
+      segment.append(payload)
+      var result = original
+      result.insert(contentsOf: segment, at: insertionOffset)
+      return result
+    }
+
+    for marker in [UInt8(0xE1), 0xE2, 0xE3, 0xEE, 0xDE, 0xF0] {
+      XCTAssertThrowsError(
+        try decoder.decode(inserting(marker, payload: Data([0x4D, 0x4D])))
+      ) { error in
+        XCTAssertEqual(
+          error as? JPEGIndependentBaselineGrayscaleError,
+          .unsupportedSourceSemantics
+        )
+      }
+    }
+
+    let comment = try decoder.decode(
+      inserting(0xFE, payload: Data("opaque comment".utf8))
+    )
+    XCTAssertEqual(comment.pixels, reference.pixels)
+  }
+
   private func insertingICCProfile(_ profile: Data, into jpeg: Data) -> Data {
     let signature = Data("ICC_PROFILE\u{0}".utf8)
     let segmentLength = signature.count + 2 + profile.count + 2

@@ -266,6 +266,7 @@ package struct JPEGIndependentProgressiveGrayscaleDecoder: Sendable {
     var restartIntervalMCUs = 0
     var quantizationLatched = false
     var scanCount = 0
+    var hasProcessedMarkerAfterSOI = false
 
     init(
       bytes: UnsafeBufferPointer<UInt8>,
@@ -288,6 +289,8 @@ package struct JPEGIndependentProgressiveGrayscaleDecoder: Sendable {
       var sawEOI = false
       while offset < bytes.count {
         let marker = try Self.readMarker(bytes, offset: &offset)
+        let isFirstMarkerAfterSOI = !hasProcessedMarkerAfterSOI
+        hasProcessedMarkerAfterSOI = true
         switch marker {
         case 0xD9:
           guard frameComponentID != nil, scanCount > 0, offset == bytes.count else {
@@ -307,6 +310,19 @@ package struct JPEGIndependentProgressiveGrayscaleDecoder: Sendable {
         let segment = try Self.segmentRange(bytes, lengthOffset: offset)
         offset = segment.end
         switch marker {
+        case 0xE0:
+          guard JPEGIndependentJFIFColorAuthority.jfifAPP0IsStructurallyQualified(
+            bytes,
+            payload: segment.payload
+          ) == true,
+            isFirstMarkerAfterSOI
+          else {
+            throw JPEGIndependentProgressiveGrayscaleError.unsupportedSourceSemantics
+          }
+        case 0xE1...0xEF:
+          throw JPEGIndependentProgressiveGrayscaleError.unsupportedSourceSemantics
+        case 0xFE:
+          continue
         case 0xC2:
           guard frameComponentID == nil else { throw ImageCraftError.unsupportedOrCorruptImage }
           let frame = try Self.parseFrame(bytes, segment: segment)
@@ -368,7 +384,7 @@ package struct JPEGIndependentProgressiveGrayscaleDecoder: Sendable {
           updateProgression(scan, state: state)
           offset = entropyEnd
         default:
-          continue
+          throw JPEGIndependentProgressiveGrayscaleError.unsupportedSourceSemantics
         }
       }
       guard sawEOI, quantizationLatched, state.progression[0] == 0 else {

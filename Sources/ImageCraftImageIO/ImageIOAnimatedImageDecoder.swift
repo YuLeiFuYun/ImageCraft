@@ -3,24 +3,25 @@ import Foundation
 import ImageCraftCore
 import ImageIO
 
-/// ImageIO 参考动画后端：GIF/APNG 单容器与有界 JPEG 完整帧序列。
+/// ImageIO 参考动画后端：GIF/APNG/WebP 单容器与有界 JPEG 完整帧序列。
 public struct ImageIOAnimatedImageDecoder: ImageAnimationDecoding {
   private let preparationExecutor: ImageIOAnimationWorkExecutor
   private let frameOperationHook: @Sendable () -> Void
 
   public let codecDescriptor = ImageCodecDescriptor(
     identifier: ImageCodecIdentifier(rawValue: "dev.fovea.imageio.animation"),
-    implementationVersion: 2,
-    capabilities: ImageCodecCapabilities(
-      formats: [.png, .jpeg, .gif],
-      deliveryModes: [.completeFrame],
-      progressiveFormats: [],
-      trackModes: [.animatedSequence],
-      metadata: [.orientation, .sourceColorProfile, .frameTiming],
-      dynamicRanges: [.standard],
-      outputRepresentations: [.coreGraphicsImage],
-      cancellationMode: .operationBoundary
-    )
+    implementationVersion: 3,
+    decodeProfiles: [
+      ImageDecodeCapabilityProfile(
+        formats: [.png, .jpeg, .gif, .webp],
+        deliveryModes: [.completeFrame],
+        trackModes: [.animatedSequence],
+        metadata: [.orientation, .sourceColorProfile, .frameTiming],
+        dynamicRanges: [.standard],
+        outputRepresentations: [.coreGraphicsImage],
+        cancellationMode: .operationBoundary
+      )
+    ]
   )
 
   public init() {
@@ -166,7 +167,8 @@ public struct ImageIOAnimatedImageDecoder: ImageAnimationDecoding {
       let imageLimits = limits.imageLimits
       let maximumFrameDecodeWindow = limits.maximumFrameDecodeWindow
       frameWindowCostEstimateProvider = { request, requestedFrameCount in
-        guard requestedFrameCount > 0,
+        guard request.dynamicRange == .standard,
+          requestedFrameCount > 0,
           requestedFrameCount <= frameCount,
           requestedFrameCount <= maximumFrameDecodeWindow,
           let decodedOutputBound =
@@ -211,7 +213,7 @@ public struct ImageIOAnimatedImageDecoder: ImageAnimationDecoding {
         )
       }
       wholeTrackCostEstimateProvider = { request in
-        guard
+        guard request.dynamicRange == .standard,
           let residentBound =
             ImageIOAnimationFrameRenderer.ownedRGBAWholeTrackDecodedByteCostUpperBound(
               canvasWidth: canvasWidth,

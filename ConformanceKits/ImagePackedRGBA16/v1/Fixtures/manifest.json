@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "fixtureSetID": "IMAGECRAFT-PACKED-RGBA16-FIXTURES-V1",
+  "fixtures": [
+    {
+      "id": "srgb-rgba16-2x1",
+      "file": "reference-srgb-rgba16-2x1.png",
+      "format": "png",
+      "width": 2,
+      "height": 1,
+      "sha256": "17a31fd97401e4f3de40d2ad77232e9642a672645aec267855256e21e23274d2",
+      "expectedRGBA16LEHex": "34127856bc9af0deffff010000803412"
+    },
+    {
+      "id": "hostile-untagged-rgba16-2x1",
+      "file": "hostile-untagged-rgba16-2x1.png",
+      "format": "png",
+      "width": 2,
+      "height": 1,
+      "sha256": "207f96a9a83d33bd5916d86476dd7f2caf335d234e9107e0bebfc1bf3caf9f09",
+      "expectedDisposition": "unsupported-source-semantics"
+    },
+    {
+      "id": "hostile-sbit-rgba16-2x1",
+      "file": "hostile-sbit-rgba16-2x1.png",
+      "format": "png",
+      "width": 2,
+      "height": 1,
+      "sha256": "9c7c8c4ad1b5f3a0f3152ef00c61b8e34911f232b8ad3e0d559c2c20a44abd98",
+      "expectedDisposition": "unsupported-source-semantics"
+    }
+  ]
+}

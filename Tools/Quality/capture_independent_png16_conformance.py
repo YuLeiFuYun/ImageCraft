@@ -250,6 +250,7 @@ def _icc_matrix_trcs(
         or profile[36:40] != b"acsp"
     ):
         raise CaptureError("ICC conversion profile escaped qualified forward-device matrix/TRC slice")
+    input_class = profile[12:16] == b"scnr"
     tag_count = int.from_bytes(profile[128:132], "big")
     if tag_count < 6 or 132 + tag_count * 12 > len(profile):
         raise CaptureError("ICC tag table is invalid")
@@ -299,8 +300,10 @@ def _icc_matrix_trcs(
                     raise CaptureError("ICC curveType gamma is not positive")
                 fixed_curves.append(("curveGamma", None, (gamma_raw,)))
                 continue
-            if values[0] != 0 or values[-1] != 0xFFFF:
-                raise CaptureError("ICC sampled curveType is not normalized to [0,1]")
+            if (not input_class and values[0] != 0) or values[-1] != 0xFFFF:
+                raise CaptureError(
+                    "ICC sampled curveType escaped the qualified endpoint semantics"
+                )
             if any(current < previous for previous, current in zip(values, values[1:])):
                 raise CaptureError("ICC sampled curveType is not weakly nondecreasing")
             fixed_curves.append(("curveSampled", None, values))
@@ -878,16 +881,19 @@ def main() -> int:
             maximum_metadata_bytes = case.get("maximumMetadataBytes", 1_024)
             if not isinstance(maximum_metadata_bytes, int) or maximum_metadata_bytes <= 0:
                 raise CaptureError(f"invalid success metadata limit: {case_id}")
+            icc_profile_kind = case.get("iccProfileKind")
             is_color_conversion = request_color_policy == "convertToSRGB"
             is_cicp_p3_conversion = False
             is_icc_matrix_trc_conversion = False
             icc_per_channel_type0 = False
             icc_per_channel_parametric = False
             icc_per_channel_curve_gamma = False
+            icc_per_channel_curve_sampled = False
             icc_per_channel_mixed_encoding = False
             icc_large_sampled_cardinality = False
             icc_real_input_measured_profile = False
             icc_large_sampled_node_count: int | None = None
+            icc_per_channel_sampled_node_counts: list[int] | None = None
             icc_per_channel_curve_kinds: list[str] | None = None
             icc_per_channel_parametric_function_types: list[int] | None = None
             icc_transfer_curve_kind: str | None = None
@@ -903,7 +909,6 @@ def main() -> int:
                     and expected_cicp_raw == [12, 13, 0, 1]
                     and case.get("sourcePattern") == "p3InGamut"
                 )
-                icc_profile_kind = case.get("iccProfileKind")
                 source_pattern = case.get("sourcePattern")
                 is_icc_matrix_trc_conversion = (
                     color_authority == "rgbICC"
@@ -929,7 +934,10 @@ def main() -> int:
                             and source_pattern == "matrixTRCInGamut"
                         )
                         or (
-                            icc_profile_kind == "realEpson3170GammaMatrix"
+                            icc_profile_kind in (
+                                "realEpson3170GammaMatrix",
+                                "realEpson3170ShaperMatrix",
+                            )
                             and source_pattern == "realEpson3170InGamut"
                             and case.get("iccProfileClass") == "scnr"
                         )
@@ -940,7 +948,10 @@ def main() -> int:
                 if is_cicp_p3_conversion:
                     expected_candidate_rgba_be = display_p3_rgba16be_to_srgb_rgba16be(expected_rgba_be)
                 else:
-                    icc_real_input_measured_profile = icc_profile_kind == "realEpson3170GammaMatrix"
+                    icc_real_input_measured_profile = icc_profile_kind in (
+                        "realEpson3170GammaMatrix",
+                        "realEpson3170ShaperMatrix",
+                    )
                     icc_large_sampled_cardinality = icc_profile_kind == "sRGBD50CurveSampled1025TRC"
                     _, parsed_curves = _icc_matrix_trcs(expected_icc)
                     nonshared_channel_curves = parsed_curves[1:] != parsed_curves[:1] * 2
@@ -966,6 +977,11 @@ def main() -> int:
                             icc_parametric_function_type = 0 if icc_per_channel_type0 else None
                         elif all(curve_kind == "curveGamma" for curve_kind in curve_kinds):
                             icc_per_channel_curve_gamma = True
+                        elif all(curve_kind == "curveSampled" for curve_kind in curve_kinds):
+                            icc_per_channel_curve_sampled = True
+                            icc_per_channel_sampled_node_counts = [
+                                len(curve) for _, _, curve in parsed_curves
+                            ]
                         else:
                             icc_per_channel_mixed_encoding = True
                     else:
@@ -978,7 +994,12 @@ def main() -> int:
             else:
                 expected_candidate_rgba_be = expected_rgba_be
 
-            expected_metadata_limit = 4_096 if icc_large_sampled_cardinality else 1_024
+            expected_metadata_limit = (
+                4_096
+                if icc_large_sampled_cardinality
+                or icc_profile_kind == "realEpson3170ShaperMatrix"
+                else 1_024
+            )
             if maximum_metadata_bytes != expected_metadata_limit:
                 raise CaptureError(
                     f"success metadata limit escaped qualified profile: {case_id} "
@@ -1209,9 +1230,12 @@ def main() -> int:
                             target_matrix_counterfactual,
                         )
                     )
-                    if littlecms_target_matrix_counterfactual_maximum_code_difference > 1:
+                    if (
+                        icc_profile_kind == "realEpson3170GammaMatrix"
+                        and littlecms_target_matrix_counterfactual_maximum_code_difference > 1
+                    ):
                         raise CaptureError(
-                            "real input-class LittleCMS delta did not collapse under its own "
+                            "real gamma-matrix input-class LittleCMS delta did not collapse under its own "
                             f"target sRGB matrix: {case_id}"
                         )
 
@@ -1411,6 +1435,7 @@ def main() -> int:
                     "iccPerChannelType0": icc_per_channel_type0,
                     "iccPerChannelParametric": icc_per_channel_parametric,
                     "iccPerChannelCurveGamma": icc_per_channel_curve_gamma,
+                    "iccPerChannelCurveSampled": icc_per_channel_curve_sampled,
                     "iccPerChannelMixedEncoding": icc_per_channel_mixed_encoding,
                     "iccLargeSampledCardinality": icc_large_sampled_cardinality,
                     "iccRealInputMeasuredProfile": icc_real_input_measured_profile,
@@ -1418,6 +1443,7 @@ def main() -> int:
                     "iccProfileByteCount": len(expected_icc) if expected_icc else 0,
                     "resolvedMaximumMetadataBytes": maximum_metadata_bytes,
                     "iccPerChannelCurveKinds": icc_per_channel_curve_kinds,
+                    "iccPerChannelSampledNodeCounts": icc_per_channel_sampled_node_counts,
                     "iccPerChannelParametricFunctionTypes": icc_per_channel_parametric_function_types,
                     "littleCMSObservationAvailable": not is_icc_matrix_trc_conversion or littlecms_report is not None,
                     "littleCMSRequiresOneCode": not is_icc_matrix_trc_conversion or littlecms_requires_one_code,
@@ -1542,6 +1568,50 @@ def main() -> int:
         if not before_hash or before_hash != after_hash:
             raise CaptureError("ImageCraft source identity changed during PNG16 formal capture")
 
+        def real_measured_input_contract(item: dict[str, Any]) -> bool:
+            if not item["iccRealInputMeasuredProfile"]:
+                return True
+            if not (
+                item.get("iccProfileClass") == "scnr"
+                and item.get("sourcePattern") == "realEpson3170InGamut"
+                and item["iccProfileExact"]
+                and item["iccMatrixTRCConversionExact"]
+                and item["canonicalLittleEndianExact"]
+                and item["littleCMSObservationAvailable"]
+                and item["littleCMSRequiresOneCode"] is False
+                and item["littleCMSTargetMatrixCounterfactualMaximumRGBCodeDifference"]
+                is not None
+            ):
+                return False
+            kind = item.get("iccProfileKind")
+            if kind == "realEpson3170GammaMatrix":
+                return (
+                    item.get("realICCFixture") == "fixtures/epson3170-set1-gamma-matrix.icc"
+                    and item.get("realICCFixtureSHA256")
+                    == "05285b6195383d1f81f996a76a82872197904b62bc2b9dfa55158c411d481697"
+                    and item.get("realICCProfileByteCount") == 724
+                    and item["iccPerChannelCurveGamma"]
+                    and not item["iccPerChannelCurveSampled"]
+                    and item["iccPerChannelCurveKinds"]
+                    == ["curveGamma", "curveGamma", "curveGamma"]
+                    and item["resolvedMaximumMetadataBytes"] == 1_024
+                    and item["littleCMSTargetMatrixCounterfactualMaximumRGBCodeDifference"] <= 1
+                )
+            if kind == "realEpson3170ShaperMatrix":
+                return (
+                    item.get("realICCFixture") == "fixtures/epson3170-set1-shaper-matrix.icc"
+                    and item.get("realICCFixtureSHA256")
+                    == "10db2faa7e29632caa33084ff4e7ab128989e78177b026f2b5084d7eb1bbddde"
+                    and item.get("realICCProfileByteCount") == 2_248
+                    and not item["iccPerChannelCurveGamma"]
+                    and item["iccPerChannelCurveSampled"]
+                    and item["iccPerChannelCurveKinds"]
+                    == ["curveSampled", "curveSampled", "curveSampled"]
+                    and item["iccPerChannelSampledNodeCounts"] == [256, 256, 256]
+                    and item["resolvedMaximumMetadataBytes"] == 4_096
+                )
+            return False
+
         report = {
             "schemaVersion": 1,
             "evidenceVersion": EVIDENCE_VERSION,
@@ -1631,36 +1701,22 @@ def main() -> int:
                     default=0,
                 ),
                 "iccRealInputMeasuredContractPassed": (
-                    sum(item["iccRealInputMeasuredProfile"] for item in success_results) == 2
+                    sum(item["iccRealInputMeasuredProfile"] for item in success_results) == 4
                     and sum(
                         item["iccRealInputMeasuredProfile"] and item.get("interlace", 0) == 1
                         for item in success_results
-                    ) == 1
-                    and all(
-                        not item["iccRealInputMeasuredProfile"]
-                        or (
-                            item.get("iccProfileClass") == "scnr"
-                            and item.get("iccProfileKind") == "realEpson3170GammaMatrix"
-                            and item.get("sourcePattern") == "realEpson3170InGamut"
-                            and item.get("realICCFixture")
-                            == "fixtures/epson3170-set1-gamma-matrix.icc"
-                            and item.get("realICCFixtureSHA256")
-                            == "05285b6195383d1f81f996a76a82872197904b62bc2b9dfa55158c411d481697"
-                            and item.get("realICCProfileByteCount") == 724
-                            and item["iccProfileExact"]
-                            and item["iccMatrixTRCConversionExact"]
-                            and item["canonicalLittleEndianExact"]
-                            and item["littleCMSObservationAvailable"]
-                            and item["littleCMSRequiresOneCode"] is False
-                            and item["littleCMSTargetMatrixCounterfactualMaximumRGBCodeDifference"]
-                            is not None
-                            and item["littleCMSTargetMatrixCounterfactualMaximumRGBCodeDifference"] <= 1
-                            and item["iccPerChannelCurveGamma"]
-                            and item["iccPerChannelCurveKinds"]
-                            == ["curveGamma", "curveGamma", "curveGamma"]
-                        )
+                    ) == 2
+                    and sum(
+                        item["iccRealInputMeasuredProfile"]
+                        and item.get("iccProfileKind") == "realEpson3170GammaMatrix"
                         for item in success_results
-                    )
+                    ) == 2
+                    and sum(
+                        item["iccRealInputMeasuredProfile"]
+                        and item.get("iccProfileKind") == "realEpson3170ShaperMatrix"
+                        for item in success_results
+                    ) == 2
+                    and all(real_measured_input_contract(item) for item in success_results)
                 ),
                 "iccProfileClassParityPairCount": len(profile_class_parity),
                 "iccOutputClassHostileCases": sum(

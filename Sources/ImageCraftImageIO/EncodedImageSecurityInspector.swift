@@ -116,7 +116,8 @@ struct EncodedImageSecurityInspection: Sendable {
 }
 
 /// 在调用 ImageIO 前扫描容器结构，限制元数据、帧和尾随载荷。
-/// 检查器只接受能够完整证明终止标记与长度边界的 PNG/JPEG/GIF 数据。
+/// 检查器只接受能够完整证明外层容器长度边界的数据；具体像素尺寸、帧数与
+/// ImageIO 报告的实际格式仍会在 source 创建后再次核验。
 enum EncodedImageSecurityInspector {
     // libjpeg-turbo's security-oriented scan limiter historically used 500 as the
     // "unreasonably large" progressive-JPEG threshold. Keep this package-internal
@@ -128,6 +129,8 @@ enum EncodedImageSecurityInspector {
     private static let jpegSignature: [UInt8] = [0xFF, 0xD8]
     private static let gif87aSignature = Array("GIF87a".utf8)
     private static let gif89aSignature = Array("GIF89a".utf8)
+    private static let riffSignature = Array("RIFF".utf8)
+    private static let webpSignature = Array("WEBP".utf8)
     private static let jpegICCSignature = Array("ICC_PROFILE\u{0}".utf8)
 
     private static let pngIEND: UInt32 = 0x4945_4E44
@@ -177,8 +180,230 @@ enum EncodedImageSecurityInspector {
             if hasPrefix(bytes, gif87aSignature) || hasPrefix(bytes, gif89aSignature) {
                 return try inspectGIF(bytes, maximumMetadataBytes: maximumMetadataBytes)
             }
+            if hasPrefix(bytes, riffSignature), hasPrefix(bytes, webpSignature, at: 8) {
+                return try inspectWebP(bytes, maximumMetadataBytes: maximumMetadataBytes)
+            }
+            if readUInt32BE(bytes, at: 4) == 0x6674_7970 {
+                return try inspectISOBaseMediaImage(
+                    bytes,
+                    maximumMetadataBytes: maximumMetadataBytes
+                )
+            }
             throw ImageCraftError.unsupportedFormat
         }
+    }
+
+    /// 结构化验证 RIFF/WebP 外层 chunk 边界，并只把规范定义的全局元数据 chunk
+    /// 计入 metadata budget。像素/帧 payload 保持不透明，由 ImageIO 在后续硬限制下解析。
+    private static func inspectWebP(
+        _ bytes: UnsafeBufferPointer<UInt8>,
+        maximumMetadataBytes: Int
+    ) throws -> EncodedImageSecurityInspection {
+        guard bytes.count >= 12,
+            let riffPayloadSize = readUInt32LE(bytes, at: 4),
+            UInt64(riffPayloadSize) + 8 == UInt64(bytes.count)
+        else {
+            throw ImageCraftError.unsupportedOrCorruptImage
+        }
+
+        var offset = 12
+        var metadataBytes = 0
+        var embeddedICCProfile: Data?
+        var sawRasterPayload = false
+        var sawAnimationFrame = false
+
+        while offset < bytes.count {
+            guard offset + 8 <= bytes.count,
+                let chunkType = readUInt32BE(bytes, at: offset),
+                let rawPayloadLength = readUInt32LE(bytes, at: offset + 4)
+            else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+            let payloadLength = Int(rawPayloadLength)
+            let payloadStart = offset + 8
+            let payloadEnd = payloadStart.addingReportingOverflow(payloadLength)
+            guard !payloadEnd.overflow, payloadEnd.partialValue <= bytes.count else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+            let paddedLength = payloadLength.addingReportingOverflow(payloadLength & 1)
+            guard !paddedLength.overflow else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+            let nextOffset = payloadStart.addingReportingOverflow(paddedLength.partialValue)
+            guard !nextOffset.overflow, nextOffset.partialValue <= bytes.count else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+
+            switch chunkType {
+            case 0x4943_4350: // ICCP
+                guard embeddedICCProfile == nil else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                metadataBytes = try adding(metadataBytes, payloadLength)
+                guard metadataBytes <= maximumMetadataBytes,
+                    let baseAddress = bytes.baseAddress
+                else {
+                    throw ImageCraftError.metadataLimitExceeded
+                }
+                embeddedICCProfile = Data(
+                    bytes: baseAddress.advanced(by: payloadStart),
+                    count: payloadLength
+                )
+            case 0x4558_4946, 0x584D_5020: // EXIF, XMP<space>
+                metadataBytes = try adding(metadataBytes, payloadLength)
+                guard metadataBytes <= maximumMetadataBytes else {
+                    throw ImageCraftError.metadataLimitExceeded
+                }
+            case 0x5650_3858: // VP8X
+                guard payloadLength == 10 else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+            case 0x5650_3820: // VP8<space>
+                guard payloadLength >= 10,
+                    payloadStart + 6 <= bytes.count,
+                    bytes[payloadStart + 3] == 0x9D,
+                    bytes[payloadStart + 4] == 0x01,
+                    bytes[payloadStart + 5] == 0x2A
+                else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                sawRasterPayload = true
+            case 0x5650_384C: // VP8L
+                guard payloadLength >= 5, bytes[payloadStart] == 0x2F else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                sawRasterPayload = true
+            case 0x414E_4D46: // ANMF
+                guard payloadLength >= 16 else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                sawAnimationFrame = true
+            case 0x414E_494D: // ANIM
+                guard payloadLength >= 6 else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+            default:
+                break
+            }
+            offset = nextOffset.partialValue
+        }
+
+        guard offset == bytes.count, sawRasterPayload || sawAnimationFrame else {
+            throw ImageCraftError.unsupportedOrCorruptImage
+        }
+        return EncodedImageSecurityInspection(
+            format: .webp,
+            metadataByteCount: metadataBytes,
+            sourceColorProfile: embeddedICCProfile == nil ? .absent : .embeddedICC,
+            embeddedICCProfile: embeddedICCProfile
+        )
+    }
+
+    /// 验证 HEIF/HEIC/AVIF 的 ISO-BMFF 顶层 box 边界。除 `mdat` 外的顶层 box 全部按
+    /// metadata 计费，因此未知或未来 box 只能在现有 metadata cap 内到达 ImageIO。
+    /// HEIF 与 AVIF 共用机械 box 边界，但品牌分类保持互斥，不能借 `mif1` compatible
+    /// brand 把 AVIF 误分类为 HEIF。
+    private static func inspectISOBaseMediaImage(
+        _ bytes: UnsafeBufferPointer<UInt8>,
+        maximumMetadataBytes: Int
+    ) throws -> EncodedImageSecurityInspection {
+        guard bytes.count >= 16 else {
+            throw ImageCraftError.unsupportedOrCorruptImage
+        }
+        var offset = 0
+        var metadataBytes = 0
+        var sawFileType = false
+        var recognizedHEIFFamily = false
+        var declaresAVIF = false
+
+        while offset < bytes.count {
+            guard offset + 8 <= bytes.count,
+                let size32 = readUInt32BE(bytes, at: offset),
+                let boxType = readUInt32BE(bytes, at: offset + 4)
+            else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+
+            var headerLength = 8
+            let boxLength: Int
+            if size32 == 1 {
+                guard let size64 = readUInt64BE(bytes, at: offset + 8),
+                    size64 <= UInt64(Int.max)
+                else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                headerLength = 16
+                boxLength = Int(size64)
+            } else if size32 == 0 {
+                boxLength = bytes.count - offset
+            } else {
+                boxLength = Int(size32)
+            }
+            guard boxLength >= headerLength else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+            let boxEnd = offset.addingReportingOverflow(boxLength)
+            guard !boxEnd.overflow, boxEnd.partialValue <= bytes.count else {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+            if size32 == 0, boxEnd.partialValue != bytes.count {
+                throw ImageCraftError.unsupportedOrCorruptImage
+            }
+
+            if boxType == 0x6674_7970 { // ftyp
+                guard !sawFileType, offset == 0, boxLength >= headerLength + 8 else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                sawFileType = true
+                let brandStart = offset + headerLength
+                let majorBrand = readUInt32BE(bytes, at: brandStart)
+                var brands: [UInt32] = []
+                if let majorBrand { brands.append(majorBrand) }
+                var brandOffset = brandStart + 8
+                while brandOffset + 4 <= boxEnd.partialValue {
+                    if let brand = readUInt32BE(bytes, at: brandOffset) {
+                        brands.append(brand)
+                    }
+                    brandOffset += 4
+                }
+                guard brandOffset == boxEnd.partialValue else {
+                    throw ImageCraftError.unsupportedOrCorruptImage
+                }
+                declaresAVIF = brands.contains(0x6176_6966) || brands.contains(0x6176_6973)
+                let heifBrands: Set<UInt32> = [
+                    0x6D69_6631, // mif1
+                    0x6D73_6631, // msf1
+                    0x6865_6963, // heic
+                    0x6865_6978, // heix
+                    0x6865_7663, // hevc
+                    0x6865_7678, // hevx
+                    0x6865_696D, // heim
+                    0x6865_6973, // heis
+                ]
+                recognizedHEIFFamily = brands.contains { heifBrands.contains($0) }
+            }
+
+            if boxType != 0x6D64_6174 { // mdat
+                metadataBytes = try adding(metadataBytes, boxLength)
+                guard metadataBytes <= maximumMetadataBytes else {
+                    throw ImageCraftError.metadataLimitExceeded
+                }
+            }
+            offset = boxEnd.partialValue
+        }
+
+        guard offset == bytes.count, sawFileType else {
+            throw ImageCraftError.unsupportedOrCorruptImage
+        }
+        guard declaresAVIF || recognizedHEIFFamily else {
+            throw ImageCraftError.unsupportedFormat
+        }
+        return EncodedImageSecurityInspection(
+            format: declaresAVIF ? .avif : .heif,
+            metadataByteCount: metadataBytes,
+            sourceColorProfile: .unknown,
+            embeddedICCProfile: nil
+        )
     }
 
     private static func inspectPNG(
@@ -1216,6 +1441,32 @@ enum EncodedImageSecurityInspector {
             | UInt32(bytes[offset + 1]) << 16
             | UInt32(bytes[offset + 2]) << 8
             | UInt32(bytes[offset + 3])
+    }
+
+    private static func readUInt32LE(
+        _ bytes: UnsafeBufferPointer<UInt8>,
+        at offset: Int
+    ) -> UInt32? {
+        guard offset >= 0, offset + 4 <= bytes.count else { return nil }
+        return UInt32(bytes[offset])
+            | UInt32(bytes[offset + 1]) << 8
+            | UInt32(bytes[offset + 2]) << 16
+            | UInt32(bytes[offset + 3]) << 24
+    }
+
+    private static func readUInt64BE(
+        _ bytes: UnsafeBufferPointer<UInt8>,
+        at offset: Int
+    ) -> UInt64? {
+        guard offset >= 0, offset + 8 <= bytes.count else { return nil }
+        return UInt64(bytes[offset]) << 56
+            | UInt64(bytes[offset + 1]) << 48
+            | UInt64(bytes[offset + 2]) << 40
+            | UInt64(bytes[offset + 3]) << 32
+            | UInt64(bytes[offset + 4]) << 24
+            | UInt64(bytes[offset + 5]) << 16
+            | UInt64(bytes[offset + 6]) << 8
+            | UInt64(bytes[offset + 7])
     }
 
     private static func adding(_ lhs: Int, _ rhs: Int) throws -> Int {

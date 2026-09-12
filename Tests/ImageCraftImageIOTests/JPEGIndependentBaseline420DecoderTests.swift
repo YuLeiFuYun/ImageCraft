@@ -61,10 +61,15 @@ final class JPEGIndependentBaseline420DecoderTests: XCTestCase {
     let jfifLength = Int(original[4]) << 8 | Int(original[5])
     let adobeInsertionOffset = 4 + jfifLength
 
-    func sourceWithAdobeTransform(_ transform: UInt8) -> Data {
+    func adobeSegment(_ transform: UInt8) -> Data {
       var app14 = Data([0xFF, 0xEE, 0x00, 0x0E])
       app14.append(Data("Adobe".utf8))
       app14.append(contentsOf: [0x00, 0x64, 0x00, 0x00, 0x00, 0x00, transform])
+      return app14
+    }
+
+    func sourceWithAdobeTransform(_ transform: UInt8) -> Data {
+      let app14 = adobeSegment(transform)
       var result = Data()
       result.reserveCapacity(original.count + app14.count)
       result.append(original.prefix(adobeInsertionOffset))
@@ -77,6 +82,24 @@ final class JPEGIndependentBaseline420DecoderTests: XCTestCase {
       maximumOperationByteCharge: operationCharge
     ).decode(sourceWithAdobeTransform(1))
     XCTAssertEqual(accepted.rgb, reference.rgb)
+
+    let app14 = adobeSegment(1)
+    var duplicateAdobe = Data()
+    duplicateAdobe.reserveCapacity(original.count + app14.count * 2)
+    duplicateAdobe.append(original.prefix(adobeInsertionOffset))
+    duplicateAdobe.append(app14)
+    duplicateAdobe.append(app14)
+    duplicateAdobe.append(original.dropFirst(adobeInsertionOffset))
+    XCTAssertThrowsError(
+      try JPEGIndependentBaseline420Decoder(
+        maximumOperationByteCharge: operationCharge
+      ).decode(duplicateAdobe)
+    ) { error in
+      XCTAssertEqual(
+        error as? JPEGIndependentBaseline420Error,
+        .unsupportedSourceSemantics
+      )
+    }
 
     for conflictingTransform in [UInt8(0), UInt8(2)] {
       XCTAssertThrowsError(
@@ -131,6 +154,51 @@ final class JPEGIndependentBaseline420DecoderTests: XCTestCase {
         .unsupportedSourceSemantics
       )
     }
+  }
+
+  func testUnqualifiedApplicationAndStructuralMarkersFailClosedWhileCOMRemainsOpaque() throws {
+    let original = try fixture(named: "jpeg-baseline-420.jpg")
+    let plan = try JPEGIndependentBaseline420StatePlan.inspect(original)
+    let operationCharge = plan.totalStateBytes + plan.width * plan.height * 3
+    let decoder = JPEGIndependentBaseline420Decoder(
+      maximumOperationByteCharge: operationCharge
+    )
+    let reference = try decoder.decode(original)
+    let app0Length = Int(original[4]) << 8 | Int(original[5])
+    let insertionOffset = 4 + app0Length
+
+    func inserting(_ marker: UInt8, payload: Data) -> Data {
+      let markerLength = payload.count + 2
+      var segment = Data([
+        0xFF, marker,
+        UInt8(markerLength >> 8), UInt8(markerLength & 0xFF),
+      ])
+      segment.append(payload)
+      var result = original
+      result.insert(contentsOf: segment, at: insertionOffset)
+      return result
+    }
+
+    for (marker, payload) in [
+      (UInt8(0xE1), Data("opaque-app1".utf8)),
+      (UInt8(0xE2), Data("opaque-app2".utf8)),
+      (UInt8(0xE3), Data([0x4D, 0x4D])),
+      (UInt8(0xEE), Data("not-adobe".utf8)),
+      (UInt8(0xDE), Data([0x00, 0x00])),
+      (UInt8(0xF0), Data([0x00, 0x00])),
+    ] {
+      XCTAssertThrowsError(try decoder.decode(inserting(marker, payload: payload))) { error in
+        XCTAssertEqual(
+          error as? JPEGIndependentBaseline420Error,
+          .unsupportedSourceSemantics
+        )
+      }
+    }
+
+    let comment = try decoder.decode(
+      inserting(0xFE, payload: Data("opaque comment".utf8))
+    )
+    XCTAssertEqual(comment.rgb, reference.rgb)
   }
 
   func testWidthFourUsesBoxBranchAndWidthFiveUsesFancyContextBranch() throws {
